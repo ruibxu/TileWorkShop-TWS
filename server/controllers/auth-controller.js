@@ -2,6 +2,7 @@ const auth = require('../auth/authManager')
 const User = require('../models/user-model')
 const bcrypt = require('bcryptjs')
 
+//queries
 getLoggedIn = async (req, res) => {
     try {
         let userId = auth.verifyUser(req);
@@ -30,6 +31,7 @@ getLoggedIn = async (req, res) => {
     }
 }
 
+//mutations
 loginUser = async (req, res) => {
     console.log("loginUser");
     try {

@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../auth')
-const Top5ListController = require('../controllers/tilemap-controller')
+const TileMapController = require('../controllers/tilemap-controller')
 
-router.post('/top5list', auth.verify, Top5ListController.createTop5List)
-router.delete('/top5list/:id', auth.verify, Top5ListController.deleteTop5List)
-router.get('/top5list/:id', auth.verify, Top5ListController.getTop5ListById)
-router.get('/top5listpairs', auth.verify, Top5ListController.getTop5ListPairs)
-router.get('/top5lists', auth.verify, Top5ListController.getTop5Lists)
-router.put('/top5list/:id', auth.verify, Top5ListController.updateTop5List)
+//Queries
+router.get('/tilemap/:id', auth.verify, TileMapController.getTileMapById)
+router.get('/tilemap', auth.verify, TileMapController.getTileMapsByValue)
+
+//mutations
+router.post('/tilemap', auth.verify, TileMapController.createTileMap)
+router.put('/tilemap/:id', auth.verify, TileMapController.updateTileMap)
+router.delete('/tilemap/:id', auth.verify, TileMapController.deleteTileMap)
 
 module.exports = router
