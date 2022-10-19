@@ -10,7 +10,6 @@ const TopBanner = () => {
         
         <div id="TWS-top-banner">
             <div id="TWS-top-banner-content">
-            
             <IconButton
                 aria-label='Call Sage'
                 fontSize='80px'
