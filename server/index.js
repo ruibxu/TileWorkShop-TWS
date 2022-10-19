@@ -25,7 +25,7 @@ const top5listsRouter = require('./routes/top5lists-router')
 app.use('/api', top5listsRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
-const db = require('./db')
+const db = require('./db/database')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 // PUT THE SERVER IN LISTENING MODE
