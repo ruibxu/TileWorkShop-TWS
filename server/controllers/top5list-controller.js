@@ -1,4 +1,4 @@
-const Top5List = require('../models/top5list-model');
+const Top5List = require('../models/community-model');
 const User = require('../models/user-model');
 
 createTop5List = (req, res) => {
