@@ -7,6 +7,8 @@ const CommunityController = require('../controllers/community-controller')
 router.get('/community', auth.verify, CommunityController.getCommunitiesByIds)
 
 //mutations
+router.post('/community/', CommunityController.createCommunity)
 router.put('/community/:id', auth.verify, CommunityController.updateCommunity)
+router.delete('/community/:id', CommunityController.deleteCommunity)
 
 module.exports = router
