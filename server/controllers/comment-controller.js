@@ -1,3 +1,5 @@
+import {createCommunity, deleteCommunity} from './community-functions';
+
 const Comment = require('../models/comment-model');
 const Community = require('../models/community-model');
 const User = require('../models/user-model');
@@ -52,7 +54,7 @@ createComment = async (req, res) => {
             errorMessage: 'Improperly formatted request',
         })
     }
-    const community_id = new ObjectId();
+    const community_id = createCommunity("Comment");
     const comment = new Comment({
         _id: new ObjectId(),
         user_id: new ObjectId(body.user_id),
@@ -62,16 +64,8 @@ createComment = async (req, res) => {
         dateCreated: new Date(),
         dateUpdated: new Date(),
     });
-    const community = new Community({
-        _id: community_id,
-        type: "Comment",
-        liked_User: [],
-        disliked_User: [],
-    })
     const updated = comment.save();
     if (!updated){return res.status(400).json({errorMessage: 'Comment Not Created!'});}
-    const updated2 = community.save();
-    if (!updated2){return res.status(400).json({errorMessage: 'Community Not Created!'});}
     return res.status(200).json({ success: true, result: {comment: comment, community: community}});
 }
 
@@ -89,8 +83,8 @@ deleteComment = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.userId);
             if(item.user_id == req.userId){
+                deleteCommunity(item.community_id);
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
-                Community.findOneAndDelete({_id: item.community_id}).catch(err => console.log(err));
                 return res.status(200).json({});
             }
             else {
