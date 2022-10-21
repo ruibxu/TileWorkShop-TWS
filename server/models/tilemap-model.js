@@ -9,6 +9,7 @@ const Layer = require('./layer-model')
 const TileMapSchema = new Schema(
     {
         _id: { type: ObjectId, required: true},
+        name: {type: String, required: true},
         access: {type: Access, required: true},
         community_id: { type: ObjectId, required: true},
         tileset: {type: TileSet},

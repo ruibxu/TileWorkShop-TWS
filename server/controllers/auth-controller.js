@@ -1,6 +1,7 @@
 const auth = require('../auth/authManager')
 const User = require('../models/user-model')
 const bcrypt = require('bcryptjs')
+const ObjectId = require('mongoose').Types.ObjectId;
 
 //queries
 getLoggedIn = async (req, res) => {
@@ -20,8 +21,7 @@ getLoggedIn = async (req, res) => {
         return res.status(200).json({
             loggedIn: true,
             user: {
-                firstName: loggedInUser.firstName,
-                lastName: loggedInUser.lastName,
+                username: loggedInUser.username,
                 email: loggedInUser.email
             }
         })
@@ -75,8 +75,7 @@ loginUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
-                firstName: existingUser.firstName,
-                lastName: existingUser.lastName,  
+                username: existingUser.username, 
                 email: existingUser.email              
             }
         })
@@ -98,9 +97,9 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, passwordVerify } = req.body;
+        const { username, email, password, passwordVerify } = req.body;
         console.log("create user: " + firstName + " " + lastName + " " + email + " " + password + " " + passwordVerify);
-        if (!firstName || !lastName || !email || !password || !passwordVerify) {
+        if (!username || !email || !password || !passwordVerify) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -139,7 +138,11 @@ registerUser = async (req, res) => {
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            firstName, lastName, email, passwordHash
+            _id: new ObjectId,
+            username: username,
+            email: email,
+            password: passwordHash,
+            authentication: true
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
@@ -155,8 +158,7 @@ registerUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
-                firstName: savedUser.firstName,
-                lastName: savedUser.lastName,  
+                username: savedUser.username,  
                 email: savedUser.email              
             }
         })
