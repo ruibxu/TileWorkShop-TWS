@@ -4,7 +4,7 @@ const ObjectId = Schema.Types.ObjectId
 const Date = Schema.Types.Date
 const Access = require('./access-model')
 
-const TileMapSchema = new Schema(
+const TileSetSchema = new Schema(
     {
         _id: { type: ObjectId, required: true},
         access: {type: Access, required: true},
@@ -19,4 +19,4 @@ const TileMapSchema = new Schema(
     { timestamps: true },
 )
 
-module.exports = mongoose.model('TileMap', TileMapSchema)
+module.exports = mongoose.model('TileSet', TileSetSchema)

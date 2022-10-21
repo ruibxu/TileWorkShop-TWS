@@ -1,4 +1,4 @@
-import {createCommunity, deleteCommunity} from './community-functions';
+import {createCommunity, deleteCommunity} from './shared-functions';
 
 const Comment = require('../models/comment-model');
 const Community = require('../models/community-model');
@@ -81,8 +81,8 @@ deleteComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.userId);
-            if(item.user_id == req.userId){
+            console.log("req.userId: " + req.user_id);
+            if(item.user_id == req.user_id){
                 deleteCommunity(item.community_id);
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 return res.status(200).json({});
@@ -111,8 +111,8 @@ updateComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.userId);
-            if(item.user_id == req.userId){
+            console.log("req.userId: " + req.user_id);
+            if(item.user_id == req.user_id){
                 item.content = content;
                 item.save().then(() => {
                             console.log("SUCCESS!!!");

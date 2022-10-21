@@ -5,7 +5,7 @@ const TileMapController = require('../controllers/tilemap-controller')
 
 //Queries
 router.get('/tilemap/:id', auth.verify, TileMapController.getTileMapById)
-router.get('/tilemap', auth.verify, TileMapController.getTileMapsByValue)
+//router.get('/tilemap', auth.verify, TileMapController.getTileMapsByValue)
 
 //mutations
 router.post('/tilemap', auth.verify, TileMapController.createTileMap)
