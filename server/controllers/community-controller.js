@@ -41,3 +41,7 @@ updateCommunity = async (req, res) => {
     }
     community.save()
 }
+
+module.exports = {
+    updateCommunity
+}
