@@ -4,9 +4,9 @@ const ObjectId = Schema.Types.ObjectId
 
 const AccessSchema = new Schema(
     {
-        Owner_Id: { type: ObjectId, required: true },
-        editor_Ids: { type: [ObjectId], required: true },
-        viewer_Ids: { type: [ObjectId], required: true },
+        owner_id: { type: ObjectId, required: true },
+        editor_ids: { type: [ObjectId], required: true },
+        viewer_ids: { type: [ObjectId], required: true },
         public: { type: Boolean, required: true }
     }
 )

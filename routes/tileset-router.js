@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const auth = require('../auth')
+const auth = require('../auth/authManager')
 const TileSetController = require('../controllers/tileset-controller')
 
 //Queries
 router.get('/tileset/:id', auth.verify, TileSetController.getTileSetById)
-router.get('/tileset', auth.verify, TileSetController.getTileSetsByValue)
+//router.get('/tileset', auth.verify, TileSetController.getTileSetsByValue)
 
 //mutations
 router.post('/tileset', auth.verify, TileSetController.createTileSet)
