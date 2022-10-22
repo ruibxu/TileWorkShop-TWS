@@ -6,3 +6,4 @@ To run the front end:
 Cloudinary Guides:
 https://www.youtube.com/watch?v=Rw_QeJLnCK4&t=1186s
 https://cloudinary.com/documentation/node_image_and_video_upload#server_side_upload
+sync test
