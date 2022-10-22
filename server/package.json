@@ -12,5 +12,13 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.5"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.2.1",
+    "react-test-renderer": "^18.2.0",
+    "supertest": "^6.3.0"
   }
 }

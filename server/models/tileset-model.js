@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const Date = Schema.Types.Date
+const Number = Schema.Types.Number
 const Access = require('./access-model')
 
 const TileSetSchema = new Schema(
@@ -10,9 +11,9 @@ const TileSetSchema = new Schema(
         name: {type: String, required: true},
         access: {type: Access, required: true},
         community_id: { type: ObjectId},
-        height: {type: int, required: true},
-        width: {type: int, required: true},
-        pixel: {type: int, required: true},
+        height: {type: Number, required: true},
+        width: {type: Number, required: true},
+        pixel: {type: Number, required: true},
         dateCreated: { type: Date},
         dateUpdated: { type: Date},
 

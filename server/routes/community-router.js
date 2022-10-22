@@ -1,7 +1,7 @@
 //considering deleting this file
 const express = require('express')
 const router = express.Router()
-const auth = require('../auth')
+const auth = require('../auth/authManager')
 const CommunityController = require('../controllers/shared-functions')
 
 //Queries
