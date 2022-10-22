@@ -2,10 +2,10 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../auth/authManager')
-const CommunityController = require('../controllers/shared-functions')
+const CommunityController = require('../controllers/community-controller')
 
 //Queries
-router.get('/community', auth.verify, CommunityController.getCommunitiesByIds)
+// router.get('/community', auth.verify, CommunityController.getCommunitiesByIds)
 
 //mutations
 router.put('/community/:id', auth.verify, CommunityController.updateCommunity)
