@@ -4,6 +4,7 @@ const TileSet = require('../models/tileset-model');
 const Access = require('../models/access-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
+const Community = require('../models/community-model');
 
 getTileSetById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
