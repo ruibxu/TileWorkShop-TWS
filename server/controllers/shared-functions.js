@@ -24,3 +24,8 @@ createCommunity = async (type) => {
 deleteCommunity = async (id) => {
     Community.findOneAndDelete({_id: id}).catch(err => console.log(err));
 }
+
+module.exports = {
+    createCommunity,
+    deleteCommunity
+}

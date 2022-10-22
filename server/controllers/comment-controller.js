@@ -1,4 +1,4 @@
-import {createCommunity, deleteCommunity} from './shared-functions';
+const {createCommunity, deleteCommunity} = require('./shared-functions');
 
 const Comment = require('../models/comment-model');
 const Community = require('../models/community-model');
