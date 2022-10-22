@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Number = Schema.Types.Number
-const Property = require('./property-model')
+const Property = require('./property-model').schema
 
 const LayerSchema = new Schema(
     {

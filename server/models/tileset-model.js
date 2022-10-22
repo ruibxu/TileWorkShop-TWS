@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const Date = Schema.Types.Date
 const Number = Schema.Types.Number
-const Access = require('./access-model')
+const Access = require('./access-model').schema
 
 const TileSetSchema = new Schema(
     {

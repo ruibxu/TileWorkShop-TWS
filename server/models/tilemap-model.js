@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const Date = Schema.Types.Date
 const Number = Schema.Types.Number
-const Access = require('./access-model')
-const TileSet = require('./tileset-model')
-const Layer = require('./layer-model')
+const Access = require('./access-model').schema
+const TileSet = require('./tileset-model').schema
+const Layer = require('./layer-model').schema
 
 const TileMapSchema = new Schema(
     {
