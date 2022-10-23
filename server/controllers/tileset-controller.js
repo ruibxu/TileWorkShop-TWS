@@ -174,7 +174,7 @@ deleteTileSetImage = async (req, res) => {
             errorMessage: 'image not found!',
     });}
     return res.status(201).json({
-        resources: resources
+        Message: 'image deleted'
     })
 }
 
