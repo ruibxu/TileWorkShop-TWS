@@ -8,7 +8,7 @@ const Community = require('../models/community-model');
 const { cloudinary } = require('../cloudinary');
 
 getTileSetById = async (req, res) => {
-    console.log("Find Comment with id: " + JSON.stringify(req.params.id));
+    console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
     const tileset = await TileSet.find({_id: _id}, (err, tileset) => {
@@ -32,7 +32,6 @@ createTileSet = async (req, res) => {
             errorMessage: 'Improperly formatted request',
         })
     }
-
     const objectId = new ObjectId();
     const community_id = createCommunity("TileSet");
     const access = new Access({
@@ -45,15 +44,19 @@ createTileSet = async (req, res) => {
     body.community_id = community_id;
     body.access = access;
     const tileset = new TileSet(body);
-    tileset.save().catch(error => {
+    tileset.save()
+    .then(()=> {
+        return res.status(201).json({
+            sucess: true,
+            tileSet: tileset,
+            message: "TileSet Created"
+        })
+    })
+    .catch(error => {
         return res.status(400).json({
             errorMessage: 'TileSet Not Created!'
         })
     });
-    //remember to add images
-    return res.status(201).json({
-        tileSet: tileSet
-    })
 }
 
 deleteTileSet = async (req, res) => {
@@ -87,13 +90,13 @@ deleteTileSet = async (req, res) => {
 }
 
 updateTileSet = async (req, res) => {
-    console.log("updating Comment: " + req.params.id);
+    console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
-    Comment.findById({_id: objectId}, (err, comment) => {
-        console.log("comment found: " + JSON.stringify(comment));
+    TileSet.findById({_id: objectId}, (err, tileSet) => {
+        console.log("tileSet found: " + JSON.stringify(tileSet));
         if (err) {
             return res.status(404).json({
-                errorMessage: 'Comment not found!',
+                errorMessage: 'tileSet not found!',
             })
         }
         //can this user update
@@ -116,7 +119,7 @@ updateTileSet = async (req, res) => {
                             console.log("FAILURE: " + JSON.stringify(error));
                             return res.status(404).json({
                                 error,
-                                message: 'Comment not updated!',
+                                message: 'tileSet not updated!',
                             })
                         })
                 return res.status(200).json({});
@@ -129,7 +132,7 @@ updateTileSet = async (req, res) => {
                 });
             }
         }
-        matchUser(comment);
+        matchUser(tileSet);
     });
 }
 

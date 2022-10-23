@@ -66,7 +66,7 @@ loginUser = async (req, res) => {
 
         // LOGIN THE USER
         const token = auth.signToken(existingUser._id);
-        console.log(token);
+        console.log("token: " + token);
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -76,7 +76,8 @@ loginUser = async (req, res) => {
             success: true,
             user: {
                 username: existingUser.username,
-                email: existingUser.email
+                email: existingUser.email,
+                token: token
             }
         })
 
@@ -100,7 +101,7 @@ logoutUser = async (req, res) => {
 
 changePassword = async (req, res) => {
     console.log("changing password");
-    const { email, password, passwordVerify} = req.body;
+    const { email, password, passwordVerify } = req.body;
     if (password.length < 8) {
         return res
             .status(400)
