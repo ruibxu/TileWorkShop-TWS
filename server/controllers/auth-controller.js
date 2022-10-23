@@ -98,7 +98,7 @@ logoutUser = async (req, res) => {
 registerUser = async (req, res) => {
     try {
         const { username, email, password, passwordVerify } = req.body;
-        console.log("create user: " + firstName + " " + lastName + " " + email + " " + password + " " + passwordVerify);
+        console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
         if (!username || !email || !password || !passwordVerify) {
             return res
                 .status(400)
@@ -141,7 +141,7 @@ registerUser = async (req, res) => {
             _id: new ObjectId,
             username: username,
             email: email,
-            password: passwordHash,
+            passwordHash: passwordHash,
             authentication: true
         });
         const savedUser = await newUser.save();
