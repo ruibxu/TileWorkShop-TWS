@@ -100,31 +100,44 @@ logoutUser = async (req, res) => {
 
 changePassword = async (req, res) => {
     console.log("changing password");
-    try {
-        const { email, password } = req.body;
-        if (password.length < 8) {
-            return res
-                .status(400)
-                .json({
-                    errorMessage: "Please enter a password of at least 8 characters."
-                });
-        }
-        const existingUser = await User.findOne({ email: email });
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
-        console.log("passwordHash: " + passwordHash);
-        existingUser.passwordHash = passwordHash;
-        await existingUser.save();
-        console.log(existingUser.passwordHash)
-        return res.status(200).json({
-            success: true,
-            passwordHash: passwordHash
-        })
-    } catch (err) {
-        console.error(err);
-        res.status(500).send();
+    const { email, password } = req.body;
+    if (password.length < 8) {
+        return res
+            .status(400)
+            .json({
+                errorMessage: "Please enter a password of at least 8 characters."
+            });
     }
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const passwordHash = await bcrypt.hash(password, salt);
+    User.findOne({ email: email }, (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: "User not found"
+            })
+        }
+        console.log("passwordHash: " + passwordHash);
+        user.passwordHash = passwordHash;
+        user.save()
+            .then(() => {
+                console.log("Success")
+                return res.status(200).json({
+                    success: true,
+                    passwordHash: passwordHash
+                })
+            }).catch(error => {
+                console.log("Failure")
+                return res.status(404).json({
+                    success: false,
+                    message: "Password not updated."
+                })
+            });
+
+
+
+    });
 }
 
 // updateAccount = async(req, res) => {

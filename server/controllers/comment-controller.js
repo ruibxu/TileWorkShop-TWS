@@ -87,7 +87,7 @@ deleteComment = async (req, res) => {
                 return res.status(200).json({});
             }
             else {
-                console.log("incoorect user!");
+                console.log("incorrect user!");
                 return res.status(400).json({
                     errorMessage: "authentication error"
                 });
