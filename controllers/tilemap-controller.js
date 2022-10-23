@@ -2,7 +2,7 @@ const TileMap = require('../models/tilemap-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Community = require('../models/community-model');
-
+const { cloudinary } = require('../cloudinary');
 getTileMapById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
@@ -22,25 +22,25 @@ getTileMapById = async (req, res) => {
 }
 
 createTileMap = async (req, res) => {
-    const body = req.body;
-    if (!body) {
+    if (!req.body) {
         return res.status(400).json({
             errorMessage: 'Improperly formatted request',
         })
     }
+    const data = req.body.data;
 
     const objectId = new ObjectId();
     const community_id = createCommunity("TileMap");
     const access = new Access({
-        owner_Id: req.user_id,
+        owner_Id: req.body.user_id,
         editor_Ids: [],
         viewer_Ids: [],
         public: false
     })
-    body._id = objectId;
-    body.community_id = community_id;
-    body.access = access;
-    const tilemap = new TileMap(body);
+    data._id = objectId;
+    data.community_id = community_id;
+    data.access = access;
+    const tilemap = new TileMap(data);
     tilemap.save().catch(error => {
         return res.status(400).json({
             errorMessage: 'TileMap Not Created!'
@@ -131,9 +131,57 @@ updateTileMap = async (req, res) => {
     });
 }
 
+getTileMapImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileMap_Uses/${public_id}`;
+    const {resources} = await cloudinary.search.expression(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        resources: resources
+    })
+}
+
+updateTileMapImage = async (req, res) => {
+    try{
+        const fileStr = req.body.data;
+        const filename = req.params.id;
+        console.log(fileStr);
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'TileMap_Uses_Upload',
+            public_id: filename
+        });
+        console.log(uploadedResponse);
+        return res.status(200).json({
+            success: true,
+            response: uploadedResponse
+        })
+    } catch(error){
+        console.log(error);
+    }
+}
+
+deleteTileMapImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileMap_Uses/${public_id}`;
+    const {resources} = await cloudinary.uploader.destroy(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        Message: 'image deleted'
+    })
+}
+
 module.exports = {
     getTileMapById,
     createTileMap,
     deleteTileMap,
-    updateTileMap
+    updateTileMap,
+    getTileMapImage,
+    updateTileMapImage,
+    deleteTileMapImage
 }

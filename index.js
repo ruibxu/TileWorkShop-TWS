@@ -3,7 +3,6 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
-const mongoose = require("mongoose");
 
 // CREATE OUR SERVER
 dotenv.config()
