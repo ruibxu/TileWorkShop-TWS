@@ -13,13 +13,18 @@ const app = express()
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000",
+    "http://localhost:4000",
+    "https://tileworkshop.herokuapp.com/"],
     credentials: true
 }))
+
 app.use(express.json())
 app.use(cookieParser())
+//app.use(express.static(path.join(__dirname, "client", "build")));
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING,
+/*
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:3000',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -27,7 +32,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING,
   )
   .then(() => console.log("MongoDB has been connected"))
   .catch((err) => console.log(err));
-
+*/
 
 
 
