@@ -22,25 +22,25 @@ getTileMapById = async (req, res) => {
 }
 
 createTileMap = async (req, res) => {
-    const body = req.body;
-    if (!body) {
+    if (!req.body) {
         return res.status(400).json({
             errorMessage: 'Improperly formatted request',
         })
     }
+    const data = req.body.data;
 
     const objectId = new ObjectId();
     const community_id = createCommunity("TileMap");
     const access = new Access({
-        owner_Id: req.user_id,
+        owner_Id: req.body.user_id,
         editor_Ids: [],
         viewer_Ids: [],
         public: false
     })
-    body._id = objectId;
-    body.community_id = community_id;
-    body.access = access;
-    const tilemap = new TileMap(body);
+    data._id = objectId;
+    data.community_id = community_id;
+    data.access = access;
+    const tilemap = new TileMap(data);
     tilemap.save().catch(error => {
         return res.status(400).json({
             errorMessage: 'TileMap Not Created!'
