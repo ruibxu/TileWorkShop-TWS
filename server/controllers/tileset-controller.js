@@ -5,6 +5,7 @@ const Access = require('../models/access-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Community = require('../models/community-model');
+const { cloudinary } = require('../cloudinary');
 
 getTileSetById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
@@ -100,8 +101,8 @@ updateTileSet = async (req, res) => {
             console.log("req.userId: " + req.user_id);
             access = item.access;
             if(access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)){
-                item.height = req.body.height;
-                item.width = req.body.width;
+                item.name = req.body.name;
+
                 //add image update
                 item.save().then(() => {
                             console.log("SUCCESS!!!");
@@ -132,9 +133,57 @@ updateTileSet = async (req, res) => {
     });
 }
 
+getTileSetImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileSet_Editor/${public_id}`;
+    const {resources} = await cloudinary.search.expression(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        resources: resources
+    })
+}
+
+updateTileSetImage = async (req, res) => {
+    try{
+        const fileStr = req.body.data;
+        const filename = req.params.id;
+        console.log(fileStr);
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'TileSet_Editor_Upload',
+            public_id: filename
+        });
+        console.log(uploadedResponse);
+        return res.status(200).json({
+            success: true,
+            response: uploadedResponse
+        })
+    } catch(error){
+        console.log(error);
+    }
+}
+
+destroyTileSetImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileSet_Editor/${public_id}`;
+    const {resources} = await cloudinary.uploader.destroy(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        resources: resources
+    })
+}
+
 module.exports = {
     getTileSetById,
     createTileSet,
     deleteTileSet,
-    updateTileSet
+    updateTileSet,
+    getTileSetImage,
+    updateTileSetImage,
+    destroyTileSetImage
 }

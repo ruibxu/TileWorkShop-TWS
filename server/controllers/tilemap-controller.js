@@ -131,9 +131,57 @@ updateTileMap = async (req, res) => {
     });
 }
 
+getTileMapImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileMap_Uses/${public_id}`;
+    const {resources} = await cloudinary.search.expression(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        resources: resources
+    })
+}
+
+updateTileMapImage = async (req, res) => {
+    try{
+        const fileStr = req.body.data;
+        const filename = req.params.id;
+        console.log(fileStr);
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'TileMap_Uses_Upload',
+            public_id: filename
+        });
+        console.log(uploadedResponse);
+        return res.status(200).json({
+            success: true,
+            response: uploadedResponse
+        })
+    } catch(error){
+        console.log(error);
+    }
+}
+
+destroyTileMapImage = async (req, res) => {
+    const public_id = req.params.id;
+    const search = `public_id:TileMap_Uses/${public_id}`;
+    const {resources} = await cloudinary.uploader.destroy(search);
+    if(!resources){
+        return res.status(404).json({
+            errorMessage: 'image not found!',
+    });}
+    return res.status(201).json({
+        resources: resources
+    })
+}
+
 module.exports = {
     getTileMapById,
     createTileMap,
     deleteTileMap,
-    updateTileMap
+    updateTileMap,
+    getTileMapImage,
+    updateTileMapImage,
+    destroyTileMapImage
 }
