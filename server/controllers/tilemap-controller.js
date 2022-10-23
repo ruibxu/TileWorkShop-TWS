@@ -163,7 +163,7 @@ updateTileMapImage = async (req, res) => {
     }
 }
 
-destroyTileMapImage = async (req, res) => {
+deleteTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
     const {resources} = await cloudinary.uploader.destroy(search);
@@ -183,5 +183,5 @@ module.exports = {
     updateTileMap,
     getTileMapImage,
     updateTileMapImage,
-    destroyTileMapImage
+    deleteTileMapImage
 }
