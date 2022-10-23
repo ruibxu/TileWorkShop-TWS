@@ -75,8 +75,8 @@ loginUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
-                username: existingUser.username, 
-                email: existingUser.email              
+                username: existingUser.username,
+                email: existingUser.email
             }
         })
 
@@ -97,6 +97,86 @@ logoutUser = async (req, res) => {
         success: true,
     }).send();
 }
+
+changePassword = async (req, res) => {
+    console.log("changing password");
+    try {
+        const { email, password } = req.body;
+        if (password.length < 8) {
+            return res
+                .status(400)
+                .json({
+                    errorMessage: "Please enter a password of at least 8 characters."
+                });
+        }
+        const existingUser = await User.findOne({ email: email });
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(password, salt);
+        console.log("passwordHash: " + passwordHash);
+        existingUser.passwordHash = passwordHash;
+        await existingUser.save();
+        console.log(existingUser.passwordHash)
+        return res.status(200).json({
+            success: true,
+            passwordHash: passwordHash
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
+// updateAccount = async(req, res) => {
+//     try{
+//         console.log("updating account")
+//         const { username, email, password, passwordVerify } = req.body;
+//         if (!username || !email || !password || !passwordVerify) {
+//             return res
+//                 .status(400)
+//                 .json({ errorMessage: "Please enter all required fields." });
+//         }
+//         console.log("all fields provided");
+//         if (password.length < 8) {
+//             return res
+//                 .status(400)
+//                 .json({
+//                     errorMessage: "Please enter a password of at least 8 characters."
+//                 });
+//         }
+//         console.log("password long enough");
+//         if (password !== passwordVerify) {
+//             return res
+//                 .status(400)
+//                 .json({
+//                     errorMessage: "Please enter the same password twice."
+//                 })
+//         }
+//         console.log("password and password verify match");
+//         const existingUser = await User.findOne({ email: email });
+//         console.log("existingUser: " + existingUser);
+//         if (existingUser) {
+//             return res
+//                 .status(400)
+//                 .json({
+//                     success: false,
+//                     errorMessage: "An account with this email address already exists."
+//                 })
+//         }
+
+//         const saltRounds = 10;
+//         const salt = await bcrypt.genSalt(saltRounds);
+//         const passwordHash = await bcrypt.hash(password, salt);
+//         console.log("passwordHash: " + passwordHash);
+
+
+
+
+//     }catch (err) {
+//         console.error(err);
+//         res.status(500).send();
+//     }
+// }
 
 registerUser = async (req, res) => {
     try {
@@ -161,8 +241,8 @@ registerUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
-                username: savedUser.username,  
-                email: savedUser.email              
+                username: savedUser.username,
+                email: savedUser.email
             }
         })
 
@@ -178,5 +258,7 @@ module.exports = {
     getLoggedIn,
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    changePassword,
+    // updateAccount
 }
