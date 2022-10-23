@@ -1,4 +1,4 @@
-const {createCommunity, deleteCommunity} = require('./shared-functions');
+const { createCommunity, deleteCommunity } = require('./shared-functions');
 
 const TileSet = require('../models/tileset-model');
 const Access = require('../models/access-model');
@@ -11,18 +11,18 @@ getTileSetById = async (req, res) => {
     console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
-    const tileset = await TileSet.find({_id: _id}, (err, tileset) => {
-        if (err) {return res.status(400).json({ success: false, error: err });}
+    const tileset = await TileSet.find({ _id: _id }, (err, tileset) => {
+        if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
     const community_id = new ObjectId(tileset.community_id);
 
-    const community = await Community.find({community_id: community_id}, (err, community) => {
-        if (err) {return res.status(400).json({ success: false, error: err });}
+    const community = await Community.find({ community_id: community_id }, (err, community) => {
+        if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found community: " + JSON.stringify(community));
     }).catch(err => console.log(err));
-    
-    return res.status(200).json({ success: true, result: {tileset: tileset, community: community}});
+
+    return res.status(200).json({ success: true, result: { tileset: tileset, community: community } });
 }
 
 createTileSet = async (req, res) => {
@@ -45,24 +45,24 @@ createTileSet = async (req, res) => {
     data.access = access;
     const tileset = new TileSet(data);
     tileset.save()
-    .then(()=> {
-        return res.status(201).json({
-            sucess: true,
-            tileSet: tileset,
-            message: "TileSet Created"
+        .then(() => {
+            return res.status(201).json({
+                sucess: true,
+                tileSet: tileset,
+                message: "TileSet Created"
+            })
         })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            errorMessage: 'TileSet Not Created!'
-        })
-    });
+        .catch(error => {
+            return res.status(400).json({
+                errorMessage: 'TileSet Not Created!'
+            })
+        });
 }
 
 deleteTileSet = async (req, res) => {
     console.log("deleting TileSet: " + req.params.id);
     const objectId = req.params.id;
-    TileSet.findById({_id: objectId}, (err, tileset) => {
+    TileSet.findById({ _id: objectId }, (err, tileset) => {
         console.log("tileset found: " + JSON.stringify(tileset));
         if (err) {
             return res.status(404).json({
@@ -72,7 +72,7 @@ deleteTileSet = async (req, res) => {
         //does this belong to the user
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
-            if(item.access.owner_id == req.user_id){
+            if (item.access.owner_id == req.user_id) {
                 deleteCommunity(item.community_id);
                 TileSet.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
@@ -80,8 +80,8 @@ deleteTileSet = async (req, res) => {
             }
             else {
                 console.log("incorrect user!");
-                return res.status(400).json({ 
-                    errorMessage: "authentication error" 
+                return res.status(400).json({
+                    errorMessage: "authentication error"
                 });
             }
         }
@@ -92,43 +92,44 @@ deleteTileSet = async (req, res) => {
 updateTileSet = async (req, res) => {
     console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
-    TileSet.findById({_id: objectId}, (err, tileSet) => {
+    TileSet.findById({ _id: objectId }, (err, tileSet) => {
         console.log("tileSet found: " + JSON.stringify(tileSet));
         if (err) {
             return res.status(404).json({
-                errorMessage: 'tileSet not found!',
+                errorMessage: 'TileSet not found!',
             })
         }
         //can this user update
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
+            console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
-            if(access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)){
+            console.log("access " + access.owner_id)
+            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.name = req.body.name;
 
                 //add image update
-                item.save().then(() => {
-                            console.log("SUCCESS!!!");
-                            return res.status(200).json({
-                                success: true,
-                                id: item._id,
-                                message: 'Top 5 List updated!',
-                            })
+                item.save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: item._id,
+                            message: 'TileSet updated!',
                         })
-                        .catch(error => {
-                            console.log("FAILURE: " + JSON.stringify(error));
-                            return res.status(404).json({
-                                error,
-                                message: 'tileSet not updated!',
-                            })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'TileSet not updated!',
                         })
-                return res.status(200).json({});
+                    })
             }
             else {
                 console.log("incorrect user!");
-                return res.status(400).json({ 
+                return res.status(400).json({
                     success: false,
-                    errorMessage: "authentication error" 
+                    errorMessage: "authentication error"
                 });
             }
         }
@@ -139,18 +140,19 @@ updateTileSet = async (req, res) => {
 getTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
-    const {resources} = await cloudinary.search.expression(search);
-    if(!resources){
+    const { resources } = await cloudinary.search.expression(search);
+    if (!resources) {
         return res.status(404).json({
             errorMessage: 'image not found!',
-    });}
+        });
+    }
     return res.status(201).json({
         resources: resources
     })
 }
 
 updateTileSetImage = async (req, res) => {
-    try{
+    try {
         const fileStr = req.body.data;
         const filename = req.params.id;
         console.log(fileStr);
@@ -163,7 +165,7 @@ updateTileSetImage = async (req, res) => {
             success: true,
             response: uploadedResponse
         })
-    } catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
@@ -171,11 +173,12 @@ updateTileSetImage = async (req, res) => {
 deleteTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
-    const {resources} = await cloudinary.uploader.destroy(search);
-    if(!resources){
+    const { resources } = await cloudinary.uploader.destroy(search);
+    if (!resources) {
         return res.status(404).json({
             errorMessage: 'image not found!',
-    });}
+        });
+    }
     return res.status(201).json({
         Message: 'image deleted'
     })
