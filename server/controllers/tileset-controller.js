@@ -165,7 +165,7 @@ updateTileSetImage = async (req, res) => {
     }
 }
 
-destroyTileSetImage = async (req, res) => {
+deleteTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
     const {resources} = await cloudinary.uploader.destroy(search);
@@ -185,5 +185,5 @@ module.exports = {
     updateTileSet,
     getTileSetImage,
     updateTileSetImage,
-    destroyTileSetImage
+    deleteTileSetImage
 }
