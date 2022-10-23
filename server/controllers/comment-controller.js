@@ -65,7 +65,7 @@ createComment = async (req, res) => {
     });
     const updated = comment.save();
     if (!updated) { return res.status(400).json({ errorMessage: 'Comment Not Created!' }); }
-    return res.status(200).json({ success: true, result: { comment: comment, community: community } });
+    return res.status(200).json({ success: true, result: { comment: comment, community: community_id } });
 }
 
 deleteComment = async (req, res) => {

@@ -100,13 +100,20 @@ logoutUser = async (req, res) => {
 
 changePassword = async (req, res) => {
     console.log("changing password");
-    const { email, password } = req.body;
+    const { email, password, passwordVerify} = req.body;
     if (password.length < 8) {
         return res
             .status(400)
             .json({
                 errorMessage: "Please enter a password of at least 8 characters."
             });
+    }
+    if (password !== passwordVerify) {
+        return res
+            .status(201)
+            .json({
+                errorMessage: "Please enter the same password twice."
+            })
     }
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
@@ -134,62 +141,127 @@ changePassword = async (req, res) => {
                     message: "Password not updated."
                 })
             });
-
-
-
     });
 }
 
-// updateAccount = async(req, res) => {
-//     try{
-//         console.log("updating account")
-//         const { username, email, password, passwordVerify } = req.body;
-//         if (!username || !email || !password || !passwordVerify) {
-//             return res
-//                 .status(400)
-//                 .json({ errorMessage: "Please enter all required fields." });
-//         }
-//         console.log("all fields provided");
-//         if (password.length < 8) {
-//             return res
-//                 .status(400)
-//                 .json({
-//                     errorMessage: "Please enter a password of at least 8 characters."
-//                 });
-//         }
-//         console.log("password long enough");
-//         if (password !== passwordVerify) {
-//             return res
-//                 .status(400)
-//                 .json({
-//                     errorMessage: "Please enter the same password twice."
-//                 })
-//         }
-//         console.log("password and password verify match");
-//         const existingUser = await User.findOne({ email: email });
-//         console.log("existingUser: " + existingUser);
-//         if (existingUser) {
-//             return res
-//                 .status(400)
-//                 .json({
-//                     success: false,
-//                     errorMessage: "An account with this email address already exists."
-//                 })
-//         }
+updateAccount = async (req, res) => {
+    try {
+        console.log("updating account")
+        const { email, username, password, passwordVerify } = req.body;
+        if (!email) {
+            return res.status(400).json({ errorMessage: "No user exists" })
+        }
+        if (!username && !password && !passwordVerify) {
+            return res
+                .status(400)
+                .json({ errorMessage: "No fields are entered" });
+        }
+        if (password.length < 8) {
+            return res
+                .status(400)
+                .json({
+                    errorMessage: "Please enter a password of at least 8 characters."
+                });
+        }
+        if (password !== passwordVerify) {
+            return res
+                .status(201)
+                .json({
+                    errorMessage: "Please enter the same password twice."
+                })
+        }
+        if (username && !password || !passwordVerify) {
+            User.findOne({ email: email }, (err, user) => {
+                if (err) {
+                    return res.status(404).json({
+                        err,
+                        message: "User not found"
+                    })
+                }
+                console.log("new username: " + username);
+                user.username = username;
+                user.save()
+                    .then(() => {
+                        console.log("Success")
+                        return res.status(200).json({
+                            success: true,
+                            username: username
+                        })
+                    }).catch(error => {
+                        console.log("Failure")
+                        return res.status(404).json({
+                            success: false,
+                            message: "Username not updated."
+                        })
+                    });
+            });
+        }
 
-//         const saltRounds = 10;
-//         const salt = await bcrypt.genSalt(saltRounds);
-//         const passwordHash = await bcrypt.hash(password, salt);
-//         console.log("passwordHash: " + passwordHash);
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(password, salt);
+        if (!username && password && passwordVerify) {
+            User.findOne({ email: email }, (err, user) => {
+                if (err) {
+                    return res.status(404).json({
+                        err,
+                        message: "User not found"
+                    })
+                }
+                console.log("passwordHash: " + passwordHash);
+                user.passwordHash = passwordHash;
+                user.save()
+                    .then(() => {
+                        console.log("Success")
+                        return res.status(200).json({
+                            success: true,
+                            passwordHash: passwordHash
+                        })
+                    }).catch(error => {
+                        console.log("Failure")
+                        return res.status(404).json({
+                            success: false,
+                            message: "Password not updated."
+                        })
+                    });
+            });
+        }
 
+        if (username && password && passwordVerify) {
+            User.findOne({ email: email }, (err, user) => {
+                if (err) {
+                    return res.status(404).json({
+                        err,
+                        message: "User not found"
+                    })
+                }
+                console.log("username: " + username);
+                console.log("passwordHash: " + passwordHash);
+                user.passwordHash = passwordHash;
+                user.username = username;
+                user.save()
+                    .then(() => {
+                        console.log("Success")
+                        return res.status(200).json({
+                            success: true,
+                            username: username,
+                            passwordHash: passwordHash
+                        })
+                    }).catch(error => {
+                        console.log("Failure")
+                        return res.status(404).json({
+                            success: false,
+                            message: "Fields not updated."
+                        })
+                    });
+            });
+        }
 
-
-
-//     }catch (err) {
-//         console.error(err);
-//         res.status(500).send();
-//     }
-// }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
 
 registerUser = async (req, res) => {
     try {
@@ -273,5 +345,5 @@ module.exports = {
     loginUser,
     logoutUser,
     changePassword,
-    // updateAccount
+    updateAccount
 }
