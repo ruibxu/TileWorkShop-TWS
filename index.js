@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
+const mongoose = require("mongoose");
 
 // CREATE OUR SERVER
 dotenv.config()
@@ -18,6 +19,18 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
+mongoose.connect(process.env.MONGODB_URI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log("MongoDB has been connected"))
+  .catch((err) => console.log(err));
+
+
+
+
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
 const authRouter = require('./routes/auth-router')
 app.use('/auth', authRouter)
@@ -30,11 +43,19 @@ app.use('/api', commentRouter)
 const communityRouter = require('./routes/community-router')
 app.use('/api', communityRouter)
 
+
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db/database')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 // PUT THE SERVER IN LISTENING MODE
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    });
+}
 
 
