@@ -87,11 +87,14 @@ loginUser = async (req, res) => {
 }
 
 logoutUser = async (req, res) => {
+    console.log("user logged out")
     res.cookie("token", "", {
         httpOnly: true,
         expires: new Date(0),
         secure: true,
         sameSite: "none"
+    }).status(200).json({
+        success: true,
     }).send();
 }
 
