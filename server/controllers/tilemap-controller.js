@@ -32,9 +32,9 @@ createTileMap = async (req, res) => {
     const objectId = new ObjectId();
     const community_id = createCommunity("TileMap");
     const access = new Access({
-        owner_Id: req.body.user_id,
-        editor_Ids: [],
-        viewer_Ids: [],
+        owner_id: req.body.user_id,
+        editor_ids: [],
+        viewer_ids: [],
         public: false
     })
     data._id = objectId;
