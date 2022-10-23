@@ -2,7 +2,7 @@ const TileMap = require('../models/tilemap-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Community = require('../models/community-model');
-
+const { cloudinary } = require('../cloudinary');
 getTileMapById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
