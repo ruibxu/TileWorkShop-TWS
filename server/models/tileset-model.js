@@ -9,7 +9,7 @@ const TileSetSchema = new Schema(
     {
         _id: { type: ObjectId, required: true},
         name: {type: String, required: true},
-        access: {type: Access, required: true},
+        access: {type: Access},
         community_id: { type: ObjectId},
         height: {type: Number, required: true},
         width: {type: Number, required: true},

@@ -17,8 +17,6 @@ const TileMapSchema = new Schema(
         layers: {type: [Layer], required: true},
         height: {type: Number, required: true},
         width: {type: Number, required: true},
-        dateCreated: { type: Date, required: true},
-        dateUpdated: { type: Date, required: true},
     },
     { timestamps: true },
 )

@@ -2,23 +2,24 @@ const TileMap = require('../models/tilemap-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Community = require('../models/community-model');
+const Access = require('../models/access-model')
 const { cloudinary } = require('../cloudinary');
 getTileMapById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
-    const tilemap = await TileMap.find({_id: _id}, (err, tilemap) => {
-        if (err) {return res.status(400).json({ success: false, error: err });}
+    const tilemap = await TileMap.find({ _id: _id }, (err, tilemap) => {
+        if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found tilemap: " + JSON.stringify(tilemap));
     }).catch(err => console.log(err));
     const community_id = new ObjectId(tilemap.community_id);
 
-    const community = await Community.find({community_id: community_id}, (err, community) => {
-        if (err) {return res.status(400).json({ success: false, error: err });}
+    const community = await Community.find({ community_id: community_id }, (err, community) => {
+        if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found community: " + JSON.stringify(community));
     }).catch(err => console.log(err));
-    
-    return res.status(200).json({ success: true, result: {tilemap: tilemap, community: community}});
+
+    return res.status(200).json({ success: true, result: { tilemap: tilemap, community: community } });
 }
 
 createTileMap = async (req, res) => {
@@ -30,7 +31,7 @@ createTileMap = async (req, res) => {
     const data = req.body.data;
 
     const objectId = new ObjectId();
-    const community_id = createCommunity("TileMap");
+    const community_id = await createCommunity("TileMap");
     const access = new Access({
         owner_id: req.body.user_id,
         editor_ids: [],
@@ -41,21 +42,23 @@ createTileMap = async (req, res) => {
     data.community_id = community_id;
     data.access = access;
     const tilemap = new TileMap(data);
-    tilemap.save().catch(error => {
+    console.log(tilemap)
+    tilemap.save().then(() => {
+        return res.status(201).json({
+            tileMap: tilemap
+        })
+    }).catch(error => {
+        console.log(error)
         return res.status(400).json({
             errorMessage: 'TileMap Not Created!'
         })
     });
-    //remember to add images
-    return res.status(201).json({
-        tileSet: tileSet
-    })
 }
 
 deleteTileMap = async (req, res) => {
     console.log("deleting TileMap: " + req.params.id);
     const objectId = req.params.id;
-    TileMap.findById({_id: objectId}, (err, tilemap) => {
+    TileMap.findById({ _id: objectId }, (err, tilemap) => {
         console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
             return res.status(404).json({
@@ -65,7 +68,7 @@ deleteTileMap = async (req, res) => {
         //does this belong to the user
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
-            if(item.access.owner_id == req.user_id){
+            if (item.access.owner_id == req.user_id) {
                 deleteCommunity(item.community_id);
                 TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
@@ -73,8 +76,8 @@ deleteTileMap = async (req, res) => {
             }
             else {
                 console.log("incorrect user!");
-                return res.status(400).json({ 
-                    errorMessage: "authentication error" 
+                return res.status(400).json({
+                    errorMessage: "authentication error"
                 });
             }
         }
@@ -85,7 +88,7 @@ deleteTileMap = async (req, res) => {
 updateTileMap = async (req, res) => {
     console.log("updating Comment: " + req.params.id);
     const objectId = req.params.id;
-    Comment.findById({_id: objectId}, (err, comment) => {
+    Comment.findById({ _id: objectId }, (err, comment) => {
         console.log("comment found: " + JSON.stringify(comment));
         if (err) {
             return res.status(404).json({
@@ -96,34 +99,34 @@ updateTileMap = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
             access = item.access;
-            if(access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)){
+            if (access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)) {
                 item.height = req.body.height;
                 item.width = req.body.width;
                 item.layers = req.body.layers;
                 item.tileSet = req.body.tileSet;
                 //add tileset image update later
                 item.save().then(() => {
-                            console.log("SUCCESS!!!");
-                            return res.status(200).json({
-                                success: true,
-                                id: item._id,
-                                message: 'Top 5 List updated!',
-                            })
+                    console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: item._id,
+                        message: 'Top 5 List updated!',
+                    })
+                })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'Comment not updated!',
                         })
-                        .catch(error => {
-                            console.log("FAILURE: " + JSON.stringify(error));
-                            return res.status(404).json({
-                                error,
-                                message: 'Comment not updated!',
-                            })
-                        })
+                    })
                 return res.status(200).json({});
             }
             else {
                 console.log("incorrect user!");
-                return res.status(400).json({ 
+                return res.status(400).json({
                     success: false,
-                    errorMessage: "authentication error" 
+                    errorMessage: "authentication error"
                 });
             }
         }
@@ -134,18 +137,19 @@ updateTileMap = async (req, res) => {
 getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
-    const {resources} = await cloudinary.search.expression(search).execute();
-    if(!resources){
+    const { resources } = await cloudinary.search.expression(search).execute();
+    if (!resources) {
         return res.status(404).json({
             errorMessage: 'image not found!',
-    });}
+        });
+    }
     return res.status(201).json({
         resources: resources
     })
 }
 
 updateTileMapImage = async (req, res) => {
-    try{
+    try {
         const fileStr = req.body.data;
         const filename = req.params.id;
         console.log(fileStr);
@@ -158,7 +162,7 @@ updateTileMapImage = async (req, res) => {
             success: true,
             response: uploadedResponse
         })
-    } catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
