@@ -5,7 +5,7 @@ const Community = require('../models/community-model');
 const Access = require('../models/access-model')
 const { cloudinary } = require('../cloudinary');
 getTileMapById = async (req, res) => {
-    console.log("Find Comment with id: " + JSON.stringify(req.params.id));
+    console.log("Find Tilemap with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
     const tilemap = await TileMap.find({ _id: _id }, (err, tilemap) => {
@@ -86,13 +86,13 @@ deleteTileMap = async (req, res) => {
 }
 
 updateTileMap = async (req, res) => {
-    console.log("updating Comment: " + req.params.id);
+    console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
-    Comment.findById({ _id: objectId }, (err, comment) => {
+    Tilemap.findById({ _id: objectId }, (err, comment) => {
         console.log("comment found: " + JSON.stringify(comment));
         if (err) {
             return res.status(404).json({
-                errorMessage: 'Comment not found!',
+                errorMessage: 'Tilemap not found!',
             })
         }
         //can this user update
@@ -118,7 +118,7 @@ updateTileMap = async (req, res) => {
                         console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
-                            message: 'Comment not updated!',
+                            message: 'Tilemap not updated!',
                         })
                     })
                 return res.status(200).json({});
