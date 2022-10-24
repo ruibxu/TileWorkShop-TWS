@@ -148,8 +148,9 @@ changePassword = async (req, res) => {
 updateAccount = async (req, res) => {
     try {
         console.log("updating account")
-        const { email, username, password, passwordVerify } = req.body;
-        if (!email) {
+        const user_id = req.params.id;
+        const { username, password, passwordVerify } = req.body;
+        if (!user_id) {
             return res.status(400).json({ errorMessage: "No user exists" })
         }
         if (!username && !password && !passwordVerify) {
@@ -157,107 +158,46 @@ updateAccount = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "No fields are entered" });
         }
-        if (password.length < 8) {
-            return res
-                .status(400)
-                .json({
-                    errorMessage: "Please enter a password of at least 8 characters."
-                });
-        }
-        if (password !== passwordVerify) {
-            return res
-                .status(201)
-                .json({
-                    errorMessage: "Please enter the same password twice."
+        const user = await User.findOne({ _id: user_id }, (err, user) => {
+            if (err) {
+                return res.status(404).json({
+                    err,
+                    message: "User not found"
                 })
+            }
+        });
+
+        if (password && passwordVerify) {
+            if (password.length < 8) {
+                return res.status(400).json({errorMessage:"Please enter a password of at least 8 characters."});
+            }
+            if (password !== passwordVerify) {
+                return res.status(400).json({errorMessage:"Please enter the same password twice."});
+            }
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const passwordHash = await bcrypt.hash(password, salt);
+            user.passwordHash = passwordHash;
         }
-        if (username && !password || !passwordVerify) {
-            User.findOne({ email: email }, (err, user) => {
-                if (err) {
-                    return res.status(404).json({
-                        err,
-                        message: "User not found"
-                    })
-                }
+
+        if (username) {
+            const existingUser = await User.findOne({ username: username });
+            if (existingUser) {
+                return res.status(400).json({errorMessage:"An account with this username already exists."});
+            } else {
                 console.log("new username: " + username);
                 user.username = username;
-                user.save()
-                    .then(() => {
-                        console.log("Success")
-                        return res.status(200).json({
-                            success: true,
-                            username: username
-                        })
-                    }).catch(error => {
-                        console.log("Failure")
-                        return res.status(404).json({
-                            success: false,
-                            message: "Username not updated."
-                        })
-                    });
-            });
+            }
         }
-
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
-        if (!username && password && passwordVerify) {
-            User.findOne({ email: email }, (err, user) => {
-                if (err) {
-                    return res.status(404).json({
-                        err,
-                        message: "User not found"
-                    })
-                }
-                console.log("passwordHash: " + passwordHash);
-                user.passwordHash = passwordHash;
-                user.save()
-                    .then(() => {
-                        console.log("Success")
-                        return res.status(200).json({
-                            success: true,
-                            passwordHash: passwordHash
-                        })
-                    }).catch(error => {
-                        console.log("Failure")
-                        return res.status(404).json({
-                            success: false,
-                            message: "Password not updated."
-                        })
-                    });
+        user.save().then(() => {
+            return res.status(200).json({
+                message: "Success"
             });
-        }
-
-        if (username && password && passwordVerify) {
-            User.findOne({ email: email }, (err, user) => {
-                if (err) {
-                    return res.status(404).json({
-                        err,
-                        message: "User not found"
-                    })
-                }
-                console.log("username: " + username);
-                console.log("passwordHash: " + passwordHash);
-                user.passwordHash = passwordHash;
-                user.username = username;
-                user.save()
-                    .then(() => {
-                        console.log("Success")
-                        return res.status(200).json({
-                            success: true,
-                            username: username,
-                            passwordHash: passwordHash
-                        })
-                    }).catch(error => {
-                        console.log("Failure")
-                        return res.status(404).json({
-                            success: false,
-                            message: "Fields not updated."
-                        })
-                    });
+        }).catch(err => {
+            return res.status(400).json({
+                errorMessage: "Failed"
             });
-        }
-
+        })
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -298,6 +238,17 @@ registerUser = async (req, res) => {
                 .json({
                     success: false,
                     errorMessage: "An account with this email address already exists."
+                })
+        }
+
+        const existingUser2 = await User.findOne({ username: username });
+        console.log("existingUser: " + existingUser2);
+        if (existingUser2) {
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    errorMessage: "An account with this username already exists."
                 })
         }
 

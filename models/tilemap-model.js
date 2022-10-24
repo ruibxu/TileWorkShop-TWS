@@ -6,19 +6,19 @@ const Number = Schema.Types.Number
 const Access = require('./access-model').schema
 const TileSet = require('./tileset-model').schema
 const Layer = require('./layer-model').schema
+const Community = require('./community-model').schema
 
 const TileMapSchema = new Schema(
     {
         _id: { type: ObjectId, required: true},
         name: {type: String, required: true},
         access: {type: Access, required: true},
-        community_id: { type: ObjectId, required: true},
-        tileset: {type: TileSet},
+        community: { type: Community, required: true},
+        tileset: {type: [TileSet]},
         layers: {type: [Layer], required: true},
         height: {type: Number, required: true},
         width: {type: Number, required: true},
-        dateCreated: { type: Date, required: true},
-        dateUpdated: { type: Date, required: true},
+        lastEdited: {type: Date}
     },
     { timestamps: true },
 )

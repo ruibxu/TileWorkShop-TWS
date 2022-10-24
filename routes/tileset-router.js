@@ -15,4 +15,7 @@ router.delete('/tileset/:id', auth.verify, TileSetController.deleteTileSet)
 router.put('/tileset/image/:id', auth.verify, TileSetController.updateTileSetImage)
 router.delete('/tileset/image/:id', auth.verify, TileSetController.deleteTileSetImage)
 
+router.put('/tileset/access/:id', auth.verify, TileSetController.updateTileSetAccess)
+router.put('/tileset/community/:id', auth.verify, TileSetController.updateTileSetCommunity)
+
 module.exports = router

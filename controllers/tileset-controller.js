@@ -1,10 +1,9 @@
-const { createCommunity, deleteCommunity } = require('./shared-functions');
+const { createCommunity, updateCommunity} = require('./shared-functions');
 
 const TileSet = require('../models/tileset-model');
 const Access = require('../models/access-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
-const Community = require('../models/community-model');
 const { cloudinary } = require('../cloudinary');
 
 getTileSetById = async (req, res) => {
@@ -15,14 +14,8 @@ getTileSetById = async (req, res) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
-    const community_id = new ObjectId(tileset.community_id);
 
-    const community = await Community.find({ community_id: community_id }, (err, community) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found community: " + JSON.stringify(community));
-    }).catch(err => console.log(err));
-
-    return res.status(200).json({ success: true, result: { tileset: tileset, community: community } });
+    return res.status(200).json({ success: true, result: { tileset: tileset} });
 }
 
 createTileSet = async (req, res) => {
@@ -32,8 +25,13 @@ createTileSet = async (req, res) => {
         })
     }
     const data = req.body.data;
+    if(!data.name|| !data.height|| !data.width|| !data.pixel){
+        return res.status(400).json({
+            errorMessage: "Missing Values"
+        })
+    }
     const objectId = new ObjectId();
-    const community_id = await createCommunity("TileSet");
+    const community = createCommunity(0);
     const access = new Access({
         owner_id: req.body.user_id,
         editor_ids: [],
@@ -41,8 +39,9 @@ createTileSet = async (req, res) => {
         public: false
     })
     data._id = objectId;
-    data.community_id = community_id;
+    data.community = community;
     data.access = access;
+    data.lastEdited = Date.now();
     const tileset = new TileSet(data);
     tileset.save()
         .then(() => {
@@ -53,6 +52,7 @@ createTileSet = async (req, res) => {
             })
         })
         .catch(error => {
+            console.log(error)
             return res.status(400).json({
                 errorMessage: 'TileSet Not Created!'
             })
@@ -73,7 +73,6 @@ deleteTileSet = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.body.user_id);
             if (item.access.owner_id.equals(req.body.user_id)) {
-                deleteCommunity(item.community_id);
                 TileSet.findOneAndDelete({ _id: objectId })
                 .then(res.status(200)
                 .json({
@@ -109,8 +108,8 @@ updateTileSet = async (req, res) => {
             console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                item.name = req.body.name;
-                access.public = req.body.public
+                item.lastEdited = Date.now();
+                if(req.body.name){item.name = req.body.name;}
                 //add image update
                 item.save()
                     .then(() => {
@@ -138,6 +137,91 @@ updateTileSet = async (req, res) => {
             }
         }
         matchUser(tileSet);
+    });
+}
+
+updateTileSetAccess = async (req, res) => {
+    console.log("updating tileSet: " + req.params.id);
+    const objectId = req.params.id;
+    TileSet.findById({ _id: objectId }, (err, tileSet) => {
+        console.log("tileSet found: " + JSON.stringify(tileSet));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'TileSet not found!',
+            })
+        }
+        //can this user update
+        async function matchUser(item) {
+            console.log("req.body.userId: " + req.body.user_id);
+            access = item.access;
+            if (access.owner_id.equals(req.body.user_id)) {
+                if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
+                if(req.body.viewer_ids){access.viewer_ids = req.body.viewer_ids}
+                if(req.body.public){access.public = req.body.public}
+                //add image update
+                item.save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: item._id,
+                            message: 'TileSet Access updated!',
+                        })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'TileSet Access not updated!',
+                        })
+                    })
+            }
+            else {
+                console.log("incorrect user!");
+                return res.status(400).json({
+                    success: false,
+                    errorMessage: "authentication error"
+                });
+            }
+        }
+        matchUser(tileSet);
+    });
+}
+
+updateTileSetCommunity = async (req, res) => {
+    console.log("updating tileSet: " + req.params.id);
+    const objectId = req.params.id;
+    TileSet.findById({ _id: objectId }, (err, tileSet) => {
+        console.log("tileSet found: " + JSON.stringify(tileSet));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'TileSet not found!',
+            })
+        }
+        //can this user update
+        async function editCommunity(item){
+            const body = req.body;
+            const community = item.community;
+            const newCommunity = updateCommunity(community, body);
+            item.community = newCommunity;
+            item.save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: item._id,
+                            message: 'TileSet Community updated!',
+                        })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'TileSet Community not updated!',
+                        })
+                })
+        }
+        editCommunity(tileSet)
     });
 }
 
@@ -197,5 +281,7 @@ module.exports = {
     updateTileSet,
     getTileSetImage,
     updateTileSetImage,
-    deleteTileSetImage
+    deleteTileSetImage,
+    updateTileSetAccess,
+    updateTileSetCommunity
 }
