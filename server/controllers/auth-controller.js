@@ -166,59 +166,38 @@ updateAccount = async (req, res) => {
                 })
             }
         });
-        console.log(user)
-        const result = {
-            UsernameSuccess: false,
-            PasswordSuccess: false,
-            UsernameMessage: "No Action Taken",
-            PasswordMessage: "No Action Taken"
-        }
 
-        if(password && passwordVerify){
+        if (password && passwordVerify) {
             if (password.length < 8) {
-                result.PasswordMessage = "Please enter a password of at least 8 characters.";
-                return res
-                    .status(400)
-                    .json(result);
+                return res.status(400).json({errorMessage:"Please enter a password of at least 8 characters."});
             }
             if (password !== passwordVerify) {
-                result.PasswordMessage = "Please enter the same password twice.";
-                return res
-                    .status(201)
-                    .json(result);
+                return res.status(400).json({errorMessage:"Please enter the same password twice."});
             }
             const saltRounds = 10;
             const salt = await bcrypt.genSalt(saltRounds);
             const passwordHash = await bcrypt.hash(password, salt);
             user.passwordHash = passwordHash;
-            user.save().then(() => {
-                console.log("Success")
-            }).catch(error => {
-                result.PasswordMessage = "Password Not Updated";
-                return res.status(400).json(result);
-            })
-            result.PasswordSuccess = true;
-            result.PasswordMessage = "Password Successfully Updated";
         }
 
-        if (username){
+        if (username) {
             const existingUser = await User.findOne({ username: username });
-            if(existingUser){
-                result.UsernameMessage = "An account with this username already exists.";
-                return res.status(400).json(result);
+            if (existingUser) {
+                return res.status(400).json({errorMessage:"An account with this username already exists."});
+            } else {
+                console.log("new username: " + username);
+                user.username = username;
             }
-            console.log("new username: " + username);
-            user.username = username;
-            user.save().then(() => {
-                console.log("Success")
-            }).catch(error => {
-                result.UsernameMessage = "Username Not Updated";
-                return res.status(400).json(result);
-            })
-            result.UsernameSuccess = true;
-            result.UsernameMessage = "Username Successfully Updated";
         }
-        return res.status(200).json(result);
+        user.save().then(() => {
+            return res.status(200).json({
+                message: "Success"
+            });
+        }).catch(err => {
+            return res.status(400).json({
+                errorMessage: "Failed"
+            });
+        })
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -262,7 +241,7 @@ registerUser = async (req, res) => {
                 })
         }
 
-        const existingUser2 = await User.findOne({username: username});
+        const existingUser2 = await User.findOne({ username: username });
         console.log("existingUser: " + existingUser2);
         if (existingUser2) {
             return res
