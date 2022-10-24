@@ -22,12 +22,12 @@ updateCommunity = async (community, body) => {
         }
         else{
             community.liked_Users.push(user_id);
-            community.disliked_Users = community.liked_Users.filter(x => x !== user_id);
+            community.disliked_Users = community.disliked_Users.filter(x => x !== user_id);
         }
     }
     if(body.new_disliked_user){
         if(community.disliked_Users.contains(user_id)){
-            community.disliked_Users = community.liked_Users.filter(x => x !== user_id);
+            community.disliked_Users = community.disliked_Users.filter(x => x !== user_id);
         }
         else{
             community.disliked_Users.push(user_id);
@@ -36,7 +36,7 @@ updateCommunity = async (community, body) => {
     }
     if(body.new_favorite_user){
         if(community.favorite_Users.contains(user_id)){
-            community.favorite_Users = community.liked_Users.filter(x => x !== user_id);
+            community.favorite_Users = community.favorite_Users.filter(x => x !== user_id);
         }
         else{
             community.favorite_Users.push(user_id);
