@@ -100,6 +100,7 @@ updateTileMap = async (req, res) => {
             console.log("req.userId: " + req.user_id);
             access = item.access;
             if (access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)) {
+                item.name = req.body.name;
                 item.height = req.body.height;
                 item.width = req.body.width;
                 item.layers = req.body.layers;
