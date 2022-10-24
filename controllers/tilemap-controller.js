@@ -32,9 +32,9 @@ createTileMap = async (req, res) => {
     const objectId = new ObjectId();
     const community_id = createCommunity("TileMap");
     const access = new Access({
-        owner_Id: req.body.user_id,
-        editor_Ids: [],
-        viewer_Ids: [],
+        owner_id: req.body.user_id,
+        editor_ids: [],
+        viewer_ids: [],
         public: false
     })
     data._id = objectId;
@@ -134,7 +134,7 @@ updateTileMap = async (req, res) => {
 getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
-    const {resources} = await cloudinary.search.expression(search);
+    const {resources} = await cloudinary.search.expression(search).execute();
     if(!resources){
         return res.status(404).json({
             errorMessage: 'image not found!',
@@ -165,7 +165,7 @@ updateTileMapImage = async (req, res) => {
 
 deleteTileMapImage = async (req, res) => {
     const public_id = req.params.id;
-    const search = `public_id:TileMap_Uses/${public_id}`;
+    const search = `TileMap_Uses/${public_id}`;
     const {resources} = await cloudinary.uploader.destroy(search);
     if(!resources){
         return res.status(404).json({
