@@ -1,4 +1,4 @@
-const { createCommunity} = require('./shared-functions');
+const { createCommunity, updateCommunity} = require('./shared-functions');
 const Comment = require('../models/comment-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -123,10 +123,48 @@ updateComment = async (req, res) => {
     });
 }
 
+updateCommentCommunity = async (req, res) => {
+    console.log("updating Comment: " + req.params.id);
+    const objectId = req.params.id;
+    Comment.findById({ _id: objectId }, (err, comment) => {
+        console.log("comment found: " + JSON.stringify(comment));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'comment not found!',
+            })
+        }
+        //can this user update
+        async function editCommunity(item){
+            const body = req.body;
+            const community = item.community;
+            const newCommunity = updateCommunity(community, body);
+            item.community = newCommunity;
+            item.save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: item._id,
+                            message: 'Comment Community updated!',
+                        })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'Comment Community not updated!',
+                        })
+                })
+        }
+        editCommunity(comment)
+    });
+}
+
 module.exports = {
     getCommentById,
     getCommentsByLink,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    updateCommentCommunity
 }

@@ -8,6 +8,6 @@ const CommunityController = require('../controllers/community-controller')
 // router.get('/community', auth.verify, CommunityController.getCommunitiesByIds)
 
 //mutations
-router.put('/community/:id', auth.verify, CommunityController.updateCommunity)
+//router.put('/community/:id', auth.verify, CommunityController.updateCommunity)
 
 module.exports = router
