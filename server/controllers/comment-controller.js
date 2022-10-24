@@ -42,7 +42,7 @@ createComment = async (req, res) => {
         link_id: new ObjectId(body.link_id),
         content: body.content,
         community: community,
-        lastEdited : Date.now,
+        lastEdited : Date.now(),
         dateCreated: new Date(),
         dateUpdated: new Date(),
     });
@@ -94,7 +94,7 @@ updateComment = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
             if (item.user_id == req.user_id) {
-                item.lastEdited = Date.now;
+                item.lastEdited = Date.now();
                 item.content = content;
                 item.save().then(() => {
                     console.log("SUCCESS!!!");

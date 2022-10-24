@@ -35,7 +35,7 @@ createTileMap = async (req, res) => {
     data._id = objectId;
     data.community = community;
     data.access = access;
-    data.lastEdited = Date.now;
+    data.lastEdited = Date.now();
     const tilemap = new TileMap(data);
     console.log(tilemap)
     tilemap.save().then(() => {
@@ -97,7 +97,7 @@ updateTileMap = async (req, res) => {
             console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                item.lastEdited = Date.now;
+                item.lastEdited = Date.now();
                 if(req.body.name){item.name = req.body.name;}
                 if(req.body.height){item.height = req.body.height;}
                 if(req.body.width){item.width = req.body.width;}

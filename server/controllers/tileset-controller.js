@@ -41,7 +41,7 @@ createTileSet = async (req, res) => {
     data._id = objectId;
     data.community = community;
     data.access = access;
-    data.lastEdited = Date.now;
+    data.lastEdited = Date.now();
     const tileset = new TileSet(data);
     tileset.save()
         .then(() => {
@@ -52,6 +52,7 @@ createTileSet = async (req, res) => {
             })
         })
         .catch(error => {
+            console.log(error)
             return res.status(400).json({
                 errorMessage: 'TileSet Not Created!'
             })
@@ -107,7 +108,7 @@ updateTileSet = async (req, res) => {
             console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                item.lastEdited = Date.now;
+                item.lastEdited = Date.now();
                 if(req.body.name){item.name = req.body.name;}
                 //add image update
                 item.save()
