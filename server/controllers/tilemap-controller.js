@@ -67,12 +67,15 @@ deleteTileMap = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
-            if (item.access.owner_id == req.user_id) {
+            console.log("req.userId: " + req.body.user_id);
+            if (item.access.owner_id.equals(req.body.user_id)) {
                 deleteCommunity(item.community_id);
                 TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
-                return res.status(200).json({});
+                return res.status(200).json({
+                    sucess: true,
+                    message: "TileMap Deleted"
+                });
             }
             else {
                 console.log("incorrect user!");
@@ -97,14 +100,23 @@ updateTileMap = async (req, res) => {
         }
         //can this user update
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
+            console.log("req.userId: " + req.body.user_id);
             access = item.access;
+<<<<<<< HEAD
             if (access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)) {
                 if(req.body.name){item.name = req.body.name;}
                 if(req.body.height){item.height = req.body.height;}
                 if(req.body.width){item.width = req.body.width;}
                 if(req.body.layers){item.layers = req.body.layers;}
                 if(req.body.tileSet){item.tileSet = req.body.tileSet;}
+=======
+            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
+                item.name = req.body.name;
+                item.height = req.body.height;
+                item.width = req.body.width;
+                item.layers = req.body.layers;
+                item.tileSet = req.body.tileSet;
+>>>>>>> f75cbc2d94ec41a075c8e816594d7f9486b6bfb0
                 //add tileset image update later
                 item.save().then(() => {
                     console.log("SUCCESS!!!");
