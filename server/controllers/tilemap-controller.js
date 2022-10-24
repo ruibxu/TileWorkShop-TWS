@@ -67,12 +67,15 @@ deleteTileMap = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
-            if (item.access.owner_id == req.user_id) {
+            console.log("req.userId: " + req.body.user_id);
+            if (item.access.owner_id.equals(req.body.user_id)) {
                 deleteCommunity(item.community_id);
                 TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
-                return res.status(200).json({});
+                return res.status(200).json({
+                    sucess: true,
+                    message: "TileMap Deleted"
+                });
             }
             else {
                 console.log("incorrect user!");
@@ -97,9 +100,9 @@ updateTileMap = async (req, res) => {
         }
         //can this user update
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
+            console.log("req.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)) {
+            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.name = req.body.name;
                 item.height = req.body.height;
                 item.width = req.body.width;
