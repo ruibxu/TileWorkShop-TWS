@@ -160,7 +160,6 @@ updateTileSetAccess = async (req, res) => {
             console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id)) {
-                if(req.body.owner_id){access.owner_id = req.body.owner_id}
                 if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
                 if(req.body.viewer_ids){access.viewer_ids = req.body.viewer_ids}
                 if(req.body.public){access.public = req.body.public}

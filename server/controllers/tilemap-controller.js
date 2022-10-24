@@ -152,7 +152,6 @@ updateTileMapAccess = async (req, res) => {
             console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id)) {
-                if(req.body.owner_id){access.owner_id = req.body.owner_id}
                 if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
                 if(req.body.viewer_ids){access.viewer_ids = req.body.viewer_ids}
                 if(req.body.public){access.public = req.body.public}
@@ -162,7 +161,7 @@ updateTileMapAccess = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
-                        message: 'Top 5 List updated!',
+                        message: 'Tilemap updated!',
                     })
                 })
                     .catch(error => {
@@ -172,7 +171,6 @@ updateTileMapAccess = async (req, res) => {
                             message: 'Tilemap not updated!',
                         })
                     })
-                return res.status(200).json({});
             }
             else {
                 console.log("incorrect user!");
