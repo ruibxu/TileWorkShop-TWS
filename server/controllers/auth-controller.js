@@ -158,7 +158,7 @@ updateAccount = async (req, res) => {
                 .status(400)
                 .json({ errorMessage: "No fields are entered" });
         }
-        const user = User.findOne({ _id: user_id }, (err, user) => {
+        const user = await User.findOne({ _id: user_id }, (err, user) => {
             if (err) {
                 return res.status(404).json({
                     err,
@@ -166,6 +166,7 @@ updateAccount = async (req, res) => {
                 })
             }
         });
+        console.log(user)
         const result = {
             UsernameSuccess: false,
             PasswordSuccess: false,
