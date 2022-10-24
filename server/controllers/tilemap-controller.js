@@ -88,8 +88,8 @@ deleteTileMap = async (req, res) => {
 updateTileMap = async (req, res) => {
     console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
-    Tilemap.findById({ _id: objectId }, (err, comment) => {
-        console.log("comment found: " + JSON.stringify(comment));
+    Tilemap.findById({ _id: objectId }, (err, tilemap) => {
+        console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'Tilemap not found!',
@@ -131,7 +131,7 @@ updateTileMap = async (req, res) => {
                 });
             }
         }
-        matchUser(comment);
+        matchUser(tilemap);
     });
 }
 
