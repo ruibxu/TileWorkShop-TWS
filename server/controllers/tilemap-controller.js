@@ -138,6 +138,55 @@ updateTileMap = async (req, res) => {
     });
 }
 
+updateTileMapAccess = async (req, res) => {
+    console.log("updating Tilemap: " + req.params.id);
+    const objectId = req.params.id;
+    Tilemap.findById({ _id: objectId }, (err, tilemap) => {
+        console.log("tilemap found: " + JSON.stringify(tilemap));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'Tilemap not found!',
+            })
+        }
+        //can this user update
+        async function matchUser(item) {
+            console.log("req.userId: " + req.body.user_id);
+            access = item.access;
+            if (access.owner_id.equals(req.body.user_id)) {
+                if(req.body.owner_id){access.owner_id = req.body.owner_id}
+                if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
+                if(req.body.viewer_ids){access.viewer_ids = req.body.viewer_ids}
+                if(req.body.public){access.public = req.body.public}
+                //add tileset image update later
+                item.save().then(() => {
+                    console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: item._id,
+                        message: 'Top 5 List updated!',
+                    })
+                })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'Tilemap not updated!',
+                        })
+                    })
+                return res.status(200).json({});
+            }
+            else {
+                console.log("incorrect user!");
+                return res.status(400).json({
+                    success: false,
+                    errorMessage: "authentication error"
+                });
+            }
+        }
+        matchUser(tilemap);
+    });
+}
+
 getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
