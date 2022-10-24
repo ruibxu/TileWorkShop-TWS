@@ -181,9 +181,6 @@ updateAccount = async (req, res) => {
         }
 
         if (username) {
-            if(username.length <= 0){
-                return res.status(400).json({errorMessage:"Please enter a valid username"});
-            }
             const existingUser = await User.findOne({ username: username });
             if (existingUser) {
                 return res.status(400).json({errorMessage:"An account with this username already exists."});
