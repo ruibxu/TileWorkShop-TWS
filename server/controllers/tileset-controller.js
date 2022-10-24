@@ -41,6 +41,7 @@ createTileSet = async (req, res) => {
     data._id = objectId;
     data.community = community;
     data.access = access;
+    data.lastEdited = Date.now;
     const tileset = new TileSet(data);
     tileset.save()
         .then(() => {

@@ -35,6 +35,7 @@ createTileMap = async (req, res) => {
     data._id = objectId;
     data.community = community;
     data.access = access;
+    data.lastEdited = Date.now;
     const tilemap = new TileMap(data);
     console.log(tilemap)
     tilemap.save().then(() => {

@@ -42,6 +42,7 @@ createComment = async (req, res) => {
         link_id: new ObjectId(body.link_id),
         content: body.content,
         community: community,
+        lastEdited : Date.now,
         dateCreated: new Date(),
         dateUpdated: new Date(),
     });
