@@ -13,27 +13,27 @@ updateCommunity = async (req, res) => {
             })
         }});
     console.log("Community found: " + JSON.stringify(community));
-    if (listtype == "liked_Users"){
+    if (listtype === "liked_Users"){
         if(community.liked_Users.contains(user_id)){
-            community.liked_Users = community.liked_Users.filter(x => x != user_id);
+            community.liked_Users = community.liked_Users.filter(x => x !== user_id);
         }
         else{
             community.liked_Users.push(user_id);
-            community.disliked_Users = community.liked_Users.filter(x => x != user_id);
+            community.disliked_Users = community.liked_Users.filter(x => x !== user_id);
         }
     }
     if (listtype == "disliked_Users"){
         if(community.disliked_Users.contains(user_id)){
-            community.disliked_Users = community.liked_Users.filter(x => x != user_id);
+            community.disliked_Users = community.liked_Users.filter(x => x !== user_id);
         }
         else{
             community.disliked_Users.push(user_id);
-            community.liked_Users = community.liked_Users.filter(x => x != user_id);
+            community.liked_Users = community.liked_Users.filter(x => x !== user_id);
         }
     }
     if (listtype == "favorite_Users"){
         if(community.favorite_Users.contains(user_id)){
-            community.favorite_Users = community.liked_Users.filter(x => x != user_id);
+            community.favorite_Users = community.liked_Users.filter(x => x !== user_id);
         }
         else{
             community.favorite_Users.push(user_id);
