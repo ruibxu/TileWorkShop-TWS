@@ -171,6 +171,11 @@ updateAccount = async (req, res) => {
                     errorMessage: "Please enter the same password twice."
                 })
         }
+
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(password, salt);
+        
         if (username && !password || !passwordVerify) {
             User.findOne({ email: email }, (err, user) => {
                 if (err) {
@@ -198,9 +203,7 @@ updateAccount = async (req, res) => {
             });
         }
 
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
+        
         if (!username && password && passwordVerify) {
             User.findOne({ email: email }, (err, user) => {
                 if (err) {
@@ -290,7 +293,7 @@ registerUser = async (req, res) => {
                 })
         }
         console.log("password and password verify match");
-        const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({$or:[{ email: email },{username: username}]});
         console.log("existingUser: " + existingUser);
         if (existingUser) {
             return res
