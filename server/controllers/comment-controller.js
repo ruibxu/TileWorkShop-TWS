@@ -99,7 +99,7 @@ updateComment = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
-                        message: 'Top 5 List updated!',
+                        message: 'Comment updated!',
                     })
                 })
                     .catch(error => {
