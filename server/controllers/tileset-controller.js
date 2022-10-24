@@ -1,4 +1,4 @@
-const { createCommunity, deleteCommunity } = require('./shared-functions');
+const { createCommunity} = require('./shared-functions');
 
 const TileSet = require('../models/tileset-model');
 const Access = require('../models/access-model');
