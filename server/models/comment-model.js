@@ -13,6 +13,7 @@ const CommentSchema = new Schema(
         community: { type: Community, required: true},
         dateCreated: { type: Date, required: true},
         dateUpdated: { type: Date, required: true},
+        lastEdited: {type: Date}
     },
     { timestamps: true },
 )

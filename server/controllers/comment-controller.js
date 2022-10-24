@@ -93,6 +93,7 @@ updateComment = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
             if (item.user_id == req.user_id) {
+                item.lastEdited = Date.now;
                 item.content = content;
                 item.save().then(() => {
                     console.log("SUCCESS!!!");

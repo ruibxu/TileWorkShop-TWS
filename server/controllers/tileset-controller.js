@@ -106,6 +106,7 @@ updateTileSet = async (req, res) => {
             console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
+                item.lastEdited = Date.now;
                 if(req.body.name){item.name = req.body.name;}
                 //add image update
                 item.save()
