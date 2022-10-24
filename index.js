@@ -23,7 +23,7 @@ app.use(cookieParser())
 //app.use(express.static(path.join(__dirname, "client", "build")));
 
 /*
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:3000',
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/TWS',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
