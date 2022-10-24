@@ -71,12 +71,17 @@ deleteTileSet = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
-            if (item.access.owner_id == req.user_id) {
+            console.log("req.userId: " + req.body.user_id);
+            if (item.access.owner_id.equals(req.body.user_id)) {
                 deleteCommunity(item.community_id);
-                TileSet.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
+                TileSet.findOneAndDelete({ _id: objectId })
+                .then(res.status(200)
+                .json({
+                    success: true,
+                    message: "TileSet Deleted"
+                }))
+                .catch(err => console.log(err));
                 //remember to delete from cloudinary
-                return res.status(200).json({});
             }
             else {
                 console.log("incorrect user!");
@@ -103,10 +108,9 @@ updateTileSet = async (req, res) => {
         async function matchUser(item) {
             console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
-            console.log("access " + access.owner_id)
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.name = req.body.name;
-
+                access.public = req.body.public
                 //add image update
                 item.save()
                     .then(() => {
@@ -140,7 +144,8 @@ updateTileSet = async (req, res) => {
 getTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
-    const { resources } = await cloudinary.search.expression(search);
+    console.log(search)
+    const { resources } = await cloudinary.search.expression(search).execute();
     if (!resources) {
         return res.status(404).json({
             errorMessage: 'image not found!',
@@ -155,12 +160,12 @@ updateTileSetImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const filename = req.params.id;
-        console.log(fileStr);
+        // console.log(fileStr);
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'TileSet_Editor_Upload',
             public_id: filename
         });
-        console.log(uploadedResponse);
+        // console.log(uploadedResponse);
         return res.status(200).json({
             success: true,
             response: uploadedResponse
@@ -172,9 +177,10 @@ updateTileSetImage = async (req, res) => {
 
 deleteTileSetImage = async (req, res) => {
     const public_id = req.params.id;
-    const search = `public_id:TileSet_Editor/${public_id}`;
-    const { resources } = await cloudinary.uploader.destroy(search);
-    if (!resources) {
+    const search = `TileSet_Editor/${public_id}`;
+    console.log(search)
+    const resources  = await cloudinary.uploader.destroy(search);
+    if (resources.result === "not found") {
         return res.status(404).json({
             errorMessage: 'image not found!',
         });
