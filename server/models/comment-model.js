@@ -11,8 +11,6 @@ const CommentSchema = new Schema(
         link_id: { type: ObjectId, required: true},
         content: { type: String, required: true},
         community: { type: Community, required: true},
-        dateCreated: { type: Date, required: true},
-        dateUpdated: { type: Date, required: true},
         lastEdited: {type: Date}
     },
     { timestamps: true },

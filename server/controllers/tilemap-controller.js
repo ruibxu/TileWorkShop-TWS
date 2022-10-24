@@ -135,7 +135,7 @@ updateTileMap = async (req, res) => {
 updateTileMapAccess = async (req, res) => {
     console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
-    Tilemap.findById({ _id: objectId }, (err, tilemap) => {
+    TileMap.findById({ _id: objectId }, (err, tilemap) => {
         console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
             return res.status(404).json({

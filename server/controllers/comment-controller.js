@@ -2,7 +2,6 @@ const { createCommunity, updateCommunity} = require('./shared-functions');
 const Comment = require('../models/comment-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
-const Date = require('mongoose').Types.Date;
 
 getCommentById = async (req, res) => {
     console.log("Find Comment with id: " + JSON.stringify(req.params.id));
@@ -43,8 +42,6 @@ createComment = async (req, res) => {
         content: body.content,
         community: community,
         lastEdited : Date.now(),
-        dateCreated: new Date(),
-        dateUpdated: new Date(),
     });
     const updated = comment.save();
     if (!updated) { return res.status(400).json({ errorMessage: 'Comment Not Created!' }); }
@@ -63,10 +60,12 @@ deleteComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
-            if (item.user_id == req.user_id) {
+            console.log("req.userId: " + req.body.user_id);
+            if (item.user_id.equals(req.body.user_id)) {
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
-                return res.status(200).json({});
+                return res.status(200).json({
+                    message: "Comment Deleted"
+                });
             }
             else {
                 console.log("incorrect user!");
@@ -92,8 +91,8 @@ updateComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.user_id);
-            if (item.user_id == req.user_id) {
+            console.log("req.userId: " + req.body.user_id);
+            if (item.user_id.equals(req.body.user_id)) {
                 item.lastEdited = Date.now();
                 item.content = content;
                 item.save().then(() => {
@@ -111,7 +110,6 @@ updateComment = async (req, res) => {
                             message: 'Comment not updated!',
                         })
                     })
-                return res.status(200).json({});
             }
             else {
                 console.log("incorrect user!");
