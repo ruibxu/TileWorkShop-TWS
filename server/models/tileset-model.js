@@ -7,13 +7,13 @@ const Access = require('./access-model').schema
 
 const TileSetSchema = new Schema(
     {
-        _id: { type: ObjectId},
-        name: {type: String},
+        _id: { type: ObjectId, required: true},
+        name: {type: String, required: true},
         access: {type: Access},
         community_id: { type: ObjectId},
-        height: {type: Number},
-        width: {type: Number},
-        pixel: {type: Number}
+        height: {type: Number, required: true},
+        width: {type: Number, required: true},
+        pixel: {type: Number, required: true},
 
     },
     { timestamps: true },
