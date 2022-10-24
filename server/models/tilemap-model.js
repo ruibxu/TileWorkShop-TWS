@@ -13,7 +13,7 @@ const TileMapSchema = new Schema(
         _id: { type: ObjectId, required: true},
         name: {type: String, required: true},
         access: {type: Access, required: true},
-        Community: { type: Community, required: true},
+        community: { type: Community, required: true},
         tileset: {type: [TileSet]},
         layers: {type: [Layer], required: true},
         height: {type: Number, required: true},

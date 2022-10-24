@@ -11,7 +11,7 @@ const TileSetSchema = new Schema(
         _id: { type: ObjectId, required: true},
         name: {type: String, required: true},
         access: {type: Access},
-        Community: { type: Community},
+        community: { type: Community},
         height: {type: Number, required: true},
         width: {type: Number, required: true},
         pixel: {type: Number, required: true},
