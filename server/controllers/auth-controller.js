@@ -198,6 +198,7 @@ updateAccount = async (req, res) => {
                 return res.status(400).json(result);
             })
             result.PasswordSuccess = true;
+            result.PasswordMessage = "Password Successfully Updated";
         }
 
         if (username){
@@ -215,6 +216,7 @@ updateAccount = async (req, res) => {
                 return res.status(400).json(result);
             })
             result.UsernameSuccess = true;
+            result.UsernameMessage = "Username Successfully Updated";
         }
         return res.status(200).json(result);
     } catch (err) {
