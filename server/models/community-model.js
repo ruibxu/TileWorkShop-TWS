@@ -4,10 +4,10 @@ const ObjectId = Schema.Types.ObjectId
 const Number = Schema.Types.Number
 const CommunitySchema = new Schema(
     {
-        liked_User: { type: [ObjectId]},
-        disliked_User: { type: [ObjectId]},
-        favorited_User: { type: [ObjectId]},
-        view: { type: Number }
+        liked_Users: { type: [ObjectId]},
+        disliked_Users: { type: [ObjectId]},
+        favorited_Users: { type: [ObjectId]},
+        views: { type: Number }
     }
 )
 
