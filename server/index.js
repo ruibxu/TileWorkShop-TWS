@@ -27,8 +27,6 @@ const tilesetRouter = require('./routes/tileset-router')
 app.use('/api', tilesetRouter)
 const commentRouter = require('./routes/comment-router')
 app.use('/api', commentRouter)
-const communityRouter = require('./routes/community-router')
-app.use('/api', communityRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db/database')
