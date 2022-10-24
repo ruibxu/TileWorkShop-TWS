@@ -39,7 +39,7 @@ createComment = async (req, res) => {
     const comment = new Comment({
         _id: new ObjectId(),
         user_id: new ObjectId(body.user_id),
-        link_id: new ObjectId(link.link_id),
+        link_id: new ObjectId(body.link_id),
         content: body.content,
         community: community,
         dateCreated: new Date(),
@@ -47,7 +47,7 @@ createComment = async (req, res) => {
     });
     const updated = comment.save();
     if (!updated) { return res.status(400).json({ errorMessage: 'Comment Not Created!' }); }
-    return res.status(200).json({ success: true, result: { comment: comment, community: community_id } });
+    return res.status(200).json({ success: true, result: { comment: comment, community: community } });
 }
 
 deleteComment = async (req, res) => {
