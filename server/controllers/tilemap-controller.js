@@ -91,7 +91,7 @@ deleteTileMap = async (req, res) => {
 updateTileMap = async (req, res) => {
     console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
-    Tilemap.findById({ _id: objectId }, (err, tilemap) => {
+    TileMap.findById({ _id: objectId }, (err, tilemap) => {
         console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
             return res.status(404).json({
@@ -114,17 +114,16 @@ updateTileMap = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
-                        message: 'Top 5 List updated!',
+                        message: 'Tilemap updated!',
                     })
                 })
                     .catch(error => {
                         console.log("FAILURE: " + JSON.stringify(error));
-                        return res.status(404).json({
+                        return res.status(400).json({
                             error,
                             message: 'Tilemap not updated!',
                         })
                     })
-                return res.status(200).json({});
             }
             else {
                 console.log("incorrect user!");

@@ -115,7 +115,6 @@ updateTileSet = async (req, res) => {
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.name = req.body.name;
-                access.public = req.body.public
                 //add image update
                 item.save()
                     .then(() => {
