@@ -2,7 +2,7 @@ const Community = require('../models/community-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 createCommunity = async (type) => {
-    const community = (type == "comment")?new Community({
+    const community = (type == 1)?new Community({
         liked_User: [],
         disliked_User: []
     }):

@@ -2,7 +2,6 @@ const { createCommunity} = require('./shared-functions');
 const TileMap = require('../models/tilemap-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
-const Community = require('../models/community-model');
 const Access = require('../models/access-model')
 const { cloudinary } = require('../cloudinary');
 getTileMapById = async (req, res) => {
@@ -13,14 +12,8 @@ getTileMapById = async (req, res) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found tilemap: " + JSON.stringify(tilemap));
     }).catch(err => console.log(err));
-    const community_id = new ObjectId(tilemap.community_id);
 
-    const community = await Community.find({ community_id: community_id }, (err, community) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found community: " + JSON.stringify(community));
-    }).catch(err => console.log(err));
-
-    return res.status(200).json({ success: true, result: { tilemap: tilemap, community: community } });
+    return res.status(200).json({ success: true, result: { tilemap: tilemap} });
 }
 
 createTileMap = async (req, res) => {
@@ -32,7 +25,7 @@ createTileMap = async (req, res) => {
     const data = req.body.data;
 
     const objectId = new ObjectId();
-    const community_id = await createCommunity("TileMap");
+    const community = createCommunity(0);
     const access = new Access({
         owner_id: req.body.user_id,
         editor_ids: [],
@@ -40,7 +33,7 @@ createTileMap = async (req, res) => {
         public: false
     })
     data._id = objectId;
-    data.community_id = community_id;
+    data.community = community;
     data.access = access;
     const tilemap = new TileMap(data);
     console.log(tilemap)
@@ -70,7 +63,6 @@ deleteTileMap = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.body.user_id);
             if (item.access.owner_id.equals(req.body.user_id)) {
-                deleteCommunity(item.community_id);
                 TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
                 return res.status(200).json({

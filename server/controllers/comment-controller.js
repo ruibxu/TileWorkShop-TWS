@@ -1,6 +1,5 @@
-const { createCommunity, deleteCommunity } = require('./shared-functions');
+const { createCommunity} = require('./shared-functions');
 const Comment = require('../models/comment-model');
-const Community = require('../models/community-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Date = require('mongoose').Types.Date;
@@ -13,14 +12,8 @@ getCommentById = async (req, res) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
         console.log("Found comment: " + JSON.stringify(comment));
     }).catch(err => console.log(err));
-    const community_id = new ObjectId(comment.community_id);
 
-    const community = await Community.find({ community_id: community_id }, (err, community) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found comment: " + JSON.stringify(community));
-    }).catch(err => console.log(err));
-
-    return res.status(200).json({ success: true, result: { comment: comment, community: community } });
+    return res.status(200).json({ success: true, result: { comment: comment } });
 }
 
 getCommentsByLink = async (req, res) => {
@@ -32,18 +25,7 @@ getCommentsByLink = async (req, res) => {
         console.log("Found comment: " + JSON.stringify(comments));
     }).catch(err => console.log(err));
 
-    const community_ids = comment_list.map(x => new ObjectId(x.community_id));
-    const communities = await Community.find({ _id: { $in: community_ids } }, (err, community) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found comment: " + JSON.stringify(community));
-    }).catch(err => console.log(err));
-
-    const pairs = comment_list.map(x => ({
-        comment: x,
-        community: communities.find(y => y._id == x.community_id),
-    }));
-
-    return res.status(200).json({ success: true, result: pairs });
+    return res.status(200).json({ success: true, result: comment_list });
 }
 
 createComment = async (req, res) => {
@@ -53,13 +35,13 @@ createComment = async (req, res) => {
             errorMessage: 'Improperly formatted request',
         })
     }
-    const community_id = createCommunity("Comment");
+    const community = createCommunity(1);
     const comment = new Comment({
         _id: new ObjectId(),
         user_id: new ObjectId(body.user_id),
         link_id: new ObjectId(link.link_id),
         content: body.content,
-        community_id: community_id,
+        community: community,
         dateCreated: new Date(),
         dateUpdated: new Date(),
     });
@@ -82,7 +64,6 @@ deleteComment = async (req, res) => {
         async function matchUser(item) {
             console.log("req.userId: " + req.user_id);
             if (item.user_id == req.user_id) {
-                deleteCommunity(item.community_id);
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 return res.status(200).json({});
             }
