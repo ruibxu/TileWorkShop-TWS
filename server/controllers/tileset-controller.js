@@ -241,5 +241,6 @@ module.exports = {
     updateTileSet,
     getTileSetImage,
     updateTileSetImage,
-    deleteTileSetImage
+    deleteTileSetImage,
+    updateTileSetAccess
 }
