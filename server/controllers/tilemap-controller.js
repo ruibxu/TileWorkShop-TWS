@@ -231,5 +231,6 @@ module.exports = {
     updateTileMap,
     getTileMapImage,
     updateTileMapImage,
-    deleteTileMapImage
+    deleteTileMapImage,
+    updateTileMapAccess
 }
