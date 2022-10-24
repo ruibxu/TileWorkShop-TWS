@@ -100,11 +100,11 @@ updateTileMap = async (req, res) => {
             console.log("req.userId: " + req.user_id);
             access = item.access;
             if (access.owner_id == req.user_id || access.editor_ids.includes(req.user_id)) {
-                item.name = req.body.name;
-                item.height = req.body.height;
-                item.width = req.body.width;
-                item.layers = req.body.layers;
-                item.tileSet = req.body.tileSet;
+                if(req.body.name){item.name = req.body.name;}
+                if(req.body.height){item.height = req.body.height;}
+                if(req.body.width){item.width = req.body.width;}
+                if(req.body.layers){item.layers = req.body.layers;}
+                if(req.body.tileSet){item.tileSet = req.body.tileSet;}
                 //add tileset image update later
                 item.save().then(() => {
                     console.log("SUCCESS!!!");
