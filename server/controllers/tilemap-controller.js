@@ -166,11 +166,12 @@ updateTileMapImage = async (req, res) => {
 deleteTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileMap_Uses/${public_id}`;
-    const {resources} = await cloudinary.uploader.destroy(search);
-    if(!resources){
+    const resources = await cloudinary.uploader.destroy(search);
+    if (resources.result === "not found") {
         return res.status(404).json({
             errorMessage: 'image not found!',
-    });}
+        });
+    }
     return res.status(201).json({
         Message: 'image deleted'
     })
