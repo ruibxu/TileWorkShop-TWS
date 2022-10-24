@@ -1,4 +1,4 @@
-const { createCommunity} = require('./shared-functions');
+const { createCommunity, updateCommunity} = require('./shared-functions');
 const TileMap = require('../models/tilemap-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -177,6 +177,43 @@ updateTileMapAccess = async (req, res) => {
     });
 }
 
+updateTileMapCommunity = async (req, res) => {
+    console.log("updating TileMap: " + req.params.id);
+    const objectId = req.params.id;
+    TileMap.findById({ _id: objectId }, (err, tileMap) => {
+        console.log("tileMap found: " + JSON.stringify(tileMap));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'TileMap not found!',
+            })
+        }
+        //can this user update
+        async function editCommunity(item){
+            const body = req.body;
+            const community = item.community;
+            const newCommunity = updateCommunity(community, body);
+            item.community = newCommunity;
+            item.save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: item._id,
+                            message: 'TileMap Community updated!',
+                        })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'TileMap Community not updated!',
+                        })
+                })
+        }
+        editCommunity(tileMap)
+    });
+}
+
 getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
@@ -232,5 +269,6 @@ module.exports = {
     getTileMapImage,
     updateTileMapImage,
     deleteTileMapImage,
-    updateTileMapAccess
+    updateTileMapAccess,
+    updateTileMapCommunity
 }

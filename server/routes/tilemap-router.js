@@ -16,7 +16,8 @@ router.delete('/tilemap/:id', auth.verify, TileMapController.deleteTileMap)
 router.put('/tilemap/image/:id', auth.verify, TileMapController.updateTileMapImage)
 router.delete('/tilemap/image/:id', auth.verify, TileMapController.deleteTileMapImage)
 
-router.put('/tilemet/access/:id', auth.verify, TileMapController.updateTileMapAccess)
+router.put('/tilemap/access/:id', auth.verify, TileMapController.updateTileMapAccess)
+router.put('./tilemap/community/:id', auth.verify, TileMapController.updateTileMapCommunity)
 
 
 
