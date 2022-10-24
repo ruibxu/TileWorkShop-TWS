@@ -32,6 +32,11 @@ createTileSet = async (req, res) => {
         })
     }
     const data = req.body.data;
+    if(!data.name|| !data.height|| !data.width|| !data.pixel){
+        return res.status(400).json({
+            errorMessage: "Missing Values"
+        })
+    }
     const objectId = new ObjectId();
     const community_id = await createCommunity("TileSet");
     const access = new Access({
