@@ -1,3 +1,4 @@
+//NOTE: use these varible names and not the values
 export const SORT_TYPE = {//DON'T CHANGE THESE
     NAME: "name",
     VIEW: "community.views",
@@ -10,7 +11,7 @@ export const SORT_ORDER = {
     DESCENDING: 1
 }
 
-export const SEARCH_TYPE = {
+export const SEARCH_TYPE = {//This is the only one that can be safely changed
     TILESET: 0,
     TILEMAP: 1
 }

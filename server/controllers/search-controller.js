@@ -3,8 +3,20 @@ const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
 import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../../translator/sort-options'
 
+/*
+NOTE TO TESTER:
+commonly used veriable types (if applicable)
+REQUIRED "params.type": get values from translantor/sort-options SEARCH_TYPE
+REQUIRED "body.sort_type": get values from translantor/sort-options SORT_TYPE
+
+OPTIONAL "body.searcher_id": fill if user is logged in
+OPTIONAL "body.order": get values from translantor/sort-options SORT_ORDER
+OPTIONAL "body.search_value": whatever they type in the search bar
+OPTIONAL "body.limit": the number of items you want back Defaults to 6
+*/
+
 getUsernameByIds = async (req, res) => {
-    const user_ids = req.body.user_ids
+    const user_ids = req.body.user_ids //REQUIRED a list of userids to get the names of
     if (!user_ids){
         return res.status(200).json({mappings: []})
     }
@@ -17,6 +29,7 @@ getUsernameByIds = async (req, res) => {
 }
 
 getViewableProjects = async (req, res) =>{
+    //optional {searcher_id: provide if logged in}
     const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id;
     if(!userid){
@@ -36,14 +49,22 @@ getViewableProjects = async (req, res) =>{
             message: "Nothing Found"
         })
     }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
     return res.status(200).json({
         success: true,
         type: req.params.type,
-        list: results
+        list: mapped
     })
 }
 
 getEditableProjects = async (req, res) =>{
+    //REQUIRED {searcher_id: need to be logged in}
     const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id;
     if(!userid){
@@ -64,14 +85,22 @@ getEditableProjects = async (req, res) =>{
             message: "Nothing Found"
         })
     }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
     return res.status(200).json({
         success: true,
         type: req.params.type,
-        list: results
+        list: mapped
     })
 }
 
 searchProject = async (req, res) =>{
+    //required: {searcher_id:}
     const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
     const sort_type = req.body.sort_type
@@ -106,14 +135,22 @@ searchProject = async (req, res) =>{
             message: "Nothing Found"
         })
     }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
     return res.status(200).json({
         success: true,
         type: req.params.type,
-        list: results
+        list: mapped
     })
 }
 
 searchUsers = async(req, res) => {
+    //REQUIRED req.body.exact: boolean
     const search_value = req.body.search_value?req.body.search_value:''
     const limit = req.body.search_value?req.body.search_value:6
     conditions = (req.body.exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
@@ -137,6 +174,7 @@ searchUsers = async(req, res) => {
 }
 
 searchProjectByUsers = async(req, res) => {
+    //REQUIRED req.body.id_list list of user_ids
     const id_list = req.body.id_list
     const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
@@ -171,12 +209,18 @@ searchProjectByUsers = async(req, res) => {
             message: "Nothing Found"
         })
     }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
     return res.status(200).json({
         success: true,
         type: req.params.type,
-        list: results
+        list: mapped
     })
-
 }
 
 module.export = {

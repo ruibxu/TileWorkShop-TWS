@@ -20,7 +20,6 @@ createCommunity = (type) => {
 }
 
 updateCommunity = (community, body) => {
-
     if(body.new_liked_user){
         if(community.liked_Users.includes(body.new_liked_user)){
             community.liked_Users = community.liked_Users.filter(x => x != body.new_liked_user);
