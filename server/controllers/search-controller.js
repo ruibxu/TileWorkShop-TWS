@@ -1,6 +1,7 @@
 const TileMap = require('../models/tilemap-model')
 const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
+import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../../translator/sort-options'
 
 getUsernameByIds = async (req, res) => {
     const user_ids = req.body.user_ids
@@ -16,7 +17,7 @@ getUsernameByIds = async (req, res) => {
 }
 
 getViewableProjects = async (req, res) =>{
-    const Search = (req.params.type === "tilemap")?TileMap:TileSet;
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id;
     if(!userid){
         results = await Search.find({['access.public']: true})
@@ -27,7 +28,35 @@ getViewableProjects = async (req, res) =>{
             {['access.owner_id']: userid},
             {['access.editor_ids']: userid},
             {['access.viewer_ids']: userid}
-        ]})
+        ]}).sort({[`${SORT_TYPE.RECENT}`]:SORT_ORDER.DESCENDING})
+    }
+    if(!results){
+        return res.status(404).json({
+            success: false,
+            message: "Nothing Found"
+        })
+    }
+    return res.status(200).json({
+        success: true,
+        type: req.params.type,
+        list: results
+    })
+}
+
+getEditableProjects = async (req, res) =>{
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
+    const userid = req.body.searcher_id;
+    if(!userid){
+        return res.status(400).json({
+            success: false,
+            message: "Authentication error"
+        })
+    }
+    else{
+        results = await Search.find({$or:[
+            {['access.owner_id']: userid},
+            {['access.editor_ids']: userid},
+        ]}).sort({[`${SORT_TYPE.RECENT}`]:SORT_ORDER.DESCENDING})
     }
     if(!results){
         return res.status(404).json({
@@ -43,13 +72,17 @@ getViewableProjects = async (req, res) =>{
 }
 
 searchProject = async (req, res) =>{
-    const Search = (req.params.type === "tilemap")?TileMap:TileSet;
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
-    const sort_by = req.body.sort_by
-    const order = req.body.order?req.body.order:-1
+    const sort_type = req.body.sort_type
+    const order = req.body.order
+    if (!order){
+        if(sort_type == SORT_TYPE.NAME){order = SORT_ORDER.ASCENDING}
+        else{order = SORT_ORDER.DESCENDING}
+    }
     const search_value = req.body.search_value?req.body.search_value:''
     const limit = req.body.search_value?req.body.search_value:6
-    conditions = sort_by?{[`${sort_by}`]: order}:{}
+    conditions = sort_type?{[`${sort_type}`]: order}:{}
     if(!userid){
         results = await Search.find({$and:[
             {['access.public']: true}, 
@@ -83,8 +116,9 @@ searchProject = async (req, res) =>{
 searchUsers = async(req, res) => {
     const search_value = req.body.search_value?req.body.search_value:''
     const limit = req.body.search_value?req.body.search_value:6
+    conditions = (req.body.exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
     results = await User.find( 
-        {username:{ "$regex": search_value, "$options": "i" }}
+        conditions
     ).sort({username: -1}).limit(limit)
     if(!results){
         return res.status(404).json({
@@ -104,12 +138,16 @@ searchUsers = async(req, res) => {
 
 searchProjectByUsers = async(req, res) => {
     const id_list = req.body.id_list
-    const Search = (req.params.type === "tilemap")?TileMap:TileSet;
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
-    const sort_by = req.body.sort_by
-    const order = req.body.order?req.body.order:-1
+    const sort_type = req.body.sort_type
+    const order = req.body.order
+    if (!order){
+        if(sort_type == SORT_TYPE.NAME){order = SORT_ORDER.ASCENDING}
+        else{order = SORT_ORDER.DESCENDING}
+    }
     const limit = req.body.search_value?req.body.search_value:6
-    conditions = sort_by?{[`${sort_by}`]: order}:{}
+    conditions = sort_type?{[`${sort_type}`]: order}:{}
     if(!userid){
         results = await Search.find({$and:[
             {['access.public']: true}, 
@@ -144,6 +182,7 @@ searchProjectByUsers = async(req, res) => {
 module.export = {
     getUsernameByIds,
     getViewableProjects,
+    getEditableProjects,
     searchProject,
     searchUsers,
     searchProjectByUsers
