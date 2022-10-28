@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import TopBanner from '../Navbars/TopBanner';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -32,8 +33,11 @@ const HomePage = () => {
     }
     */
     return (
-        <div id="TWS-home-page">
-                Hello
+        <div>
+            <div><TopBanner/></div>
+            <div id="TWS-home-page">
+                Hello This sucks
+            </div>
         </div>)
 }
 
