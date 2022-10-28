@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { MdPhone, MdNotifications } from "react-icons/md";
 import { IconButton } from '@chakra-ui/react'
-import logo from '../logo.png';
+import logo from '../../logo.png';
 import { Image } from '@chakra-ui/react'
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
 
