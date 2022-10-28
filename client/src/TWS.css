@@ -2,6 +2,7 @@
     --swatch-foundation: #FFFFFF;
     --swatch-primary: #D9D9D9;
     --swatch-complement: #6A2C70;
+    --navbar-background: rgb(224, 224, 224);
     --my-font-family: "Helvetica, Arial, sans-serif;";
     --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
@@ -34,4 +35,21 @@ body {
     font-size: 40px;
     font-weight:1000;
     color: gray;
+}
+
+.navbar{
+    background-color: var(--navbar-background);
+    border-bottom: 2px solid rgb(182, 182, 182);
+}
+
+.navbar-iconbuttons{
+    
+}
+
+.search-bar{
+    border: 1px solid var(--swatch-complement);
+}
+
+.md-icon{
+    transform: scale(2);
 }
