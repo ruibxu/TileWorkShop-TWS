@@ -6,12 +6,12 @@ import { Container } from '@chakra-ui/react';
 //import { Fab, Typography } from '@mui/material'
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
-const Homescreen = () => {
+const Listscreen = () => {
     return (
         <div>
             <MainNavbar/>
-            Homescreen
+            Listscreen
         </div>)
 }
 
-export default Homescreen;
+export default Listscreen;
