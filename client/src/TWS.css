@@ -37,6 +37,17 @@ body {
     color: gray;
 }
 
+.overlay{
+    opacity:0.8;
+    background-color:#ccc;
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:1000;
+}
+
 .navbar{
     background-color: var(--navbar-background);
     border-bottom: 2px solid rgb(182, 182, 182);
@@ -62,4 +73,19 @@ body {
     position: relative;
     float: right;
     padding-right: 10px;
+}
+
+.Homescreen-Main{
+    padding: 1%;
+    min-height: 90%;
+}
+
+.whole-page{
+    display: block;
+    position: relative;
+    background-color: red;
+}
+
+.Homescreen-container{
+
 }

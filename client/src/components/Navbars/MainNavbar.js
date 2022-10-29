@@ -17,7 +17,7 @@ import GuestMode from './GuestMode';
 
 
 const MainNavbar = (props) => {
-    const [loggedin, setLoggedin ] = useState('')
+    const [loggedin, setLoggedin ] = useState('5')
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
 
