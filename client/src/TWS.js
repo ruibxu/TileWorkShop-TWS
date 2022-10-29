@@ -13,7 +13,7 @@ const TWS = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Redirect exact from="/" to={ {pathname: "/homescreen"} } />
+                <Route path="/" exact component={() => <Homescreen/>} /> 
                 <Route path="/homescreen" exact component={() => <Homescreen/>} /> 
                 <Route path="/listscreen" exact component={() => <Listscreen/>} /> 
                 <Route path="/tileset" exact component={() => <EditTileSetScreen/>}/>
