@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 //import { GlobalStoreContextProvider } from './store'
 import Homescreen from './components/Homescreen/Homescreen.js';
 import Listscreen from './components/Listscreen/Listscreen';
-import TopBanner from './components/Navbars/MainNavbar.js';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen';
 import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen';
 

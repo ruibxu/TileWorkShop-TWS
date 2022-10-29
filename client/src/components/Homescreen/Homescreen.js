@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useHistory} from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import MainNavbar from '../Navbars/MainNavbar';
 import { Container } from '@chakra-ui/react';
 //import { GlobalStoreContext } from '../store'
