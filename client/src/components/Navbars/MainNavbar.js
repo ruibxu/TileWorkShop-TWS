@@ -17,7 +17,7 @@ import GuestMode from './GuestMode';
 
 
 const MainNavbar = (props) => {
-    const [loggedin, setLoggedin ] = useState('5')
+    const [loggedin, setLoggedin ] = useState('')
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
 
@@ -25,11 +25,11 @@ const MainNavbar = (props) => {
 
     return (
         <Box px={4} className="navbar" left={0}>
-        <HStack h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <Flex>
                 <div><Image src={logo} maxH='50px' objectFit='fill'/></div>
             </Flex>
-            <Flex alignItems={'center'} width={'60%'} bg='transparent'>
+            <Flex alignItems={'center'} width={'65%'} bg='transparent'>
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'}/>
                 <Select width="20%" borderColor={'purple'}>
                     <option value='TileSet'>TileSet</option>
@@ -44,7 +44,7 @@ const MainNavbar = (props) => {
                 </Flex>
             </Flex>
             {loggedin?(<LoggedIn/>):(<GuestMode/>)}
-        </HStack>
+        </Flex>
       </Box>)
 }
 
