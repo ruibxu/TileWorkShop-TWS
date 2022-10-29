@@ -15,7 +15,7 @@ const Listscreen = () => {
 
     return (
         <div>
-            <MainNavbar/>
+            <MainNavbar redirect={redirect}/>
             Listscreen
         </div>)
 }

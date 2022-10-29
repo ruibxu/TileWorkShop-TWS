@@ -18,7 +18,7 @@ const LoggedIn = (props) => {
         <Flex gap={3} alignItems={'center'} width='240px' className='align-right'>
             <IconButton icon={<MdFavoriteBorder className='md-icon'/>} bg='transparent'/>
             <IconButton icon={<MdPersonOutline className='md-icon'/>} bg='transparent'/>
-            <IconButton icon={<MdListAlt className='md-icon'/>} bg='transparent'/>
+            <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
             <IconButton icon={<MdNotificationsNone className='md-icon'/>} bg='transparent'/>
         <Menu>
         <MenuButton
