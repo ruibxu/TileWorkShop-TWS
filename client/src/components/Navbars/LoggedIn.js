@@ -15,7 +15,7 @@ import {
 
 const LoggedIn = (props) => {
     return(
-        <Flex gap={2} alignItems={'center'}>
+        <Flex gap={3} alignItems={'center'} width='13%'>
             <IconButton icon={<MdFavoriteBorder className='md-icon'/>} bg='transparent'/>
             <IconButton icon={<MdPersonOutline className='md-icon'/>} bg='transparent'/>
             <IconButton icon={<MdListAlt className='md-icon'/>} bg='transparent'/>
