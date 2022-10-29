@@ -19,7 +19,7 @@ const Homescreen = () => {
     return (
         <div className='overlay'>
             <MainNavbar/>
-            <Box bg='yellow' height={'100%'}>
+            <Box height={'100%'}>
                 <Flex gap={4} minH={'100%'} minWidth='max-content' className='Homescreen-Main'>
                     <HomescreenNew/>
                     <HomescreenPopular/>
