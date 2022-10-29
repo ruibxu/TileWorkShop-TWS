@@ -3,7 +3,7 @@ import { React } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 //import { AuthContextProvider } from './auth';
 //import { GlobalStoreContextProvider } from './store'
-import Homescreen from './components/Homescreen/Homescreen.js';
+import Homescreen from './components/Homescreen/Homescreen';
 import Listscreen from './components/Listscreen/Listscreen';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen';
 import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen';
