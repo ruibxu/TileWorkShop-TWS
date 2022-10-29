@@ -7,7 +7,9 @@ const CommunitySchema = new Schema(
         liked_Users: { type: [ObjectId]},
         disliked_Users: { type: [ObjectId]},
         favorited_Users: { type: [ObjectId]},
-        views: { type: Number }
+        views: { type: Number },
+        likes: { type: Number },
+        dislikes: { type: Number }
     }
 )
 
