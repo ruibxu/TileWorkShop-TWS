@@ -27,7 +27,7 @@ const MainNavbar = (props) => {
         <Box px={4} className="navbar" left={0}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <Flex>
-                <div><Image src={logo} maxH='50px' objectFit='fill'/></div>
+                <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'65%'} bg='transparent'>
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'}/>
@@ -43,7 +43,7 @@ const MainNavbar = (props) => {
                     <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'/>}/>
                 </Flex>
             </Flex>
-            {loggedin?(<LoggedIn/>):(<GuestMode/>)}
+            {loggedin?(<LoggedIn redirect={props.redirect}/>):(<GuestMode redirect={props.redirect}/>)}
         </Flex>
       </Box>)
 }

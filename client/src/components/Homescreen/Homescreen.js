@@ -10,7 +10,7 @@ import HomescreenPopular from './HomescreenPopular';
 //import { Fab, Typography } from '@mui/material'
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
-const Homescreen = () => {
+const Homescreen = (props) => {
     let history = useHistory();
 	const redirect = async(route) => {
 		history.push(route, {reload: true});
@@ -18,7 +18,7 @@ const Homescreen = () => {
 
     return (
         <div className='overlay'>
-            <MainNavbar/>
+            <MainNavbar redirect={redirect}/>
             <Box height={'100%'}>
                 <Flex gap={4} minH={'100%'} minWidth='max-content' className='Homescreen-Main'>
                     <HomescreenNew/>
