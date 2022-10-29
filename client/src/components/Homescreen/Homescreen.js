@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useHistory} from 'react'
 import MainNavbar from '../Navbars/MainNavbar';
 import { Container } from '@chakra-ui/react';
 //import { GlobalStoreContext } from '../store'
@@ -7,6 +7,11 @@ import { Container } from '@chakra-ui/react';
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const Homescreen = () => {
+    let history = useHistory();
+	const redirect = async(route) => {
+		history.push(route, {reload: true});
+	}
+
     return (
         <div>
             <MainNavbar/>
