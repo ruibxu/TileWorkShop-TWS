@@ -7,6 +7,7 @@ import Homescreen from './components/Homescreen/Homescreen.js';
 import Listscreen from './components/Listscreen/Listscreen';
 import TopBanner from './components/Navbars/MainNavbar.js';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen';
+import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen';
 
 
 const TWS = () => {
@@ -17,6 +18,7 @@ const TWS = () => {
                 <Route path="/homescreen" exact component={Homescreen} /> 
                 <Route path="/listscreen" exact component={Listscreen} /> 
                 <Route path="/tileset" exact component={EditTileSetScreen}/>
+                <Route path="/tilemap" exact component={EditTileMapScreen}/>
             </Switch>
         </BrowserRouter>
     )
