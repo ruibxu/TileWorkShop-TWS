@@ -26,7 +26,7 @@ const MainNavbar = (props) => {
     return (
         <Box px={4} className="navbar" left={0}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            <Flex>
+            <Flex as = "button">
                 <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'65%'} bg='transparent'>
