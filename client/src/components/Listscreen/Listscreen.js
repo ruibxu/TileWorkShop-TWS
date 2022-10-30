@@ -9,6 +9,7 @@ import ListscreenMain from './ListscreenMain';
 import HomescreenNew from '../Homescreen/HomescreenNew';
 
 import SignUpModal from '../Modals/SignUp-Modal';
+import LoginModal from '../Modals/Login-Modal';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -22,6 +23,7 @@ const Listscreen = () => {
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure()
+    const showForgetPasswordModal = useDisclosure()
 
     return (
         <div className='overlay'>
@@ -33,7 +35,10 @@ const Listscreen = () => {
                 </Flex>
             </Box>
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
+
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose}/>
+            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}/>
+
         </div>)
 }
 
