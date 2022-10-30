@@ -35,7 +35,7 @@ const MainNavbar = (props) => {
 
     return (
         <Box px={4} className="navbar" left={0}>
-        <HStack h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <HStack h={16} justifyContent={'space-between'}>
             <Flex alignItems={'center'} gap={5}>
                 <Box><Image src={logo} maxH='50px' objectFit='fill'/></Box>
                 <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon'/>}/>
