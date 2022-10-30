@@ -14,11 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors({
     origin: ["http://localhost:3000",
     "http://localhost:4000",
-    "https://tileworkshop.herokuapp.com/",
-    "https://tileworkshop.herokuapp.com/homescreen",
-    "https://tileworkshop.herokuapp.com/listscreen",
-    "https://tileworkshop.herokuapp.com/tileset",
-    "https://tileworkshop.herokuapp.com/tilemap"],
+    "https://tileworkshop.herokuapp.com/"],
     credentials: true
 }))
 
