@@ -34,7 +34,7 @@ const LoggedIn = (props) => {
         <MenuList>
             <MenuItem>Account</MenuItem>
             <MenuDivider />
-            <MenuItem>Update</MenuItem>
+            <MenuItem onClick={()=>props.openUpdateAccountModal()}>Update</MenuItem>
             <MenuItem onClick={()=>props.handleLogout()}>Logout</MenuItem>
             <MenuDivider />
             <MenuItem onClick={()=>props.redirect('/tileset')}>TileSet</MenuItem>
