@@ -16,12 +16,12 @@ const HomescreenQuick = (props) => {
 
     return (
         <Container minW={'21%'}>
-            <Box borderWidth='2px' borderRadius='xl' borderColor={'purple'} justify-content='space-between' minH={'99%'} block-size={'fit-content'}>
+            <Box borderWidth='2px' borderRadius='xl' borderColor={'purple'} justify-content='space-between' minH='100%' block-size={'fit-content'}className={'popular-box-divider'}>
                 <Box className={'title-font'}>
                     Your Projects:
                 </Box>
                 <Divider />
-                <SimpleGrid minW={'100%'} minH={'90%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'6%'} paddingBottom={'10%'}>
+                <SimpleGrid minW={'100%'} minH={'90%'} maxH={'100%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'8%'} paddingBottom={'8%'}>
                     <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
                     <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
                 </SimpleGrid>
