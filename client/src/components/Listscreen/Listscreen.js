@@ -25,7 +25,7 @@ const Listscreen = () => {
 
     return (
         <div className='overlay'>
-            <MainNavbar redirect={redirect} showSignUpModal={showSignUpModal} showLoginModal={showLoginModal}/>
+            <MainNavbar redirect={redirect} openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}/>
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar/>

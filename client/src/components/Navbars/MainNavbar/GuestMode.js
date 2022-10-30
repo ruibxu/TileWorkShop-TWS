@@ -17,8 +17,8 @@ const GuestMode = (props) => {
     return(
         <Flex gap={2} alignItems={'center'}>
             <IconButton icon={<MdListAlt className='md-icon'/>} bg='transparent'/>
-            <Button variant={'outline'} colorScheme={'purple'} onClick={()=>props.showLoginModal.onOpen()}>Login</Button>
-            <Button variant={'solid'} colorScheme={'blue'} onClick={()=>props.showSignUpModal.onOpen()}>Sign Up</Button>
+            <Button variant={'outline'} colorScheme={'purple'} onClick={()=>props.openLoginModal()}>Login</Button>
+            <Button variant={'solid'} colorScheme={'blue'} onClick={()=>props.openSignUpModal()}>Sign Up</Button>
         </Flex>
     )
 }

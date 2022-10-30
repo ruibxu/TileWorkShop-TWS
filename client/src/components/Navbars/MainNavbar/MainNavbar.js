@@ -53,8 +53,8 @@ const MainNavbar = (props) => {
             {loggedin?
                 (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}/>):
                 (<GuestMode redirect={props.redirect} handleLogin={handleLogin} 
-                    showSignUpModal={props.showSignUpModal} 
-                    showLoginModal={props.showLoginModal}
+                    openSignUpModal={props.openSignUpModal} 
+                    openLoginModal={props.openLoginModal}
                 />)
             }
         </Flex>
