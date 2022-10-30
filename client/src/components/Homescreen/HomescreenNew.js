@@ -9,7 +9,7 @@ const HomescreenNew = (props) => {
 
     return (
         <Container minW={'21%'}>
-            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} minH={'90%'}>
+            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} minH={'100%'}>
                 <Box className={'title-font'}>
                     What's New:
                 </Box>

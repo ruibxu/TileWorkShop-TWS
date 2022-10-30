@@ -9,7 +9,7 @@ const HomescreenPopular = (props) => {
 
     return (
         <Container minW={'46%'} className='testing'>
-            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} minH={'90%'}>
+            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} minH={'100%'}>
                 <Box className='popular-box-divider' minH='50%' overflow='hidden' minW='100%' padding={0}>
                     <Box className={'title-font'}>
                         Most Popular TileMaps:

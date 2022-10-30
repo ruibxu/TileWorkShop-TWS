@@ -23,8 +23,9 @@ const Homescreen = (props) => {
                     <HomescreenQuick/>
                 </Flex>
             </Box>
-            <IconButton bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button'/>
         </div>)
 }
+//<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
+
 
 export default Homescreen;
