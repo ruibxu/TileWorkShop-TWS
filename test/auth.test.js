@@ -1,4 +1,3 @@
-import 'jest-expect-json';
 const user = require('./User.json')
 const { getLoggedIn, registerUser, loginUser, logoutUser, changePassword, updateAccount } = require('../controllers/auth-controller');
 
