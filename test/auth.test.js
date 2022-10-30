@@ -22,4 +22,17 @@ describe("Testing auth", () => {
         const res = await registerUser(request, response)
         expect(res).toBe(expectation);
     })
+
+    it.only("should log into the user account", async () => {
+        User.findOne = jest.fn().mockReturnValueOnce(null)
+        User.prototype.save = jest.fn().mockImplementation(() => { })
+        newUser = jest.fn().mockImplementation(() => { })
+        auth.signToken = jest.fn().mockImplementation(() => {
+            return jwt.sign({
+                userId: 1
+            }, process.env.JWT_SECRET);
+        })
+        const res = await loginUser(request, response)
+        expect(res).toBe(res);
+    })
 })

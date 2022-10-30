@@ -11,7 +11,8 @@ const HomescreenQuick = (props) => {
 
     const data = {
         owner: "Yibo",
-        name: "Super Mario Bros 1"
+        name: "Super Mario Bros 1",
+        src: image
     }
 
     return (
@@ -22,8 +23,8 @@ const HomescreenQuick = (props) => {
                 </Box>
                 <Divider />
                 <SimpleGrid minW={'100%'} minH={'90%'} maxH={'100%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'8%'} paddingBottom={'8%'}>
-                    <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
-                    <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
+                    <Container><ItemCardSmall size={'100%'} data={data}/></Container>
+                    <Container><ItemCardSmall size={'100%'} data={data}/></Container>
                 </SimpleGrid>
             </Box>
         </Container>

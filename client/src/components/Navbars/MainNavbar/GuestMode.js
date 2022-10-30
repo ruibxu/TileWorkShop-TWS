@@ -18,7 +18,7 @@ const GuestMode = (props) => {
         <Flex gap={2} alignItems={'center'}>
             <IconButton icon={<MdListAlt className='md-icon'/>} bg='transparent'/>
             <Button variant={'outline'} colorScheme={'purple'} onClick={()=>props.handleLogin('Yibo')}>Login</Button>
-            <Button variant={'solid'} colorScheme={'blue'}>SignUp</Button>
+            <Button variant={'solid'} colorScheme={'blue'}>Sign Up</Button>
         </Flex>
     )
 }
