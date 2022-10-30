@@ -21,7 +21,12 @@ import {
 
 const LoginModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
+
     const handleClick = () => setShowPassword(!showPassword)
+    const handleForgetPassword = () =>{
+        props.onClose()
+        props.openForgetPasswordModal()
+    }
 
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -50,7 +55,7 @@ const LoginModal = (props) => {
                     </InputRightElement>
                     </InputGroup>
                 </FormControl>
-                <Button variant='link' width={'120px'} onClick={()=>console.log("wip")}>
+                <Button variant='link' width={'120px'} onClick={handleForgetPassword}>
                     <Text color="blue.500">Forgot Password</Text>
                 </Button>
             </Stack>

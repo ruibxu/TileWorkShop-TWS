@@ -7,6 +7,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import ListscreenSideBar from './ListscreenSideBar';
 import ListscreenMain from './ListscreenMain';
 import HomescreenNew from '../Homescreen/HomescreenNew';
+import ForgetPasswordModal from '../Modals/ForgetPassword-Modal';
 
 import SignUpModal from '../Modals/SignUp-Modal';
 import LoginModal from '../Modals/Login-Modal';
@@ -37,8 +38,8 @@ const Listscreen = () => {
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
 
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose}/>
-            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}/>
-
+            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} openForgetPasswordModal={showForgetPasswordModal.onOpen}/>
+            <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose}/>
         </div>)
 }
 
