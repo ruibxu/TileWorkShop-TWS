@@ -6,7 +6,7 @@ function ItemCardSmall(props) {
     // const {store} = useContext(GlobalStoreContext);
     // const {auth} = useContext(AuthContext);
     // limited sizes 375, 445.219
-    const { title, owner, src, size} = props
+    const { name, owner, size, src} = props
     function handleLike() { }
     function handleUnlike() { }
     function handleDislike() { }
@@ -14,20 +14,21 @@ function ItemCardSmall(props) {
     function handleExpand() { }
     function handleDelete() { }
     let cardElement =
-        <Box w={(size)?size:'375px'} borderRadius='lg' bg='red' className='item-card'>
+        <Box w={(size)?size:'375px'} maxW={(size)?size:'375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'}>
             <Flex alignItems='center'>
-                <Image w={(size)?size:'375px'} height='200px' fit="none" src={src} marginRight={0}/>
+                <Image minW={'100%'}  borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={src} marginRight={0}/>
             </Flex>
-            <Flex alignItems="center" justifyContent={'space-between'} gap={0}>
-                <Box>
+            <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
+                <Box minW='50%'>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                        {props.title}
+                        {props.name}
                     </Box>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
                         {"By: " + props.owner}
                     </Box>
                 </Box>
-                <Flex gap={10} alignItems={'center'} width='200px' className='align-right'>
+                <Spacer/>
+                <Flex gap={2} alignItems={'center'} width='140px'>
                     <IconButton bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
                     <IconButton bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
                     <IconButton bg='transparent' icon={<FiThumbsDown className='md-icon' />} ></IconButton>
