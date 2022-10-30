@@ -178,6 +178,27 @@ body {
     right: 45px;
 }
 
+.mapToolbar{
+    position: relative;
+    background-color: var(--navbar-background);
+    border-bottom: 2px solid var(--navbar-border);
+}
+.mapWorkspace{
+    position: relative;
+    background-color: var(--navbar-background);
+    border-bottom: 2px solid var(--navbar-border);
+}
+.mapLayer{
+    position: relative;
+    background-color: var(--navbar-background);
+    border-bottom: 2px solid var(--navbar-border);
+}
+.mapTileset{
+    position: relative;
+    background-color: var(--navbar-background);
+    border-bottom: 2px solid var(--navbar-border);
+}
+
 .share-title{
     font-style: normal;
     font-weight: 500;
