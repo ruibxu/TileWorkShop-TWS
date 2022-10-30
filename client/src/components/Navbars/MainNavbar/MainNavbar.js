@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import logo from '../../logo_cropped.png';
+import logo from '../../../logo_cropped.png';
 import {
   Box,
   Flex,
