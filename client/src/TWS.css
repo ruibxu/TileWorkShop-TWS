@@ -104,3 +104,9 @@ body {
 .popular-box-divider-main{
     float: left;
 }
+
+.create-new-button{
+    position:fixed;
+    left:10px;
+    bottom:10px;
+}
