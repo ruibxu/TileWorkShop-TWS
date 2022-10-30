@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
-import MainNavbar from '../Navbars/MainNavbar';
+import MainNavbar from '../Navbars/MainNavbar/MainNavbar';
 import { Flex, Container, Box, IconButton} from '@chakra-ui/react';
 import { MdCreate } from 'react-icons/md';
 import HomescreenNew from './HomescreenNew';
@@ -16,7 +16,7 @@ const Homescreen = (props) => {
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect}/>
-            <Box height={'100%'}>
+            <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main'>
                     <HomescreenNew/>
                     <HomescreenPopular/>

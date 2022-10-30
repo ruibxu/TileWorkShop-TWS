@@ -15,7 +15,7 @@ const EditTileMapScreen = () => {
 
     return (
         <div>
-            <EditNavbar/>
+            <EditNavbar redirect={redirect}/>
             Edit Map
         </div>)
 }

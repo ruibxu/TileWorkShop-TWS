@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import logo from '../../logo_cropped.png';
+import logo from '../../../logo_cropped.png';
 import {
   Box,
   Flex,
@@ -20,6 +20,15 @@ const MainNavbar = (props) => {
     const [loggedin, setLoggedin ] = useState('5')
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
+
+    
+    const handleLogin = (username) => {
+        setLoggedin(username)
+    }
+
+    const handleLogout = () => {
+        setLoggedin('')
+    }
 
     console.log(loggedin)
 
@@ -43,7 +52,10 @@ const MainNavbar = (props) => {
                     <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'/>}/>
                 </Flex>
             </Flex>
-            {loggedin?(<LoggedIn redirect={props.redirect}/>):(<GuestMode redirect={props.redirect}/>)}
+            {loggedin?
+                (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}/>):
+                (<GuestMode redirect={props.redirect} handleLogin={handleLogin}/>)
+            }
         </Flex>
       </Box>)
 }

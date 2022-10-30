@@ -1,7 +1,7 @@
 const TileMap = require('../models/tilemap-model')
 const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
-import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../../translator/sort-options'
+import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../translator/sort-options'
 
 /*
 NOTE TO TESTER:
@@ -78,6 +78,47 @@ getEditableProjects = async (req, res) =>{
             {['access.owner_id']: userid},
             {['access.editor_ids']: userid},
         ]}).sort({[`${SORT_TYPE.RECENT}`]:SORT_ORDER.DESCENDING})
+    }
+    if(!results){
+        return res.status(404).json({
+            success: false,
+            message: "Nothing Found"
+        })
+    }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
+    return res.status(200).json({
+        success: true,
+        type: req.params.type,
+        list: mapped
+    })
+}
+
+getFavoriteProjects = async (req, res) =>{
+    //required: {searcher_id:}
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
+    const userid = req.body.searcher_id
+    if(!userid){
+        return res.status(400).json({
+            success: false,
+            message: "Authentication error"
+        })
+    }
+    else{
+        results = await Search.find({$and:[
+            {$or:[
+                {['access.public']: true},
+                {['access.owner_id']: userid},
+                {['access.editor_ids']: userid},
+                {['access.viewer_ids']: userid}
+            ]},
+            {['community.favorited_Users']: userid}
+            ]}).sort({[`${SORT_TYPE.RECENT}`]:SORT_ORDER.DESCENDING})
     }
     if(!results){
         return res.status(404).json({
@@ -227,6 +268,7 @@ module.export = {
     getUsernameByIds,
     getViewableProjects,
     getEditableProjects,
+    getFavoriteProjects,
     searchProject,
     searchUsers,
     searchProjectByUsers
