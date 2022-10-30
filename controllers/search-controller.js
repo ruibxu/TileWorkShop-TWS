@@ -1,7 +1,7 @@
 const TileMap = require('../models/tilemap-model')
 const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
-import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../../translator/sort-options'
+import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../translator/sort-options'
 
 /*
 NOTE TO TESTER:

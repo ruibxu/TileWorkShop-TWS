@@ -16,7 +16,7 @@ const Homescreen = (props) => {
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect}/>
-            <Box height={'100%'}>
+            <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main'>
                     <HomescreenNew/>
                     <HomescreenPopular/>
