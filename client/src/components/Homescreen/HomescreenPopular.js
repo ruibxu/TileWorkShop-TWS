@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Flex, Container, Box, Divider} from '@chakra-ui/react';
+import ItemCardSmall from '../ItemCards/ItemCardSmall';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -15,14 +16,20 @@ const HomescreenPopular = (props) => {
                         Most Popular TileMaps:
                     </Box>
                     <Divider borderColor={'purple'}/>
-                    filler
+                    <Flex paddingTop={'2%'}>
+                        <ItemCardSmall/>
+                        <ItemCardSmall/>
+                    </Flex>
                 </Box>
                 <Box className='popular-box-divider' minH='50%' overflow='hidden' minW='100%' padding={0}>
                     <Box className={'title-font'}>
                         Most Popular TileSets:
                     </Box>
                     <Divider borderColor={'purple'}/>
-                    filler
+                    <Flex paddingTop={'2%'}>
+                        <ItemCardSmall/>
+                        <ItemCardSmall/>
+                    </Flex>
                 </Box>
             </Box>
         </Container>

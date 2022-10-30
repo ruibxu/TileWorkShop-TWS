@@ -37,7 +37,7 @@ const MainNavbar = (props) => {
         <Box px={4} className="navbar" left={0}>
         <HStack h={16} justifyContent={'space-between'}>
             <Flex alignItems={'center'} gap={5}>
-                <Box><Image src={logo} maxH='50px' objectFit='fill'/></Box>
+                <Box as= "button"><Image src={logo} maxH='50px' objectFit='fill'/></Box>
                 <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon'/>}/>
                 <IconButton bg='transparent' icon={<BiSave className='md-icon'/>}/>
                 <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon'/>}/>
