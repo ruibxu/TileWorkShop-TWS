@@ -160,6 +160,11 @@ body {
     border-color: #6A2C70;
 }
 
+.main-list{
+    border-right: 1px solid var(--navbar-border);
+    border-left: 1px solid var(--navbar-border);
+}
+
 #tldraw{
     position: fixed;
     width: 100%;
