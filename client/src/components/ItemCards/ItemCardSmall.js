@@ -14,17 +14,17 @@ function ItemCardSmall(props) {
     function handleExpand() { }
     function handleDelete() { }
     let cardElement =
-        <Box w={(size)?size:'375px'} maxW={(size)?size:'375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'}>
+        <Box w={(size)?size:'375px'} maxW={(size)?size:'375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box'>
             <Flex alignItems='center'>
                 <Image minW={'100%'}  borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={src} marginRight={0}/>
             </Flex>
             <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
                 <Box minW='50%'>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                        {props.name}
+                        {(props.name)?props.name:'Untitled'}
                     </Box>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                        {"By: " + props.owner}
+                        {"By: " + ((props.owner)?props.owner:'Unnamed')}
                     </Box>
                 </Box>
                 <Spacer/>
