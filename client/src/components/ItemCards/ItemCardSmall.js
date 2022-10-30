@@ -5,7 +5,8 @@ import { AiOutlineHeart } from 'react-icons/ai'
 function ItemCardSmall(props) {
     // const {store} = useContext(GlobalStoreContext);
     // const {auth} = useContext(AuthContext);
-    const { title, owner, src } = props
+    // limited sizes 375, 445.219
+    const { title, owner, src, size} = props
     function handleLike() { }
     function handleUnlike() { }
     function handleDislike() { }
@@ -13,11 +14,11 @@ function ItemCardSmall(props) {
     function handleExpand() { }
     function handleDelete() { }
     let cardElement =
-        <Box maxW='400px' borderRadius='lg' overflow='visible' bg='red' padding={0}>
+        <Box w={(size)?size:'375px'} borderRadius='lg' bg='red' className='item-card'>
             <Flex alignItems='center'>
-                <Image width='400px' height='200px' fit="none" src={src} />
+                <Image w={(size)?size:'375px'} height='200px' fit="none" src={src} marginRight={0}/>
             </Flex>
-            <Flex alignItems="center" justifyContent={'space-between'} gap={4}>
+            <Flex alignItems="center" justifyContent={'space-between'} gap={0}>
                 <Box>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
                         {props.title}

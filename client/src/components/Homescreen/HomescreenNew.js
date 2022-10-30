@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Flex, Container, Box, Divider} from '@chakra-ui/react';
+import ItemCardSmall from '../ItemCards/ItemCardSmall';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -14,7 +15,6 @@ const HomescreenNew = (props) => {
                     What's New:
                 </Box>
                 <Divider />
-                filler
             </Box>
         </Container>
         )

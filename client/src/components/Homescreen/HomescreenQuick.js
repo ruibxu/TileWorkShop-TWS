@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Flex, Container, Box, Divider, SimpleGrid} from '@chakra-ui/react';
 import ItemCardSmall from '../ItemCards/ItemCardSmall';
+import image from '../../2kfVc.png';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -15,9 +16,9 @@ const HomescreenQuick = (props) => {
                     Your Projects:
                 </Box>
                 <Divider />
-                <Container minH={'90%'} minW={'100%'}>
-                    <ItemCardSmall/>
-                    <ItemCardSmall/>
+                <Container minH={'90%'} minW={'100%'} className='popular-box-divider'>
+                    <ItemCardSmall size={'445.219'} src={image}/>
+                    <ItemCardSmall size={'445.219'} src={image}/>
                 </Container>
             </Box>
         </Container>
