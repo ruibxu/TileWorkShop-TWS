@@ -53,7 +53,7 @@ const MainNavbar = (props) => {
                                 {(isPublic)?"Public":"Private"}
                     </Button>
                     <Button variant={'solid'} colorScheme={'blue'}>Edit</Button>
-                    <Button variant={'solid'} colorScheme={'blue'}>Share</Button>
+                    <Button variant={'solid'} colorScheme={'blue'} onClick={props.openShareModal}>Share</Button>
                 </Flex>
                 <Menu>
                 <MenuButton
