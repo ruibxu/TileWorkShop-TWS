@@ -11,7 +11,8 @@ const HomescreenPopular = (props) => {
 
     const data = {
         owner: "Not Yibo",
-        name: "Super Mario Bros 1"
+        name: "Super Mario Bros 1",
+        src: image
     }
 
     return (
@@ -24,8 +25,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'}/>
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display'>
-                            <ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/>
-                            <ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/>
+                            <ItemCardSmall size={'100%'} data={data}/>
+                            <ItemCardSmall size={'100%'} data={data}/>
                         </Flex>
                     </Container>
                     <Divider borderColor={'purple'}/>
@@ -38,8 +39,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'}/>
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display'>
-                            <ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/>
-                            <ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/>
+                            <ItemCardSmall size={'100%'} data={data}/>
+                            <ItemCardSmall size={'100%'} data={data}/>
                         </Flex>
                     </Container>
                 </Box>
