@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
-import MainNavbar from '../Navbars/MainNavbar';
+import MainNavbar from '../Navbars/MainNavbar/MainNavbar';
 import { Flex, Container, Box, IconButton} from '@chakra-ui/react';
 import { MdCreate } from 'react-icons/md';
 import HomescreenNew from './HomescreenNew';

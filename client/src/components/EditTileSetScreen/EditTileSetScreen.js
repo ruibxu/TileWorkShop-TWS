@@ -16,7 +16,7 @@ const EditTileSetScreen = () => {
 
     return (
         <div>
-            <EditNavbar/>
+            <EditNavbar redirect={redirect}/>
             <div id="tldraw">
                 <Tldraw />
             </div>

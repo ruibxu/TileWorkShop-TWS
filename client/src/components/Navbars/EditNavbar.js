@@ -31,19 +31,23 @@ const MainNavbar = (props) => {
         setPublic(v)
     }
 
+    const handleLogout = () =>{
+        props.redirect('/homescreen')
+    }
+
     console.log(loggedin)
 
     return (
         <Box px={4} className="navbar" left={0}>
         <HStack h={16} justifyContent={'space-between'}>
             <Flex alignItems={'center'} gap={5}>
-                <Box as= "button"><Image src={logo} maxH='50px' objectFit='fill'/></Box>
+                <Box as= "button"><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></Box>
                 <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon'/>}/>
                 <IconButton bg='transparent' icon={<BiSave className='md-icon'/>}/>
                 <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon'/>}/>
             </Flex>
             <Flex><Box alignItems={'center'} className='name-font'>{name}</Box></Flex>
-            <Flex gap={6} alignItems={'center'} width="16%">
+            <Flex gap={6} alignItems={'center'} width="width='240px">
                 <Flex gap={4} alignItems={'center'}>
                     <Button variant={'solid'} colorScheme={(isPublic)?"green":"red"} onClick={()=>handleSetPublic(!isPublic)} width='75px'>
                                 {(isPublic)?"Public":"Private"}
@@ -66,7 +70,10 @@ const MainNavbar = (props) => {
                     <MenuItem>Account</MenuItem>
                     <MenuDivider />
                     <MenuItem>Update</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuDivider />
+                    <MenuItem onClick={()=>props.redirect('/tileset')}>TileSet</MenuItem>
+                    <MenuItem onClick={()=>props.redirect('/tilemap')}>TileMap</MenuItem>
                 </MenuList>
                 </Menu>
             </Flex>

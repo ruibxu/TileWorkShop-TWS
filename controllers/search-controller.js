@@ -99,6 +99,47 @@ getEditableProjects = async (req, res) =>{
     })
 }
 
+getFavoriteProjects = async (req, res) =>{
+    //required: {searcher_id:}
+    const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
+    const userid = req.body.searcher_id
+    if(!userid){
+        return res.status(400).json({
+            success: false,
+            message: "Authentication error"
+        })
+    }
+    else{
+        results = await Search.find({$and:[
+            {$or:[
+                {['access.public']: true},
+                {['access.owner_id']: userid},
+                {['access.editor_ids']: userid},
+                {['access.viewer_ids']: userid}
+            ]},
+            {['community.favorited_Users']: userid}
+            ]}).sort({[`${SORT_TYPE.RECENT}`]:SORT_ORDER.DESCENDING})
+    }
+    if(!results){
+        return res.status(404).json({
+            success: false,
+            message: "Nothing Found"
+        })
+    }
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
+    return res.status(200).json({
+        success: true,
+        type: req.params.type,
+        list: mapped
+    })
+}
+
 searchProject = async (req, res) =>{
     //required: {searcher_id:}
     const Search = (req.params.type == SEARCH_TYPE.TILEMAP)?TileMap:TileSet;
@@ -227,6 +268,7 @@ module.export = {
     getUsernameByIds,
     getViewableProjects,
     getEditableProjects,
+    getFavoriteProjects,
     searchProject,
     searchUsers,
     searchProjectByUsers

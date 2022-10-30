@@ -9,17 +9,22 @@ import image from '../../2kfVc.png';
 //import List from '@mui/material/List';
 const HomescreenQuick = (props) => {
 
+    const data = {
+        owner: "Yibo",
+        name: "Super Mario Bros 1"
+    }
+
     return (
         <Container minW={'21%'}>
-            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} minH={'100%'}>
+            <Box borderWidth='2px' borderRadius='xl' borderColor={'purple'} justify-content='space-between' minH='100%' block-size={'fit-content'}className={'popular-box-divider'}>
                 <Box className={'title-font'}>
                     Your Projects:
                 </Box>
                 <Divider />
-                <Container minH={'90%'} minW={'100%'} className='popular-box-divider'>
-                    <ItemCardSmall size={'445.219'} src={image}/>
-                    <ItemCardSmall size={'445.219'} src={image}/>
-                </Container>
+                <SimpleGrid minW={'100%'} minH={'90%'} maxH={'100%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'8%'} paddingBottom={'8%'}>
+                    <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
+                    <Container><ItemCardSmall size={'100%'} data={data} name={data.name} owner={data.owner} src={image}/></Container>
+                </SimpleGrid>
             </Box>
         </Container>
         )
