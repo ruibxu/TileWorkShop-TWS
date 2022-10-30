@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 //import { AuthContextProvider } from './auth';
 //import { GlobalStoreContextProvider } from './store'
 import Homescreen from './components/Homescreen/Homescreen.js';
-import Listscreen from './components/Listscreen/Listscreen';
-import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen';
-import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen';
+import Listscreen from './components/Listscreen/Listscreen.js';
+import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen.js';
+import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen.js';
 
 
 const TWS = () => {
