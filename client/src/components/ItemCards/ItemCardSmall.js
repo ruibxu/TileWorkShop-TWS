@@ -13,7 +13,7 @@ function ItemCardSmall(props) {
     function handleExpand() { }
     function handleDelete() { }
     let cardElement =
-        <Box width='400px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+        <Box maxW='400px' borderRadius='lg' overflow='visible' bg='red' padding={0}>
             <Flex alignItems='center'>
                 <Image width='400px' height='200px' fit="none" src={src} />
             </Flex>
@@ -26,7 +26,7 @@ function ItemCardSmall(props) {
                         {"By: " + props.owner}
                     </Box>
                 </Box>
-                <Flex gap={10} alignItems={'center'} width='240px' className='align-right'>
+                <Flex gap={10} alignItems={'center'} width='200px' className='align-right'>
                     <IconButton bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
                     <IconButton bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
                     <IconButton bg='transparent' icon={<FiThumbsDown className='md-icon' />} ></IconButton>
