@@ -30,8 +30,6 @@ const MainNavbar = (props) => {
         setLoggedin('')
     }
 
-    console.log(loggedin)
-
     return (
         <Box px={4} className="navbar" left={0}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -54,7 +52,10 @@ const MainNavbar = (props) => {
             </Flex>
             {loggedin?
                 (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}/>):
-                (<GuestMode redirect={props.redirect} handleLogin={handleLogin}/>)
+                (<GuestMode redirect={props.redirect} handleLogin={handleLogin} 
+                    showSignUpModal={props.showSignUpModal} 
+                    showLoginModal={props.showLoginModal}
+                />)
             }
         </Flex>
       </Box>)

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect} from 'react'
+import { useDisclosure } from '@chakra-ui/react';
 import { Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import ItemCardSmall from '../ItemCards/ItemCardSmall';
