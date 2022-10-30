@@ -1,15 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 import MainNavbar from '../Navbars/MainNavbar';
-import { Flex, Container, Box} from '@chakra-ui/react';
+import { Flex, Container, Box, IconButton} from '@chakra-ui/react';
+import { MdCreate } from 'react-icons/md';
 import HomescreenNew from './HomescreenNew';
 import HomescreenQuick from './HomescreenQuick';
 import HomescreenPopular from './HomescreenPopular';
-//import { GlobalStoreContext } from '../store'
-//import ListCard from './ListCard.js'
-//import { Fab, Typography } from '@mui/material'
-//import AddIcon from '@mui/icons-material/Add';
-//import List from '@mui/material/List';
+
 const Homescreen = (props) => {
     let history = useHistory();
 	const redirect = async(route) => {
@@ -28,5 +25,7 @@ const Homescreen = (props) => {
             </Box>
         </div>)
 }
+//<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
+
 
 export default Homescreen;
