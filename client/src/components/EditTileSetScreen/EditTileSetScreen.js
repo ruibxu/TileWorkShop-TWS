@@ -15,7 +15,7 @@ const EditTileSetScreen = () => {
 
     return (
         <div>
-            <EditNavbar/>
+            <EditNavbar redirect={redirect}/>
             Edit TileSet
         </div>)
 }
