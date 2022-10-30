@@ -24,7 +24,7 @@ const Homescreen = (props) => {
                     <HomescreenQuick />
                 </Flex>
             </Box>
-            <IconButton id='edit-button' icon={<BsPencilSquare className='md-icon' />} bg='transparent' />
+            <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
 
         </div>)
 }
