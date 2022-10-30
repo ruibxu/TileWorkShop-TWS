@@ -14,10 +14,10 @@ const TWS = () => {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={() => <Homescreen/>} /> 
-                <Route path="/homescreen" exact component={() => <Homescreen/>} /> 
-                <Route path="/listscreen" exact component={() => <Listscreen/>} /> 
-                <Route path="/tileset" exact component={() => <EditTileSetScreen/>}/>
-                <Route path="/tilemap" exact component={() => <EditTileMapScreen/>}/>
+                <Route path="/homescreen/" exact component={() => <Homescreen/>} /> 
+                <Route path="/listscreen/" exact component={() => <Listscreen/>} /> 
+                <Route path="/tileset/" exact component={() => <EditTileSetScreen/>}/>
+                <Route path="/tilemap/" exact component={() => <EditTileMapScreen/>}/>
             </Switch>
         </BrowserRouter>
     )
