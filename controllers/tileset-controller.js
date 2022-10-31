@@ -7,12 +7,12 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const { cloudinary } = require('../cloudinary');
 
 getTileSetById = async (req, res) => {
-    console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
+    // console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
     const tileset = await TileSet.find({ _id: _id }, (err, tileset) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found tileset: " + JSON.stringify(tileset));
+        // console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
 
     return res.status(200).json({ success: true, result: { tileset: tileset} });
@@ -52,7 +52,7 @@ createTileSet = async (req, res) => {
             })
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
             return res.status(400).json({
                 errorMessage: 'TileSet Not Created!'
             })
@@ -60,10 +60,10 @@ createTileSet = async (req, res) => {
 }
 
 deleteTileSet = async (req, res) => {
-    console.log("deleting TileSet: " + req.params.id);
+    // console.log("deleting TileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileset) => {
-        console.log("tileset found: " + JSON.stringify(tileset));
+        // console.log("tileset found: " + JSON.stringify(tileset));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'tileset not found!',
@@ -71,7 +71,7 @@ deleteTileSet = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.body.user_id);
+            // console.log("req.userId: " + req.body.user_id);
             if (item.access.owner_id.equals(req.body.user_id)) {
                 TileSet.findOneAndDelete({ _id: objectId })
                 .then(res.status(200)
@@ -83,7 +83,7 @@ deleteTileSet = async (req, res) => {
                 //remember to delete from cloudinary
             }
             else {
-                console.log("incorrect user!");
+                // console.log("incorrect user!");
                 return res.status(400).json({
                     errorMessage: "authentication error"
                 });
@@ -94,10 +94,10 @@ deleteTileSet = async (req, res) => {
 }
 
 updateTileSet = async (req, res) => {
-    console.log("updating tileSet: " + req.params.id);
+    // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileSet) => {
-        console.log("tileSet found: " + JSON.stringify(tileSet));
+        // console.log("tileSet found: " + JSON.stringify(tileSet));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'TileSet not found!',
@@ -105,7 +105,7 @@ updateTileSet = async (req, res) => {
         }
         //can this user update
         async function matchUser(item) {
-            console.log("req.body.userId: " + req.body.user_id);
+            // console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.lastEdited = Date.now();
@@ -113,7 +113,7 @@ updateTileSet = async (req, res) => {
                 //add image update
                 item.save()
                     .then(() => {
-                        console.log("SUCCESS!!!");
+                        // console.log("SUCCESS!!!");
                         return res.status(200).json({
                             success: true,
                             id: item._id,
@@ -121,7 +121,7 @@ updateTileSet = async (req, res) => {
                         })
                     })
                     .catch(error => {
-                        console.log("FAILURE: " + JSON.stringify(error));
+                        // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
                             message: 'TileSet not updated!',
@@ -129,7 +129,7 @@ updateTileSet = async (req, res) => {
                     })
             }
             else {
-                console.log("incorrect user!");
+                // console.log("incorrect user!");
                 return res.status(400).json({
                     success: false,
                     errorMessage: "authentication error"
@@ -141,10 +141,10 @@ updateTileSet = async (req, res) => {
 }
 
 updateTileSetAccess = async (req, res) => {
-    console.log("updating tileSet: " + req.params.id);
+    // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileSet) => {
-        console.log("tileSet found: " + JSON.stringify(tileSet));
+        // console.log("tileSet found: " + JSON.stringify(tileSet));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'TileSet not found!',
@@ -152,7 +152,7 @@ updateTileSetAccess = async (req, res) => {
         }
         //can this user update
         async function matchUser(item) {
-            console.log("req.body.userId: " + req.body.user_id);
+            // console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id)) {
                 if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
@@ -169,7 +169,7 @@ updateTileSetAccess = async (req, res) => {
                         })
                     })
                     .catch(error => {
-                        console.log("FAILURE: " + JSON.stringify(error));
+                        // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
                             message: 'TileSet Access not updated!',
@@ -177,7 +177,7 @@ updateTileSetAccess = async (req, res) => {
                     })
             }
             else {
-                console.log("incorrect user!");
+                // console.log("incorrect user!");
                 return res.status(400).json({
                     success: false,
                     errorMessage: "authentication error"
@@ -189,10 +189,10 @@ updateTileSetAccess = async (req, res) => {
 }
 
 updateTileSetCommunity = async (req, res) => {
-    console.log("updating tileSet: " + req.params.id);
+    // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileSet) => {
-        console.log("tileSet found: " + JSON.stringify(tileSet));
+        // console.log("tileSet found: " + JSON.stringify(tileSet));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'TileSet not found!',
@@ -206,7 +206,7 @@ updateTileSetCommunity = async (req, res) => {
             item.community = newCommunity;
             item.save()
                     .then(() => {
-                        console.log("SUCCESS!!!");
+                        // console.log("SUCCESS!!!");
                         return res.status(200).json({
                             success: true,
                             id: item._id,
@@ -214,7 +214,7 @@ updateTileSetCommunity = async (req, res) => {
                         })
                     })
                     .catch(error => {
-                        console.log("FAILURE: " + JSON.stringify(error));
+                        // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
                             message: 'TileSet Community not updated!',
@@ -228,7 +228,7 @@ updateTileSetCommunity = async (req, res) => {
 getTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
-    console.log(search)
+    // console.log(search)
     const { resources } = await cloudinary.search.expression(search).execute();
     if (!resources) {
         return res.status(404).json({
@@ -262,7 +262,7 @@ updateTileSetImage = async (req, res) => {
 deleteTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileSet_Editor/${public_id}`;
-    console.log(search)
+    // console.log(search)
     const resources  = await cloudinary.uploader.destroy(search);
     if (resources.result === "not found") {
         return res.status(404).json({

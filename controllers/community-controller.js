@@ -12,7 +12,7 @@ updateCommunity = async (req, res) => {
                 message: 'Community not found!',
             })
         }});
-    console.log("Community found: " + JSON.stringify(community));
+    // console.log("Community found: " + JSON.stringify(community));
     if (listtype == "liked_Users"){
         if(community.liked_Users.contains(user_id)){
             community.liked_Users = community.liked_Users.filter(x => x != user_id);

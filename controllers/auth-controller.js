@@ -16,7 +16,7 @@ getLoggedIn = async (req, res) => {
         }
 
         const loggedInUser = await User.findOne({ _id: userId });
-        console.log("loggedInUser: " + loggedInUser);
+        // console.log("loggedInUser: " + loggedInUser);
 
         return res.status(200).json({
             loggedIn: true,
@@ -33,7 +33,7 @@ getLoggedIn = async (req, res) => {
 
 //mutations
 loginUser = async (req, res) => {
-    console.log("loginUser");
+    // console.log("loginUser");
     try {
         const { email, password } = req.body;
 
@@ -44,7 +44,7 @@ loginUser = async (req, res) => {
         }
 
         const existingUser = await User.findOne({ email: email });
-        console.log("existingUser: " + existingUser);
+        // console.log("existingUser: " + existingUser);
         if (!existingUser) {
             return res
                 .status(401)
@@ -53,10 +53,10 @@ loginUser = async (req, res) => {
                 })
         }
 
-        console.log("provided password: " + password);
+        // console.log("provided password: " + password);
         const passwordCorrect = await bcrypt.compare(password, existingUser.passwordHash);
         if (!passwordCorrect) {
-            console.log("Incorrect password");
+            // console.log("Incorrect password");
             return res
                 .status(401)
                 .json({
@@ -66,7 +66,7 @@ loginUser = async (req, res) => {
 
         // LOGIN THE USER
         const token = auth.signToken(existingUser._id);
-        console.log("token: " + token);
+        // console.log("token: " + token);
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -88,7 +88,7 @@ loginUser = async (req, res) => {
 }
 
 logoutUser = async (req, res) => {
-    console.log("user logged out")
+    // console.log("user logged out")
     res.cookie("token", "", {
         httpOnly: true,
         expires: new Date(0),
@@ -100,7 +100,7 @@ logoutUser = async (req, res) => {
 }
 
 changePassword = async (req, res) => {
-    console.log("changing password");
+    // console.log("changing password");
     const { email, password, passwordVerify } = req.body;
     if (password.length < 8) {
         return res
@@ -126,17 +126,17 @@ changePassword = async (req, res) => {
                 message: "User not found"
             })
         }
-        console.log("passwordHash: " + passwordHash);
+        // console.log("passwordHash: " + passwordHash);
         user.passwordHash = passwordHash;
         user.save()
             .then(() => {
-                console.log("Success")
+                // console.log("Success")
                 return res.status(200).json({
                     success: true,
                     passwordHash: passwordHash
                 })
             }).catch(error => {
-                console.log("Failure")
+                // console.log("Failure")
                 return res.status(404).json({
                     success: false,
                     message: "Password not updated."
@@ -147,7 +147,7 @@ changePassword = async (req, res) => {
 
 updateAccount = async (req, res) => {
     try {
-        console.log("updating account")
+        // console.log("updating account")
         const user_id = req.params.id;
         const { username, password, passwordVerify } = req.body;
         if (!user_id) {
@@ -185,7 +185,7 @@ updateAccount = async (req, res) => {
             if (existingUser) {
                 return res.status(400).json({errorMessage:"An account with this username already exists."});
             } else {
-                console.log("new username: " + username);
+                // console.log("new username: " + username);
                 user.username = username;
             }
         }
@@ -207,13 +207,13 @@ updateAccount = async (req, res) => {
 registerUser = async (req, res) => {
     try {
         const { username, email, password, passwordVerify } = req.body;
-        console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
+        // console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
         if (!username || !email || !password || !passwordVerify) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
-        console.log("all fields provided");
+        // console.log("all fields provided");
         if (password.length < 8) {
             return res
                 .status(400)
@@ -221,7 +221,7 @@ registerUser = async (req, res) => {
                     errorMessage: "Please enter a password of at least 8 characters."
                 });
         }
-        console.log("password long enough");
+        // console.log("password long enough");
         if (password !== passwordVerify) {
             return res
                 .status(400)
@@ -229,9 +229,9 @@ registerUser = async (req, res) => {
                     errorMessage: "Please enter the same password twice."
                 })
         }
-        console.log("password and password verify match");
+        // console.log("password and password verify match");
         const existingUser = await User.findOne({ email: email });
-        console.log("existingUser: " + existingUser);
+        // console.log("existingUser: " + existingUser);
         if (existingUser) {
             return res
                 .status(400)
@@ -242,7 +242,7 @@ registerUser = async (req, res) => {
         }
 
         const existingUser2 = await User.findOne({ username: username });
-        console.log("existingUser: " + existingUser2);
+        // console.log("existingUser: " + existingUser2);
         if (existingUser2) {
             return res
                 .status(400)
@@ -255,7 +255,7 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
-        console.log("passwordHash: " + passwordHash);
+        // console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
             _id: new ObjectId,
@@ -265,11 +265,11 @@ registerUser = async (req, res) => {
             authentication: true
         });
         const savedUser = await newUser.save();
-        console.log("new user saved: " + savedUser._id);
+        // console.log("new user saved: " + savedUser._id);
 
         // LOGIN THE USER
         const token = auth.signToken(savedUser._id);
-        console.log("token:" + token);
+        // console.log("token:" + token);
 
         await res.cookie("token", token, {
             httpOnly: true,
@@ -283,7 +283,7 @@ registerUser = async (req, res) => {
             }
         })
 
-        console.log("token sent");
+        // console.log("token sent");
 
     } catch (err) {
         // console.error(err);

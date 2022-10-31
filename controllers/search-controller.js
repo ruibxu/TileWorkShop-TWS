@@ -1,8 +1,8 @@
 const TileMap = require('../models/tilemap-model')
 const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
-import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../translator/sort-options'
-
+const { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } = require('../translator/sort-options')
+const ObjectId = require('mongoose').Types.ObjectId;
 /*
 NOTE TO TESTER:
 commonly used veriable types (if applicable)
@@ -17,10 +17,11 @@ OPTIONAL "body.limit": the number of items you want back Defaults to 6
 
 getUsernameByIds = async (req, res) => {
     const user_ids = req.body.user_ids //REQUIRED a list of userids to get the names of
+    
     if (!user_ids){
         return res.status(200).json({mappings: []})
     }
-    const users = await User.find({ '_id': { $in: user_ids } })
+    const users = await User.find({ "_id": { $in: user_ids } })
     const mapping = users.map((x)=>({
         _id: x._id,
         username: x.username
@@ -264,7 +265,7 @@ searchProjectByUsers = async(req, res) => {
     })
 }
 
-module.export = {
+module.exports = {
     getUsernameByIds,
     getViewableProjects,
     getEditableProjects,
