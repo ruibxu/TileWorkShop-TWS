@@ -28,6 +28,11 @@ const LoginModal = (props) => {
         props.openForgetPasswordModal()
     }
 
+    const handleLogin = (user) => {
+        props.setLogin(user)
+        props.onClose()
+    }
+
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
@@ -62,7 +67,7 @@ const LoginModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleLogin} minW={425}>
                 Login
             </Button>
         </ModalFooter>
