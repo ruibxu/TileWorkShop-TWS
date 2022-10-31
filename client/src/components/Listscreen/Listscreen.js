@@ -45,7 +45,7 @@ const Listscreen = () => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar/>
-                    <ListscreenMain/>
+                    <ListscreenMain openItemCard={showItemCard.onOpen}/>
                 </Flex>
             </Box>
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
