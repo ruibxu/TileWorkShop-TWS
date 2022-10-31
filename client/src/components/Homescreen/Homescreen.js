@@ -12,7 +12,7 @@ import SignUpModal from '../Modals/SignUp-Modal';
 import LoginModal from '../Modals/Login-Modal';
 import ForgetPasswordModal from '../Modals/ForgetPassword-Modal';
 import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
-import ItemCardBig from '../ItemCards/ItemCardBig';
+import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
 
 import image from '../../2kfVc.png';

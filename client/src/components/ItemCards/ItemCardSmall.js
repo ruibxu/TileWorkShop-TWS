@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
-import ItemCardBig from '../ItemCards/ItemCardBig'
+import ItemCardBig from './ItemCardBig/ItemCardBig'
 function ItemCardSmall(props) {
     // const {store} = useContext(GlobalStoreContext);
     // const {auth} = useContext(AuthContext);
