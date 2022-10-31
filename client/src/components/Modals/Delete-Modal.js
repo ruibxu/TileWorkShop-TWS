@@ -9,14 +9,12 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    Stack,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Text,
+    Flex,
+    Spacer,
     Divider,
-    FormControl,
-    FormLabel
+    Center,
+    Box,
+    Text
   } from '@chakra-ui/react'
 
 const DeleteModal = (props) => {
@@ -31,40 +29,30 @@ const DeleteModal = (props) => {
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
-    <ModalContent maxW='500px'>
+    <ModalContent maxW='500px' height='350px'>
         <ModalHeader>Delete</ModalHeader>
         <ModalCloseButton />
         <Divider borderColor={'purple'}/>
         <ModalBody>
-            <Stack spacing={2}>
-                <FormControl>
-                    <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Password:</FormLabel>
-                    <InputGroup size='md'>
-                    <Input borderColor={'purple'}
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder='Enter password'
-                    />
-                    <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={handleClick}>
-                        {showPassword ? 'Hide' : 'Show'}
-                    </Button>
-                    </InputRightElement>
-                    </InputGroup>
-                </FormControl>
-                <Button variant='link' width={'120px'} onClick={handleForgetPassword}>
-                    <Text color="blue.500">Forgot Password</Text>
-                </Button>
-            </Stack>
+            <Center minW={'100%'} minH={'92%'}>
+                <Box>
+                    <Box><Text className='delete-modal-text' color='purple'>Are you sure you want to delete:</Text></Box>
+                    <Center><Text className='delete-modal-text' color='red'>{props.name?props.name:'Untitled'}</Text></Center>
+                </Box>
+            </Center>
+            <Text className='delete-helper-text'>Note: This action CANNOT be undone</Text>
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
-                Login
-            </Button>
+            <Flex width='100%' minW='100%'>
+                <Button colorScheme='red' mr={3} onClick={props.onClose} minW={220}>
+                    Delete
+                </Button>
+                <Spacer/>
+                <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={220}>
+                    Cancel
+                </Button>
+            </Flex>
         </ModalFooter>
     </ModalContent>
     </Modal>

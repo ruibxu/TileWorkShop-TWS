@@ -29,35 +29,23 @@ import { BiSelectMultiple } from "react-icons/bi"
 
 
 const MapToolbar = (props) => {
-    const [loggedin, setLoggedin ] = useState('5')
-    const [isPublic, setPublic] = useState(false)
-
-    const handleSetPublic = (v) => {
-        setPublic(v)
-    }
-
-    const handleLogout = () =>{
-        props.redirect('/homescreen')
-    }
-
-    console.log(loggedin)
 
     return (
         <Box px={4} className="navbar" left={0}>
         <HStack h={16} justifyContent={'space-between'}>
             <Flex alignItems={'center'} gap={5}>
-                <IconButton bg='transparent' icon={<GiResize className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<TfiBrushAlt className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<MdOutlineFormatColorFill className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<RiShape2Fill className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<RiEraserLine className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<GrSelect className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<BiSelectMultiple className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<ImMagicWand className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<ImUndo className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<ImRedo className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<ImZoomIn className='md-icon'/>}/>
-                <IconButton bg='transparent' icon={<ImZoomOut className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Resize Map" icon={<GiResize className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Stamp Brush" icon={<TfiBrushAlt className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Bucket Fill Tool" icon={<MdOutlineFormatColorFill className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Shape Fill Tool" icon={<RiShape2Fill className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Eraser" icon={<RiEraserLine className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Rectangular Select" icon={<GrSelect className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Select Same Tile" icon={<BiSelectMultiple className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Magic Wand" icon={<ImMagicWand className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Undo" icon={<ImUndo className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Redo" icon={<ImRedo className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Zoom In" icon={<ImZoomIn className='md-icon'/>}/>
+                <IconButton bg='transparent' title="Zoom Out" icon={<ImZoomOut className='md-icon'/>}/>
             </Flex>
         </HStack>
       </Box>)
