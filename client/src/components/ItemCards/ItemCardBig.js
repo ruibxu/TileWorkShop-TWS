@@ -6,7 +6,8 @@ import image from '../../2kfVc.png';
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
-import { DiscussionEmbed } from 'disqus-react';
+//import { DiscussionEmbed } from 'disqus-react';
+//<DiscussionEmbed config={{url : "http://localhost:3000", identifier: data.owner}} />
 function ItemCardBig(props) {
     const { data } = props
     return (
@@ -45,7 +46,7 @@ function ItemCardBig(props) {
                                 </Box>
                             </Box>
                         </Flex>
-                        <DiscussionEmbed config={{url : "http://localhost:3000", identifier: data.owner}} />
+                        
                         {/* <Textarea placeholder='Leave a comment...' fontStyle="italic" />
                         <Box >
                             Comments:
