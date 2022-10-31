@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea
 } from '@chakra-ui/react'
-import image from '../../2kfVc.png';
+import image from '../../../2kfVc.png';
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
