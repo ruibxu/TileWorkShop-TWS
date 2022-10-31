@@ -74,7 +74,9 @@ const Homescreen = (props) => {
             </Box>
             <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' />
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
-            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} openForgetPasswordModal={showForgetPasswordModal.onOpen} />
+            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
+            openForgetPasswordModal={showForgetPasswordModal.onOpen} setLogin={setLoggedin}
+            />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments}/>
