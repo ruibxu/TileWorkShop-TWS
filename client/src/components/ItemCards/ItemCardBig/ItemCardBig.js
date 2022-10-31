@@ -1,17 +1,18 @@
 import React from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import {
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea
+    Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea, Text, Icon
 } from '@chakra-ui/react'
 import image from '../../../2kfVc.png';
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
+import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
 
 
 function ItemCardBig(props) {
-    const { data, comments} = props
+    const { data, comments } = props
 
     return (
         <div>
@@ -25,6 +26,14 @@ function ItemCardBig(props) {
                                 <IconButton id="big-buttons" bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' icon={<FiThumbsDown className='md-icon' />} ></IconButton>
+                            </Flex>
+                            <Flex className="item-counter" gap={4} alignItems='center'>
+                                <Text fontSize={12} opacity={0.5}>{`412347`}</Text>
+                                <FiThumbsUp bg='transparent'  size={'10px'} />
+                                <Text fontSize={12} opacity={0.5}>{`14124`}</Text>
+                                <FiThumbsDown bg='transparent'  size={'10px'} />
+                                <Text fontSize={12} opacity={0.5}>{`69420`}</Text>
+                                <GoComment bg='transparent' size={'10px'} />
                             </Flex>
                         </Flex>
 
@@ -50,7 +59,7 @@ function ItemCardBig(props) {
                             </Box>
                         </Flex>
                         <Textarea placeholder='Leave a comment...' fontStyle="italic" />
-                        <CommentList comments={comments} _id={data._id}/>
+                        <CommentList comments={comments} _id={data._id} />
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>

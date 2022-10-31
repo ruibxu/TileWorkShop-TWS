@@ -181,12 +181,12 @@ body {
     border-color: #6A2C70;
 }
 
-.main-list{
+.main-list {
     border-right: 1px solid var(--navbar-border);
     border-left: 1px solid var(--navbar-border);
 }
 
-#tldraw{
+#tldraw {
     position: fixed;
     width: 100%;
     height: 93%;
@@ -208,87 +208,90 @@ body {
     z-index: 1000;
 }
 
-.mapToolbar{
+.mapToolbar {
     position: relative;
     background-color: var(--navbar-background);
     border-bottom: 2px solid var(--navbar-border);
 }
-.mapWorkspace{
+
+.mapWorkspace {
     position: relative;
     background-color: var(--navbar-background);
     border: 1px solid #6A2C70;
 }
-.mapLayer{
-    position: relative;
-    background-color: var(--navbar-background);
-    border-left: 2px solid var(--navbar-border);
-    border-bottom: 2px solid var(--navbar-border);
-}
-.mapTileset{
+
+.mapLayer {
     position: relative;
     background-color: var(--navbar-background);
     border-left: 2px solid var(--navbar-border);
     border-bottom: 2px solid var(--navbar-border);
 }
 
-.share-title{
+.mapTileset {
+    position: relative;
+    background-color: var(--navbar-background);
+    border-left: 2px solid var(--navbar-border);
+    border-bottom: 2px solid var(--navbar-border);
+}
+
+.share-title {
     font-style: normal;
     font-weight: 500;
     font-size: 20px;
     line-height: 29px;
 }
 
-.share-list{
+.share-list {
     width: 100%;
     height: 276px;
     border-bottom: 1px solid #6A2C70;
     border-top: 1px solid #6A2C70;
 }
 
-.share-entry{
+.share-entry {
     background-color: white;
 }
 
-.share-entry:hover{
+.share-entry:hover {
     background-color: var(--navbar-background);
 }
 
-.comment{
+.comment {
     background-color: white;
 }
 
-.comment:hover{
+.comment:hover {
     background-color: var(--navbar-background);
 }
 
-.comment-count{
+.comment-count {
     font-size: 10;
 }
 
-.layer-entry{
+.layer-entry {
     border-bottom: 1px solid #6A2C70;
     background-color: var(--navbar-background);
 }
 
-.layer-entry:hover{
+.layer-entry:hover {
     background-color: lightgray;
 }
 
-.share-select{
+.share-select {
     cursor: pointer;
 }
 
-.share-username{
+.share-username {
     font-weight: 500;
 }
 
-#big-buttons{
+#big-buttons {
     position: relative;
     right: 150px;
     top: 70px;
 }
 
-.delete-modal-text{
+.delete-modal-text {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -299,7 +302,7 @@ body {
     text-align: center;
 }
 
-.delete-helper-text{
+.delete-helper-text {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -307,4 +310,10 @@ body {
     line-height: 29px;
 
     color: #6A2C70;
+}
+
+.item-counter {
+    position: relative;
+    top: 115px;
+    right: 114%;
 }
