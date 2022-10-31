@@ -4,7 +4,7 @@ import { Flex, Box, Spacer, Text, Select} from '@chakra-ui/react';
 
 const ShareEntry = (props) => {
     const { username, email, access, color } = props.info
-    const ALL_OPTIONS = ['Owner', 'Editor', 'Viewer', 'Remove']
+    const ALL_OPTIONS = ['Owner', 'Editor', 'Viewer']
     const filtered_options = ALL_OPTIONS.filter(x => x != access)
     
 
@@ -19,7 +19,7 @@ const ShareEntry = (props) => {
                 <option value={access}>{access}</option>
                 <option value={filtered_options[0]}>{filtered_options[0]}</option>
                 <option value={filtered_options[1]}>{filtered_options[1]}</option>
-                <option value={filtered_options[2]}>{filtered_options[2]}</option>
+                <option value={'Remove'}>{'Remove'}</option>
             </Select>
         </Flex>
     </Box>)
