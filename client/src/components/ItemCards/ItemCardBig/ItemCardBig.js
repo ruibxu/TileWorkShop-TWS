@@ -7,7 +7,7 @@ import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 function ItemCardBig(props) {
-    const { data } = props
+    const { data, comments} = props
     return (
         <div>
             <Modal isOpen={props.isOpen} onClose={props.onClose}>

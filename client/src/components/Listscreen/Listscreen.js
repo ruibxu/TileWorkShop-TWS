@@ -31,8 +31,9 @@ const Listscreen = () => {
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
     const data = {
+        _id: '1',
         owner: "Not Yibo",
-        name: "Super Mario Bros 1",
+        name: "Super Mario Bros 1-1",
         src: image
     }
 

@@ -41,6 +41,18 @@ const Homescreen = (props) => {
         { _id: "4", owner: "Ruibo", name: "Farm", src: image4 },
         { _id: "5", owner: "Ruibo", name: "Garden", src: image5 }]
 
+    const comments = [
+        { _id:'6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'8', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'9', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'10', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'11', link_id: '6', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'12', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}}
+    ]
+    
+
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect}
@@ -59,7 +71,7 @@ const Homescreen = (props) => {
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} openForgetPasswordModal={showForgetPasswordModal.onOpen} />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={data} openDeleteModal={showDeleteModal.onOpen} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={data} openDeleteModal={showDeleteModal.onOpen} comments={comments}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
         </div>)
 }
