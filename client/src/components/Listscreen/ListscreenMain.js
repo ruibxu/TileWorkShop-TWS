@@ -12,7 +12,7 @@ const ListscreenMain = (props) => {
                     <IconButton bg='transparent' icon={<MdArrowBackIos className='md-icon'/>} paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0}/>
                 </Center>
                 <Box className={'main-list'} flex='1' >
-                    <ListscreenList openItemCard={props.openItemCard}/>
+                    <ListscreenList openItemCard={props.openItemCard} data = {props.data}/>
                 </Box>
                 <Center minW='50px' w='50px'>
                     <IconButton bg='transparent' icon={<MdArrowForwardIos className='md-icon'/>}  minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0}/>

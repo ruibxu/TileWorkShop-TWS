@@ -21,7 +21,7 @@ getUsernameByIds = async (req, res) => {
     if (!user_ids){
         return res.status(200).json({mappings: []})
     }
-    const users = await User.find({ "_id": { $in: user_ids } })
+    const users = await User.find({ _id: { $in: user_ids } })
     const mapping = users.map((x)=>({
         _id: x._id,
         username: x.username
