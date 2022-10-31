@@ -255,7 +255,7 @@ updateTileSetImage = async (req, res) => {
             response: uploadedResponse
         })
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
