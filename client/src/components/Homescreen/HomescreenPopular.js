@@ -20,7 +20,7 @@ const HomescreenPopular = (props) => {
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display' >
                             <ItemCardSmall size={'100%'} data={data[2]} openItemCard={props.openItemCard} />
-                            <ItemCardSmall size={'100%'} data={props.data} openItemCard={props.openItemCard} />
+                            <ItemCardSmall size={'100%'} data={data[0]} openItemCard={props.openItemCard} />
                         </Flex>
                     </Container>
                     <Divider borderColor={'purple'} />
@@ -33,8 +33,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display'>
-                            <ItemCardSmall size={'100%'}  data={props.data} openItemCard={props.openItemCard} />
-                            <ItemCardSmall size={'100%'}  data={props.data} openItemCard={props.openItemCard} />
+                            <ItemCardSmall size={'100%'}  data={data[3]} openItemCard={props.openItemCard} />
+                            <ItemCardSmall size={'100%'}  data={data[4]} openItemCard={props.openItemCard} />
                         </Flex>
                     </Container>
                 </Box>

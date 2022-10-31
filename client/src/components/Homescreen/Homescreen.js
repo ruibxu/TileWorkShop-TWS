@@ -18,6 +18,8 @@ import DeleteModal from '../Modals/Delete-Modal';
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
 import image3 from '../../ryan-polito-viridian-forest-1.jpg'
+import image4 from '../../tileset2.png'
+import image5 from '../../tile_atlas.png'
 const Homescreen = (props) => {
     const [loggedin, setLoggedin] = useState('5')
 
@@ -33,10 +35,11 @@ const Homescreen = (props) => {
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
     const data = [
-        {owner: "Yibo",name: "Super Mario Bros 1-1",src: image}, 
-        {owner: "Yibo",name: "Super Mario Bros 1-2", src: image2}, 
-        {owner: "Ruibo",name: "Forest",src: image3 }, 
-        {owner: "Ruibo",name: "",src: image }]
+        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
+        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2 },
+        { _id: "3", owner: "Ruibo", name: "Forest", src: image3 },
+        { _id: "4", owner: "Ruibo", name: "Farm", src: image4 },
+        { _id: "5", owner: "Ruibo", name: "Garden", src: image5 }]
 
     return (
         <div className='overlay'>
@@ -47,7 +50,7 @@ const Homescreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
                     <HomescreenNew />
-                    <HomescreenPopular openItemCard={showItemCard.onOpen} data={data}  />
+                    <HomescreenPopular openItemCard={showItemCard.onOpen} data={data} />
                     <HomescreenQuick openItemCard={showItemCard.onOpen} data={data} />
                 </Flex>
             </Box>
