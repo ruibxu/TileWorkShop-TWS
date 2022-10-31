@@ -37,7 +37,7 @@ const Listscreen = () => {
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
-
+    const showCreateModal = useDisclosure();
 
 
     const data = [
@@ -76,7 +76,7 @@ const Listscreen = () => {
                     <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} />
                 </Flex>
             </Box>
-            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' />
+            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen}/>
 
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
@@ -86,6 +86,7 @@ const Listscreen = () => {
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} comments={comments} />
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
+            <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
         </div>)
 }
 
