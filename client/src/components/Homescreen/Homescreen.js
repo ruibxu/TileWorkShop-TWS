@@ -45,8 +45,8 @@ const Homescreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main'>
                     <HomescreenNew />
-                    <HomescreenPopular openItemCard = {showItemCard.onOpen} data = {data}/>
-                    <HomescreenQuick />
+                    <HomescreenPopular openItemCard={showItemCard.onOpen} data={data}/>
+                    <HomescreenQuick openItemCard={showItemCard.onOpen} data={data}/>
                 </Flex>
             </Box>
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />

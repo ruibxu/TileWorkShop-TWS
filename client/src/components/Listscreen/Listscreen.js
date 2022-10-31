@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { useHistory } from "react-router-dom";
 import MainNavbar from '../Navbars/MainNavbar/MainNavbar';
 import { Flex, Box, Container, Spacer, Text, IconButton } from '@chakra-ui/react';
@@ -12,12 +12,13 @@ import SignUpModal from '../Modals/SignUp-Modal';
 import LoginModal from '../Modals/Login-Modal';
 import ForgetPasswordModal from '../Modals/ForgetPassword-Modal';
 import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
-//import { GlobalStoreContext } from '../store'
-//import ListCard from './ListCard.js'
-//import { Fab, Typography } from '@mui/material'
-//import AddIcon from '@mui/icons-material/Add';
-//import List from '@mui/material/List';
+import ItemCardBig from '../ItemCards/ItemCardBig';
+import DeleteModal from '../Modals/Delete-Modal';
+
+import image from '../../2kfVc.png';
 const Listscreen = () => {
+    const [loggedin, setLoggedin ] = useState('5')
+
     let history = useHistory();
 	const redirect = async(route) => {
 		history.push(route, {reload: true});
@@ -27,12 +28,19 @@ const Listscreen = () => {
     const showLoginModal = useDisclosure()
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
+    const showItemCard = useDisclosure();
+    const showDeleteModal = useDisclosure();
+    const data = {
+        owner: "Not Yibo",
+        name: "Super Mario Bros 1",
+        src: image
+    }
 
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect} 
                 openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
-                openUpdateAccountModal={showUpdateAccountModal.onOpen}
+                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={loggedin} setLoggedin={setLoggedin}
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
@@ -46,6 +54,8 @@ const Listscreen = () => {
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} openForgetPasswordModal={showForgetPasswordModal.onOpen}/>
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose}/>
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose}/>
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={data} openDeleteModal={showDeleteModal.onOpen}/>
+            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose}/>
         </div>)
 }
 
