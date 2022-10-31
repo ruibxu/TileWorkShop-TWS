@@ -13,10 +13,16 @@ function ItemCardSmall(props) {
     function handleDislike() { }
     function handleUnDislike() { }
     function handleDelete() { }
+
+    function handleClickImage(){
+        props.setData(data)
+        props.openItemCard()
+    }
+
     let cardElement =
         <Box w={(size) ? size : '375px'} maxW={(size) ? size : '375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box' >
             <Flex alignItems='center' as = "button" width={"100%"} >
-                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={data.src} marginRight={0} onClick ={()=>props.openItemCard()}/>
+                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={data.src} marginRight={0} onClick ={()=>props.openItemCard(data)}/>
             </Flex>
             <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
                 <Box minW='50%'>

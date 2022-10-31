@@ -22,6 +22,7 @@ import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 const Listscreen = () => {
     const [loggedin, setLoggedin ] = useState('5')
+    const [bigCardData, setBigCardData] = useState({})
 
     let history = useHistory();
 	const redirect = async(route) => {
@@ -34,6 +35,9 @@ const Listscreen = () => {
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
+
+
+
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
         { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2 },
@@ -52,6 +56,11 @@ const Listscreen = () => {
         { _id:'13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}}
     ]
 
+    const handleOpenBigItemCard = (newData) => {
+        setBigCardData(newData)
+        showItemCard.onOpen()
+    }
+
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect} 
@@ -61,7 +70,7 @@ const Listscreen = () => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar/>
-                    <ListscreenMain openItemCard={showItemCard.onOpen}/>
+                    <ListscreenMain openItemCard={handleOpenBigItemCard}/>
                 </Flex>
             </Box>
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
