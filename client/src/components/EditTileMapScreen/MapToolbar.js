@@ -31,8 +31,8 @@ import { BiSelectMultiple } from "react-icons/bi"
 const MapToolbar = (props) => {
 
     return (
-        <Box px={4} className="navbar" left={0}>
-        <HStack h={16} justifyContent={'space-between'}>
+        <Box px={4}  left={0}>
+        <HStack h={12} justifyContent={'space-between'}>
             <Flex alignItems={'center'} gap={5}>
                 <IconButton bg='transparent' title="Resize Map" icon={<GiResize className='md-icon'/>}/>
                 <IconButton bg='transparent' title="Stamp Brush" icon={<TfiBrushAlt className='md-icon'/>}/>

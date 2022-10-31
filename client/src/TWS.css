@@ -196,16 +196,18 @@ body {
 .mapWorkspace{
     position: relative;
     background-color: var(--navbar-background);
-    border-bottom: 2px solid var(--navbar-border);
+    border: 1px solid #6A2C70;
 }
 .mapLayer{
     position: relative;
     background-color: var(--navbar-background);
+    border-left: 2px solid var(--navbar-border);
     border-bottom: 2px solid var(--navbar-border);
 }
 .mapTileset{
     position: relative;
     background-color: var(--navbar-background);
+    border-left: 2px solid var(--navbar-border);
     border-bottom: 2px solid var(--navbar-border);
 }
 
@@ -229,6 +231,15 @@ body {
 
 .share-entry:hover{
     background-color: var(--navbar-background);
+}
+
+.layer-entry{
+    border-bottom: 1px solid #6A2C70;
+    background-color: var(--navbar-background);
+}
+
+.layer-entry:hover{
+    background-color: lightgray;
 }
 
 .share-select{
