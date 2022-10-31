@@ -16,6 +16,10 @@ import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
 
 import image from '../../2kfVc.png';
+import image2 from '../../NES - Super Mario Bros - World 1-2.png'
+import image3 from '../../ryan-polito-viridian-forest-1.jpg'
+import image4 from '../../tileset2.png'
+import image5 from '../../tile_atlas.png'
 const Listscreen = () => {
     const [loggedin, setLoggedin ] = useState('5')
 
@@ -30,12 +34,23 @@ const Listscreen = () => {
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
-    const data = {
-        _id: '1',
-        owner: "Not Yibo",
-        name: "Super Mario Bros 1-1",
-        src: image
-    }
+    const data = [
+        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
+        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2 },
+        { _id: "3", owner: "Ruibo", name: "Forest", src: image3 },
+        { _id: "4", owner: "Ruibo", name: "Farm", src: image4 },
+        { _id: "5", owner: "Ruibo", name: "Garden", src: image5 }]
+
+    const comments = [
+        { _id:'6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'8', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'9', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'10', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'11', link_id: '6', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'12', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
+        { _id:'13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}}
+    ]
 
     return (
         <div className='overlay'>
@@ -55,7 +70,7 @@ const Listscreen = () => {
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} openForgetPasswordModal={showForgetPasswordModal.onOpen}/>
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose}/>
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose}/>
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={data} openDeleteModal={showDeleteModal.onOpen}/>
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={data[0]} comments={comments}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose}/>
         </div>)
 }

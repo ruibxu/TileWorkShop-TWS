@@ -253,6 +253,18 @@ body {
     background-color: var(--navbar-background);
 }
 
+.comment{
+    background-color: white;
+}
+
+.comment:hover{
+    background-color: var(--navbar-background);
+}
+
+.comment-count{
+    font-size: 10;
+}
+
 .layer-entry{
     border-bottom: 1px solid #6A2C70;
     background-color: var(--navbar-background);

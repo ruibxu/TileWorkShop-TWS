@@ -1,3 +1,4 @@
+import React from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea
@@ -6,8 +7,12 @@ import image from '../../../2kfVc.png';
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
+import CommentList from "./CommentList";
+
+
 function ItemCardBig(props) {
     const { data, comments} = props
+
     return (
         <div>
             <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -45,67 +50,7 @@ function ItemCardBig(props) {
                             </Box>
                         </Flex>
                         <Textarea placeholder='Leave a comment...' fontStyle="italic" />
-                        <Box >
-                            Comments:
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                            <Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box><Box>
-                                LOL THIS MAP TRASH
-                            </Box>
-                        </Box>
+                        <CommentList comments={comments} _id={data._id}/>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>
