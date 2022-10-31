@@ -7,19 +7,25 @@ import { BsPencilSquare } from 'react-icons/bs'
 import HomescreenNew from './HomescreenNew';
 import HomescreenQuick from './HomescreenQuick';
 import HomescreenPopular from './HomescreenPopular';
+
 import ItemCardBig from '../ItemCards/ItemCardBig';
+import DeleteModal from '../Modals/Delete-Modal';
+
 import image from '../../2kfVc.png';
 const Homescreen = (props) => {
     let history = useHistory();
     const redirect = async (route) => {
         history.push(route, { reload: true });
     }
+
     const showItemCard = useDisclosure();
+    const showDeleteModal = useDisclosure();
     const data = {
         owner: "Not Yibo",
         name: "Super Mario Bros 1",
         src: image
     }
+
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect} />
@@ -31,7 +37,8 @@ const Homescreen = (props) => {
                 </Flex>
             </Box>
             <IconButton id='edit-button' size = "lg" icon={<BsPencilSquare className='md-icon' size = '30px'/>} bg='transparent' />
-            <ItemCardBig isOpen = {showItemCard.isOpen} onClose = {showItemCard.onClose} data = {data}/>
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={data} openDeleteModal={showDeleteModal.onOpen}/>
+            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose}/>
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>

@@ -29,7 +29,7 @@ function ItemCardBig(props) {
                         {data.owner}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='red' mr={3}>Delete</Button>
+                        <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>
                         <Button colorScheme='blue' onClick={() => props.onClose()}>
                             Close
                         </Button>
