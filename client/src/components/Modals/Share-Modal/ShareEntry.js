@@ -19,6 +19,7 @@ const ShareEntry = (props) => {
                 <option value={access}>{access}</option>
                 <option value={filtered_options[0]}>{filtered_options[0]}</option>
                 <option value={filtered_options[1]}>{filtered_options[1]}</option>
+                <option value={filtered_options[2]}>{filtered_options[2]}</option>
             </Select>
         </Flex>
     </Box>)
