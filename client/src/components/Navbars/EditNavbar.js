@@ -26,6 +26,7 @@ const EditNavbar = (props) => {
     const [loggedin, setLoggedin ] = useState('5')
     const [name, setName] = useState('Project Name')
     const [isPublic, setPublic] = useState(false)
+    const [nameEdit, toggleNameEdit] = useState(false)
 
     const handleSetPublic = (v) => {
         setPublic(v)
@@ -33,6 +34,11 @@ const EditNavbar = (props) => {
 
     const handleLogout = () =>{
         props.redirect('/homescreen')
+    }
+
+    const handleNameEdit = (e) => {
+        toggleNameEdit(false);
+        setName(e.target.value);
     }
 
     console.log(loggedin)
@@ -46,7 +52,15 @@ const EditNavbar = (props) => {
                 <IconButton bg='transparent' icon={<BiSave className='md-icon'/>}/>
                 <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon'/>}/>
             </Flex>
-            <Flex><Box alignItems={'center'} className='name-font'>{name}</Box></Flex>
+            <Flex>
+                {(nameEdit)?
+                <Box alignItems={'center'} className='name-font' onBlur={handleNameEdit}>
+                    <Input defaultValue={name} autoFocus={true}/>
+                </Box>
+                :<Box alignItems={'center'} className='name-font' onClick={()=>toggleNameEdit(!nameEdit)}>
+                    {name}
+                </Box>}
+            </Flex>
             <Flex gap={6} alignItems={'center'} width="width='240px">
                 <Flex gap={4} alignItems={'center'}>
                     <Button variant={'solid'} colorScheme={(isPublic)?"green":"red"} onClick={()=>handleSetPublic(!isPublic)} width='75px'>
