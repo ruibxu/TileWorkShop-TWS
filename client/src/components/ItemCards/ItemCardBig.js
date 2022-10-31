@@ -6,6 +6,7 @@ import image from '../../2kfVc.png';
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
+import { DiscussionEmbed } from 'disqus-react';
 function ItemCardBig(props) {
     const { data } = props
     return (
@@ -15,7 +16,7 @@ function ItemCardBig(props) {
                 <ModalContent height="800px" maxWidth="1000px">
                     <ModalHeader>
                         <Flex alignItems='center'>
-                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={image}/>
+                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={image} />
                             <Flex gap={2} alignItems={'center'}  >
                                 <IconButton id="big-buttons" bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
@@ -44,7 +45,8 @@ function ItemCardBig(props) {
                                 </Box>
                             </Box>
                         </Flex>
-                        <Textarea placeholder='Leave a comment...' fontStyle="italic" />
+                        <DiscussionEmbed config={{url : "http://localhost:3000", identifier: data.owner}} />
+                        {/* <Textarea placeholder='Leave a comment...' fontStyle="italic" />
                         <Box >
                             Comments:
                             <Box>
@@ -95,7 +97,7 @@ function ItemCardBig(props) {
                             <Box>
 
                             </Box>
-                        </Box>
+                        </Box> */}
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>
