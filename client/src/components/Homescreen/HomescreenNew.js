@@ -15,22 +15,18 @@ const HomescreenNew = (props) => {
         {username: 'YiboLover', action: 'commented', projectName: 'Super Mario Bros 3', content: "\"nice work\"", notificationTime:'8/22/2022'},
         {username: 'YiboHater', action: 'created', projectName: 'Super Mario Bros 4', content: 'Super Mario Bros 4',notificationTime:'8/20/2022'},
         {username: 'WhoseYibo', action: 'created', projectName: 'Super Mario Bros 5', content: 'Super Mario Bros 5',notificationTime:'8/19/2022'},
-        {username: 'YiboHater', action: 'created', projectName: 'Super Mario Bros 4', content: 'Super Mario Bros 4',notificationTime:'8/20/2022'},
         {username: 'WhoseYibo', action: 'created', projectName: 'Super Mario Bros 5', content: 'Super Mario Bros 5',notificationTime:'8/19/2022'},
-        {username: 'YiboHater', action: 'created', projectName: 'Super Mario Bros 4', content: 'Super Mario Bros 4',notificationTime:'8/20/2022'},
-        {username: 'WhoseYibo', action: 'created', projectName: 'Super Mario Bros 5', content: 'Super Mario Bros 5',notificationTime:'8/19/2022'},
-        {username: 'YiboHater', action: 'created', projectName: 'Super Mario Bros 4', content: 'Super Mario Bros 4',notificationTime:'8/20/2022'},
         {username: 'WhoseYibo', action: 'created', projectName: 'Super Mario Bros 5', content: 'Super Mario Bros 5',notificationTime:'8/19/2022'},
         {username: 'YiboClone', action: 'created', projectName: 'Super Mario Bros 6', content: 'Super Mario Bros 6',notificationTime:'7/1/2022'}
     ]
     return (
-        <Container minW={'21%'}>
-            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} height={'1200px'}>
+        <Container minW={'21%'} >
+            <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'}  maxH={'100%'}>
                 <Box className={'title-font'}>
                     What's New:
                 </Box>
                 <Divider />
-                <Box className='news-list' overflowY={'scroll'}> 
+                <Box overflowY={'scroll'} maxH={'800px'}> 
                     {notifications.map((notification) => (
                         <NewsEntry info={notification}/>
                     ))}

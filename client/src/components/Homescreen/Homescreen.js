@@ -43,7 +43,7 @@ const Homescreen = (props) => {
                 openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={loggedin} setLoggedin={setLoggedin}
             />
             <Box height={'100%'} width={'100%'}>
-                <Flex gap={0} minH={'90%'} className='Homescreen-Main'>
+                <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
                     <HomescreenNew />
                     <HomescreenPopular openItemCard={showItemCard.onOpen} data={data}/>
                     <HomescreenQuick openItemCard={showItemCard.onOpen} data={data}/>
