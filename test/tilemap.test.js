@@ -26,8 +26,7 @@ var request = httpMock.createRequest({ method: "POST", url: "http://localhost:30
     }
 }})
 var response = httpMock.createResponse({locals:{success:true}})
-const expectation = undefined
-// console.log(request)
+
 describe("Testing Tilemap", () => {
     it.only("should create a tilemap", async () => {
         Tilemap.findById = jest.fn().mockReturnValueOnce(null)
@@ -74,6 +73,38 @@ describe("Testing Tilemap", () => {
         Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
         newTilemap = jest.fn().mockImplementation(() => { })
         const res = await deleteTileMapImage(request, response)
+        expect(res).toBe(res);
+    })
+
+    it.only("should update TileMap Access", async () => {
+        Tilemap.findById = jest.fn().mockReturnValueOnce(null)
+        Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
+        newTilemap = jest.fn().mockImplementation(() => { })
+        const res = await updateTileMapAccess(request, response)
+        expect(res).toBe(res);
+    })
+
+    it.only("should delete updateTileMapCommunity", async () => {
+        Tilemap.findById = jest.fn().mockReturnValueOnce(null)
+        Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
+        newTilemap = jest.fn().mockImplementation(() => { })
+        const res = await updateTileMapCommunity(request, response)
+        expect(res).toBe(res);
+    })
+    
+    it.only("should add TileSet To TileMap", async () => {
+        Tilemap.findById = jest.fn().mockReturnValueOnce(null)
+        Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
+        newTilemap = jest.fn().mockImplementation(() => { })
+        const res = await addTileSetToTileMap(request, response)
+        expect(res).toBe(res);
+    })
+    
+    it.only("should  delete TileSet from TileMap", async () => {
+        Tilemap.findById = jest.fn().mockReturnValueOnce(null)
+        Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
+        newTilemap = jest.fn().mockImplementation(() => { })
+        const res = await deleteTileSetfromTileMap(request, response)
         expect(res).toBe(res);
     })
 })
