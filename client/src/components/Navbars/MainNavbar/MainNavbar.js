@@ -17,17 +17,16 @@ import GuestMode from './GuestMode';
 
 
 const MainNavbar = (props) => {
-    const [loggedin, setLoggedin ] = useState('5')
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
 
     
     const handleLogin = (username) => {
-        setLoggedin(username)
+        props.setLoggedin(username)
     }
 
     const handleLogout = () => {
-        setLoggedin('')
+        props.setLoggedin('')
     }
 
     return (
@@ -50,7 +49,7 @@ const MainNavbar = (props) => {
                     <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'/>}/>
                 </Flex>
             </Flex>
-            {loggedin?
+            {props.loggedin?
                 (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}
                     openUpdateAccountModal={props.openUpdateAccountModal}
                 />):
