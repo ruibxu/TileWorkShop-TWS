@@ -4,24 +4,24 @@ const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 getCommentById = async (req, res) => {
-    console.log("Find Comment with id: " + JSON.stringify(req.params.id));
+    // console.log("Find Comment with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
     const comment = await Comment.find({ _id: _id }, (err, comment) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found comment: " + JSON.stringify(comment));
+        // console.log("Found comment: " + JSON.stringify(comment));
     }).catch(err => console.log(err));
 
     return res.status(200).json({ success: true, result: { comment: comment } });
 }
 
 getCommentsByLink = async (req, res) => {
-    console.log("Find Comments with link: " + JSON.stringify(req.params.id));
+    // console.log("Find Comments with link: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
     const comment_list = await Comment.find({ link_id: _id }, (err, comments) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
-        console.log("Found comment: " + JSON.stringify(comments));
+        // console.log("Found comment: " + JSON.stringify(comments));
     }).catch(err => console.log(err));
 
     return res.status(200).json({ success: true, result: comment_list });
@@ -49,10 +49,10 @@ createComment = async (req, res) => {
 }
 
 deleteComment = async (req, res) => {
-    console.log("deleting Comment: " + req.params.id);
+    // console.log("deleting Comment: " + req.params.id);
     const objectId = req.params.id;
     Comment.findById({ _id: objectId }, (err, comment) => {
-        console.log("comment found: " + JSON.stringify(comment));
+        // console.log("comment found: " + JSON.stringify(comment));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'Comment not found!',
@@ -60,7 +60,7 @@ deleteComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.body.user_id);
+            // console.log("req.userId: " + req.body.user_id);
             if (item.user_id.equals(req.body.user_id)) {
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 return res.status(200).json({
@@ -68,7 +68,7 @@ deleteComment = async (req, res) => {
                 });
             }
             else {
-                console.log("incorrect user!");
+                // console.log("incorrect user!");
                 return res.status(400).json({
                     errorMessage: "authentication error"
                 });
@@ -79,11 +79,11 @@ deleteComment = async (req, res) => {
 }
 
 updateComment = async (req, res) => {
-    console.log("updating Comment: " + req.params.id);
+    // console.log("updating Comment: " + req.params.id);
     const objectId = req.params.id;
     const content = req.body.content;
     Comment.findById({ _id: objectId }, (err, comment) => {
-        console.log("comment found: " + JSON.stringify(comment));
+        // console.log("comment found: " + JSON.stringify(comment));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'Comment not found!',
@@ -91,12 +91,12 @@ updateComment = async (req, res) => {
         }
         //does this belong to the user
         async function matchUser(item) {
-            console.log("req.userId: " + req.body.user_id);
+            // console.log("req.userId: " + req.body.user_id);
             if (item.user_id.equals(req.body.user_id)) {
                 item.lastEdited = Date.now();
                 item.content = content;
                 item.save().then(() => {
-                    console.log("SUCCESS!!!");
+                    // console.log("SUCCESS!!!");
                     return res.status(200).json({
                         success: true,
                         id: item._id,
@@ -112,7 +112,7 @@ updateComment = async (req, res) => {
                     })
             }
             else {
-                console.log("incorrect user!");
+                // console.log("incorrect user!");
                 return res.status(400).json({
                     success: false,
                     errorMessage: "authentication error"
@@ -124,10 +124,10 @@ updateComment = async (req, res) => {
 }
 
 updateCommentCommunity = async (req, res) => {
-    console.log("updating Comment: " + req.params.id);
+    // console.log("updating Comment: " + req.params.id);
     const objectId = req.params.id;
     Comment.findById({ _id: objectId }, (err, comment) => {
-        console.log("comment found: " + JSON.stringify(comment));
+        // console.log("comment found: " + JSON.stringify(comment));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'comment not found!',
@@ -141,7 +141,7 @@ updateCommentCommunity = async (req, res) => {
             item.community = newCommunity;
             item.save()
                     .then(() => {
-                        console.log("SUCCESS!!!");
+                        // console.log("SUCCESS!!!");
                         return res.status(200).json({
                             success: true,
                             id: item._id,
@@ -149,7 +149,7 @@ updateCommentCommunity = async (req, res) => {
                         })
                     })
                     .catch(error => {
-                        console.log("FAILURE: " + JSON.stringify(error));
+                        // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
                             message: 'Comment Community not updated!',

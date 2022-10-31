@@ -46,6 +46,8 @@ const commentRouter = require('./routes/comment-router')
 app.use('/api', commentRouter)
 const communityRouter = require('./routes/community-router')
 app.use('/api', communityRouter)
+const searchRouter = require('./routes/search-router')
+app.use('/api', searchRouter)
 
 
 // INITIALIZE OUR DATABASE OBJECT
