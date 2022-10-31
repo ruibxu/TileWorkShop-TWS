@@ -14,6 +14,7 @@ import ForgetPasswordModal from '../Modals/ForgetPassword-Modal';
 import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
 import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
+import CreateModal from '../Modals/Create-Modal';
 
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
@@ -35,6 +36,7 @@ const Homescreen = (props) => {
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
+    const showCreateModal = useDisclosure();
 
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
@@ -72,7 +74,7 @@ const Homescreen = (props) => {
                     <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data}/>
                 </Flex>
             </Box>
-            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' />
+            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen}/>
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
             openForgetPasswordModal={showForgetPasswordModal.onOpen} setLogin={setLoggedin}
@@ -81,6 +83,7 @@ const Homescreen = (props) => {
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
+            <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>

@@ -14,6 +14,7 @@ import ForgetPasswordModal from '../Modals/ForgetPassword-Modal';
 import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
 import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
+import CreateModal from '../Modals/Create-Modal';
 
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
