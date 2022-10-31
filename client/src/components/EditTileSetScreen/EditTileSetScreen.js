@@ -17,6 +17,7 @@ const EditTileSetScreen = () => {
 		history.push(route, {reload: true});
 	}
 
+    const showShareModal = useDisclosure()
     let TempInfo = [
         {username: 'Yibo', email: 'yibo.hu@stonybrook.edu', access: 'Owner', color:'red'},
         {username: 'NotYibo', email: 'Notyibo@stonybrook.edu', access: 'Editor', color:'blue'},
@@ -25,8 +26,6 @@ const EditTileSetScreen = () => {
         {username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color:'purple'},
         {username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color:'orange'}
     ]
-
-    const showShareModal = useDisclosure()
 
     return (
         <div>
