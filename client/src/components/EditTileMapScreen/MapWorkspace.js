@@ -15,19 +15,13 @@ import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 
-import { BiSelectMultiple } from "react-icons/bi"
-
+import image from '../../img/map1.png';
 const MapWorkspace = (props) => {
 
 
     return (
-        <Container maxW='100%' bg='grey' centerContent>
-            <Box padding='4' bg='blue.400' color='black' maxW='90%' maxH = '50%'>
-                There are many benefits to a joint design and development system. Not only
-                does it bring benefits to the design team, but it also brings benefits to
-                engineering teams. It makes sure that our experiences have a consistent look
-                and feel, not just in our design specs, but in production.
-            </Box>
+        <Container maxW='100%' bg='lightgrey' height='100%' centerContent>
+            <Box padding={'50'}><Image src = {image} alt={'map1'} /></Box>
         </Container>
     )
 }
