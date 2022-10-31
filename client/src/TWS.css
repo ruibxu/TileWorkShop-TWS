@@ -118,8 +118,9 @@ body {
 }
 
 .news-list {
+    position: sticky;
     width: 100%;
-    height: 800px;
+    height: 100%;
     border-bottom: 1px solid #6A2C70;
     border-top: 1px solid #6A2C70;
 }
