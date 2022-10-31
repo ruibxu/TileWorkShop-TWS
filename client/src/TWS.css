@@ -234,5 +234,7 @@ body {
 }
 
 #big-buttons{
-    
+    position: relative;
+    top: 60px;
+    right: 100%;
 }
