@@ -240,7 +240,9 @@ body {
 }
 
 #big-buttons{
-    
+    position: relative;
+    right: 150px;
+    top: 70px;
 }
 
 .delete-modal-text{
