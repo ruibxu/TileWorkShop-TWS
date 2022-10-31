@@ -206,6 +206,16 @@ body {
     right: 45px;
 }
 
+.tilemap {
+    opacity: 1.0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+}
+
 .mapToolbar{
     position: relative;
     background-color: var(--navbar-background);
@@ -258,7 +268,9 @@ body {
 }
 
 #big-buttons{
-    
+    position: relative;
+    right: 150px;
+    top: 70px;
 }
 
 .delete-modal-text{

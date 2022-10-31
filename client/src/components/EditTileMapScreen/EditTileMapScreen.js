@@ -30,7 +30,7 @@ const EditTileMapScreen = () => {
     ]
 
     return (
-        <div className='overlay'>
+        <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}/>
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
