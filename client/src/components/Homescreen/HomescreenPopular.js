@@ -8,6 +8,7 @@ import ItemCardSmall from '../ItemCards/ItemCardSmall';
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const HomescreenPopular = (props) => {
+    const {data} = props
     return (
         <Container minW={'46%'}>
             <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} justify-content='space-between' minH={'100%'} maxH={'100%'}>
@@ -18,7 +19,7 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display' >
-                            <ItemCardSmall size={'100%'} data={props.data} openItemCard={props.openItemCard} />
+                            <ItemCardSmall size={'100%'} data={data[2]} openItemCard={props.openItemCard} />
                             <ItemCardSmall size={'100%'} data={props.data} openItemCard={props.openItemCard} />
                         </Flex>
                     </Container>

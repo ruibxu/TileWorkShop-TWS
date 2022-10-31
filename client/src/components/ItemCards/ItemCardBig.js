@@ -87,13 +87,23 @@ function ItemCardBig(props) {
                                 LOL THIS MAP TRASH
                             </Box>
                             <Box>
-
-                            </Box>
-                            <Box>
-
-                            </Box>
-                            <Box>
-
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
+                            </Box><Box>
+                                LOL THIS MAP TRASH
                             </Box>
                         </Box>
                     </ModalBody>
