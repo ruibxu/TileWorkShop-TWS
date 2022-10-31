@@ -4,7 +4,7 @@ import { Flex, Box, Spacer, Text, Select} from '@chakra-ui/react';
 
 const ShareEntry = (props) => {
     const { username, email, access, color } = props.info
-    const ALL_OPTIONS = ['Owner', 'Editor', 'Viewer']
+    const ALL_OPTIONS = ['Owner', 'Editor', 'Viewer', 'Remove']
     const filtered_options = ALL_OPTIONS.filter(x => x != access)
     
 
