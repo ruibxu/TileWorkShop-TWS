@@ -341,12 +341,20 @@ searchProjects2 = async (req, res) => {
 
     const id_list = results.map(x => x.access.owner_id)
     const matching_users = await User.find({ _id: { $in: id_list } })
+
+    const mapped = results.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited
+    }))
     
     const usernames = matching_users.map(x => ({_id: x._id, username: x.username}))
     return res.status(200).json({
         success: true,
         type: req.params.type,
-        results: results,
+        results: mapped,
         users: usernames
     })
 

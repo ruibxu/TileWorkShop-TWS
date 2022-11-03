@@ -26,7 +26,7 @@ Q-answers
 Required "type": determines the type of project being searched (TileSet or TileMap). refer to translater (PROJECT_TYPE)
 
 #For the access types:
-Optional "searcher_id": determines what they have access to, empty of guest mode default:''
+Optional "searcher_id": user_id determines what they have access to, empty if guest mode default:''
 Optional "access": (Viewable, Editable, Owned, Favorite) default: viewable (Must be number). refer to translater (ACCESS_TYPE)
 
 #For search options:
