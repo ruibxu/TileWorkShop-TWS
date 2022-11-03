@@ -24,7 +24,10 @@ getCommentsByLink = async (req, res) => {
         // console.log("Found comment: " + JSON.stringify(comments));
     }).catch(err => console.log(err));
 
-    return res.status(200).json({ success: true, result: comment_list });
+    const _ids = comment_list.map((x) => x._id)
+    const replies = await Comment.find({ link_id: { $in: _ids } })
+
+    return res.status(200).json({ success: true, comments: comment_list, replies: replies});
 }
 
 createComment = async (req, res) => {

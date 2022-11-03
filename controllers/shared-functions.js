@@ -1,5 +1,7 @@
 const Community = require('../models/community-model');
+const { deleteComment } = require('./comment-controller');
 const ObjectId = require('mongoose').Types.ObjectId;
+const Comment = require('../models/comment-model');
 
 createCommunity = (type) => {
     const community = (type == 1)?new Community({
@@ -56,7 +58,23 @@ updateCommunity = (community, body) => {
     return community;
 }
 
+deleteCommentsByLink = async (id) => {
+    // console.log("Find Comments with link: " + JSON.stringify(req.params.id));
+    const _id = new ObjectId(id);
+
+    const comment_list = await Comment.find({ link_id: _id }, (err, comments) => {
+        if (err) { return res.status(400).json({ success: false, error: err }); }
+        // console.log("Found comment: " + JSON.stringify(comments));
+    }).catch(err => console.log(err));
+
+    const _ids = comment_list.map((x) => x._id)
+    const replies = await Comment.find({ link_id: { $in: _ids } })
+    const reply_ids = replies.map((x)=>x._id)
+    await Comment.deleteMany($or[{_id: {$in:_ids}}, {_id: {$in:reply_ids}}])
+}
+
 module.exports = {
     createCommunity,
-    updateCommunity
+    updateCommunity,
+    deleteCommentsByLink
 }

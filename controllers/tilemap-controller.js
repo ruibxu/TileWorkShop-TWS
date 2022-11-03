@@ -1,4 +1,4 @@
-const { createCommunity, updateCommunity} = require('./shared-functions');
+const { createCommunity, updateCommunity, deleteCommentsByLink} = require('./shared-functions');
 const TileMap = require('../models/tilemap-model');
 const TileSet = require('../models/tileset-model');
 const User = require('../models/user-model');
@@ -65,6 +65,7 @@ deleteTileMap = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             if (item.access.owner_id.equals(req.body.user_id)) {
+                deleteCommentsByLink(objectId)
                 TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
                 return res.status(200).json({

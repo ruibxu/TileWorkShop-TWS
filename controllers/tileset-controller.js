@@ -1,4 +1,4 @@
-const { createCommunity, updateCommunity} = require('./shared-functions');
+const { createCommunity, updateCommunity, deleteCommentsByLink} = require('./shared-functions');
 
 const TileSet = require('../models/tileset-model');
 const Access = require('../models/access-model');
@@ -73,6 +73,7 @@ deleteTileSet = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             if (item.access.owner_id.equals(req.body.user_id)) {
+                deleteCommentsByLink(objectId)
                 TileSet.findOneAndDelete({ _id: objectId })
                 .then(res.status(200)
                 .json({
