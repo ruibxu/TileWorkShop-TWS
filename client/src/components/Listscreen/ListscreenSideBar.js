@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Flex, Box, Container, Text, Radio, RadioGroup, Stack, Divider } from '@chakra-ui/react';
-import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE } from '../../translator-client/sort-options';
+import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE } from '../../translator-client/sort-options';
 
 
 const ListscreenSideBar = (props) => {
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
+    const [access, setAccess] = useState((props.default)?props.default:'0')
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'}>
@@ -47,6 +48,25 @@ const ListscreenSideBar = (props) => {
                         </Stack>
                     </RadioGroup>
                     <Divider borderColor='gray' />
+                    <Box paddingBottom={4}>
+                        <Text className={'title-font'}>Access:</Text>
+                    </Box>
+                    <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4}>
+                        <Stack direction='column' gap={2}>
+                            <Radio value={`${ACCESS_TYPE.OWNED}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>Owned</Text>
+                            </Radio>
+                            <Radio value={`${ACCESS_TYPE.EDITABLE}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>Editable</Text>
+                            </Radio>
+                            <Radio value={`${ACCESS_TYPE.FAVORITE}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>Favorite</Text>
+                            </Radio>
+                            <Radio value={`${ACCESS_TYPE.VIEWABLE}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>Viewable</Text>
+                            </Radio>
+                        </Stack>
+                    </RadioGroup>
                 </Box>
             </Box>
         </Box>

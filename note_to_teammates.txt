@@ -16,3 +16,29 @@ https://www.educative.io/answers/what-is-skip-in-mongoose
 https://stackoverflow.com/questions/66172034/mongoose-sort-breaks-skip-limit
 
 Mocha
+
+
+Universal Search Function: 
+Function Name: "searchProject2"
+This is ment to be a universal search function
+Q-answers
+#For the Map itself:
+Required "type": determines the type of project being searched (TileSet or TileMap). refer to translater (PROJECT_TYPE)
+
+#For the access types:
+Optional "searcher_id": determines what they have access to, empty of guest mode default:''
+Optional "access": (Viewable, Editable, Owned, Favorite) default: viewable (Must be number). refer to translater (ACCESS_TYPE)
+
+#For search options:
+Optional "search_type": "Name" or "Creator". refer to translater (SEARCH_TYPE)
+Optional "search_value": The thing typed into the search bar default: ""
+
+#Sorting variables:
+Optional "sort_type": sort by name, views, likes or most recent. refer to translater (SORT_TYPE) default: recent
+Optional "sort_order": the order to sort this by. refer to translater (SORT_ORDER) default: depends on sort type
+Optional "skip": The number to skip from the top default: 0
+Optional "limit": Limits the number of items returned default: 6
+
+
+
+
