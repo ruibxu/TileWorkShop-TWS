@@ -1,4 +1,4 @@
-const { createCommunity, updateCommunity} = require('./shared-functions');
+const { createCommunity, updateCommunity, deleteCommentsByLink} = require('./shared-functions');
 const Comment = require('../models/comment-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -65,6 +65,7 @@ deleteComment = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             if (item.user_id.equals(req.body.user_id)) {
+                deleteCommentsByLink(objectId)
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 return res.status(200).json({
                     message: "Comment Deleted"

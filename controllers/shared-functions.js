@@ -1,5 +1,4 @@
 const Community = require('../models/community-model');
-const { deleteComment } = require('./comment-controller');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Comment = require('../models/comment-model');
 
