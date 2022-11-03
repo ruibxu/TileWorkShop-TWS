@@ -237,6 +237,7 @@ getTileSetImage = async (req, res) => {
         });
     }
     return res.status(201).json({
+        _id: public_id,
         resources: resources
     })
 }
