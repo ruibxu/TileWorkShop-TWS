@@ -11,3 +11,8 @@ sync test
 test
 
 find($or[{_id: "something"}, {name: "potato"}])
+
+https://www.educative.io/answers/what-is-skip-in-mongoose
+https://stackoverflow.com/questions/66172034/mongoose-sort-breaks-skip-limit
+
+Mocha

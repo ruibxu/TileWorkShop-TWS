@@ -147,6 +147,7 @@ searchProject = async (req, res) =>{
     const userid = req.body.searcher_id
     const sort_type = req.body.sort_type
     const order = req.body.order
+    const skip = (req.body.skip)?req.body.skip:0
     if (!order){
         if(sort_type == SORT_TYPE.NAME){order = SORT_ORDER.ASCENDING}
         else{order = SORT_ORDER.DESCENDING}
@@ -158,7 +159,7 @@ searchProject = async (req, res) =>{
         results = await Search.find({$and:[
             {['access.public']: true}, 
             {name:{ "$regex": search_value, "$options": "i" }}
-        ]}).sort(conditions).limit(limit)
+        ]}).sort(conditions).skip(skip).limit(limit)
     }
     else{
         results = await Search.find({$and:[
@@ -169,7 +170,7 @@ searchProject = async (req, res) =>{
                 {['access.viewer_ids']: userid}
             ]},
             {name:{ "$regex": search_value, "$options": "i" }}
-            ]}).sort(conditions).limit(limit)
+            ]}).sort(conditions).skip(skip).limit(limit)
     }
     if(!results){
         return res.status(404).json({
@@ -195,10 +196,11 @@ searchUsers = async(req, res) => {
     //REQUIRED req.body.exact: boolean
     const search_value = req.body.search_value?req.body.search_value:''
     const limit = req.body.search_value?req.body.search_value:6
+    const skip = (req.body.skip)?req.body.skip:0
     conditions = (req.body.exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
     results = await User.find( 
         conditions
-    ).sort({username: -1}).limit(limit)
+    ).sort({username: -1}).skip(skip).limit(limit)
     if(!results){
         return res.status(404).json({
             success: false,
@@ -222,6 +224,7 @@ searchProjectByUsers = async(req, res) => {
     const userid = req.body.searcher_id
     const sort_type = req.body.sort_type
     const order = req.body.order
+    const skip = (req.body.skip)?req.body.skip:0
     if (!order){
         if(sort_type == SORT_TYPE.NAME){order = SORT_ORDER.ASCENDING}
         else{order = SORT_ORDER.DESCENDING}
@@ -232,7 +235,7 @@ searchProjectByUsers = async(req, res) => {
         results = await Search.find({$and:[
             {['access.public']: true}, 
             {['access.owner_id']:{ $in: id_list}}
-        ]}).sort(conditions).limit(limit)
+        ]}).sort(conditions).skip(skip).limit(limit)
     }
     else{
         results = await Search.find({$and:[
@@ -243,7 +246,7 @@ searchProjectByUsers = async(req, res) => {
                 {['access.viewer_ids']: userid}
             ]},
             {['access.owner_id']:{ $in: id_list}}
-            ]}).sort(conditions).limit(limit)
+            ]}).sort(conditions).skip(skip).limit(limit)
     }
     if(!results){
         return res.status(404).json({
