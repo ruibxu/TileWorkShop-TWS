@@ -16,14 +16,14 @@ const PROJECT_TYPE = {//This is the only one that can be safely changed
     TILEMAP: 1
 }
 
-export const ACCESS_TYPE = {
+const ACCESS_TYPE = {
     VIEWABLE: 2,
     EDITABLE: 3,
     OWNER: 4,
     FAVORITE: 1
 }
 
-export const SEARCH_TYPE = {
+const SEARCH_TYPE = {
     NAME: "name",
     CREATOR: "creator"
 }
