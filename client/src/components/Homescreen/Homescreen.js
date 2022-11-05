@@ -24,7 +24,7 @@ import image5 from '../../tile_atlas.png'
 const Homescreen = (props) => {
     const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
-    const {auth} = useContext(AuthContext);
+    //const {auth} = useContext(AuthContext);
     let history = useHistory();
     const redirect = async (route) => {
         history.push(route, { reload: true });
