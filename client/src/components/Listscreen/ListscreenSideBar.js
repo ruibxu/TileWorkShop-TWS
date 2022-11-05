@@ -10,12 +10,12 @@ const ListscreenSideBar = (props) => {
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'}>
-            <Box paddingLeft={4} paddingTop={2}>
+            <Box paddingTop={2}>
                 <Box paddingBottom={4}>
                     <Box paddingBottom={4}>
                         <Text className={'title-font'}>Sort by:</Text>
                     </Box>
-                    <RadioGroup onChange={setType} value={type} color={'red'} paddingBottom={4}>
+                    <RadioGroup onChange={setType} value={type} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={2}>
                             <Radio value={SORT_TYPE.NAME} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Aphlabetical Order</Text>
@@ -37,7 +37,7 @@ const ListscreenSideBar = (props) => {
                     <Box paddingBottom={4}>
                         <Text className={'title-font'}>Sort Order:</Text>
                     </Box>
-                    <RadioGroup onChange={setOrder} value={order} color={'red'} paddingBottom={4}>
+                    <RadioGroup onChange={setOrder} value={order} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={2}>
                             <Radio value={`{SORT_ORDER.ASCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Ascending</Text>
@@ -51,7 +51,7 @@ const ListscreenSideBar = (props) => {
                     <Box paddingBottom={4}>
                         <Text className={'title-font'}>Access:</Text>
                     </Box>
-                    <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4}>
+                    <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={2}>
                             <Radio value={`${ACCESS_TYPE.OWNED}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Owned</Text>
