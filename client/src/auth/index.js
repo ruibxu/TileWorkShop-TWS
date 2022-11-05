@@ -1,4 +1,5 @@
-// import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+
+//import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import api from '../api'
@@ -11,7 +12,7 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
-    LOGOUT_USER: "LOGOUT_USER",
+    LOGOUT_USER: "LOGOUT_USER"
 }
 
 function AuthContextProvider(props) {
@@ -23,19 +24,19 @@ function AuthContextProvider(props) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleOpen = () => {
+    const handleOpen = () =>{
         setOpen(true);
     }
 
-    const handleClose = () => {
+    const handleClose = () =>{
         setOpen(false);
     }
 
     useEffect(() => {
-        if (auth.loggedIn) {
+        if(auth.loggedIn){
             auth.getLoggedIn();
         }
-
+        
     }, []);
 
     const authReducer = (action) => {
@@ -53,18 +54,16 @@ function AuthContextProvider(props) {
                     loggedIn: true
                 })
             }
-            case AuthActionType.LOGIN_USER: {
+            case AuthActionType.LOGIN_USER:{
                 return setAuth({
-                    user: payload.user,
-                    loggedIn: true,
-                    page: payload.page
+                    user:payload.user,
+                    loggedIn: true
                 })
             }
-            case AuthActionType.LOGOUT_USER: {
+            case AuthActionType.LOGOUT_USER:{
                 return setAuth({
-                    user: payload,
-                    loggedIn: false,
-                    page: payload.page
+                    user:payload,
+                    loggedIn: false
                 })
             }
 
@@ -73,9 +72,10 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.registerUser = async function (userData, store) {
+
+    auth.registerUser = async function(userData, store) {
         var response = null
-        response = await api.registerUser(userData);
+        response = await api.registerUser(userData); 
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -85,14 +85,15 @@ function AuthContextProvider(props) {
             })
             history.push("/");
             store.loadIdNamePairs();
-        } else {
+        }else{
             setMessage(response.data.errorMessage);
             handleOpen();
         }
     }
 
-    auth.logInUser = async function (userData, store) {
-        const response = await api.loginUser(userData);
+    auth.logInUser = async function(userData, store) {
+        console.log(userData.email, userData.password);
+        const response = await api.loginUser(userData);      
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.LOGIN_USER,
@@ -101,24 +102,35 @@ function AuthContextProvider(props) {
                 }
             })
             history.push("/");
-            auth.page = 'home';
             store.loadIdNamePairs();
-        } else {
+        }else{
             setMessage(response.data.errorMessage);
             handleOpen();
         }
     }
 
-    auth.logoutUser = function () {
+    auth.logoutUser = function(){
         authReducer({
-            type: AuthActionType.LOGOUT_USER,
-            payload: {
-                page: "log out"
-            }
+            type:AuthActionType.LOGOUT_USER,
+            payload:{}
         })
         history.push("/");
     }
 
+    auth.getLoggedIn = async function () {
+        const response = await api.getLoggedIn();
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.SET_LOGGED_IN,
+                payload: {
+                    loggedIn: response.data.loggedIn,
+                    user: response.data.user
+                }
+            });
+        }
+    }
+
+    
     return (
         <AuthContext.Provider value={{
             auth
