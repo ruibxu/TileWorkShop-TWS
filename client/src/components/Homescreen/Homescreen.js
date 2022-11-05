@@ -15,6 +15,7 @@ import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
 import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
 import CreateModal from '../Modals/Create-Modal';
+import ChangePasswordModal from '../Modals/Change-Password-Model';
 
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
@@ -40,13 +41,22 @@ const Homescreen = (props) => {
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
     const showCreateModal = useDisclosure();
+    const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state?history.location.state.changePassword:false });
+
+    //temp--------------------------------------------
+    // let changePassword = history.location.state?history.location.state.changePassword:false;
+    // if(changePassword){
+    //     showChangePassword.onOpen()
+    //     history.replace(history.location.pathname, {changePassword: false});
+    // }
+    //temp ends---------------------------------------
 
     const data = [
-        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
-        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2 },
-        { _id: "3", owner: "Ruibo", name: "Forest", src: image3 },
-        { _id: "4", owner: "Ruibo", name: "Farm", src: image4 },
-        { _id: "5", owner: "Ruibo", name: "Garden", src: image5 }]
+        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1},
+        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1},
+        { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1},
+        { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0},
+        { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0}]
 
     const comments = [
         { _id:'6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited:"10/24/2022", community:{likes: 20, dislikes: 69420}},
@@ -87,6 +97,7 @@ const Homescreen = (props) => {
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} />
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>

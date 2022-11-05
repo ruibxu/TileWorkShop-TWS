@@ -8,6 +8,8 @@ import Listscreen from './components/Listscreen/Listscreen.js';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen.js';
 import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen.js';
 
+import ForgetPasswordLink from './components/Instant-Redirects/ForgetPasswordLink';
+
 
 const TWS = () => {
     return (
@@ -18,7 +20,7 @@ const TWS = () => {
                 <Route path="/listscreen" exact component={() => <Listscreen/>} /> 
                 <Route path="/tileset" exact component={() => <EditTileSetScreen/>}/>
                 <Route path="/tilemap" exact component={() => <EditTileMapScreen/>}/>
-                {/* <Route path="/forgetpassword/:id" exact component={() => re}/> */}
+                <Route path="/forgetpassword/:id" exact component={() => <ForgetPasswordLink/>}/>
             </Switch>
         </BrowserRouter>
     )

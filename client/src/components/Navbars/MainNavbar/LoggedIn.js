@@ -56,7 +56,7 @@ const LoggedIn = (props) => {
             />
         </MenuButton>
         <MenuList>
-            <MenuItem>Account</MenuItem>
+            <MenuItem onClick={()=>props.redirect('/forgetpassword/test', {changePassword: true})}>Account</MenuItem>
             <MenuDivider />
             <MenuItem onClick={()=>props.openUpdateAccountModal()}>Update</MenuItem>
             <MenuItem onClick={()=>props.handleLogout()}>Logout</MenuItem>
