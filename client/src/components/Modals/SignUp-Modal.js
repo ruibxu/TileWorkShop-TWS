@@ -1,5 +1,4 @@
 import React, { useState} from 'react'
-
 import {
     Modal,
     ModalOverlay,
@@ -18,6 +17,9 @@ import {
     FormControl,
     FormLabel
   } from '@chakra-ui/react'
+import { useContext } from 'react';
+import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 
 const SignUpModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
@@ -25,6 +27,19 @@ const SignUpModal = (props) => {
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
+    const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext)
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        auth.registerUser({
+            userName:formData.get('userName'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            passwordVerify: formData.get('passwordVerify')
+        }, store);
+    };
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />

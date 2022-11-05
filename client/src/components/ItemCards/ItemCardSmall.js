@@ -25,7 +25,7 @@ function ItemCardSmall(props) {
                 <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={data.src} marginRight={0} onClick ={()=>props.openItemCard(data)}/>
             </Flex>
             <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
-                <Box minW='50%'>
+                <Box minW='50%' paddingLeft={3}>
                     <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
                         {(data.name) ? data.name : 'Untitled'}
                     </Box>
