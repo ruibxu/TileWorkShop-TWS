@@ -123,6 +123,7 @@ function AuthContextProvider(props) {
         <AuthContext.Provider value={{
             auth
         }}>
+            {props.children}
         </AuthContext.Provider>
     );
 }

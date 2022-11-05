@@ -129,13 +129,14 @@ const GlobalStoreProvider = (props) => {
             }
         }
     }
+    return (
+        <GlobalStoreContext.Provider value={{
+            store
+        }}>
+            {props.children}
+        </GlobalStoreContext.Provider>
+    )
 }
-return (
-    <GlobalStoreContext.Provider value={{
-        store
-    }}>
-        {props.children}
-    </GlobalStoreContext.Provider>
-)
+
 export default GlobalStoreContext;
 export { GlobalStoreProvider };

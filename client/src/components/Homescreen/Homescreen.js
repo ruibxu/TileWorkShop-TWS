@@ -22,17 +22,18 @@ import image2 from '../../NES - Super Mario Bros - World 1-2.png'
 import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
+import AuthContext from '../../auth';
 const Homescreen = (props) => {
     const [bigCardData, setBigCardData] = useState({})
-    const { auth } = useContext(AuthContext);
+    const auth = useContext(AuthContext);
     let history = useHistory();
-    // console.log(auth)
+    console.log(auth)
     const redirect = async (route) => {
         history.push(route, { reload: true });
         const redirect = async (route, parameters) => {
             history.push(route, parameters);
         }
-
+    }
         // console.log('Immediate redirect success')
         // redirect('/listscreen')
 
@@ -96,5 +97,4 @@ const Homescreen = (props) => {
     }
     //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
 
-}
 export default Homescreen;
