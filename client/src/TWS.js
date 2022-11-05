@@ -18,6 +18,7 @@ const TWS = () => {
                 <Route path="/listscreen" exact component={() => <Listscreen/>} /> 
                 <Route path="/tileset" exact component={() => <EditTileSetScreen/>}/>
                 <Route path="/tilemap" exact component={() => <EditTileMapScreen/>}/>
+                {/* <Route path="/forgetpassword/:id" exact component={() => re}/> */}
             </Switch>
         </BrowserRouter>
     )

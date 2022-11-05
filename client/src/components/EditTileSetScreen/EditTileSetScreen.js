@@ -13,9 +13,9 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import List from '@mui/material/List';
 const EditTileSetScreen = () => {
     let history = useHistory();
-	const redirect = async(route) => {
-		history.push(route, {reload: true});
-	}
+	const redirect = async (route, parameters) => {
+        history.push(route, parameters);
+    }
 
     const showShareModal = useDisclosure()
     let TempInfo = [

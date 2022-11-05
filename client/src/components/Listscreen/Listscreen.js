@@ -27,8 +27,8 @@ const Listscreen = () => {
     const [bigCardData, setBigCardData] = useState({})
 
     let history = useHistory();
-    const redirect = async (route) => {
-        history.push(route, { reload: true });
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
     }
 
     const showSignUpModal = useDisclosure()
