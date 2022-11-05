@@ -30,6 +30,7 @@ const Listscreen = (props) => {
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
+    const access_default = history.location.state?`${history.location.state.default}`:0
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure()
@@ -72,7 +73,7 @@ const Listscreen = (props) => {
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
-                    <ListscreenSideBar />
+                    <ListscreenSideBar default={access_default}/>
                     <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} />
                 </Flex>
             </Box>

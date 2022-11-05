@@ -43,14 +43,6 @@ const Homescreen = (props) => {
     const showCreateModal = useDisclosure();
     const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state?history.location.state.changePassword:false });
 
-    //temp--------------------------------------------
-    // let changePassword = history.location.state?history.location.state.changePassword:false;
-    // if(changePassword){
-    //     showChangePassword.onOpen()
-    //     history.replace(history.location.pathname, {changePassword: false});
-    // }
-    //temp ends---------------------------------------
-
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1},
         { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1},

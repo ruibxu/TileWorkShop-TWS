@@ -12,6 +12,7 @@ import {
   } from '@chakra-ui/react';
   import { MdListAlt, MdFavoriteBorder, MdNotificationsNone, MdPersonOutline} from "react-icons/md";
   import NewsEntry from '../../Homescreen/HomescreenNewEntry';
+  import { ACCESS_TYPE } from '../../../translator-client/sort-options';
 
   let notifications = [
     {username: 'Yibo', action: 'created', projectName: 'Super Mario Bros 1', content: 'Super Mario Bros 1',notificationTime:'12:59 pm'},
@@ -26,8 +27,8 @@ import {
 const LoggedIn = (props) => {
     return(
         <Flex gap={3} alignItems={'center'} width='240px' className='align-right'>
-            <IconButton icon={<MdFavoriteBorder className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
-            <IconButton icon={<MdPersonOutline className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
+            <IconButton icon={<MdFavoriteBorder className='md-icon'/>} onClick={()=>props.redirect('/listscreen', {default: ACCESS_TYPE.FAVORITE})} bg='transparent'/>
+            <IconButton icon={<MdPersonOutline className='md-icon'/>} onClick={()=>props.redirect('/listscreen', {default: ACCESS_TYPE.OWNER})} bg='transparent'/>
             <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
         <Menu>
             <MenuButton

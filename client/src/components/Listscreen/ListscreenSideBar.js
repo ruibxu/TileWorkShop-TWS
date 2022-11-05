@@ -6,7 +6,7 @@ import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE } from '../../translato
 const ListscreenSideBar = (props) => {
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
-    const [access, setAccess] = useState((props.default)?props.default:'0')
+    const [access, setAccess] = useState((props.default)?props.default:`${ACCESS_TYPE.VIEWABLE}`)
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'}>
@@ -53,7 +53,7 @@ const ListscreenSideBar = (props) => {
                     </Box>
                     <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={2}>
-                            <Radio value={`${ACCESS_TYPE.OWNED}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                            <Radio value={`${ACCESS_TYPE.OWNER}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Owned</Text>
                             </Radio>
                             <Radio value={`${ACCESS_TYPE.EDITABLE}`} size='lg' colorScheme='blue' borderColor={'purple'}>
