@@ -22,14 +22,15 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import image6 from '../../04_Qiqi_02newyear_receive.png'
-const Listscreen = () => {
+const Listscreen = (props) => {
     const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
 
     let history = useHistory();
-    const redirect = async (route) => {
-        history.push(route, { reload: true });
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
     }
+    const access_default = history.location.state?`${history.location.state.default}`:0
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure()
@@ -41,12 +42,12 @@ const Listscreen = () => {
 
 
     const data = [
-        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image },
-        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2 },
-        { _id: "3", owner: "Ruibo", name: "Forest", src: image3 },
-        { _id: "4", owner: "Ruibo", name: "Farm", src: image4 },
-        { _id: "5", owner: "Ruibo", name: "Garden", src: image5 },
-        { _id: "14", owner: "Jimmy", name: "QiQi?", src: image6 }]
+        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1},
+        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1},
+        { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1},
+        { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0},
+        { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0},
+        { _id: "14", owner: "Jimmy", name: "QiQi?", src: image6, type: 0}]
 
     const comments = [
         { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
@@ -72,7 +73,7 @@ const Listscreen = () => {
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
-                    <ListscreenSideBar />
+                    <ListscreenSideBar default={access_default}/>
                     <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} />
                 </Flex>
             </Box>

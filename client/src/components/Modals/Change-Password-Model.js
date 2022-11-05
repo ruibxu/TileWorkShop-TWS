@@ -21,7 +21,7 @@ import { useContext } from 'react';
 //import { GlobalStoreContext } from '../store'
 //import AuthContext from '../auth'
 
-const SignUpModal = (props) => {
+const ChangePasswordModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [showPasswordVerify, setShowPasswordVerify] = React.useState(false)
     const handleClick = () => setShowPassword(!showPassword)
@@ -44,19 +44,11 @@ const SignUpModal = (props) => {
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
     <ModalContent maxW='500px'>
-        <ModalHeader>Create Account</ModalHeader>
+        <ModalHeader>Insert New Password</ModalHeader>
         <ModalCloseButton />
         <Divider borderColor={'purple'}/>
         <ModalBody>
             <Stack spacing={2}>
-                <FormControl>
-                    <FormLabel>Username:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
-                </FormControl>
                 <FormControl>
                     <FormLabel>Password:</FormLabel>
                     <InputGroup size='md'>
@@ -90,7 +82,7 @@ const SignUpModal = (props) => {
         <Divider borderColor={'purple'}/>
         <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
-                Create Account
+                Change Password
             </Button>
         </ModalFooter>
     </ModalContent>
@@ -98,4 +90,4 @@ const SignUpModal = (props) => {
     )
 }
 
-export default SignUpModal;
+export default ChangePasswordModal;

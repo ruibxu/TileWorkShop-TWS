@@ -55,7 +55,8 @@ getViewableProjects = async (req, res) =>{
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     return res.status(200).json({
         success: true,
@@ -91,7 +92,8 @@ getEditableProjects = async (req, res) =>{
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     return res.status(200).json({
         success: true,
@@ -132,7 +134,8 @@ getFavoriteProjects = async (req, res) =>{
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     return res.status(200).json({
         success: true,
@@ -183,7 +186,8 @@ searchProject = async (req, res) =>{
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     return res.status(200).json({
         success: true,
@@ -259,7 +263,8 @@ searchProjectByUsers = async(req, res) => {
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     return res.status(200).json({
         success: true,
@@ -347,7 +352,8 @@ searchProjects2 = async (req, res) => {
         name: x.name,
         access: x.access,
         community: x.community,
-        lastEdited: x.lastEdited
+        lastEdited: x.lastEdited,
+        type: req.params.type
     }))
     
     const usernames = matching_users.map(x => ({_id: x._id, username: x.username}))

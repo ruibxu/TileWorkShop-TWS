@@ -291,11 +291,69 @@ registerUser = async (req, res) => {
     }
 }
 
+forgetPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res
+                .status(400)
+                .json({ errorMessage: "Please enter all required fields." });
+        }
+
+        const existingUser = await User.findOne({ email: email });
+        // console.log("existingUser: " + existingUser);
+        if (!existingUser) {
+            return res
+                .status(401)
+                .json({
+                    errorMessage: "No Account with this email found"
+                })
+        }
+        //Input whatever email needs here
+        
+        //#################################
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
+verifyAccount = async (req, res) => {
+    const user_id = req.params.id
+    const user = await User.findOne({ _id: user_id }, (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: "User not found"
+            })
+        }
+        user.authentication = true
+        user.save().then(() => {
+            // console.log("SUCCESS!!!");
+            return res.status(200).json({
+                success: true,
+                message: 'User Verified!',
+            })
+        })
+        .catch(error => {
+            // console.log("FAILURE: " + JSON.stringify(error));
+            return res.status(400).json({
+                error,
+                message: 'User not verified',
+            })
+        })
+    });
+}
+
 module.exports = {
     getLoggedIn,
     registerUser,
     loginUser,
     logoutUser,
     changePassword,
-    updateAccount
+    updateAccount,
+    verifyAccount,
+    forgetPassword
 }

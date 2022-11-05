@@ -16,10 +16,10 @@ import MapLayer from './MapLayer';
 import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
-const EditTileMapScreen = () => {
+const EditTileMapScreen = (props) => {
     let history = useHistory();
-    const redirect = async (route) => {
-        history.push(route, { reload: true });
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
     }
 
     const showShareModal = useDisclosure()
