@@ -22,10 +22,10 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 const Homescreen = (props) => {
-    const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
-    const {auth} = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
     let history = useHistory();
+    // console.log(auth)
     const redirect = async (route) => {
         history.push(route, { reload: true });
     }
@@ -65,7 +65,7 @@ const Homescreen = (props) => {
         <div className='overlay'>
             <MainNavbar redirect={redirect}
                 openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
-                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={loggedin} setLoggedin={setLoggedin}
+                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={true}
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
@@ -77,7 +77,7 @@ const Homescreen = (props) => {
             <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen}/>
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
-            openForgetPasswordModal={showForgetPasswordModal.onOpen} setLogin={setLoggedin}
+            openForgetPasswordModal={showForgetPasswordModal.onOpen} 
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
