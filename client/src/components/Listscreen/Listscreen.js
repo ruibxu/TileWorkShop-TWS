@@ -22,7 +22,7 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import image6 from '../../04_Qiqi_02newyear_receive.png'
-const Listscreen = () => {
+const Listscreen = (props) => {
     const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
 

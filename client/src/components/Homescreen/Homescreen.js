@@ -30,8 +30,8 @@ const Homescreen = (props) => {
         history.push(route, parameters);
     }
 
-    console.log('Immediate redirect success')
-    redirect('/listscreen')
+    // console.log('Immediate redirect success')
+    // redirect('/listscreen')
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure()

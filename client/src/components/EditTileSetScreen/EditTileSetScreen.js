@@ -11,7 +11,7 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import { Fab, Typography } from '@mui/material'
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
-const EditTileSetScreen = () => {
+const EditTileSetScreen = (props) => {
     let history = useHistory();
 	const redirect = async (route, parameters) => {
         history.push(route, parameters);
