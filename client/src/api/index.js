@@ -12,3 +12,12 @@ export const loginUser = (payload) => api.post(`/login/`, payload)
 export const logoutUser = () => api.get(`/logout/`)
 export const changePassword = () => api.put(`/changePassword/`);
 export const updateAccount = () => api.put(`/updateAccount/:id/`);
+const apis = {
+    getLoggedIn,
+    registerUser,
+    loginUser,
+    logoutUser,
+    changePassword,
+    updateAccount
+}
+export default apis

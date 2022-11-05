@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+// import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import api from '../api'
@@ -29,61 +29,61 @@ function AuthContextProvider(props) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleOpen = () =>{
+    const handleOpen = () => {
         setOpen(true);
     }
 
-    const handleClose = () =>{
+    const handleClose = () => {
         setOpen(false);
     }
 
     useEffect(() => {
-        if(auth.loggedIn){
+        if (auth.loggedIn) {
             auth.getLoggedIn();
         }
-        
+
     }, []);
 
     const authReducer = (action) => {
         const { type, payload } = action;
         switch (type) {
 
-            case AuthActionType.GO_ALL_USER_SCREEN:{
+            case AuthActionType.GO_ALL_USER_SCREEN: {
                 return setAuth({
                     user: auth.user,
                     page: payload.page,
-                    loggedIn : auth.loggedIn
+                    loggedIn: auth.loggedIn
                 });
             }
-            case AuthActionType.GO_USER_SCREEN:{
+            case AuthActionType.GO_USER_SCREEN: {
                 return setAuth({
                     user: auth.user,
                     page: payload.page,
-                    loggedIn : auth.loggedIn
-                });
-            }
-
-            case AuthActionType.GO_COMMUNITY_SCREEN:{
-                return setAuth({
-                    user: auth.user,
-                    page: payload.page,
-                    loggedIn : auth.loggedIn
+                    loggedIn: auth.loggedIn
                 });
             }
 
-            case AuthActionType.GO_HOME_SCREEN:{
+            case AuthActionType.GO_COMMUNITY_SCREEN: {
                 return setAuth({
                     user: auth.user,
                     page: payload.page,
-                    loggedIn : auth.loggedIn
+                    loggedIn: auth.loggedIn
                 });
             }
 
-            case AuthActionType.GO_LOGOUT_SCREEN:{
+            case AuthActionType.GO_HOME_SCREEN: {
                 return setAuth({
                     user: auth.user,
                     page: payload.page,
-                    loggedIn : auth.loggedIn
+                    loggedIn: auth.loggedIn
+                });
+            }
+
+            case AuthActionType.GO_LOGOUT_SCREEN: {
+                return setAuth({
+                    user: auth.user,
+                    page: payload.page,
+                    loggedIn: auth.loggedIn
                 });
             }
 
@@ -99,16 +99,16 @@ function AuthContextProvider(props) {
                     loggedIn: true
                 })
             }
-            case AuthActionType.LOGIN_USER:{
+            case AuthActionType.LOGIN_USER: {
                 return setAuth({
-                    user:payload.user,
+                    user: payload.user,
                     loggedIn: true,
                     page: payload.page
                 })
             }
-            case AuthActionType.LOGOUT_USER:{
+            case AuthActionType.LOGOUT_USER: {
                 return setAuth({
-                    user:payload,
+                    user: payload,
                     loggedIn: false,
                     page: payload.page
                 })
@@ -118,37 +118,37 @@ function AuthContextProvider(props) {
                 return auth;
         }
     }
-    auth.goAllUserPage = function (){
+    auth.goAllUserPage = function () {
         authReducer({
             type: AuthActionType.GO_ALL_USER_SCREEN,
-            payload:{
+            payload: {
                 page: "all user"
             }
         })
     }
 
-    auth.goUserPage = function (){
+    auth.goUserPage = function () {
         authReducer({
             type: AuthActionType.GO_USER_SCREEN,
-            payload:{
+            payload: {
                 page: "single user"
             }
         })
     }
 
-    auth.goCommunityPage = function (){
+    auth.goCommunityPage = function () {
         authReducer({
             type: AuthActionType.GO_COMMUNITY_SCREEN,
-            payload:{
+            payload: {
                 page: "community"
             }
         })
     }
 
-    auth.goHomePage = function (){
+    auth.goHomePage = function () {
         authReducer({
             type: AuthActionType.GO_HOME_SCREEN,
-            payload:{
+            payload: {
                 page: "home"
             }
         })
@@ -159,7 +159,7 @@ function AuthContextProvider(props) {
         if (response.status === 200) {
             auth.goHomePage();
             authReducer({
-                type: AuthActionType.SET_LOGGED_IN,
+                type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     user: response.data.user,
                     page: "home"
@@ -168,10 +168,10 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.registerUser = async function(userData, store) {
+    auth.registerUser = async function (userData, store) {
         console.log(userData)
         var response = null
-        response = await api.registerUser(userData); 
+        response = await api.registerUser(userData);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -181,14 +181,14 @@ function AuthContextProvider(props) {
             })
             history.push("/");
             store.loadIdNamePairs();
-        }else{
+        } else {
             setMessage(response.data.errorMessage);
             handleOpen();
         }
     }
 
-    auth.logInUser = async function(userData, store) {
-        const response = await api.loginUser(userData);      
+    auth.logInUser = async function (userData, store) {
+        const response = await api.loginUser(userData);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.LOGIN_USER,
@@ -199,16 +199,16 @@ function AuthContextProvider(props) {
             history.push("/");
             auth.page = 'home';
             store.loadIdNamePairs();
-        }else{
+        } else {
             setMessage(response.data.errorMessage);
             handleOpen();
         }
     }
 
-    auth.logoutUser = function(){
+    auth.logoutUser = function () {
         authReducer({
-            type:AuthActionType.LOGOUT_USER,
-            payload:{
+            type: AuthActionType.LOGOUT_USER,
+            payload: {
                 page: "log out"
             }
         })
@@ -219,20 +219,6 @@ function AuthContextProvider(props) {
         <AuthContext.Provider value={{
             auth
         }}>
-            {props.children}
-            <Dialog
-                open ={open}
-                onClose={handleClose}
-                maxWidth = 'sm'
-                id = "sign-in-model"
-                >
-                <DialogTitle>
-                    {message}
-                    <DialogActions>
-                        <Button onClick = {handleClose}>Close</Button>
-                    </DialogActions>
-                </DialogTitle>
-            </Dialog>
         </AuthContext.Provider>
     );
 }

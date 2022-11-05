@@ -15,7 +15,7 @@ import UpdateAccountModal from '../Modals/UpdateAccount-Modal';
 import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
 import CreateModal from '../Modals/Create-Modal';
-
+import AuthContext from '../../auth'
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
 import image3 from '../../ryan-polito-viridian-forest-1.jpg'
@@ -24,7 +24,7 @@ import image5 from '../../tile_atlas.png'
 const Homescreen = (props) => {
     const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
-
+    const {auth} = useContext(AuthContext);
     let history = useHistory();
     const redirect = async (route) => {
         history.push(route, { reload: true });
