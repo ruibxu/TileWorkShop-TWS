@@ -215,9 +215,9 @@ registerUser = async (req, res) => {
         }
         // console.log("all fields provided");
         if (password.length < 8) {
-            return res
-                .status(400)
-                .json({
+            console.log('password')
+            return res.status(201).json({
+                    success: false,
                     errorMessage: "Please enter a password of at least 8 characters."
                 });
         }
