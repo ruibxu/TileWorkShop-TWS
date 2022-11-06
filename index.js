@@ -52,7 +52,8 @@ const communityRouter = require('./routes/community-router')
 app.use('/api', communityRouter)
 const searchRouter = require('./routes/search-router')
 app.use('/api', searchRouter)
-
+const emailRouter = require('./routes/email-router')
+app.use('/api', emailRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db/database')
