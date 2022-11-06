@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import AuthContext from '../../auth'
-import GlobalStoreContext from '../../store'
 import {
     Modal,
     ModalOverlay,
@@ -21,11 +20,10 @@ import {
 } from '@chakra-ui/react'
 
 const LoginModal = (props) => {
-    // const  auth  = useContext(AuthContext);
+    const {auth}   = useContext(AuthContext);
     const [showPassword, setShowPassword] = React.useState(false)
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const {store} = useContext(GlobalStoreContext)
     const handleClick = () => setShowPassword(!showPassword)
     const handleForgetPassword = () => {
         props.onClose()
@@ -34,11 +32,11 @@ const LoginModal = (props) => {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        // auth.logInUser({
-        //     email: email,
-        //     password: password
-        // }, store)
-        props.onClose()
+        auth.logInUser({
+            email: email,
+            password: password
+        })
+        //props.onClose()
     }
 
 
