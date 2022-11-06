@@ -58,7 +58,7 @@ const CreateModal = (props) => {
                 <FormControl>
                     <FormLabel>Input Project Name:</FormLabel>
                     <Input size='md' borderColor={'purple'} defaultValue={name}
-                    onBlur={(event)=>{setName(event.target.value)}}/>
+                    onChange={(event)=>{setName(event.target.value)}}/>
                 </FormControl>
             </Stack>
             <Flex>
@@ -66,7 +66,7 @@ const CreateModal = (props) => {
                     <FormLabel>Height:</FormLabel>
                     <NumberInput defaultValue={height}>
                         <NumberInputField size='md' borderColor={'purple'}
-                            onBlur={(event)=>{setHeight(event.target.value)}}
+                            onChange={(event)=>{setHeight(event.target.value)}}
                         />
                     </NumberInput>
                 </FormControl>
@@ -75,7 +75,7 @@ const CreateModal = (props) => {
                     <FormLabel>Width:</FormLabel>
                     <NumberInput defaultValue={width}>
                         <NumberInputField size='md' borderColor={'purple'}
-                            onBlur={(event)=>{setWidth(event.target.value)}}
+                            onChange={(event)=>{setWidth(event.target.value)}}
                         />
                     </NumberInput>
                 </FormControl>

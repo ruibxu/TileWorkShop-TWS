@@ -59,7 +59,7 @@ const LoginModal = (props) => {
                     <FormControl>
                         <FormLabel>Email:</FormLabel>
                         <Input size='md' borderColor={'purple'} type='email'
-                            onBlur={(event) => { setEmail(event.target.value) }} />
+                            onChange={(event) => { setEmail(event.target.value) }} />
                     </FormControl>
                     <FormControl>
                         <FormLabel>Password:</FormLabel>
@@ -67,7 +67,7 @@ const LoginModal = (props) => {
                             <Input borderColor={'purple'}
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder='Enter password'
-                                onBlur={(event) => { setPassword(event.target.value) }}
+                                onChange={(event) => { setPassword(event.target.value) }}
                             />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={handleClick}>

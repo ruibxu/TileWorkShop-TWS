@@ -39,11 +39,11 @@ const ForgetPasswordModal = (props) => {
             <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setUsername(event.target.value) }}/>
+                    <Input size='md' borderColor={'purple'} onChange={(event) => { setUsername(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setEmail(event.target.value) }}/>
+                    <Input size='md' borderColor={'purple'} onChange={(event) => { setEmail(event.target.value) }}/>
                 </FormControl>
             </Stack>
         </ModalBody>

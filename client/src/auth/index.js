@@ -12,7 +12,9 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
-    LOGOUT_USER: "LOGOUT_USER"
+    LOGOUT_USER: "LOGOUT_USER",
+    VERIFY_ACCOUNT: "VERIFY_ACCOUNT",
+    UPDATE_ACCOUNT: "UPDATE_ACCOUNT"
 }
 
 function AuthContextProvider(props) {

@@ -54,7 +54,7 @@ const MainNavbar = (props) => {
             </Flex>
             {props.loggedin?
                 (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}
-                    openUpdateAccountModal={props.openUpdateAccountModal}
+                    openUpdateAccountModal={props.openUpdateAccountModal} user={auth.user}
                 />):
                 (<GuestMode redirect={props.redirect} 
                     openSignUpModal={props.openSignUpModal} 

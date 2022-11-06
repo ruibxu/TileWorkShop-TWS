@@ -14,7 +14,7 @@ const ListscreenSideBar = (props) => {
             <Box paddingTop={2}>
                 <Box paddingBottom={4}>
                     <Box paddingBottom={4}>
-                        <Text className={'title-font'}>Type:</Text>
+                        <Text className={'title-font'}>Project Type:</Text>
                     </Box>
                     <RadioGroup onChange={setProjectType} value={projectType} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>

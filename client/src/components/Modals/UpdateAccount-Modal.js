@@ -49,11 +49,11 @@ const UpdateAccountModal = (props) => {
             <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setUsername(event.target.value) }}/>
+                    <Input size='md' borderColor={'purple'} onChange={(event) => { setUsername(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setEmail(event.target.value) }}/>
+                    <Input size='md' borderColor={'purple'} onChange={(event) => { setEmail(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password:</FormLabel>
@@ -61,7 +61,7 @@ const UpdateAccountModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter password'
-                        onBlur={(event) => { setPassword(event.target.value) }}
+                        onChange={(event) => { setPassword(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -76,7 +76,7 @@ const UpdateAccountModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPasswordVerify ? 'text' : 'password'}
                         placeholder='Enter password'
-                        onBlur={(event) => { setPasswordVerify(event.target.value) }}
+                        onChange={(event) => { setPasswordVerify(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClickVerify}>

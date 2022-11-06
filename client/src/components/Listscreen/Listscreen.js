@@ -25,8 +25,7 @@ import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import image6 from '../../04_Qiqi_02newyear_receive.png'
 const Listscreen = (props) => {
-    const { auth } = useContext(AuthContext);//Imported Yibo can fix later
-    const [loggedin, setLoggedin] = useState('5')
+    const { auth } = useContext(AuthContext);
     const [bigCardData, setBigCardData] = useState({})
 
     let history = useHistory();
@@ -72,7 +71,8 @@ const Listscreen = (props) => {
         <div className='overlay'>
             <MainNavbar redirect={redirect}
                 openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
-                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={loggedin} setLoggedin={setLoggedin}
+                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={auth.loggedin}
+                user={auth.user}
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
@@ -84,7 +84,7 @@ const Listscreen = (props) => {
 
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
-            openForgetPasswordModal={showForgetPasswordModal.onOpen} setLogin={setLoggedin}
+            openForgetPasswordModal={showForgetPasswordModal.onOpen}
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
