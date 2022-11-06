@@ -7,19 +7,20 @@ const api = axios.create({
 
 })
 
-export const getLoggedIn = () => api.get(`/loggedIn/`);
-export const registerUser = (payload) => api.post(`/register/`, payload)
-export const loginUser = (payload) => api.post(`/login/`, payload)
-export const logoutUser = () => api.get(`/logout/`)
-export const changePassword = () => api.put(`/changePassword/`);
-export const updateAccount = () => api.put(`/updateAccount/:id/`);
-
+export const getLoggedIn = () => api.get(`auth/loggedIn/`)
+export const registerUser = (payload) => api.post(`auth/register/`, payload)
+export const loginUser = (payload) => api.post(`auth/login/`, payload)
+export const logoutUser = () => api.get(`auth/logout/`)
+export const changePassword = () => api.put(`auth/changePassword/`)
+export const updateAccount = (id,payload) => api.put(`auth/updateAccount/${id}`, payload)
+export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
 const apis = {
     getLoggedIn,
     registerUser,
     loginUser,
     logoutUser,
     changePassword,
-    updateAccount
+    updateAccount,
+    verifyAccount
 }
 export default apis

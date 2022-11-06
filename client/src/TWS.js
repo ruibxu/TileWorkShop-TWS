@@ -9,6 +9,7 @@ import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen.
 import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen.js';
 
 import ForgetPasswordLink from './components/Instant-Redirects/ForgetPasswordLink';
+import VerifyAccountLink from './components/Instant-Redirects/VerifyAccountLink';
 
 
 const TWS = () => {
@@ -22,6 +23,7 @@ const TWS = () => {
                         <Route path="/tileset" exact component={() => <EditTileSetScreen/>}/>
                         <Route path="/tilemap" exact component={() => <EditTileMapScreen/>}/>
                         <Route path="/forgetpassword/:id" exact component={() => <ForgetPasswordLink/>}/>
+                        <Route path="/verifyaccount/:id" exact component={() => <VerifyAccountLink/>}/>
                     </Switch>
             </AuthContextProvider>
         </BrowserRouter>

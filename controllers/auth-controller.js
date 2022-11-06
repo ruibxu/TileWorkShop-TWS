@@ -101,7 +101,7 @@ logoutUser = async (req, res) => {
 
 changePassword = async (req, res) => {
     // console.log("changing password");
-    const { email, password, passwordVerify } = req.body;
+    const { id, password, passwordVerify } = req.body;
     if (password.length < 8) {
         return res
             .status(400)
@@ -119,7 +119,7 @@ changePassword = async (req, res) => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const passwordHash = await bcrypt.hash(password, salt);
-    User.findOne({ email: email }, (err, user) => {
+    User.findOne({ _id: id }, (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -262,7 +262,7 @@ registerUser = async (req, res) => {
             username: username,
             email: email,
             passwordHash: passwordHash,
-            authentication: true
+            authentication: false
         });
         const savedUser = await newUser.save();
         // console.log("new user saved: " + savedUser._id);
