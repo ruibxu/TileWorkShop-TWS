@@ -29,6 +29,7 @@ const LoginModal = (props) => {
         props.onClose()
         props.openForgetPasswordModal()
     }
+    console.log(email)
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -51,7 +52,7 @@ const LoginModal = (props) => {
                     <FormControl>
                         <FormLabel>Email:</FormLabel>
                         <Input size='md' borderColor={'purple'} type='email'
-                            onChange={(event) => { setEmail(event.target.value) }} />
+                            onBlur={(event) => { setEmail(event.target.value) }} />
                     </FormControl>
                     <FormControl>
                         <FormLabel>Password:</FormLabel>
@@ -59,7 +60,7 @@ const LoginModal = (props) => {
                             <Input borderColor={'purple'}
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder='Enter password'
-                                onChange={(event) => { setPassword(event.target.value) }}
+                                onBlur={(event) => { setPassword(event.target.value) }}
                             />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={handleClick}>
