@@ -66,6 +66,12 @@ function AuthContextProvider(props) {
                     loggedIn: false
                 })
             }
+            case AuthActionType.VERIFY_ACCOUNT:{
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: false
+                })
+            }
 
             default:
                 return auth;
@@ -74,8 +80,7 @@ function AuthContextProvider(props) {
 
 
     auth.registerUser = async function(userData, store) {
-        var response = null
-        response = await api.registerUser(userData); 
+        const response = await api.registerUser(userData); 
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -83,8 +88,8 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            history.push("/");
-            store.loadIdNamePairs();
+            // history.push("/");
+            // store.loadIdNamePairs();
         }else{
             setMessage(response.data.errorMessage);
             handleOpen();
@@ -124,6 +129,18 @@ function AuthContextProvider(props) {
                 type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     loggedIn: response.data.loggedIn,
+                    user: response.data.user
+                }
+            });
+        }
+    }
+
+    auth.verifyAccount = async function (){
+        const response = await api.verifyUser();
+        if(response.status === 200){
+            authReducer({
+                type: AuthActionType.VERIFY_ACCOUNT,
+                payload:{
                     user: response.data.user
                 }
             });

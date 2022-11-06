@@ -34,7 +34,7 @@ const Homescreen = (props) => {
         // redirect('/listscreen')
     }
     const showSignUpModal = useDisclosure()
-    const showLoginModal = useDisclosure()
+    const showLoginModal = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.AccountVerified : false })
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
