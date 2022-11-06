@@ -207,7 +207,7 @@ updateAccount = async (req, res) => {
 registerUser = async (req, res) => {
     try {
         const { username, email, password, passwordVerify } = req.body;
-        // console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
+        console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
         if (!username || !email || !password || !passwordVerify) {
             return res
                 .status(400)

@@ -13,20 +13,23 @@ import { MdSearch } from 'react-icons/md'
 
 import LoggedIn from './LoggedIn.js'
 import GuestMode from './GuestMode';
+import AuthContext from '../../../auth';
 
 
 
 const MainNavbar = (props) => {
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
+    const { auth } = useContext(AuthContext);
 
     
-    const handleLogin = (username) => {
+    /*const handleLogin = (username) => {
         props.setLoggedin(username)
-    }
+    }*/
 
     const handleLogout = () => {
         props.setLoggedin('')
+        //auth.logoutUser();
     }
 
     return (
@@ -53,7 +56,7 @@ const MainNavbar = (props) => {
                 (<LoggedIn redirect={props.redirect} handleLogout={handleLogout}
                     openUpdateAccountModal={props.openUpdateAccountModal}
                 />):
-                (<GuestMode redirect={props.redirect} handleLogin={handleLogin} 
+                (<GuestMode redirect={props.redirect} 
                     openSignUpModal={props.openSignUpModal} 
                     openLoginModal={props.openLoginModal}
                 />)

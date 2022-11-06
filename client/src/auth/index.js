@@ -72,8 +72,8 @@ function AuthContextProvider(props) {
         }
     }
 
-
-    auth.registerUser = async function(userData, store) {
+    auth.registerUser = async function(userData) {
+        console.log('register');
         var response = null
         response = await api.registerUser(userData); 
         if (response.status === 200) {
@@ -84,14 +84,14 @@ function AuthContextProvider(props) {
                 }
             })
             history.push("/");
-            store.loadIdNamePairs();
         }else{
             setMessage(response.data.errorMessage);
             handleOpen();
         }
     }
 
-    auth.logInUser = async function(userData, store) {
+
+    auth.logInUser = async function(userData) {
         console.log(userData.email, userData.password);
         const response = await api.loginUser(userData);      
         if (response.status === 200) {
@@ -102,7 +102,6 @@ function AuthContextProvider(props) {
                 }
             })
             history.push("/");
-            store.loadIdNamePairs();
         }else{
             setMessage(response.data.errorMessage);
             handleOpen();
