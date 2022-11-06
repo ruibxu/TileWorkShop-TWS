@@ -102,9 +102,10 @@ body {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 300;
-    font-size: 24px;
-    line-height: 29px;
-    padding: 10px;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 2px;
+    padding-left: 10px;
     color: #6A2C70;
 }
 
