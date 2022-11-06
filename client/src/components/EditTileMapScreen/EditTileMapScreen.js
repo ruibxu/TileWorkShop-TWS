@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
@@ -17,6 +17,8 @@ import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
 const EditTileMapScreen = (props) => {
+    const [isPublic, setPublic] = useState(false)
+
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -34,7 +36,9 @@ const EditTileMapScreen = (props) => {
 
     return (
         <div className='tilemap'>
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} />
+            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
+                isPublic={isPublic} setPublic={setPublic}
+            />
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
 
@@ -54,7 +58,7 @@ const EditTileMapScreen = (props) => {
 
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
         </div>)
 }

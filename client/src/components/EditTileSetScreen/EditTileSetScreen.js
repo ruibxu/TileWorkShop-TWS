@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { useDisclosure } from '@chakra-ui/react';
 import { useHistory } from "react-router-dom";
 import EditNavbar from '../Navbars/EditNavbar';
@@ -12,6 +12,8 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const EditTileSetScreen = (props) => {
+    const [isPublic, setPublic] = useState(false)
+
     let history = useHistory();
 	const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -29,12 +31,13 @@ const EditTileSetScreen = (props) => {
 
     return (
         <div>
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}/>
+            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
+                isPublic={isPublic} setPublic={setPublic}/>
             <div id="tldraw">
                 <Tldraw />
             </div>
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
         </div>)
 }

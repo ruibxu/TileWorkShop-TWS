@@ -25,7 +25,21 @@ import {
 const CreateModal = (props) => {
     const [createType, setCreateType] = useState('TileSet')
 
+    const [name, setName] = useState('Untitled')
+    const [height, setHeight] = useState(16)
+    const [width, setWidth] = useState(16)
 
+    const handleCreate = () => {
+        //-Insert Create Backend call here
+        
+        //--------------------------------
+        props.onClose()
+        setName('Untitled')
+        setHeight(16)
+        setWidth(16)
+    }
+
+    console.log(height)
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
@@ -43,21 +57,26 @@ const CreateModal = (props) => {
             <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Input Project Name:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
+                    <Input size='md' borderColor={'purple'} defaultValue={name}
+                    onBlur={(event)=>{setName(event.target.value)}}/>
                 </FormControl>
             </Stack>
             <Flex>
                 <FormControl mr={5}>
                     <FormLabel>Height:</FormLabel>
-                    <NumberInput>
-                        <NumberInputField size='md' borderColor={'purple'}/>
+                    <NumberInput defaultValue={height}>
+                        <NumberInputField size='md' borderColor={'purple'}
+                            onBlur={(event)=>{setHeight(event.target.value)}}
+                        />
                     </NumberInput>
                 </FormControl>
                 <Spacer/>
                 <FormControl ml={5}>
                     <FormLabel>Width:</FormLabel>
-                    <NumberInput>
-                        <NumberInputField size='md' borderColor={'purple'}/>
+                    <NumberInput defaultValue={width}>
+                        <NumberInputField size='md' borderColor={'purple'}
+                            onBlur={(event)=>{setWidth(event.target.value)}}
+                        />
                     </NumberInput>
                 </FormControl>
             </Flex>

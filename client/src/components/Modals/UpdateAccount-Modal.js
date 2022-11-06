@@ -25,8 +25,21 @@ const UpdateAccountModal = (props) => {
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
+    const [username, setUsername] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [passwordVerify, setPasswordVerify] = React.useState("");
 
-    return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
+    const handleClose = () => {
+        props.onClose()
+        setUsername('')
+        setEmail('')
+        setPassword('')
+        setPasswordVerify('')
+    }
+
+
+    return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='500px'>
         <ModalHeader>Update Account</ModalHeader>
@@ -36,11 +49,11 @@ const UpdateAccountModal = (props) => {
             <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
+                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setUsername(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'}/>
+                    <Input size='md' borderColor={'purple'} onBlur={(event) => { setEmail(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password:</FormLabel>
@@ -48,6 +61,7 @@ const UpdateAccountModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onBlur={(event) => { setPassword(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -62,6 +76,7 @@ const UpdateAccountModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPasswordVerify ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onBlur={(event) => { setPasswordVerify(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClickVerify}>
@@ -74,7 +89,7 @@ const UpdateAccountModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleClose} minW={425}>
                 Update Account
             </Button>
         </ModalFooter>

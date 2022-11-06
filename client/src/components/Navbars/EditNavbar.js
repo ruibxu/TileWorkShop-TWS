@@ -25,11 +25,10 @@ import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
 const EditNavbar = (props) => {
     const [loggedin, setLoggedin ] = useState('5')
     const [name, setName] = useState('Project Name')
-    const [isPublic, setPublic] = useState(false)
     const [nameEdit, toggleNameEdit] = useState(false)
 
     const handleSetPublic = (v) => {
-        setPublic(v)
+        props.setPublic(v)
     }
 
     const handleLogout = () =>{
@@ -63,8 +62,8 @@ const EditNavbar = (props) => {
             </Flex>
             <Flex gap={6} alignItems={'center'} width="width='240px">
                 <Flex gap={4} alignItems={'center'}>
-                    <Button variant={'solid'} colorScheme={(isPublic)?"green":"red"} onClick={()=>handleSetPublic(!isPublic)} width='75px'>
-                                {(isPublic)?"Public":"Private"}
+                    <Button variant={'solid'} colorScheme={(props.isPublic)?"green":"red"} onClick={()=>handleSetPublic(!props.isPublic)} width='75px'>
+                                {(props.isPublic)?"Public":"Private"}
                     </Button>
                     <Button variant={'solid'} colorScheme={'blue'}>Edit</Button>
                     <Button variant={'solid'} colorScheme={'blue'} onClick={props.openShareModal}>Share</Button>

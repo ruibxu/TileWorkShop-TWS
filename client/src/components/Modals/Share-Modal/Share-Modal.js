@@ -22,8 +22,18 @@ import {
   } from '@chakra-ui/react'
 
 const ShareModal = (props) => {
+    const [share, setShare] = useState()
 
-    return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
+    const handleClose = () => {
+        props.onClose()
+        setShare('')
+    }
+    
+    const handleShare = () => {
+        props.setPublic(!props.isPublic)
+    }
+
+    return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='600px' height='500px'>
         <ModalHeader>{`Share "${props.name}"`}</ModalHeader>
@@ -46,11 +56,11 @@ const ShareModal = (props) => {
         <Divider borderColor={'purple'}/>
         <ModalFooter>
             <Flex>
-                <Button colorScheme={(props.isPublic)?"green":"red"} mr={3} onClick={props.onClose} minW={260}>
+                <Button colorScheme={(props.isPublic)?"green":"red"} mr={3} onClick={handleShare} minW={260}>
                     {(props.isPublic)?"Public":"Private"}
                 </Button>
                 <Spacer/>
-                <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={260}>
+                <Button colorScheme='blue' mr={3} onClick={handleClose} minW={260}>
                     Done
                 </Button>
             </Flex>

@@ -40,8 +40,14 @@ const LoginModal = (props) => {
         //props.onClose()
     }
 
+    const handleClose = () => {
+        props.onClose()
+        setEmail('')
+        setPassword('')
+    }
 
-    return (<Modal isOpen={props.isOpen} onClose={props.onClose}>
+
+    return (<Modal isOpen={props.isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent maxW='500px'>
             <ModalHeader>Login</ModalHeader>
