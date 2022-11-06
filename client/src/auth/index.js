@@ -91,8 +91,9 @@ function AuthContextProvider(props) {
             })
             history.push("/");
         }else{
-            setMessage(response.data.errorMessage);
-            handleOpen();
+            console.log(response.data.errorMessage)
+            //setMessage(response.data.errorMessage);
+            //handleOpen();
         }
     }
 

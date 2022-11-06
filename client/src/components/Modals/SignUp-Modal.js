@@ -25,7 +25,7 @@ const SignUpModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [showPasswordVerify, setShowPasswordVerify] = React.useState(false)
 
-    const [userName, setUserName] = React.useState("");
+    const [username, setUsername] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordVerify, setPasswordVerify] = React.useState("");
@@ -38,7 +38,7 @@ const SignUpModal = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         auth.registerUser({
-            userName: userName,
+            username: username,
             email: email,
             password: password,
             passwordVerify: passwordVerify
@@ -58,7 +58,7 @@ const SignUpModal = (props) => {
             <Stack spacing={2}>
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onChange={(event) => { setUserName(event.target.value) }}/>
+                    <Input size='md' borderColor={'purple'} onChange={(event) => { setUsername(event.target.value) }}/>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Email:</FormLabel>

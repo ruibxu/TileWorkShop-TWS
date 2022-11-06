@@ -1,9 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: ["http://localhost:4000/api",
-        "http://localhost:4000/auth",
-        "https://tileworkshop.herokuapp.com/api"]
+    baseURL: "http://localhost:4000/" || "https://tileworkshop.herokuapp.com/"
 
 })
 
