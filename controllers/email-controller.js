@@ -9,7 +9,7 @@ const sendConfirmEmail = (req, res) => {
   const msg = {
     to: email, // Change to your recipient
     from: 'tileworkshoptws@gmail.com', // Change to your verified sender
-    templateId: '703fe27c09934dc5b217313390de64f0',//Temple ID
+    templateId: 'd-703fe27c09934dc5b217313390de64f0',//Temple ID
     dynamic_template_data: {
       link: dynamic_template_data + user_id
     }
@@ -23,7 +23,7 @@ const sendConfirmEmail = (req, res) => {
       })
     })
     .catch((error) => {
-      console.error(error)
+      console.error(error.body)
     })
 }
 // email, dynamic_template_data
@@ -31,7 +31,7 @@ const sendPasswordResetEmail = (req, res) =>{
   const user_id = req.params.id
   const { email, dynamic_template_data } = req.body
   const msg = {
-    to: 'yorkwyj@gmail.com', // Change to your recipient
+    to: email, // Change to your recipient
     from: 'tileworkshoptws@gmail.com', // Change to your verified sender
     templateId: 'd-cf2125e69f7944dd8b81552a8477b1a5',//Temple ID
     dynamic_template_data: {link:'www.google.com'}
