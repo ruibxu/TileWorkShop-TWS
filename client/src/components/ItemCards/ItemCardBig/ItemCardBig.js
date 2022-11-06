@@ -58,10 +58,12 @@ function ItemCardBig(props) {
                             </Box>
                         </Flex>
                         <Textarea placeholder='Leave a comment...' fontStyle="italic" />
-                        <Button colorScheme='blue' mr={3} onClick={() => props.onClose()} size='sm'>
-                            Comment
-                        </Button>
-                        <Button colorScheme='red' mr={3} onClick={props.openDeleteModal} size='sm'>Delete</Button>
+                        <Flex>
+                            <Spacer/>
+                            <Button colorScheme='blue' onClick={() => props.onClose()} size='sm'>
+                                Comment
+                            </Button>
+                        </Flex>
                         <CommentList comments={comments} _id={data._id} />
                     </ModalBody>
                     <ModalFooter>
