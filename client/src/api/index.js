@@ -2,6 +2,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
     baseURL: ["http://localhost:4000/api",
+        "http://localhost:4000/auth",
         "https://tileworkshop.herokuapp.com/api"]
 
 })
@@ -12,6 +13,7 @@ export const loginUser = (payload) => api.post(`/login/`, payload)
 export const logoutUser = () => api.get(`/logout/`)
 export const changePassword = () => api.put(`/changePassword/`);
 export const updateAccount = () => api.put(`/updateAccount/:id/`);
+
 const apis = {
     getLoggedIn,
     registerUser,

@@ -30,7 +30,7 @@ export const GlobalStoreActionType = {
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME"
 }
 
-const GlobalStoreProvider = (props) => {
+const GlobalStoreContextProvider = (props) => {
     const [store, setStore] = useState({
         tileSetList: [],
         tileMapList: [],
@@ -139,4 +139,4 @@ const GlobalStoreProvider = (props) => {
 }
 
 export default GlobalStoreContext;
-export { GlobalStoreProvider };
+export { GlobalStoreContextProvider };

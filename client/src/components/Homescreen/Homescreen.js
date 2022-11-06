@@ -25,76 +25,72 @@ import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
 const Homescreen = (props) => {
     const [bigCardData, setBigCardData] = useState({})
-    const {auth} = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
     let history = useHistory();
     console.log(auth)
-    const redirect = async (route) => {
-        history.push(route, { reload: true });
-        const redirect = async (route, parameters) => {
-            history.push(route, parameters);
-        }
-    }
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
         // console.log('Immediate redirect success')
         // redirect('/listscreen')
-
-        const showSignUpModal = useDisclosure()
-        const showLoginModal = useDisclosure()
-        const showForgetPasswordModal = useDisclosure()
-        const showUpdateAccountModal = useDisclosure()
-        const showItemCard = useDisclosure();
-        const showDeleteModal = useDisclosure();
-        const showCreateModal = useDisclosure();
-        const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.changePassword : false });
-
-        const data = [
-            { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
-            { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
-            { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1 },
-            { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0 },
-            { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0 }]
-
-        const comments = [
-            { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '8', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '9', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '10', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '11', link_id: '6', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '12', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-            { _id: '13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } }
-        ]
-
-        const handleOpenBigItemCard = (newData) => {
-            setBigCardData(newData)
-            showItemCard.onOpen()
-        }
-
-        return (
-            <div className='overlay'>
-                <MainNavbar redirect={redirect}
-                    openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
-                    openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={true}
-                />
-                <Box height={'100%'} width={'100%'}>
-                    <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
-                        <HomescreenNew />
-                        <HomescreenPopular openItemCard={handleOpenBigItemCard} data={data} />
-                        <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data} />
-                    </Flex>
-                </Box>
-                <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />
-                <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
-                <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}
-                    openForgetPasswordModal={showForgetPasswordModal.onOpen}
-                />
-                <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
-                <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-                <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments} />
-                <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
-                <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
-                <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} />
-            </div>)
     }
-    //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
+    const showSignUpModal = useDisclosure()
+    const showLoginModal = useDisclosure()
+    const showForgetPasswordModal = useDisclosure()
+    const showUpdateAccountModal = useDisclosure()
+    const showItemCard = useDisclosure();
+    const showDeleteModal = useDisclosure();
+    const showCreateModal = useDisclosure();
+    const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.changePassword : false });
+
+    const data = [
+        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
+        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
+        { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1 },
+        { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0 },
+        { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0 }]
+
+    const comments = [
+        { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '8', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '9', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '10', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '11', link_id: '6', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '12', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
+        { _id: '13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } }
+    ]
+
+    const handleOpenBigItemCard = (newData) => {
+        setBigCardData(newData)
+        showItemCard.onOpen()
+    }
+
+    return (
+        <div className='overlay'>
+            <MainNavbar redirect={redirect}
+                openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
+                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={true}
+            />
+            <Box height={'100%'} width={'100%'}>
+                <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
+                    <HomescreenNew />
+                    <HomescreenPopular openItemCard={handleOpenBigItemCard} data={data} />
+                    <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data} />
+                </Flex>
+            </Box>
+            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />
+            <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
+            <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}
+                openForgetPasswordModal={showForgetPasswordModal.onOpen}
+            />
+            <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
+            <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments} />
+            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
+            <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} />
+        </div>)
+}
+//<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
 
 export default Homescreen;
