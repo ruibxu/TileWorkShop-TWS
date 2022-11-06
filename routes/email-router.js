@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const EmailController = require('../controllers/email-controller')
 
-router.put('/comfirmEmail/:id', EmailController.sendComfrimEmail)
-router.put('/passwordReset/:id', EmailController.sendPasswordResetEmail)
+router.post('/confirmEmail/:id', EmailController.sendConfirmEmail)
+router.post('/passwordReset/:id', EmailController.sendPasswordResetEmail)
 
 
 
