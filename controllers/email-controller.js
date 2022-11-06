@@ -18,6 +18,7 @@ const msg = {
     })
 //
 const sendComfirmEmail = async (req, res) =>{
+  const user_id = req.params.id
   const { email, dynamic_template_data } = req.body
   const msg = {
     to: 'yorkwyj@gmail.com', // Change to your recipient
@@ -36,6 +37,7 @@ const sendComfirmEmail = async (req, res) =>{
 }
 //email, dynamic_template_data
 const sendPasswordResetEmail = async (req, res) =>{
+  const user_id = req.params.id
   const { email, dynamic_template_data } = req.body
   const msg = {
     to: 'yorkwyj@gmail.com', // Change to your recipient
