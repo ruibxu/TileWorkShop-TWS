@@ -83,7 +83,7 @@ const CreateModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleCreate} minW={425}>
                 Create
             </Button>
         </ModalFooter>

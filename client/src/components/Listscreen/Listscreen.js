@@ -7,6 +7,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import ListscreenSideBar from './ListscreenSideBar';
 import ListscreenMain from './ListscreenMain';
 import HomescreenNew from '../Homescreen/HomescreenNew';
+import AuthContext from '../../auth';
 
 import SignUpModal from '../Modals/SignUp-Modal';
 import LoginModal from '../Modals/Login-Modal';
@@ -16,6 +17,7 @@ import ItemCardBig from '../ItemCards/ItemCardBig/ItemCardBig';
 import DeleteModal from '../Modals/Delete-Modal';
 import CreateModal from '../Modals/Create-Modal';
 
+
 import image from '../../2kfVc.png';
 import image2 from '../../NES - Super Mario Bros - World 1-2.png'
 import image3 from '../../ryan-polito-viridian-forest-1.jpg'
@@ -23,6 +25,7 @@ import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import image6 from '../../04_Qiqi_02newyear_receive.png'
 const Listscreen = (props) => {
+    const { auth } = useContext(AuthContext);//Imported Yibo can fix later
     const [loggedin, setLoggedin] = useState('5')
     const [bigCardData, setBigCardData] = useState({})
 
