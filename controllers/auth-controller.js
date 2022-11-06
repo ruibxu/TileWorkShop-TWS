@@ -52,7 +52,9 @@ loginUser = async (req, res) => {
                     errorMessage: "Wrong email or password provided."
                 })
         }
-
+        // if(!existingUser.authentication){
+        //     return res.status(401).json({errorMessage: "Account not verified."})
+        // }
         // console.log("provided password: " + password);
         const passwordCorrect = await bcrypt.compare(password, existingUser.passwordHash);
         if (!passwordCorrect) {
@@ -96,7 +98,8 @@ logoutUser = async (req, res) => {
         sameSite: "none"
     }).status(200).json({
         success: true,
-    }).send();
+    })
+    // .send();
 }
 
 changePassword = async (req, res) => {

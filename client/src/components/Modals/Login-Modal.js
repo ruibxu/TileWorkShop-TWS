@@ -37,7 +37,8 @@ const LoginModal = (props) => {
             email: email,
             password: password
         })
-        //props.onClose()
+        props.onClose()
+
     }
 
     const handleClose = () => {

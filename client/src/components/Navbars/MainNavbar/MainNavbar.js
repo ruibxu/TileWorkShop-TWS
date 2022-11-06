@@ -28,8 +28,8 @@ const MainNavbar = (props) => {
     }*/
 
     const handleLogout = () => {
-        props.setLoggedin('')
-        //auth.logoutUser();
+        //props.setLoggedin('')
+        auth.logoutUser();
     }
 
     return (

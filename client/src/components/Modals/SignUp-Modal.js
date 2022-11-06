@@ -43,6 +43,9 @@ const SignUpModal = (props) => {
             password: password,
             passwordVerify: passwordVerify
         });
+
+
+        
         //props.onClose()
         // sendComfirmEmail();
     };
