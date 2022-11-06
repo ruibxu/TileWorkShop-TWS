@@ -6,12 +6,26 @@ import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE } from '../../translato
 const ListscreenSideBar = (props) => {
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
-    const [access, setAccess] = useState((props.default)?props.default:`${ACCESS_TYPE.VIEWABLE}`)
+    const [access, setAccess] = useState((props.default) ? props.default : `${ACCESS_TYPE.VIEWABLE}`)
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'}>
             <Box paddingTop={2}>
                 <Box paddingBottom={4}>
+                    <Box paddingBottom={4}>
+                        <Text className={'title-font'}>Type:</Text>
+                    </Box>
+                    <RadioGroup onChange={setType} value={type} color={'red'} paddingBottom={4} paddingLeft={4}>
+                        <Stack direction='column' gap={2}>
+                            <Radio value={SORT_TYPE.NAME} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>TileMap</Text>
+                            </Radio>
+                            <Radio value={SORT_TYPE.VIEW} size='lg' colorScheme='blue' borderColor={'purple'}>
+                                <Text className={'radio-font'}>TileSet</Text>
+                            </Radio>
+                        </Stack>
+                    </RadioGroup>
+                    <Divider borderColor='gray' />
                     <Box paddingBottom={4}>
                         <Text className={'title-font'}>Sort by:</Text>
                     </Box>
