@@ -262,7 +262,7 @@ registerUser = async (req, res) => {
             username: username,
             email: email,
             passwordHash: passwordHash,
-            authentication: true
+            authentication: false
         });
         const savedUser = await newUser.save();
         // console.log("new user saved: " + savedUser._id);
