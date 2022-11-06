@@ -25,7 +25,7 @@ import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
 const Homescreen = (props) => {
     const [bigCardData, setBigCardData] = useState({})
-    const auth = useContext(AuthContext);
+    const {auth} = useContext(AuthContext);
     let history = useHistory();
     console.log(auth)
     const redirect = async (route) => {
