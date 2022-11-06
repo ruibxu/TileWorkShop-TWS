@@ -41,5 +41,5 @@ const sendComfirmEmail = (id, email) => {
 
 export default {
     sendComfirmEmail,
-    sendPasswordResetEmail
+    // sendPasswordResetEmail
 }
