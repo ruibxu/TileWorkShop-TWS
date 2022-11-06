@@ -21,8 +21,8 @@ app.use(cors({
 app.use(express.json({limit: '50mb'}))
 app.use(cookieParser())
 // Sendgrid
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+// const sgMail = require('@sendgrid/mail')
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 //app.use(express.static(path.join(__dirname, "client", "build")));
 
