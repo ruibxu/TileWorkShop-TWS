@@ -20,7 +20,6 @@ import {
 import { useContext } from 'react';
 //import { GlobalStoreContext } from '../store'
 import AuthContext from '../../auth'
-import sendComfirmEmail from '../SGMail/Send-Email'
 
 const SignUpModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
@@ -47,7 +46,6 @@ const SignUpModal = (props) => {
 
         
         //props.onClose()
-        sendComfirmEmail();
     };
 
     const handleClose = () => {
