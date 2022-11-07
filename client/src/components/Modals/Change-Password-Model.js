@@ -32,12 +32,12 @@ const ChangePasswordModal = (props) => {
 
     const { auth } = useContext(AuthContext);
     //const { store } = useContext(GlobalStoreContext)
-
+    console.log(auth.user._id)
 
     const handleUpdate = (event) => {
         event.preventDefault();
         auth.changePassword({
-            id: props._id,
+            id: auth.user._id,
             password: password,
             passwordVerify: passwordVerify
         })
