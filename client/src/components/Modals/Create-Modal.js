@@ -44,7 +44,7 @@ const CreateModal = (props) => {
                     tileset: []
                 }
             })
-            props.redirect(`/tilemap/${store.currentTileSet._id}`)
+            props.redirect(`/tilemap/${store.currentTileMap._id}`)
         } else {
             store.createNewTileset({
                 user_id: auth.user._id,
@@ -55,7 +55,7 @@ const CreateModal = (props) => {
                     pixel: 16
                 }
             })
-            props.redirect(`/tilemap/${store.currentTileMap._id}`)
+            props.redirect(`/tileset/${store.currentTileSet._id}`)
         }
         //--------------------------------
         props.onClose()
