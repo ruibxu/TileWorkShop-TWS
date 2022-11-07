@@ -40,8 +40,10 @@ createTileMap = async (req, res) => {
     const tilemap = new TileMap(data);
     // console.log(tilemap)
     tilemap.save().then(() => {
-        return res.status(201).json({
-            tileMap: tilemap
+        return res.status(200).json({
+            success: true,
+            tileMap: tilemap,
+            message: "TileMap Created"
         })
     }).catch(error => {
         // console.log(error)

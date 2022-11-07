@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Flex, Box, Container, Text, Radio, RadioGroup, Stack, Divider } from '@chakra-ui/react';
+import { Flex, Box, Container, Text, Radio, RadioGroup, Stack, Divider, Button} from '@chakra-ui/react';
 import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '../../translator-client/sort-options';
 
 
@@ -11,9 +11,9 @@ const ListscreenSideBar = (props) => {
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'}>
-            <Box paddingTop={2}>
-                <Box paddingBottom={4}>
-                    <Box paddingBottom={4}>
+            <Box paddingTop={1}>
+                <Box paddingBottom={0}>
+                    <Box paddingBottom={2}>
                         <Text className={'title-font'}>Project Type:</Text>
                     </Box>
                     <RadioGroup onChange={setProjectType} value={projectType} color={'red'} paddingBottom={4} paddingLeft={4}>
@@ -27,7 +27,7 @@ const ListscreenSideBar = (props) => {
                         </Stack>
                     </RadioGroup>
                     <Divider borderColor='gray' />
-                    <Box paddingBottom={4}>
+                    <Box paddingBottom={2}>
                         <Text className={'title-font'}>Sort by:</Text>
                     </Box>
                     <RadioGroup onChange={setType} value={type} color={'red'} paddingBottom={4} paddingLeft={4}>
@@ -47,9 +47,7 @@ const ListscreenSideBar = (props) => {
                         </Stack>
                     </RadioGroup>
                     <Divider borderColor='gray' />
-                </Box>
-                <Box>
-                    <Box paddingBottom={4}>
+                    <Box paddingBottom={2}>
                         <Text className={'title-font'}>Sort Order:</Text>
                     </Box>
                     <RadioGroup onChange={setOrder} value={order} color={'red'} paddingBottom={4} paddingLeft={4}>
@@ -63,7 +61,7 @@ const ListscreenSideBar = (props) => {
                         </Stack>
                     </RadioGroup>
                     <Divider borderColor='gray' />
-                    <Box paddingBottom={4}>
+                    <Box paddingBottom={2}>
                         <Text className={'title-font'}>Access:</Text>
                     </Box>
                     <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4} paddingLeft={4}>
@@ -82,6 +80,8 @@ const ListscreenSideBar = (props) => {
                             </Radio>
                         </Stack>
                     </RadioGroup>
+                    <Divider borderColor='gray' />
+                    <Button maxW='100%' w='100%' colorScheme='purple' rounded='none'>Update Filter</Button>
                 </Box>
             </Box>
         </Box>
