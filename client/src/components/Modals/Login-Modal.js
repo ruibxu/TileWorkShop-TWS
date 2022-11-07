@@ -19,12 +19,14 @@ import {
     FormLabel
 } from '@chakra-ui/react'
 
+
 const LoginModal = (props) => {
     const {auth}   = useContext(AuthContext);
     const [showPassword, setShowPassword] = React.useState(false)
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const handleClick = () => setShowPassword(!showPassword)
+
     const handleForgetPassword = () => {
         props.onClose()
         props.openForgetPasswordModal()
@@ -37,8 +39,10 @@ const LoginModal = (props) => {
             email: email,
             password: password
         })
-        props.onClose()
-
+        if (auth.loggedIn) {
+            console.log("entered close");
+            props.onClose()
+        }
     }
 
     const handleClose = () => {

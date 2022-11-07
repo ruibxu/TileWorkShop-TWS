@@ -4,6 +4,16 @@ import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import api from '../api'
 
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    Button
+  } from '@chakra-ui/react'
+
 const AuthContext = createContext();
 console.log("create AuthContext: " + AuthContext);
 
@@ -117,9 +127,8 @@ function AuthContextProvider(props) {
             })
             await api.sendConfirmEmail(response.data.user._id, {email: response.data.user.email})
         } else {
-            console.log(response.data.errorMessage)
-            //setMessage(response.data.errorMessage);
-            //handleOpen();
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -135,9 +144,8 @@ function AuthContextProvider(props) {
                 }
             })
         } else {
-            console.log(response.data.errorMessage)
-            //setMessage(response.data.errorMessage);
-            //handleOpen();
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -149,6 +157,10 @@ function AuthContextProvider(props) {
                 type: AuthActionType.LOGOUT_USER,
                 payload: null
             })
+        }
+        else{
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -163,6 +175,10 @@ function AuthContextProvider(props) {
                 }
             });
         }
+        else{
+            setMessage(response.data.errorMessage);
+            handleOpen();
+        }
     }
 
     auth.verifyAccount = async function (id) {
@@ -174,6 +190,9 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             });
+        }else{
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -188,7 +207,8 @@ function AuthContextProvider(props) {
             });
         }
         else {
-            console.log(response.data.errorMessage);
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -203,7 +223,8 @@ function AuthContextProvider(props) {
             });
         }
         else {
-            console.log(response.data.errorMessage);
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -222,7 +243,8 @@ function AuthContextProvider(props) {
             await api.sendPasswordResetEmail(response.data.user._id, {email: response.data.user.email})
         }
         else {
-            console.log(response.data.errorMessage);
+            setMessage(response.data.errorMessage);
+            handleOpen();
         }
     }
 
@@ -236,6 +258,26 @@ function AuthContextProvider(props) {
             auth
         }}>
             {props.children}
+            <AlertDialog
+                onClose={handleClose}
+                isOpen= {open}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                    
+                        <AlertDialogHeader>
+                            {message}
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <Button  colorScheme='purple' onClick={handleClose}>
+                            Okay
+                            </Button>
+                        </AlertDialogFooter>
+                
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+
         </AuthContext.Provider>
     );
 }
