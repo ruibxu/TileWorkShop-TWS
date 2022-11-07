@@ -1,5 +1,5 @@
-import React, { useState} from 'react'
-
+import React, { useContext,useState} from 'react'
+import AuthContext from '../../auth'
 import {
     Modal,
     ModalOverlay,
@@ -16,33 +16,42 @@ import {
     Text,
     Divider,
     FormControl,
-    FormLabel
+    FormLabel,
+    FormHelperText
   } from '@chakra-ui/react'
 
 const UpdateAccountModal = (props) => {
+    const {auth}   = useContext(AuthContext);
     const [showPassword, setShowPassword] = React.useState(false)
     const [showPasswordVerify, setShowPasswordVerify] = React.useState(false)
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
     const [username, setUsername] = React.useState("");
-    const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordVerify, setPasswordVerify] = React.useState("");
 
     const handleClose = () => {
         props.onClose()
         setUsername('')
-        setEmail('')
         setPassword('')
         setPasswordVerify('')
     }
 
+    const handleUpdate = (event) => {
+        event.preventDefault();
+        auth.updateAccount({
+            username: username,
+            password: password,
+            passwordVerify: passwordVerify
+        })
+        props.onClose()
+    }
 
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='500px'>
-        <ModalHeader>Update Account</ModalHeader>
+        <ModalHeader>Update Account:</ModalHeader>
         <ModalCloseButton />
         <Divider borderColor={'purple'}/>
         <ModalBody>
@@ -50,10 +59,7 @@ const UpdateAccountModal = (props) => {
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
                     <Input size='md' borderColor={'purple'} onChange={(event) => { setUsername(event.target.value) }}/>
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onChange={(event) => { setEmail(event.target.value) }}/>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password:</FormLabel>
@@ -69,6 +75,7 @@ const UpdateAccountModal = (props) => {
                     </Button>
                     </InputRightElement>
                     </InputGroup>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
                 <FormControl>
                 <FormLabel>Verify Password:</FormLabel>
@@ -84,12 +91,13 @@ const UpdateAccountModal = (props) => {
                         </Button>
                     </InputRightElement>
                     </InputGroup>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
             </Stack>
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={handleClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleUpdate} minW={425}>
                 Update Account
             </Button>
         </ModalFooter>
