@@ -12,6 +12,28 @@ export const logoutUser = () => api.get(`auth/logout/`)
 export const changePassword = () => api.put(`auth/changePassword/`)
 export const updateAccount = (id,payload) => api.put(`auth/updateAccount/${id}`, payload)
 export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
+
+export const getUsernameByIds = () => api.get(`api/username/map`)
+export const getViewableProjects = (type) => api.get(`api/viewable/${type}`)
+export const getEditableProjects = (type) => api.get(`api/editable/${type}`)
+export const getFavoriteProjects = (type) => api.get(`api/favorite/${type}`)
+export const searchProject = (type) => api.get(`api/name/${type}`)
+export const searchUsers = () => api.get(`api/user`)
+export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
+export const searchProjects2 = (type) => api.get(`api/search/${type}`)
+
+export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
+export const createTileMap = () => api.post(`api/tilemap`)
+export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
+export const updateTileMap = (id) => api.put(`api/tilemap/${id}`)
+export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
+export const updateTileMapImage = (id) => api.put(`api/tilemap/image/${id}`)
+export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
+export const updateTileMapAccess = (id) => api.put(`api/tilemap/access/${id}`)
+export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${id}`)
+export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
+export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
+
 const apis = {
     getLoggedIn,
     registerUser,
@@ -19,6 +41,25 @@ const apis = {
     logoutUser,
     changePassword,
     updateAccount,
-    verifyAccount
+    verifyAccount,
+    getUsernameByIds,
+    getViewableProjects,
+    getEditableProjects,
+    getFavoriteProjects,
+    searchProject,
+    searchUsers,
+    searchProjectByUsers,
+    searchProjects2,
+    getTileMapById,
+    createTileMap,
+    deleteTileMap,
+    updateTileMap,
+    getTileMapImage,
+    updateTileMapImage,
+    deleteTileMapImage,
+    updateTileMapAccess,
+    updateTileMapCommunity,
+    addTileSetToTileMap,
+    deleteTileSetfromTileMap
 }
 export default apis
