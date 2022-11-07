@@ -23,7 +23,7 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
-import GlobalStoreContext from '../../store';
+import GlobalStoreContext from '../../store/ProjectStore';
 const Homescreen = (props) => {
     const [bigCardData, setBigCardData] = useState({})
     const { auth } = useContext(AuthContext);
