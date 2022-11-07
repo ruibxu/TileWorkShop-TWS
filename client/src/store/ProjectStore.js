@@ -186,7 +186,11 @@ const GlobalStoreContextProvider = (props) => {
                 return store;
         }
     }
+    store.createNewTilemap = async function (){
 
+    }
+
+    
     store.viewHomePage = async function () {
         const response1 = await api.searchProjects2('Tileset', {
             sort_type: 'community.likes',

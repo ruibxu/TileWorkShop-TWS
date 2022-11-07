@@ -34,7 +34,7 @@ import i6 from '../../04_Qiqi_01xmas_illumi.png'
 const Listscreen = (props) => {
     const { auth } = useContext(AuthContext);
     const [bigCardData, setBigCardData] = useState({})
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
     const verified = (auth.loggedIn?auth.user.verified:false)
 
     let history = useHistory();
@@ -95,7 +95,7 @@ const Listscreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar default={access_default}/>
-                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page ===0)?data:data2} page={page} setPage={setPage}/>
+                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page === 1)?data:data2} page={page} setPage={setPage}/>
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
