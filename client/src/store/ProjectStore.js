@@ -86,7 +86,14 @@ const GlobalStoreContextProvider = (props) => {
             }
             case GlobalStoreActionType.VIEW_LISTVIEW: {
                 return setStore({
-
+                    tileSetList: payload.tileSetList,
+                    tileMapList: payload.tileMapList,
+                    yourList: payload.yourList,
+                    currentTileSet: null,
+                    currentTileMap: null,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILESET: {
@@ -248,11 +255,28 @@ const GlobalStoreContextProvider = (props) => {
         } else {
             console.log(response1.data.errorMessage)
         }
-
-
-
     }
 
+    store.viewListView = async function () {
+        const response = await api.searchProjects2('TileMap', {
+            sort_type: 'community.likes',
+            sort_order: 1,
+            limit: 6
+        });
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.VIEW_HOMEPAGE,
+                payload: {
+                    tileMapList: response.data.results,
+                    tileSetList: [],
+                    yourList: []
+                }
+            })
+        } else {
+            console.log(response.data.errorMessage)
+        }
+
+    }
 
 
     return (
