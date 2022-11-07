@@ -2,7 +2,7 @@ import './TWS.css';
 import { React } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { AuthContextProvider } from './auth';
-import { GlobalStoreContextProvider } from './store'
+import { GlobalStoreContextProvider } from './store/ProjectStore'
 import Homescreen from './components/Homescreen/Homescreen.js';
 import Listscreen from './components/Listscreen/Listscreen.js';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen.js';
