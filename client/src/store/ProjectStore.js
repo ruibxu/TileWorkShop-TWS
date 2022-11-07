@@ -34,7 +34,7 @@ const GlobalStoreContextProvider = (props) => {
         tileSetList: [],
         tileMapList: [],
         yourList: [],
-        currentTileset: null,
+        currentTileSet: null,
         currentTileMap: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
@@ -70,7 +70,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
-                    currentTileset: null,
+                    currentTileSet: null,
                     currentTileMap: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -141,7 +141,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
-                    currentTileset: payload.currentTileset,
+                    currentTileSet: payload.currentTileSet,
                     currentTileMap: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -153,7 +153,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
-                    currentTileset: null,
+                    currentTileSet: null,
                     currentTileMap: payload.currentTileMap,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -199,7 +199,7 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILESET,
                 payload: {
-                    currentTileset: response.data.tileSet
+                    currentTileSet: response.data.tileSet
                 }
             })
         } else {

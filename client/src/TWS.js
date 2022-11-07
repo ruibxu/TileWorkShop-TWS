@@ -21,8 +21,8 @@ const TWS = () => {
                         <Route path="/" exact component={() => <Homescreen />} />
                         <Route path="/homescreen" exact component={() => <Homescreen />} />
                         <Route path="/listscreen" exact component={() => <Listscreen />} />
-                        <Route path="/tileset" exact component={() => <EditTileSetScreen />} />
-                        <Route path="/tilemap" exact component={() => <EditTileMapScreen />} />
+                        <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
+                        <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
                         <Route path="/forgetpassword/:id" exact component={() => <ForgetPasswordLink />} />
                         <Route path="/verifyaccount/:id" exact component={() => <VerifyAccountLink />} />
                     </Switch>

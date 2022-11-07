@@ -104,7 +104,7 @@ const Homescreen = (props) => {
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments} />
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
-            <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
+            <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect}/>
             <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
         </div>)
 }
