@@ -27,6 +27,7 @@ import image6 from '../../04_Qiqi_02newyear_receive.png'
 const Listscreen = (props) => {
     const { auth } = useContext(AuthContext);
     const [bigCardData, setBigCardData] = useState({})
+    const [page, setPage] = useState(0)
     const verified = (auth.loggedIn?auth.user.verified:false)
 
     let history = useHistory();
@@ -78,7 +79,7 @@ const Listscreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar default={access_default}/>
-                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} />
+                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} page={page} setPage={setPage}/>
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}

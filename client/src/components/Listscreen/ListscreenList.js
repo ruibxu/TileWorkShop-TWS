@@ -11,7 +11,7 @@ const ListscreenList = (props) => {
     const {data} = props
 
     return (
-        <Box height={'100%'} flex='1' padding={'3%'} paddingTop={'5%'} className='identify'>
+        <Box flex='1' padding={'3%'} paddingTop={'5%'} className='identify'>
             <SimpleGrid columns={3} spacing={10} width={'100%'}className='identi'>
                 <ItemCardSmall size='100%' data={data[0]} openItemCard={props.openItemCard}/>
                 <ItemCardSmall size='100%' data={data[1]} openItemCard={props.openItemCard}/>
