@@ -9,7 +9,7 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
 
-
+import image6 from '../../../04_Qiqi_02newyear_receive.png'
 function ItemCardBig(props) {
     const { data, comments } = props
 
@@ -20,7 +20,7 @@ function ItemCardBig(props) {
                 <ModalContent height="800px" maxWidth="1000px">
                     <ModalHeader>
                         <Flex alignItems='center'>
-                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={data.src} />
+                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={(data.src)?data.src:image6} />
                             <Flex gap={2} alignItems={'center'}  >
                                 <IconButton id="big-buttons" bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
