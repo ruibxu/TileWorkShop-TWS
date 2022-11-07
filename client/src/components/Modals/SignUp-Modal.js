@@ -45,7 +45,7 @@ const SignUpModal = (props) => {
         });
 
         
-        //props.onClose()
+        props.onClose()
     };
 
     const handleClose = () => {
