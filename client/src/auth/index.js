@@ -126,7 +126,12 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            await api.sendConfirmEmail(response.data.user._id, {email: response.data.user.email})
+            const emailed = await api.sendConfirmEmail(response.data.user._id, {email: response.data.user.email})
+            if (emailed.status === 200){
+                setMessage("Verification Email sent");
+                handleOpen();
+            }
+            
         } else {
             setMessage(response.data.errorMessage);
             handleOpen();
