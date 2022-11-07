@@ -34,6 +34,8 @@ export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${i
 export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 
+export const sendConfirmEmail = (id) => api.post(`api/confirmEmail/${id}`)
+export const sendPasswordResetEmail = (id) => api.post(`api/passwordReset/${id}`)
 const apis = {
     getLoggedIn,
     registerUser,
@@ -60,6 +62,8 @@ const apis = {
     updateTileMapAccess,
     updateTileMapCommunity,
     addTileSetToTileMap,
-    deleteTileSetfromTileMap
+    deleteTileSetfromTileMap,
+    sendConfirmEmail,
+    sendPasswordResetEmail
 }
 export default apis

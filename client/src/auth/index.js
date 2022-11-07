@@ -98,6 +98,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
+            api.sendConfirmEmail(response.data.user.email)
         }else{
             console.log(response.data.errorMessage)
             //setMessage(response.data.errorMessage);
