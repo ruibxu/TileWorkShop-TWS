@@ -96,7 +96,7 @@ const Homescreen = (props) => {
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments} />
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
-            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} />
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={history.location.state?history.location.state._id:''}/>
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>

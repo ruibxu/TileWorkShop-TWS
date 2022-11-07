@@ -19,7 +19,7 @@ import {
   } from '@chakra-ui/react'
 import { useContext } from 'react';
 //import { GlobalStoreContext } from '../store'
-//import AuthContext from '../auth'
+import AuthContext from '../../auth'
 
 const ChangePasswordModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
@@ -27,19 +27,22 @@ const ChangePasswordModal = (props) => {
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
-    //const { auth } = useContext(AuthContext);
-    //const { store } = useContext(GlobalStoreContext)
+    const [password, setPassword] = React.useState("");
+    const [passwordVerify, setPasswordVerify] = React.useState("");
 
-    /*const handleSubmit = (event) => {
+    const { auth } = useContext(AuthContext);
+    //const { store } = useContext(GlobalStoreContext)
+    console.log((auth.user)?auth.user._id:'')
+
+    const handleUpdate = (event) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        auth.registerUser({
-            userName:formData.get('userName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            passwordVerify: formData.get('passwordVerify')
-        }, store);
-    };*/
+        auth.changePassword({
+            id: auth.user._id,
+            password: password,
+            passwordVerify: passwordVerify
+        })
+        props.onClose()
+    }
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
@@ -55,6 +58,7 @@ const ChangePasswordModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onChange={(event) => { setPassword(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -69,6 +73,7 @@ const ChangePasswordModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPasswordVerify ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onChange={(event) => { setPasswordVerify(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClickVerify}>
@@ -81,7 +86,7 @@ const ChangePasswordModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleUpdate} minW={425}>
                 Change Password
             </Button>
         </ModalFooter>

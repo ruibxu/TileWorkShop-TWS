@@ -49,7 +49,8 @@ const MainNavbar = (props) => {
                     <option value='Creator'>Creator</option>
                 </Select>
                 <Flex>
-                    <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'/>}/>
+                    <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'
+                    onClick={()=>props.redirect('/forgetpassword/test', {changePassword: true})}/>}/>
                 </Flex>
             </Flex>
             {props.loggedin?

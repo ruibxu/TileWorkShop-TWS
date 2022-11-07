@@ -9,9 +9,10 @@ export const getLoggedIn = () => api.get(`auth/loggedIn/`)
 export const registerUser = (payload) => api.post(`auth/register/`, payload)
 export const loginUser = (payload) => api.post(`auth/login/`, payload)
 export const logoutUser = () => api.get(`auth/logout/`)
-export const changePassword = () => api.put(`auth/changePassword/`)
+export const changePassword = (payload) => api.put(`auth/changePassword/`,payload)
 export const updateAccount = (id,payload) => api.put(`auth/updateAccount/${id}`, payload)
 export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
+export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, payload)
 
 export const getUsernameByIds = () => api.get(`api/username/map`)
 export const getViewableProjects = (type) => api.get(`api/viewable/${type}`)
@@ -44,6 +45,7 @@ const apis = {
     changePassword,
     updateAccount,
     verifyAccount,
+    forgetPassword,
     getUsernameByIds,
     getViewableProjects,
     getEditableProjects,

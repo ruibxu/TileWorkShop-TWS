@@ -23,7 +23,8 @@ getLoggedIn = async (req, res) => {
             user: {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
-                _id: loggedInUser._id
+                _id: loggedInUser._id,
+                verified: loggedInUser.authentication
             }
         })
     } catch (err) {
@@ -81,6 +82,7 @@ loginUser = async (req, res) => {
                 username: existingUser.username,
                 email: existingUser.email,
                 _id: existingUser._id,
+                verified: existingUser.authentication,
                 token: token
             }
         })
@@ -200,7 +202,8 @@ updateAccount = async (req, res) => {
                 user: {
                     username: user.username,
                     email: user.email,
-                    _id: user._id
+                    _id: user._id,
+                    verified: user.authentication
                 }
             });
         }).catch(err => {
@@ -220,7 +223,7 @@ registerUser = async (req, res) => {
         console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
         if (!username || !email || !password || !passwordVerify) {
             return res
-                .status(400)
+                .status(201)
                 .json({ errorMessage: "Please enter all required fields." });
         }
         // console.log("all fields provided");
@@ -234,7 +237,7 @@ registerUser = async (req, res) => {
         // console.log("password long enough");
         if (password !== passwordVerify) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     errorMessage: "Please enter the same password twice."
                 })
@@ -244,7 +247,7 @@ registerUser = async (req, res) => {
         // console.log("existingUser: " + existingUser);
         if (existingUser) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     success: false,
                     errorMessage: "An account with this email address already exists."
@@ -255,7 +258,7 @@ registerUser = async (req, res) => {
         // console.log("existingUser: " + existingUser2);
         if (existingUser2) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     success: false,
                     errorMessage: "An account with this username already exists."
@@ -281,7 +284,8 @@ registerUser = async (req, res) => {
             user: {
                 username: savedUser.username,
                 email: savedUser.email, 
-                _id: savedUser._id
+                _id: savedUser._id,
+                verified: savedUser.authentication
             },
             success: true
         })
@@ -314,7 +318,7 @@ registerUser = async (req, res) => {
 
 forgetPassword = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { username, email } = req.body;
 
         if (!email) {
             return res
@@ -331,9 +335,24 @@ forgetPassword = async (req, res) => {
                     errorMessage: "No Account with this email found"
                 })
         }
-        //Input whatever email needs here
+        console.log(existingUser)
+        if (existingUser.username != username) {
+            return res
+                .status(401)
+                .json({
+                    errorMessage: "No Account with this email and username found"
+                })
+        }
+        return res.status(200).json({
+            user: {
+                username: existingUser.username,
+                email: existingUser.email, 
+                _id: existingUser._id,
+                verified: existingUser.authentication
+            },
+            success: true
+        })
         
-        //#################################
 
     } catch (err) {
         console.error(err);
@@ -356,6 +375,12 @@ verifyAccount = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: 'User Verified!',
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    _id: user._id,
+                    verified: user.authentication
+                }
             })
         })
         .catch(error => {

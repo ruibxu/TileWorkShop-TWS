@@ -14,7 +14,9 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     VERIFY_ACCOUNT: "VERIFY_ACCOUNT",
-    UPDATE_ACCOUNT: "UPDATE_ACCOUNT"
+    UPDATE_ACCOUNT: "UPDATE_ACCOUNT",
+    FORGET_PASSWORD: "FORGET_PASSWORD",
+    CHANGE_PASSWORD: "CHANGE_PASSWORD"
 }
 
 function AuthContextProvider(props) {
@@ -82,6 +84,21 @@ function AuthContextProvider(props) {
                 })
             }
 
+            case AuthActionType.FORGET_PASSWORD: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: false
+                })
+            }
+
+            case AuthActionType.CHANGE_PASSWORD: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: false
+                })
+            }
+            
+
             default:
                 return auth;
         }
@@ -148,8 +165,8 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.verifyAccount = async function () {
-        const response = await api.verifyAccount();
+    auth.verifyAccount = async function (id) {
+        const response = await api.verifyAccount(id);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.VERIFY_ACCOUNT,
@@ -175,6 +192,44 @@ function AuthContextProvider(props) {
         }
     }
 
+    auth.changePassword = async function (userData) {
+        const response = await api.changePassword(userData);
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.CHANGE_PASSWORD,
+                payload: {
+                    user: response.data.user
+                }
+            });
+        }
+        else {
+            console.log(response.data.errorMessage);
+        }
+    }
+
+    
+
+    auth.forgetPassword = async function (userData) {
+        const response = await api.forgetPassword(userData);
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.FORGET_PASSWORD,
+                payload: {
+                    user: response.data.user
+                }
+            });
+            //add send email
+            await api.sendPasswordResetEmail(response.data.user._id, {email: response.data.user.email})
+        }
+        else {
+            console.log(response.data.errorMessage);
+        }
+    }
+
+
+
+
+    
 
     return (
         <AuthContext.Provider value={{
