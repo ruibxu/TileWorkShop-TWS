@@ -152,20 +152,20 @@ changePassword = async (req, res) => {
 
 updateAccount = async (req, res) => {
     try {
-        // console.log("updating account")
         const user_id = req.params.id;
         const { username, password, passwordVerify } = req.body;
+        console.log("update account: " + username + " " + password + " " + passwordVerify);
         if (!user_id) {
-            return res.status(400).json({ errorMessage: "No user exists" })
+            return res.status(201).json({ errorMessage: "No user exists" })
         }
         if (!username && !password && !passwordVerify) {
             return res
-                .status(400)
+                .status(201)
                 .json({ errorMessage: "No fields are entered" });
         }
         const user = await User.findOne({ _id: user_id }, (err, user) => {
             if (err) {
-                return res.status(404).json({
+                return res.status(201).json({
                     err,
                     message: "User not found"
                 })
@@ -174,10 +174,10 @@ updateAccount = async (req, res) => {
 
         if (password && passwordVerify) {
             if (password.length < 8) {
-                return res.status(400).json({errorMessage:"Please enter a password of at least 8 characters."});
+                return res.status(201).json({errorMessage:"Please enter a password of at least 8 characters."});
             }
             if (password !== passwordVerify) {
-                return res.status(400).json({errorMessage:"Please enter the same password twice."});
+                return res.status(201).json({errorMessage:"Please enter the same password twice."});
             }
             const saltRounds = 10;
             const salt = await bcrypt.genSalt(saltRounds);
@@ -188,7 +188,7 @@ updateAccount = async (req, res) => {
         if (username) {
             const existingUser = await User.findOne({ username: username });
             if (existingUser) {
-                return res.status(400).json({errorMessage:"An account with this username already exists."});
+                return res.status(201).json({errorMessage:"An account with this username already exists."});
             } else {
                 // console.log("new username: " + username);
                 user.username = username;
@@ -196,10 +196,15 @@ updateAccount = async (req, res) => {
         }
         user.save().then(() => {
             return res.status(200).json({
-                message: "Success"
+                message: "Success",
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    _id: user._id
+                }
             });
         }).catch(err => {
-            return res.status(400).json({
+            return res.status(201).json({
                 errorMessage: "Failed"
             });
         })
