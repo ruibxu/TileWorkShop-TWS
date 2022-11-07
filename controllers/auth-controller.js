@@ -24,7 +24,7 @@ getLoggedIn = async (req, res) => {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
                 _id: loggedInUser._id,
-                verified: user.authentication
+                verified: loggedInUser.authentication
             }
         })
     } catch (err) {
@@ -82,7 +82,7 @@ loginUser = async (req, res) => {
                 username: existingUser.username,
                 email: existingUser.email,
                 _id: existingUser._id,
-                verified: user.authentication,
+                verified: existingUser.authentication,
                 token: token
             }
         })
@@ -285,7 +285,7 @@ registerUser = async (req, res) => {
                 username: savedUser.username,
                 email: savedUser.email, 
                 _id: savedUser._id,
-                verified: user.authentication
+                verified: savedUser.authentication
             },
             success: true
         })
@@ -318,7 +318,7 @@ registerUser = async (req, res) => {
 
 forgetPassword = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { username, email } = req.body;
 
         if (!email) {
             return res
@@ -335,9 +335,24 @@ forgetPassword = async (req, res) => {
                     errorMessage: "No Account with this email found"
                 })
         }
-        //Input whatever email needs here
+        console.log(existingUser)
+        if (existingUser.username != username) {
+            return res
+                .status(401)
+                .json({
+                    errorMessage: "No Account with this email and username found"
+                })
+        }
+        return res.status(200).json({
+            user: {
+                username: existingUser.username,
+                email: existingUser.email, 
+                _id: existingUser._id,
+                verified: existingUser.authentication
+            },
+            success: true
+        })
         
-        //#################################
 
     } catch (err) {
         console.error(err);
