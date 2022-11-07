@@ -75,6 +75,13 @@ function AuthContextProvider(props) {
                 })
             }
 
+            case AuthActionType.UPDATE_ACCOUNT:{
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: true
+                })
+            }
+
             default:
                 return auth;
         }
@@ -142,7 +149,7 @@ function AuthContextProvider(props) {
     }
 
     auth.verifyAccount = async function (){
-        const response = await api.verifyUser();
+        const response = await api.verifyAccount();
         if(response.status === 200){
             authReducer({
                 type: AuthActionType.VERIFY_ACCOUNT,
@@ -150,6 +157,21 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             });
+        }
+    }
+
+    auth.updateAccount = async function (){
+        const response = await api.updateAccount();
+        if(response.status === 200){
+            authReducer({
+                type: AuthActionType.UPDATE_ACCOUNT,
+                payload:{
+                    user: response.data.user
+                }
+            });
+        }
+        else{
+            console.log(response.data.errorMessage);
         }
     }
 
