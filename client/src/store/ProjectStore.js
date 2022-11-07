@@ -41,6 +41,9 @@ const GlobalStoreContextProvider = (props) => {
         markItemforDeletion: false
     });
     const history = useHistory();
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
+    }
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
         const { type, payload } = action;
@@ -188,6 +191,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentTileMap: response.data.tileMap
                 }
             })
+            redirect(`/tilemap/${store.currentTileMap._id}`)
         } else {
             console.log(response.data.errorMessage)
         }
@@ -202,6 +206,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentTileSet: response.data.tileSet
                 }
             })
+            props.redirect(`/tilemap/${store.currentTileMap._id}`)
         } else {
             console.log(response.data.errorMessage)
         }

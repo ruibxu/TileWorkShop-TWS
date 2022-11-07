@@ -30,17 +30,16 @@ const Homescreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
     const verified = (auth.loggedIn?auth.user.verified:false)
     let history = useHistory();
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
+    }
     useEffect(() =>{
         store.viewHomePage();
     },[])
     console.log(store.tileSetList)
     console.log(store.tileMapList)
     console.log(store.yourList)
-    const redirect = async (route, parameters) => {
-        history.push(route, parameters);
-        // console.log('Immediate redirect success')
-        // redirect('/listscreen')
-    }
+    
     //console.log(window.location.href.includes('localhost'))
     const autoLoggin = history.location.state ? history.location.state.AccountVerified : false;
     const autoChangePassword = history.location.state ? history.location.state.changePassword : false
