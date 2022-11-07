@@ -41,14 +41,22 @@ const Homescreen = (props) => {
         // console.log('Immediate redirect success')
         // redirect('/listscreen')
     }
+    //console.log(window.location.href.includes('localhost'))
+    const autoLoggin = history.location.state ? history.location.state.AccountVerified : false;
+    const autoChangePassword = history.location.state ? history.location.state.changePassword : false
+    const state_id = history.location.state?history.location.state._id:''
+    console.log(autoChangePassword)
+
     const showSignUpModal = useDisclosure()
-    const showLoginModal = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.AccountVerified : false })
+    const showLoginModal = useDisclosure({ defaultIsOpen: autoLoggin })
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showDeleteModal = useDisclosure();
     const showCreateModal = useDisclosure();
-    const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.changePassword : false });
+    const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword });
+    //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
+    //console.log(autoChangePassword)
     
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
@@ -97,7 +105,7 @@ const Homescreen = (props) => {
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} comments={comments} />
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} />
-            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={history.location.state?history.location.state._id:''}/>
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
