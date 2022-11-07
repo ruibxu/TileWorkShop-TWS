@@ -107,7 +107,6 @@ function AuthContextProvider(props) {
 
 
     auth.logInUser = async function(userData) {
-        console.log('login');
         const response = await api.loginUser(userData);      
         if (response.status === 200) {
             console.log('login success');
@@ -160,8 +159,8 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.updateAccount = async function (){
-        const response = await api.updateAccount();
+    auth.updateAccount = async function (userData){
+        const response = await api.updateAccount(auth.user._id,userData);
         if(response.status === 200){
             authReducer({
                 type: AuthActionType.UPDATE_ACCOUNT,
