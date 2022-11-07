@@ -19,7 +19,7 @@ import {
   } from '@chakra-ui/react'
 import { useContext } from 'react';
 //import { GlobalStoreContext } from '../store'
-//import AuthContext from '../auth'
+import AuthContext from '../auth'
 
 const ChangePasswordModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
@@ -27,19 +27,18 @@ const ChangePasswordModal = (props) => {
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
-    //const { auth } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
     //const { store } = useContext(GlobalStoreContext)
 
-    /*const handleSubmit = (event) => {
+
+    const handleUpdate = (event) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        auth.registerUser({
-            userName:formData.get('userName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            passwordVerify: formData.get('passwordVerify')
-        }, store);
-    };*/
+        auth.changePassword({
+            password: password,
+            passwordVerify: passwordVerify
+        })
+        props.onClose()
+    }
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
@@ -81,7 +80,7 @@ const ChangePasswordModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={props.onClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleUpdate} minW={425}>
                 Change Password
             </Button>
         </ModalFooter>

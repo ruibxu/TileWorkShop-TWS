@@ -15,7 +15,8 @@ export const AuthActionType = {
     LOGOUT_USER: "LOGOUT_USER",
     VERIFY_ACCOUNT: "VERIFY_ACCOUNT",
     UPDATE_ACCOUNT: "UPDATE_ACCOUNT",
-    FORGET_PASSWORD: "FORGET_PASSWORD"
+    FORGET_PASSWORD: "FORGET_PASSWORD",
+    CHANGE_PASSWORD: "CHANGE_PASSWORD"
 }
 
 function AuthContextProvider(props) {
@@ -89,6 +90,14 @@ function AuthContextProvider(props) {
                     loggedIn: false
                 })
             }
+
+            case AuthActionType.CHANGE_PASSWORD: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: false
+                })
+            }
+            
 
             default:
                 return auth;
@@ -183,6 +192,23 @@ function AuthContextProvider(props) {
         }
     }
 
+    auth.changePassword = async function (userData) {
+        const response = await api.changePassword(userData);
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.CHANGE_PASSWORD,
+                payload: {
+                    user: response.data.user
+                }
+            });
+        }
+        else {
+            console.log(response.data.errorMessage);
+        }
+    }
+
+    
+
     auth.forgetPassword = async function (userData) {
         const response = await api.forgetPassword(userData);
         if (response.status === 200) {
@@ -199,6 +225,10 @@ function AuthContextProvider(props) {
             console.log(response.data.errorMessage);
         }
     }
+
+
+
+
     
 
     return (
