@@ -2,20 +2,21 @@ import React, { useContext, useEffect } from 'react'
 import { Flex, Container, Box, Divider, SimpleGrid} from '@chakra-ui/react';
 import ItemCardSmall from '../ItemCards/ItemCardSmall';
 import image from '../../2kfVc.png';
+import AuthContext from '../../auth';
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const HomescreenQuick = (props) => {
-
+    const { auth } = useContext(AuthContext);
     const {data} = props
 
     return (
         <Container minW={'21%'}>
             <Box borderWidth='2px' borderRadius='xl' borderColor={'purple'} justify-content='space-between' minH='100%' block-size={'fit-content'}className={'popular-box-divider'}>
                 <Box className={'title-font'}>
-                    Your Projects:
+                    {(auth.loggedIn)?'Your Projects:':'Recent Projects:'}
                 </Box>
                 <Divider />
                 <SimpleGrid minW={'100%'} minH={'90%'} maxH={'100%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'8%'} paddingBottom={'8%'}>
