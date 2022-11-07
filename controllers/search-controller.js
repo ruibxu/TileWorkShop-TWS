@@ -307,7 +307,7 @@ createSearchConditions = async (search_type, search_value) => {
 }
 
 createSortConditions = async (sort_type, sort_order) =>{
-    return {[`${sort_type}`]: sort_order, _id: -1}
+    return [[`${sort_type}`, sort_order], [_id, -1]]
 }
 
 //{name:{ "$regex": search_value, "$options": "i" }}
