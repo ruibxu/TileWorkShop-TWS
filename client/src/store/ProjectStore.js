@@ -191,7 +191,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentTileMap: response.data.tileMap
                 }
             })
-            redirect(`/tilemap/${store.currentTileMap._id}`)
+            redirect(`/tilemap/${response.data.tileMap._id}`)
         } else {
             console.log(response.data.errorMessage)
         }
@@ -206,7 +206,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentTileSet: response.data.tileSet
                 }
             })
-            props.redirect(`/tileset/${store.currentTileSet._id}`)
+            props.redirect(`/tileset/${response.data.tileSet._id}`)
         } else {
             console.log(response.data.errorMessage)
         }
