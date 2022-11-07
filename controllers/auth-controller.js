@@ -196,7 +196,12 @@ updateAccount = async (req, res) => {
         }
         user.save().then(() => {
             return res.status(200).json({
-                message: "Success"
+                message: "Success",
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    _id: user._id
+                }
             });
         }).catch(err => {
             return res.status(400).json({
