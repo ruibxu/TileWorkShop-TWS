@@ -12,7 +12,7 @@ const ForgetPasswordLink = () => {
 
     redirect('/homescreen', {
         changePassword: true,
-        AccountId: id
+        _id: id
     })
 }
 
