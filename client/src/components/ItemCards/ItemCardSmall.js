@@ -2,7 +2,8 @@ import { useContext, useState } from 'react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
-import ItemCardBig from './ItemCardBig/ItemCardBig'
+
+import image6 from '../../04_Qiqi_02newyear_receive.png'
 function ItemCardSmall(props) {
     // const {store} = useContext(GlobalStoreContext);
     // const {auth} = useContext(AuthContext);
@@ -22,7 +23,7 @@ function ItemCardSmall(props) {
     let cardElement =
         <Box w={(size) ? size : '375px'} maxW={(size) ? size : '375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box' >
             <Flex alignItems='center' as = "button" width={"100%"} >
-                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={data.src} marginRight={0} onClick ={()=>props.openItemCard(data)}/>
+                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={(data.src)?data.src:image6} marginRight={0} onClick ={()=>props.openItemCard(data)}/>
             </Flex>
             <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
                 <Box minW='50%' paddingLeft={3}>
