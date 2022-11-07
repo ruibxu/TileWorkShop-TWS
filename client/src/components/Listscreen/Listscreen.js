@@ -24,6 +24,13 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import image6 from '../../04_Qiqi_02newyear_receive.png'
+
+import i1 from '01_Albedo_02newyear_omochi.png';
+import i2 from '02_Ganyu_01xmas_reindeer.png';
+import i3 from '02_Ganyu_02newyear_omochi.png';
+import i4 from '03_Xingqiu_01xmas_song.png';
+import i5 from '03_Xingqiu_02newyear_Faichun.png'
+import i6 from '04_Qiqi_01xmas_illumi.png'
 const Listscreen = (props) => {
     const { auth } = useContext(AuthContext);
     const [bigCardData, setBigCardData] = useState({})
@@ -51,6 +58,15 @@ const Listscreen = (props) => {
         { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0},
         { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0},
         { _id: "14", owner: "Jimmy", name: "QiQi?", src: image6, type: 0}]
+    
+    const data2 = [
+        { _id: "15", owner: "Yajie", name: "Alebdo", src: i1, type: 1},
+        { _id: "16", owner: "Yajie", name: "Ganyu1", src: i2, type: 1},
+        { _id: "17", owner: "Yajie", name: "Ganyu2", src: i3, type: 1},
+        { _id: "18", owner: "Jimmy", name: "Xingqiu1", src: i4, type: 1},
+        { _id: "19", owner: "Jimmy", name: "Xingqiu2", src: i5, type: 1},
+        { _id: "20", owner: "Jimmy", name: "QiQi??", src: i6, type: 1}
+    ]
 
     const comments = [
         { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
