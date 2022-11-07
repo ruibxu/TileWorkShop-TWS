@@ -12,6 +12,7 @@ export const logoutUser = () => api.get(`auth/logout/`)
 export const changePassword = () => api.put(`auth/changePassword/`)
 export const updateAccount = (id,payload) => api.put(`auth/updateAccount/${id}`, payload)
 export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
+export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, payload)
 
 export const getUsernameByIds = () => api.get(`api/username/map`)
 export const getViewableProjects = (type) => api.get(`api/viewable/${type}`)

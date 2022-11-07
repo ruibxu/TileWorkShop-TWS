@@ -1,5 +1,5 @@
-import React, { useState} from 'react'
-
+import React, {useContext,useState} from 'react'
+import AuthContext from '../../auth'
 import {
     Modal,
     ModalOverlay,
@@ -20,6 +20,7 @@ import {
   } from '@chakra-ui/react'
 
 const ForgetPasswordModal = (props) => {
+    const {auth}   = useContext(AuthContext);
     const [username, setUsername] = React.useState("");
     const [email, setEmail] = React.useState("");
 
@@ -29,6 +30,14 @@ const ForgetPasswordModal = (props) => {
         setUsername('')
     }
 
+    const handleForgetPassword = (event) => {
+        event.preventDefault();
+        auth.forgetPassword({
+            username: username,
+            email: email
+        })
+        props.onClose()
+    }
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='500px'>
@@ -49,7 +58,7 @@ const ForgetPasswordModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={handleClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleForgetPassword} minW={425}>
                 Submit
             </Button>
         </ModalFooter>

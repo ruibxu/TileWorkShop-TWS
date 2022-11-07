@@ -14,7 +14,8 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     VERIFY_ACCOUNT: "VERIFY_ACCOUNT",
-    UPDATE_ACCOUNT: "UPDATE_ACCOUNT"
+    UPDATE_ACCOUNT: "UPDATE_ACCOUNT",
+    FORGET_PASSWORD: "FORGET_PASSWORD"
 }
 
 function AuthContextProvider(props) {
@@ -79,6 +80,13 @@ function AuthContextProvider(props) {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true
+                })
+            }
+
+            case AuthActionType.FORGET_PASSWORD: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: false
                 })
             }
 
@@ -175,6 +183,23 @@ function AuthContextProvider(props) {
         }
     }
 
+    auth.forgetPassword = async function (userData) {
+        const response = await api.forgetPassword(userData);
+        if (response.status === 200) {
+            authReducer({
+                type: AuthActionType.FORGET_PASSWORD,
+                payload: {
+                    user: response.data.user
+                }
+            });
+            //add send email
+            await api.sendPasswordResetEmail(response.data.user._id, {email: response.data.user.email})
+        }
+        else {
+            console.log(response.data.errorMessage);
+        }
+    }
+    
 
     return (
         <AuthContext.Provider value={{
