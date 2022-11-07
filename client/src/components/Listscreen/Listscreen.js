@@ -27,6 +27,7 @@ import image6 from '../../04_Qiqi_02newyear_receive.png'
 const Listscreen = (props) => {
     const { auth } = useContext(AuthContext);
     const [bigCardData, setBigCardData] = useState({})
+    const verified = (auth.loggedIn?auth.user.verified:false)
 
     let history = useHistory();
     const redirect = async (route, parameters) => {
@@ -80,7 +81,7 @@ const Listscreen = (props) => {
                     <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} />
                 </Flex>
             </Box>
-            <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen}/>
+            {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
 
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose} 
