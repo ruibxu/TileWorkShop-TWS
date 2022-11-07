@@ -20,7 +20,7 @@ const ListscreenMain = (props) => {
                 <Box className={'main-list'} flex='1' >
                     <ListscreenList openItemCard={props.openItemCard} data={props.data} />
                     <Box textAlign={'center'}>
-                        <Text fontSize={20} color={'purple'}>{`Page: ${props.page}`}</Text>
+                        <Text fontSize={20} color={'purple'}>{`Page: ${props.page + 1}`}</Text>
                     </Box>
                 </Box>
                 <Center minW='50px' w='50px'>
