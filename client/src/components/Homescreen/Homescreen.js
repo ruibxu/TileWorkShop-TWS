@@ -23,11 +23,18 @@ import image3 from '../../ryan-polito-viridian-forest-1.jpg'
 import image4 from '../../tileset2.png'
 import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
+import GlobalStoreContext from '../../store';
 const Homescreen = (props) => {
     const [bigCardData, setBigCardData] = useState({})
     const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext);
     let history = useHistory();
-    console.log(auth)
+    useEffect(() =>{
+        store.viewHomePage();
+    },[])
+    console.log(store.tileSetList)
+    console.log(store.tileMapList)
+    console.log(store.yourList)
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
         // console.log('Immediate redirect success')
@@ -41,7 +48,7 @@ const Homescreen = (props) => {
     const showDeleteModal = useDisclosure();
     const showCreateModal = useDisclosure();
     const showChangePassword = useDisclosure({ defaultIsOpen: history.location.state ? history.location.state.changePassword : false });
-
+    
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
         { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
@@ -64,7 +71,7 @@ const Homescreen = (props) => {
         setBigCardData(newData)
         showItemCard.onOpen()
     }
-
+    // store.viewHomePage()
     return (
         <div className='overlay'>
             <MainNavbar redirect={redirect}
@@ -74,7 +81,7 @@ const Homescreen = (props) => {
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
-                    <HomescreenNew/>
+                    <HomescreenNew />
                     <HomescreenPopular openItemCard={handleOpenBigItemCard} data={data} />
                     <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data} />
                 </Flex>
