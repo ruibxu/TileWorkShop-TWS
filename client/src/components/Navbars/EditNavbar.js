@@ -24,7 +24,7 @@ import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
 
 const EditNavbar = (props) => {
     const [loggedin, setLoggedin ] = useState('5')
-    const [name, setName] = useState('Project Name')
+    const [name, setName] = useState(props.name)
     const [nameEdit, toggleNameEdit] = useState(false)
 
     const handleSetPublic = (v) => {

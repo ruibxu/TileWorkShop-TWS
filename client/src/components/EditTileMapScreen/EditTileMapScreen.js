@@ -5,11 +5,7 @@ import EditNavbar from '../Navbars/EditNavbar';
 import MapToolbar from './MapToolbar';
 import MapWorkspace from './MapWorkspace';
 import { Box, Flex } from '@chakra-ui/react'
-//import { GlobalStoreContext } from '../store'
-//import ListCard from './ListCard.js'
-//import { Fab, Typography } from '@mui/material'
-//import AddIcon from '@mui/icons-material/Add';
-//import List from '@mui/material/List';
+import GlobalStoreContext from '../../store/ProjectStore';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import MapLayer from './MapLayer';
@@ -17,7 +13,8 @@ import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
 const EditTileMapScreen = (props) => {
-    const [isPublic, setPublic] = useState(false)
+    const { store } = useContext(GlobalStoreContext);
+    const [isPublic, setPublic] = useState(store.currentTileMap.access.public)
 
     let history = useHistory();
     const redirect = async (route, parameters) => {
@@ -37,7 +34,7 @@ const EditTileMapScreen = (props) => {
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
-                isPublic={isPublic} setPublic={setPublic}
+                isPublic={isPublic} setPublic={setPublic} name={store.currentTileMap.name}
             />
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>

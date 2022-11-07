@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import EditNavbar from '../Navbars/EditNavbar';
 import { Container } from '@chakra-ui/react';
 import { Tldraw } from '@tldraw/tldraw'
+import GlobalStoreContext from '../../store/ProjectStore';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import { GlobalStoreContext } from '../store'
@@ -12,7 +13,8 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const EditTileSetScreen = (props) => {
-    const [isPublic, setPublic] = useState(false)
+    const { store } = useContext(GlobalStoreContext);
+    const [isPublic, setPublic] = useState(store.currentTileSet.access.public)
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
@@ -32,7 +34,7 @@ const EditTileSetScreen = (props) => {
     return (
         <div>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
-                isPublic={isPublic} setPublic={setPublic}/>
+                isPublic={isPublic} setPublic={setPublic} name={store.currentTileSet.name}/>
             <div id="tldraw">
                 <Tldraw />
             </div>
