@@ -5,13 +5,13 @@ sgMail.setApiKey(SENDGRID_API_KEY)
 
 const sendConfirmEmail = (req, res) => {
   const user_id = req.params.id
-  const { email, dynamic_template_data } = req.body
+  const { email } = req.body
   const msg = {
     to: email, // Change to your recipient
     from: 'tileworkshoptws@gmail.com', // Change to your verified sender
     templateId: 'd-703fe27c09934dc5b217313390de64f0',//Temple ID
     dynamic_template_data: {
-      link: dynamic_template_data + user_id
+      link: "https://tileworkshop.herokuapp.com/verifyaccount/" + user_id
     }
   }
   sgMail
