@@ -23,7 +23,8 @@ getLoggedIn = async (req, res) => {
             user: {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
-                _id: loggedInUser._id
+                _id: loggedInUser._id,
+                verified: user.authentication
             }
         })
     } catch (err) {
@@ -81,6 +82,7 @@ loginUser = async (req, res) => {
                 username: existingUser.username,
                 email: existingUser.email,
                 _id: existingUser._id,
+                verified: user.authentication,
                 token: token
             }
         })
@@ -200,7 +202,8 @@ updateAccount = async (req, res) => {
                 user: {
                     username: user.username,
                     email: user.email,
-                    _id: user._id
+                    _id: user._id,
+                    verified: user.authentication
                 }
             });
         }).catch(err => {
@@ -281,7 +284,8 @@ registerUser = async (req, res) => {
             user: {
                 username: savedUser.username,
                 email: savedUser.email, 
-                _id: savedUser._id
+                _id: savedUser._id,
+                verified: user.authentication
             },
             success: true
         })
@@ -356,6 +360,12 @@ verifyAccount = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: 'User Verified!',
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    _id: user._id,
+                    verified: user.authentication
+                }
             })
         })
         .catch(error => {

@@ -148,8 +148,8 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.verifyAccount = async function () {
-        const response = await api.verifyAccount();
+    auth.verifyAccount = async function (id) {
+        const response = await api.verifyAccount(id);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.VERIFY_ACCOUNT,
