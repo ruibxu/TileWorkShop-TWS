@@ -1,5 +1,5 @@
-import React, { useState} from 'react'
-
+import React, { useContext,useState} from 'react'
+import AuthContext from '../../auth'
 import {
     Modal,
     ModalOverlay,
@@ -21,6 +21,7 @@ import {
   } from '@chakra-ui/react'
 
 const UpdateAccountModal = (props) => {
+    const {auth}   = useContext(AuthContext);
     const [showPassword, setShowPassword] = React.useState(false)
     const [showPasswordVerify, setShowPasswordVerify] = React.useState(false)
     const handleClick = () => setShowPassword(!showPassword)
@@ -37,6 +38,15 @@ const UpdateAccountModal = (props) => {
         setPasswordVerify('')
     }
 
+    const handleUpdate = (event) => {
+        event.preventDefault();
+        auth.updateAccount({
+            username: username,
+            password: password,
+            passwordVerify: passwordVerify
+        })
+        props.onClose()
+    }
 
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
@@ -87,7 +97,7 @@ const UpdateAccountModal = (props) => {
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={handleClose} minW={425}>
+            <Button colorScheme='blue' mr={3} onClick={handleUpdate} minW={425}>
                 Update Account
             </Button>
         </ModalFooter>
