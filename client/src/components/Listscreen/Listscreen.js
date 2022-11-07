@@ -95,7 +95,7 @@ const Listscreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar default={access_default}/>
-                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={data} page={page} setPage={setPage}/>
+                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page ===0)?data:data2} page={page} setPage={setPage}/>
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
