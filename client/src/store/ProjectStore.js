@@ -38,8 +38,7 @@ const GlobalStoreContextProvider = (props) => {
         currentTileMap: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
-        markItemforDeletion: false,
-
+        markItemforDeletion: false
     });
     const history = useHistory();
     const { auth } = useContext(AuthContext);
@@ -75,7 +74,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentTileMap: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false,
+                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.VIEW_MYPAGE: {
@@ -84,27 +83,7 @@ const GlobalStoreContextProvider = (props) => {
             }
             case GlobalStoreActionType.VIEW_LISTVIEW: {
                 return setStore({
-                    tileSetList: payload.tileSetList,
-                    tileMapList: payload.tileMapList,
-                    currentTileset: null,
-                    currentTileMap: null,
-                    tilesetEditActive: false,
-                    tileMapEditActive: false,
-                    isPublic: false,
-                    currentAccess: null,
-                    viewHomePage: payload.viewHomePage,
-                    viewMyPage: false,
-                    viewListView: false,
-                    viewEditTileMap: false,
-                    viewEditTileSet: false,
-                    sortByAlphaOrder: payload.sortByAlphaOrder,
-                    sortByMostViewed: payload.sortByMostViewed,
-                    sortByMostLiked: payload.sortByMostLiked,
-                    sortByMostRecent: payload.sortByMostRecent,
-                    searchByName: payload.searchByName,
-                    searchByCreator: payload.searchByCreator,
-                    markItemforDeletion: false,
-                    isEdit: false
+
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILESET: {
@@ -159,12 +138,26 @@ const GlobalStoreContextProvider = (props) => {
             }
             case GlobalStoreActionType.CREATE_NEW_TILESET: {
                 return setStore({
-
+                    tileSetList: [],
+                    tileMapList: [],
+                    yourList: [],
+                    currentTileset: payload.currentTileset,
+                    currentTileMap: null,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CREATE_NEW_TILEMAP: {
                 return setStore({
-
+                    tileSetList: [],
+                    tileMapList: [],
+                    yourList: [],
+                    currentTileset: null,
+                    currentTileMap: payload.currentTileMap,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CLOSE_CURRENT_ITEM: {
@@ -186,11 +179,34 @@ const GlobalStoreContextProvider = (props) => {
                 return store;
         }
     }
-    store.createNewTilemap = async function (){
-
+    store.createNewTilemap = async function (tmd) {
+        const response = await api.createTileMap(tmd);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_NEW_TILEMAP,
+                payload: {
+                    currentTileMap: response.data.tileMap
+                }
+            })
+        } else {
+            console.log(response.data.errorMessage)
+        }
     }
 
-    
+    store.createNewTileset = async function (tsd) {
+        const response = await api.createTileSet(tsd);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_NEW_TILESET,
+                payload: {
+                    currentTileset: response.data.tileSet
+                }
+            })
+        } else {
+            console.log(response.data.errorMessage)
+        }
+    }
+
     store.viewHomePage = async function () {
         const response1 = await api.searchProjects2('Tileset', {
             sort_type: 'community.likes',
