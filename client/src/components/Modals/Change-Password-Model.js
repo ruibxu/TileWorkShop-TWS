@@ -19,13 +19,16 @@ import {
   } from '@chakra-ui/react'
 import { useContext } from 'react';
 //import { GlobalStoreContext } from '../store'
-import AuthContext from '../auth'
+import AuthContext from '../../auth'
 
 const ChangePasswordModal = (props) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [showPasswordVerify, setShowPasswordVerify] = React.useState(false)
     const handleClick = () => setShowPassword(!showPassword)
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
+
+    const [password, setPassword] = React.useState("");
+    const [passwordVerify, setPasswordVerify] = React.useState("");
 
     const { auth } = useContext(AuthContext);
     //const { store } = useContext(GlobalStoreContext)
@@ -34,6 +37,7 @@ const ChangePasswordModal = (props) => {
     const handleUpdate = (event) => {
         event.preventDefault();
         auth.changePassword({
+            id: props._id,
             password: password,
             passwordVerify: passwordVerify
         })
@@ -54,6 +58,7 @@ const ChangePasswordModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onChange={(event) => { setPassword(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -68,6 +73,7 @@ const ChangePasswordModal = (props) => {
                     <Input borderColor={'purple'}
                         type={showPasswordVerify ? 'text' : 'password'}
                         placeholder='Enter password'
+                        onChange={(event) => { setPasswordVerify(event.target.value) }}
                     />
                     <InputRightElement width='4.5rem'>
                         <Button h='1.75rem' size='sm' onClick={handleClickVerify}>
