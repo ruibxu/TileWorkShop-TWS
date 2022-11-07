@@ -31,7 +31,7 @@ const LoginModal = (props) => {
         props.onClose()
         props.openForgetPasswordModal()
     }
-    console.log(email)
+    //console.log(email)
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -39,10 +39,14 @@ const LoginModal = (props) => {
             email: email,
             password: password
         })
+        props.onClose()
+        
+        /*console.log(auth.loggedIn);
+        //auth.getLoggedIn();
         if (auth.loggedIn) {
             console.log("entered close");
             props.onClose()
-        }
+        }*/
     }
 
     const handleClose = () => {

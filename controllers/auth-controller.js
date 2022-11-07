@@ -55,7 +55,7 @@ loginUser = async (req, res) => {
                 })
         }
         // if(!existingUser.authentication){
-        //     return res.status(401).json({errorMessage: "Account not verified."})
+        //     return res.status(201).json({errorMessage: "Account not verified."})
         // }
         // console.log("provided password: " + password);
         const passwordCorrect = await bcrypt.compare(password, existingUser.passwordHash);
@@ -111,7 +111,7 @@ changePassword = async (req, res) => {
     const { id, password, passwordVerify } = req.body;
     if (password.length < 8) {
         return res
-            .status(400)
+            .status(201)
             .json({
                 errorMessage: "Please enter a password of at least 8 characters."
             });
@@ -128,7 +128,7 @@ changePassword = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
     User.findOne({ _id: id }, (err, user) => {
         if (err) {
-            return res.status(404).json({
+            return res.status(201).json({
                 err,
                 message: "User not found"
             })
@@ -144,7 +144,7 @@ changePassword = async (req, res) => {
                 })
             }).catch(error => {
                 // console.log("Failure")
-                return res.status(404).json({
+                return res.status(201).json({
                     success: false,
                     message: "Password not updated."
                 })
@@ -322,7 +322,7 @@ forgetPassword = async (req, res) => {
 
         if (!email) {
             return res
-                .status(400)
+                .status(201)
                 .json({ errorMessage: "Please enter all required fields." });
         }
 
@@ -330,7 +330,7 @@ forgetPassword = async (req, res) => {
         // console.log("existingUser: " + existingUser);
         if (!existingUser) {
             return res
-                .status(401)
+                .status(201)
                 .json({
                     errorMessage: "No Account with this email found"
                 })
@@ -338,7 +338,7 @@ forgetPassword = async (req, res) => {
         console.log(existingUser)
         if (existingUser.username != username) {
             return res
-                .status(401)
+                .status(201)
                 .json({
                     errorMessage: "No Account with this email and username found"
                 })
@@ -364,7 +364,7 @@ verifyAccount = async (req, res) => {
     const user_id = req.params.id
     const user = await User.findOne({ _id: user_id }, (err, user) => {
         if (err) {
-            return res.status(404).json({
+            return res.status(201).json({
                 err,
                 message: "User not found"
             })
@@ -385,7 +385,7 @@ verifyAccount = async (req, res) => {
         })
         .catch(error => {
             // console.log("FAILURE: " + JSON.stringify(error));
-            return res.status(400).json({
+            return res.status(201).json({
                 error,
                 message: 'User not verified',
             })

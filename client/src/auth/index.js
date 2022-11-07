@@ -47,6 +47,7 @@ function AuthContextProvider(props) {
     }
 
     useEffect(() => {
+        console.log(" auth use effect ")
         if (auth.loggedIn) {
             auth.getLoggedIn();
         }
@@ -137,7 +138,7 @@ function AuthContextProvider(props) {
         const response = await api.loginUser(userData);
         if (response.status === 200) {
             console.log('login success');
-            authReducer({
+                authReducer({
                 type: AuthActionType.LOGIN_USER,
                 payload: {
                     user: response.data.user
