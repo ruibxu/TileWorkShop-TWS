@@ -223,7 +223,7 @@ registerUser = async (req, res) => {
         console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
         if (!username || !email || !password || !passwordVerify) {
             return res
-                .status(400)
+                .status(201)
                 .json({ errorMessage: "Please enter all required fields." });
         }
         // console.log("all fields provided");
@@ -237,7 +237,7 @@ registerUser = async (req, res) => {
         // console.log("password long enough");
         if (password !== passwordVerify) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     errorMessage: "Please enter the same password twice."
                 })
@@ -247,7 +247,7 @@ registerUser = async (req, res) => {
         // console.log("existingUser: " + existingUser);
         if (existingUser) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     success: false,
                     errorMessage: "An account with this email address already exists."
@@ -258,7 +258,7 @@ registerUser = async (req, res) => {
         // console.log("existingUser: " + existingUser2);
         if (existingUser2) {
             return res
-                .status(400)
+                .status(201)
                 .json({
                     success: false,
                     errorMessage: "An account with this username already exists."
