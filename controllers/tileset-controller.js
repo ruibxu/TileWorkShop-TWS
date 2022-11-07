@@ -45,8 +45,8 @@ createTileSet = async (req, res) => {
     const tileset = new TileSet(data);
     tileset.save()
         .then(() => {
-            return res.status(201).json({
-                sucess: true,
+            return res.status(200).json({
+                success: true,
                 tileSet: tileset,
                 message: "TileSet Created"
             })
