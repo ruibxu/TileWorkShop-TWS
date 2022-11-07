@@ -26,19 +26,19 @@ function AuthContextProvider(props) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleOpen = () =>{
+    const handleOpen = () => {
         setOpen(true);
     }
 
-    const handleClose = () =>{
+    const handleClose = () => {
         setOpen(false);
     }
 
     useEffect(() => {
-        if(auth.loggedIn){
+        if (auth.loggedIn) {
             auth.getLoggedIn();
         }
-        
+
     }, []);
 
     const authReducer = (action) => {
@@ -56,26 +56,26 @@ function AuthContextProvider(props) {
                     loggedIn: false
                 })
             }
-            case AuthActionType.LOGIN_USER:{
+            case AuthActionType.LOGIN_USER: {
                 return setAuth({
-                    user:payload.user,
+                    user: payload.user,
                     loggedIn: true
                 })
             }
-            case AuthActionType.LOGOUT_USER:{
+            case AuthActionType.LOGOUT_USER: {
                 return setAuth({
-                    user:null,
+                    user: null,
                     loggedIn: false
                 })
             }
-            case AuthActionType.VERIFY_ACCOUNT:{
+            case AuthActionType.VERIFY_ACCOUNT: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: false
                 })
             }
 
-            case AuthActionType.UPDATE_ACCOUNT:{
+            case AuthActionType.UPDATE_ACCOUNT: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true
@@ -87,10 +87,10 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.registerUser = async function(userData) {
+    auth.registerUser = async function (userData) {
         console.log('register');
         var response = null
-        response = await api.registerUser(userData); 
+        response = await api.registerUser(userData);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -98,8 +98,8 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            api.sendConfirmEmail(response.data.user.email)
-        }else{
+            await api.sendConfirmEmail(response.data.user._id, response.data.user.email)
+        } else {
             console.log(response.data.errorMessage)
             //setMessage(response.data.errorMessage);
             //handleOpen();
@@ -107,8 +107,8 @@ function AuthContextProvider(props) {
     }
 
 
-    auth.logInUser = async function(userData) {
-        const response = await api.loginUser(userData);      
+    auth.logInUser = async function (userData) {
+        const response = await api.loginUser(userData);
         if (response.status === 200) {
             console.log('login success');
             authReducer({
@@ -117,14 +117,14 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-        }else{
+        } else {
             console.log(response.data.errorMessage)
             //setMessage(response.data.errorMessage);
             //handleOpen();
         }
     }
 
-    auth.logoutUser = async function(){
+    auth.logoutUser = async function () {
         console.log('logout');
         const response = await api.logoutUser();
         if (response.status === 200) {
@@ -148,34 +148,34 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.verifyAccount = async function (){
+    auth.verifyAccount = async function () {
         const response = await api.verifyAccount();
-        if(response.status === 200){
+        if (response.status === 200) {
             authReducer({
                 type: AuthActionType.VERIFY_ACCOUNT,
-                payload:{
+                payload: {
                     user: response.data.user
                 }
             });
         }
     }
 
-    auth.updateAccount = async function (userData){
-        const response = await api.updateAccount(auth.user._id,userData);
-        if(response.status === 200){
+    auth.updateAccount = async function (userData) {
+        const response = await api.updateAccount(auth.user._id, userData);
+        if (response.status === 200) {
             authReducer({
                 type: AuthActionType.UPDATE_ACCOUNT,
-                payload:{
+                payload: {
                     user: response.data.user
                 }
             });
         }
-        else{
+        else {
             console.log(response.data.errorMessage);
         }
     }
 
-    
+
     return (
         <AuthContext.Provider value={{
             auth
