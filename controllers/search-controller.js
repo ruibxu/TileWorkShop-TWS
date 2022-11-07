@@ -306,8 +306,8 @@ createSearchConditions = async (search_type, search_value) => {
     return [{['access.owner_id']:{ $in: id_list}}]
 }
 
-createSortConditions = async (sort_type, sort_order) =>{
-    return [[`${sort_type}`, sort_order], [_id, -1]]
+createSortConditions = (sort_type, sort_order) =>{
+    return [[`${sort_type}`, sort_order], ["_id", -1]]
 }
 
 //{name:{ "$regex": search_value, "$options": "i" }}
@@ -336,14 +336,13 @@ searchProjects2 = async (req, res) => {
     const limit = (req.body.limit)?req.body.limit:6
 
     //generating the main conditions
-    const access_conditions = createAccessConditions(searcher_id, access)
+    const access_conditions =  createAccessConditions(searcher_id, access)
     const search_conditions = await createSearchConditions(search_type, search_value)
     const sort_conditions = createSortConditions(sort_type, sort_order)
-
     //Finding the values
     const find_conditions = access_conditions.concat(search_conditions)
-    const results = await Search.find({$and:find_conditions}).sort(sort_conditions).skip(skip).limit(limit)
-
+    const results = await TileSet.find({$and:find_conditions}).sort(sort_conditions).skip(skip).limit(limit).exec()
+    console.log(results)
     const id_list = results.map(x => x.access.owner_id)
     const matching_users = await User.find({ _id: { $in: id_list } })
 
