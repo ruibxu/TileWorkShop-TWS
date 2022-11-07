@@ -24,7 +24,7 @@ export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
 export const searchProjects2 = (type, payload) => api.get(`api/search/${type}`, payload)
 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
-export const createTileMap = () => api.post(`api/tilemap`)
+export const createTileMap = (payload) => api.post(`api/tilemap`,payload)
 export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
 export const updateTileMap = (id) => api.put(`api/tilemap/${id}`)
 export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
@@ -35,6 +35,7 @@ export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${i
 export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 
+export const createTileSet = (payload) => api.post(`api/tileset`,payload)
 export const sendConfirmEmail = (id, payload) => api.post(`api/confirmEmail/${id}`, payload)
 export const sendPasswordResetEmail = (id, payload) => api.post(`api/passwordReset/${id}`, payload)
 const apis = {
@@ -66,6 +67,7 @@ const apis = {
     addTileSetToTileMap,
     deleteTileSetfromTileMap,
     sendConfirmEmail,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    createTileSet
 }
 export default apis

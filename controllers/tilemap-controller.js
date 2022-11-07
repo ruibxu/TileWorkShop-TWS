@@ -31,7 +31,7 @@ createTileMap = async (req, res) => {
         owner_id: req.body.user_id,
         editor_ids: [],
         viewer_ids: [],
-        public: false
+        public: true //change it back to false later 
     })
     data._id = objectId;
     data.community = community;
