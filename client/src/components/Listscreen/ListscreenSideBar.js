@@ -4,7 +4,7 @@ import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '..
 
 
 const ListscreenSideBar = (props) => {
-    const [projectType, setProjectType] = useState(PROJECT_TYPE.TILESET)
+    const [projectType, setProjectType] = useState(PROJECT_TYPE.TILEMAP)
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
     const [access, setAccess] = useState((props.default) ? props.default : `${ACCESS_TYPE.VIEWABLE}`)
