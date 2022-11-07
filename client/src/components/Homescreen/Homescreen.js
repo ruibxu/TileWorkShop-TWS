@@ -69,7 +69,7 @@ const Homescreen = (props) => {
         <div className='overlay'>
             <MainNavbar redirect={redirect}
                 openSignUpModal={showSignUpModal.onOpen} openLoginModal={showLoginModal.onOpen}
-                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={auth.loggedin}
+                openUpdateAccountModal={showUpdateAccountModal.onOpen} loggedin={auth.loggedIn}
                 user={auth.user}
             />
             <Box height={'100%'} width={'100%'}>
