@@ -16,7 +16,8 @@ import {
     Text,
     Divider,
     FormControl,
-    FormLabel
+    FormLabel,
+    FormHelperText
   } from '@chakra-ui/react'
 
 const UpdateAccountModal = (props) => {
@@ -26,14 +27,12 @@ const UpdateAccountModal = (props) => {
     const handleClickVerify = () => setShowPasswordVerify(!showPasswordVerify)
 
     const [username, setUsername] = React.useState("");
-    const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordVerify, setPasswordVerify] = React.useState("");
 
     const handleClose = () => {
         props.onClose()
         setUsername('')
-        setEmail('')
         setPassword('')
         setPasswordVerify('')
     }
@@ -42,7 +41,7 @@ const UpdateAccountModal = (props) => {
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='500px'>
-        <ModalHeader>Update Account</ModalHeader>
+        <ModalHeader>Update Account:</ModalHeader>
         <ModalCloseButton />
         <Divider borderColor={'purple'}/>
         <ModalBody>
@@ -50,10 +49,7 @@ const UpdateAccountModal = (props) => {
                 <FormControl>
                     <FormLabel>Username:</FormLabel>
                     <Input size='md' borderColor={'purple'} onChange={(event) => { setUsername(event.target.value) }}/>
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Email:</FormLabel>
-                    <Input size='md' borderColor={'purple'} onChange={(event) => { setEmail(event.target.value) }}/>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password:</FormLabel>
@@ -69,6 +65,7 @@ const UpdateAccountModal = (props) => {
                     </Button>
                     </InputRightElement>
                     </InputGroup>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
                 <FormControl>
                 <FormLabel>Verify Password:</FormLabel>
@@ -84,6 +81,7 @@ const UpdateAccountModal = (props) => {
                         </Button>
                     </InputRightElement>
                     </InputGroup>
+                    <FormHelperText>Leave Empty for no change</FormHelperText>
                 </FormControl>
             </Stack>
         </ModalBody>
