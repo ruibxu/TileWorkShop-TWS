@@ -39,7 +39,7 @@ const CreateModal = (props) => {
         setWidth(16)
     }
 
-    console.log(height)
+    //console.log(height)
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
     <ModalOverlay />
