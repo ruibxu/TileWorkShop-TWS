@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
-
+import api from '../api'
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {
@@ -33,25 +33,13 @@ const GlobalStoreContextProvider = (props) => {
     const [store, setStore] = useState({
         tileSetList: [],
         tileMapList: [],
+        yourList: [],
         currentTileset: null,
         currentTileMap: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
-        isPublic: false,
-        currentAccess: null,
-        viewHomePage: false,
-        viewMyPage: false,
-        viewListView: false,
-        viewEditTileMap: false,
-        viewEditTileSet: false,
-        sortByAlphaOrder: false,
-        sortByMostViewed: false,
-        sortByMostLiked: false,
-        sortByMostRecent: false,
-        searchByName: false,
-        searchByCreator: false,
         markItemforDeletion: false,
-        isEdit: false
+
     });
     const history = useHistory();
     const { auth } = useContext(AuthContext);
@@ -82,6 +70,22 @@ const GlobalStoreContextProvider = (props) => {
                 return setStore({
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
+                    yourList: payload.yourList,
+                    currentTileset: null,
+                    currentTileMap: null,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false,
+                })
+            }
+            case GlobalStoreActionType.VIEW_MYPAGE: {
+                return setStore({
+                })
+            }
+            case GlobalStoreActionType.VIEW_LISTVIEW: {
+                return setStore({
+                    tileSetList: payload.tileSetList,
+                    tileMapList: payload.tileMapList,
                     currentTileset: null,
                     currentTileMap: null,
                     tilesetEditActive: false,
@@ -101,15 +105,6 @@ const GlobalStoreContextProvider = (props) => {
                     searchByCreator: payload.searchByCreator,
                     markItemforDeletion: false,
                     isEdit: false
-                })
-            }
-            case GlobalStoreActionType.VIEW_MYPAGE: {
-                return setStore({
-                })
-            }
-            case GlobalStoreActionType.VIEW_LISTVIEW: {
-                return setStore({
-
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILESET: {
@@ -192,8 +187,45 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
-    store.viewHomePage = async function(){
-        
+    store.viewHomePage = async function () {
+        const response1 = await api.searchProjects2('Tileset', {
+            sort_type: 'community.likes',
+            sort_order: 1,
+            limit: 2
+        });
+        if (response1.status === 200) {
+            console.log('hi')
+            const response2 = await api.searchProjects2('Tilemap', {
+                sort_type: 'community.likes',
+                sort_order: 1,
+                limit: 2
+            });
+            if (response2.status !== 200) {
+                console.log(response2.data.errorMessage)
+            } else {
+                const response3 = await api.searchProjects2('Tileset', {
+                    searcher_id: (auth.loggedIn) ? auth.user._id : '',
+                    limit: 2
+                })
+                if (response3.status !== 200) {
+                    console.log(response3.data.errorMessage)
+                } else {
+                    storeReducer({
+                        type: GlobalStoreActionType.VIEW_HOMEPAGE,
+                        payload: {
+                            tileSetList: response1.data.results,
+                            tileMapList: response2.data.results,
+                            yourList: response3.data.results
+                        }
+                    })
+                }
+            }
+        } else {
+            console.log(response1.data.errorMessage)
+        }
+
+
+
     }
 
 

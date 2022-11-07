@@ -341,8 +341,7 @@ searchProjects2 = async (req, res) => {
     const sort_conditions = createSortConditions(sort_type, sort_order)
     //Finding the values
     const find_conditions = access_conditions.concat(search_conditions)
-    const results = await TileSet.find({$and:find_conditions}).sort(sort_conditions).skip(skip).limit(limit).exec()
-    console.log(results)
+    const results = await Search.find({$and:find_conditions}).sort(sort_conditions).skip(skip).limit(limit).exec()
     const id_list = results.map(x => x.access.owner_id)
     const matching_users = await User.find({ _id: { $in: id_list } })
 

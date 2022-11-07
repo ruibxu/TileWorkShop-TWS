@@ -20,7 +20,7 @@ export const getFavoriteProjects = (type) => api.get(`api/favorite/${type}`)
 export const searchProject = (type) => api.get(`api/name/${type}`)
 export const searchUsers = () => api.get(`api/user`)
 export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
-export const searchProjects2 = (type) => api.get(`api/search/${type}`)
+export const searchProjects2 = (type, payload) => api.get(`api/search/${type}`, payload)
 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = () => api.post(`api/tilemap`)
