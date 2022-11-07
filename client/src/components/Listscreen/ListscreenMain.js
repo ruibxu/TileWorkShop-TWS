@@ -15,7 +15,7 @@ const ListscreenMain = (props) => {
         <Box height={'100%'} flex='1'>
             <Flex height={'100%'}>
                 <Center minW='50px' w='50px'>
-                    <IconButton onClick={handleLeftClick} isDisabled={(props.page === 0) ? true : false} bg='transparent' icon={<MdArrowBackIos className='md-icon' />} paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
+                    <IconButton onClick={handleLeftClick} isDisabled={(props.page === 1) ? true : false} bg='transparent' icon={<MdArrowBackIos className='md-icon' />} paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
                 </Center>
                 <Box className={'main-list'} flex='1' >
                     <ListscreenList openItemCard={props.openItemCard} data={props.data} />
