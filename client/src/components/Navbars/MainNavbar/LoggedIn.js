@@ -54,6 +54,7 @@ const LoggedIn = (props) => {
             minW={0}>
             <Avatar
             size={'sm'}
+            name={props.user.username}
             />
         </MenuButton>
         <MenuList>

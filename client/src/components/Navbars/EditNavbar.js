@@ -19,11 +19,12 @@ import {
 } from '@chakra-ui/react';
 import { BiSave } from "react-icons/bi";
 import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
+import AuthContext from '../../auth';
 
 
 
 const EditNavbar = (props) => {
-    const [loggedin, setLoggedin ] = useState('5')
+    const { auth } = useContext(AuthContext);
     const [name, setName] = useState(props.name)
     const [nameEdit, toggleNameEdit] = useState(false)
 
@@ -39,8 +40,6 @@ const EditNavbar = (props) => {
         toggleNameEdit(false);
         setName(e.target.value);
     }
-
-    console.log(loggedin)
 
     return (
         <Box px={4} className="navbar" left={0}>
@@ -77,10 +76,11 @@ const EditNavbar = (props) => {
                     minW={0}>
                     <Avatar
                     size={'sm'}
+                    name={auth.user.username}
                     />
                 </MenuButton>
                 <MenuList>
-                    <MenuItem>Account</MenuItem>
+                    <MenuItem>{auth.user.username}</MenuItem>
                     <MenuDivider />
                     <MenuItem>Update</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
