@@ -1,6 +1,7 @@
 import React, { useState} from 'react'
 import ShareList from './ShareList'
 import { GrAdd } from "react-icons/gr"
+import { SHARE_ROLE } from '../../../translator-client/sort-options';
 
 import {
     Modal,
