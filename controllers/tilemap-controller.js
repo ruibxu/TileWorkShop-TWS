@@ -209,6 +209,7 @@ updateTileMapCommunity = async (req, res) => {
                         return res.status(200).json({
                             success: true,
                             id: item._id,
+                            tilemap: item,
                             message: 'TileMap Community updated!',
                         })
                     })
