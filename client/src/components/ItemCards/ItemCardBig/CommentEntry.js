@@ -30,17 +30,17 @@ const CommentEntry = (props) => {
             <Flex paddingLeft={3} gap={5}>
                 <Flex>
                     <Flex  alignItems='center' gap={2}>
-                    <Text className="comment-counts" fontSize={12} opacity={0.3}>{`${info.community.likes}`}</Text>
+                    <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.likes}`}</Text>
                     <IconButton icon={<FiThumbsUp size={'10px'}/>} size={'10px'}/>
-                    <Text className="comment-counts" fontSize={12} opacity={0.5}>{`${info.community.dislikes}`}</Text>
+                    <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.dislikes}`}</Text>
                     <IconButton icon={<FiThumbsDown size={'10px'}/>} size={'10px'}/>
                     </Flex>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.5} variant='link'>REPLY</Button>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>REPLY</Button>
                 </Flex>
                 <Spacer/>
                 <Flex alignItems='center' gap={2}>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.5} variant='link'>EDIT</Button>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.5} variant='link'>DELETE</Button>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>EDIT</Button>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>DELETE</Button>
                 </Flex>
             </Flex>
             {(count)?
