@@ -1,6 +1,7 @@
 const Community = require('../models/community-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Comment = require('../models/comment-model');
+const { SHARE_ROLE } = require('../translator/sort-options')
 
 createCommunity = (type) => {
     const community = (type == 1)?new Community({
@@ -57,6 +58,25 @@ updateCommunity = (community, body) => {
     return community;
 }
 
+updateAccess = (access, body) => {
+    if(body.updatePublic){
+        access.public = !access.public
+        return access
+    }
+    if(body.new_user_id == access.owner_id){return access}
+    const new_user_id = body.new_user_id
+    const old_role = body.old_role
+    const new_role = body.new_role
+
+    if(old_role == SHARE_ROLE.EDITOR){access.editor_ids = access.editor_ids.filter(x => x != new_user_id)}
+    if(old_role == SHARE_ROLE.VIEWER){access.viewer_ids = access.viewer_ids.filter(x => x != new_user_id)}
+
+    if(new_role == SHARE_ROLE.EDITOR){access.editor_ids.push(new_user_id)}
+    if(new_role == SHARE_ROLE.VIEWER){access.viewer_ids.push(new_user_id)}
+
+    return access
+}
+
 deleteCommentsByLink = async (id) => {
     // console.log("Find Comments with link: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(id);
@@ -75,5 +95,6 @@ deleteCommentsByLink = async (id) => {
 module.exports = {
     createCommunity,
     updateCommunity,
+    updateAccess,
     deleteCommentsByLink
 }

@@ -1,4 +1,5 @@
-const { createCommunity, updateCommunity, deleteCommentsByLink} = require('./shared-functions');
+const { createCommunity, updateCommunity, updateAccess, deleteCommentsByLink} = require('./shared-functions');
+
 const TileMap = require('../models/tilemap-model');
 const TileSet = require('../models/tileset-model');
 const User = require('../models/user-model');
@@ -138,6 +139,10 @@ updateTileMap = async (req, res) => {
 updateTileMapAccess = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
+    if(!req.body){
+        return res.status(201).json({
+            errorMessage:"Please enter required field"
+        })}
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
         // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
@@ -150,10 +155,10 @@ updateTileMapAccess = async (req, res) => {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id)) {
-                if(req.body.editor_ids){access.editor_ids = req.body.editor_ids}
-                if(req.body.viewer_ids){access.viewer_ids = req.body.viewer_ids}
-                if(req.body.public){access.public = req.body.public}
-                //add tileset image update later
+                const body = req.body;
+                const access = item.access;
+                const newAccess = updateAccess(access, body);
+                item.access = newAccess;
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
                     return res.status(200).json({

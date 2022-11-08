@@ -27,3 +27,10 @@ export const SEARCH_TYPE = {
     NAME: "name",
     CREATOR: "creator"
 }
+
+export const SHARE_ROLE = {
+    OWNER: "Owner",
+    EDITOR: "Editor",
+    VIEWER: "Viewer",
+    REMOVE: ''
+}

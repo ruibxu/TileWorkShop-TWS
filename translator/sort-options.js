@@ -28,10 +28,18 @@ const SEARCH_TYPE = {
     CREATOR: "creator"
 }
 
+const SHARE_ROLE = {
+    OWNER: "Owner",
+    EDITOR: "Editor",
+    VIEWER: "Viewer",
+    REMOVE: ''
+}
+
 module.exports = {
     SORT_TYPE,
     SORT_ORDER,
     PROJECT_TYPE,
     ACCESS_TYPE,
-    SEARCH_TYPE
+    SEARCH_TYPE,
+    SHARE_ROLE
 }
