@@ -15,6 +15,7 @@ import MapTileset from './MapTileset';
 const EditTileMapScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
     const [isPublic, setPublic] = useState(store.currentTileMap.access.public)
+    console.log(store.currentTileMap)
 
     let history = useHistory();
     const redirect = async (route, parameters) => {

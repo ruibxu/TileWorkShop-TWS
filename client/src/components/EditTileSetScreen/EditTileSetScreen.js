@@ -15,6 +15,7 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 const EditTileSetScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
     const [isPublic, setPublic] = useState(store.currentTileSet.access.public)
+    console.log(store.currentTileSet)
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {

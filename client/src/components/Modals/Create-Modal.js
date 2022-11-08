@@ -30,6 +30,7 @@ const CreateModal = (props) => {
     const [name, setName] = useState('Untitled')
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
+    const [pixel, setPixel] = useState(16)
 
     const handleCreate = () => {
         //-Insert Create Backend call here
@@ -52,7 +53,7 @@ const CreateModal = (props) => {
                     name: name,
                     height: height,
                     width: width,
-                    pixel: 16
+                    pixel: pixel
                 }
             })
             //props.redirect(`/tileset/${store.currentTileSet._id}`)
@@ -86,8 +87,8 @@ const CreateModal = (props) => {
                             onChange={(event) => { setName(event.target.value) }} />
                     </FormControl>
                 </Stack>
-                <Flex>
-                    <FormControl mr={5}>
+                <Flex gap={5}>
+                    <FormControl>
                         <FormLabel>Height:</FormLabel>
                         <NumberInput defaultValue={height}>
                             <NumberInputField size='md' borderColor={'purple'}
@@ -95,8 +96,7 @@ const CreateModal = (props) => {
                             />
                         </NumberInput>
                     </FormControl>
-                    <Spacer />
-                    <FormControl ml={5}>
+                    <FormControl>
                         <FormLabel>Width:</FormLabel>
                         <NumberInput defaultValue={width}>
                             <NumberInputField size='md' borderColor={'purple'}
@@ -104,6 +104,14 @@ const CreateModal = (props) => {
                             />
                         </NumberInput>
                     </FormControl>
+                    {(createType == "TileSet")?<FormControl>
+                        <FormLabel>Pixel:</FormLabel>
+                        <NumberInput defaultValue={pixel}>
+                            <NumberInputField size='md' borderColor={'purple'}
+                                onChange={(event) => { setPixel(event.target.value) }}
+                            />
+                        </NumberInput>
+                    </FormControl>:<></>}
                 </Flex>
             </ModalBody>
             <Divider borderColor={'purple'} />
