@@ -14,9 +14,16 @@ function ItemCardBig(props) {
     const { data, comments } = props
     const [ comment, setComment ] = useState('')
 
+    const isPublic = (data.access)?data.access.public:true
+
     const handleComment = () => {
         console.log(comment)
     }
+
+    const lastEdited = new Date(data.lastEdited)
+    const year = lastEdited.getFullYear()
+    const month = lastEdited.getMonth()+1
+    const day = lastEdited.getDate()
 
     return (
         <div>
@@ -55,10 +62,10 @@ function ItemCardBig(props) {
                             </Box>
                             <Box minW='50%' align="right">
                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                                    {"Public"}
+                                    {isPublic?"Public":"Private"}
                                 </Box>
                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                                    {"Last Updated: 10/30/22"}
+                                    {`Last Updated: ${year}-${month}-${day}`}
                                 </Box>
                             </Box>
                         </Flex>

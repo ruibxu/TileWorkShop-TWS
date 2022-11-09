@@ -331,7 +331,7 @@ searchProjects2 = async (req, res) => {
     const search_value = (req.body.search_value)?req.body.search_value:''
 
     const sort_type = (req.body.sort_type)?req.body.sort_type:SORT_TYPE.RECENT
-    const sort_order = (req.body.sort_order)?req.body.sort_order:((sort_type==SORT_TYPE.NAME)?SORT_ORDER.ASCENDING:SORT_ORDER.DESCENDING)
+    const sort_order = (req.body.sort_order)?req.body.sort_order:((sort_type==SORT_TYPE.NAME || sort_type==SORT_TYPE.RECENT)?SORT_ORDER.ASCENDING:SORT_ORDER.DESCENDING)
     const skip = (req.body.skip)?req.body.skip:0
     const limit = (req.body.limit)?req.body.limit:0
 
