@@ -149,9 +149,11 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
+            return true
         } else {
             setMessage(response.data.errorMessage);
             handleOpen();
+            return false
         }
     }
 

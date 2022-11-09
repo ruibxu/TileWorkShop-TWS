@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import AuthContext from '../../auth'
+import GlobalStoreContext from '../../store/ProjectStore';
 import {
     Modal,
     ModalOverlay,
@@ -22,6 +23,7 @@ import {
 
 const LoginModal = (props) => {
     const {auth}   = useContext(AuthContext);
+    const {store} = useContext(GlobalStoreContext)
     const [showPassword, setShowPassword] = React.useState(false)
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -35,10 +37,11 @@ const LoginModal = (props) => {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        auth.logInUser({
+        const success = auth.logInUser({
             email: email,
             password: password
         })
+        props.setRefetch(success)
         props.onClose()
         
         /*console.log(auth.loggedIn);

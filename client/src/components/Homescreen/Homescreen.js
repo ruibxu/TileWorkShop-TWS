@@ -25,26 +25,30 @@ import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
 import GlobalStoreContext from '../../store/ProjectStore';
 const Homescreen = (props) => {
-    const [bigCardData, setBigCardData] = useState({})
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
+
+    const [bigCardData, setBigCardData] = useState({})
+    const [refetch, setRefetch] = useState(false)
     const verified = (auth.loggedIn?auth.user.verified:false)
     let history = useHistory();
+
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
     useEffect(() =>{
+        console.log('homescreen effect')
         store.viewHomePage();
     },[])
-    console.log(store.tileSetList)
-    console.log(store.tileMapList)
-    console.log(store.yourList)
+    console.log(auth)
+    // console.log(store.tileSetList)
+    // console.log(store.tileMapList)
+    // console.log(store.yourList)
     
     //console.log(window.location.href.includes('localhost'))
     const autoLoggin = history.location.state ? history.location.state.AccountVerified : false;
     const autoChangePassword = history.location.state ? history.location.state.changePassword : false
     const state_id = history.location.state?history.location.state._id:''
-    console.log(autoChangePassword)
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure({ defaultIsOpen: autoLoggin })
@@ -90,14 +94,14 @@ const Homescreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
                     <HomescreenNew />
-                    <HomescreenPopular openItemCard={handleOpenBigItemCard} data={data} />
-                    <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data} />
+                    <HomescreenPopular openItemCard={handleOpenBigItemCard} data={data} popularSets={store.tileSetList} popularMaps={store.tileMapList}/>
+                    <HomescreenQuick openItemCard={handleOpenBigItemCard} data={data} display={store.yourList}/>
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
             <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}
-                openForgetPasswordModal={showForgetPasswordModal.onOpen}
+                openForgetPasswordModal={showForgetPasswordModal.onOpen} setRefetch={setRefetch}
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />

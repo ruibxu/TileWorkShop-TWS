@@ -14,13 +14,15 @@ import { MdSearch } from 'react-icons/md'
 import LoggedIn from './LoggedIn.js'
 import GuestMode from './GuestMode';
 import AuthContext from '../../../auth';
+import GlobalStoreContext from '../../../store/ProjectStore';
 
 
 
 const MainNavbar = (props) => {
     const [ type, setType ] = useState("TileSet")
     const [ searchBy, setSearchBy ] = useState("Name")
-    const { auth } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext)
+    const { store } = useContext(AuthContext)
 
     
     /*const handleLogin = (username) => {

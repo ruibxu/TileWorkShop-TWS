@@ -8,7 +8,7 @@ import ItemCardSmall from '../ItemCards/ItemCardSmall';
 //import AddIcon from '@mui/icons-material/Add';
 //import List from '@mui/material/List';
 const HomescreenPopular = (props) => {
-    const {data} = props
+    const {data, popularSets, popularMaps } = props
     return (
         <Container minW={'46%'}>
             <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'} justify-content='space-between' minH={'100%'} maxH={'100%'}>
@@ -19,8 +19,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display' >
-                            <ItemCardSmall size={'100%'} data={data[2]} openItemCard={props.openItemCard}/>
-                            <ItemCardSmall size={'100%'} data={data[0]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'} data={popularMaps[0]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'} data={popularMaps[1]} openItemCard={props.openItemCard}/>
                         </Flex>
                     </Container>
                     <Divider borderColor={'purple'} />
@@ -33,8 +33,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display'>
-                            <ItemCardSmall size={'100%'}  data={data[3]} openItemCard={props.openItemCard}/>
-                            <ItemCardSmall size={'100%'}  data={data[4]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'}  data={popularSets[0]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'}  data={popularSets[1]} openItemCard={props.openItemCard}/>
                         </Flex>
                     </Container>
                 </Box>

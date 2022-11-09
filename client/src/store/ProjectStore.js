@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
+import { ACCESS_TYPE } from "../translator-client/sort-options"
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {
@@ -246,13 +247,13 @@ const GlobalStoreContextProvider = (props) => {
     }
 
     store.viewHomePage = async function () {
+        console.log('refetching homescreen view')
         const response1 = await api.searchProjects2('Tileset', {
             sort_type: 'community.likes',
             sort_order: 1,
             limit: 2
         });
         if (response1.status === 200) {
-            console.log('hi')
             const response2 = await api.searchProjects2('Tilemap', {
                 sort_type: 'community.likes',
                 sort_order: 1,
@@ -261,13 +262,19 @@ const GlobalStoreContextProvider = (props) => {
             if (response2.status !== 200) {
                 console.log(response2.data.errorMessage)
             } else {
-                const response3 = await api.searchProjects2('Tileset', {
+                console.log((auth.loggedIn) ? auth.user._id : 'not logged in')
+                const response3 = await api.searchProjects2('Tilemap', {
                     searcher_id: (auth.loggedIn) ? auth.user._id : '',
+                    access: ACCESS_TYPE.OWNER,
                     limit: 2
                 })
                 if (response3.status !== 200) {
                     console.log(response3.data.errorMessage)
                 } else {
+                    response1.data.results.map(x => x.owner = response1.data.users.find(y => y._id == x.access.owner_id))
+                    response2.data.results.map(x => x.owner = response2.data.users.find(y => y._id == x.access.owner_id))
+                    response3.data.results.map(x => x.owner = response3.data.users.find(y => y._id == x.access.owner_id))
+                    console.log(response1.data.users)
                     storeReducer({
                         type: GlobalStoreActionType.VIEW_HOMEPAGE,
                         payload: {

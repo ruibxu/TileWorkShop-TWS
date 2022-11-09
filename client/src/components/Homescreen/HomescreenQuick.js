@@ -10,7 +10,7 @@ import AuthContext from '../../auth';
 //import List from '@mui/material/List';
 const HomescreenQuick = (props) => {
     const { auth } = useContext(AuthContext);
-    const {data} = props
+    const {data, display} = props
 
     return (
         <Container minW={'21%'}>
@@ -20,8 +20,8 @@ const HomescreenQuick = (props) => {
                 </Box>
                 <Divider />
                 <SimpleGrid minW={'100%'} minH={'90%'} maxH={'100%'} className='popular-box-divider' columns={1} spacing={'10%'} paddingTop={'8%'} paddingBottom={'8%'}>
-                    <Container><ItemCardSmall size={'100%'} data={data[0]} openItemCard={props.openItemCard}/></Container>
-                    <Container><ItemCardSmall size={'100%'} data={data[1]} openItemCard={props.openItemCard}/></Container>
+                    <Container><ItemCardSmall size={'100%'} data={display[0]} openItemCard={props.openItemCard}/></Container>
+                    <Container><ItemCardSmall size={'100%'} data={display[1]} openItemCard={props.openItemCard}/></Container>
                 </SimpleGrid>
             </Box>
         </Container>
