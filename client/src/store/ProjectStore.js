@@ -290,10 +290,14 @@ const GlobalStoreContextProvider = (props) => {
             limit: 0
         });
         if (response.status === 200) {
+            const results = response.data.results
+            const users = response.data.users
+            results.map(x => {x.owner = users.find(y => y._id == x.access.owner_id)})
+            console.log(results)
             storeReducer({
                 type: GlobalStoreActionType.VIEW_LISTVIEW,
                 payload: {
-                    tileMapList: response.data.results,
+                    tileMapList: results,
                     tileSetList: [],
                     yourList: []
                 }

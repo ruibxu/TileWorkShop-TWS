@@ -20,7 +20,7 @@ function ItemCardSmall(props) {
         props.openItemCard()
     }
 
-    // console.log(data)
+    if(!data){return <></>}
 
     let cardElement =
         <Box w={(size) ? size : '375px'} maxW={(size) ? size : '375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box' >
