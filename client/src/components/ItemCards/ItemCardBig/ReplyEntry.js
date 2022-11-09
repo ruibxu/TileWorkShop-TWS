@@ -69,7 +69,7 @@ const ReplyEntry = (props) => {
             {/* reply related */}
             {(reply)?<>
             <Textarea name='comment' defaultValue={replyText} fontStyle="italic" 
-                onBlur={(event)=>setReplyText(event.target.value)}
+                onBlur={(event)=>setReplyText(event.target.value)} placeholder='Leave a reply...'
             />
             <Flex gap={3}>
                 <Spacer/>
