@@ -26,8 +26,13 @@ getCommentsByLink = async (req, res) => {
 
     const _ids = comment_list.map((x) => x._id)
     const replies = await Comment.find({ link_id: { $in: _ids } })
+    const all_comments = [...comment_list, ...replies]
+    const owner_ids = all_comments.map(x => x.user_id)
+    console.log(owner_ids)
+    const matching_users = await User.find({ _id: { $in: owner_ids } })
+    const usernames = matching_users.map(x=>({_id: x._id, username: x.username}))
 
-    return res.status(200).json({ success: true, comments: comment_list, replies: replies});
+    return res.status(200).json({ success: true, comments: comment_list, replies: replies, users:usernames});
 }
 
 createComment = async (req, res) => {
