@@ -261,7 +261,7 @@ const GlobalStoreContextProvider = (props) => {
         const response = await api.searchProjects2('Tilemap', {
             sort_type: 'community.likes',
             sort_order: 1,
-            limit: 6
+            limit: 0
         });
         if (response.status === 200) {
             const results = response.data.results
@@ -269,7 +269,7 @@ const GlobalStoreContextProvider = (props) => {
             results.map(x => {x.owner = users.find(y => y._id == x.access.owner_id)})
             console.log(results)
             storeReducer({
-                type: GlobalStoreActionType.VIEW_HOMEPAGE,
+                type: GlobalStoreActionType.VIEW_LISTVIEW,
                 payload: {
                     tileMapList: results,
                     tileSetList: [],

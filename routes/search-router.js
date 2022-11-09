@@ -10,7 +10,7 @@ router.get('/favorite/:type', SearchController.getFavoriteProjects)
 router.get('/name/:type', SearchController.searchProject)
 router.get('/user', SearchController.searchUsers)
 router.get('/user/:type', SearchController.searchProjectByUsers)
-router.get('/search/:type', SearchController.searchProjects2)
+router.put('/search/:type', SearchController.searchProjects2)
 
 
 
