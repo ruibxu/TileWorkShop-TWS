@@ -11,11 +11,11 @@ getTileMapById = async (req, res) => {
     const _id = new ObjectId(req.params.id);
 
     const tilemap = await TileMap.find({ _id: _id }, (err, tilemap) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
+        if (err) { return res.status(400).json({ success: false, errorMessage: "Failed to get TileMap" }); }
         // console.log("Found tilemap: " + JSON.stringify(tilemap));
     }).catch(err => console.log(err));
 
-    return res.status(200).json({ success: true, result: { tilemap: tilemap} });
+    return res.status(200).json({ success: true, result: tilemap[0] }); //changed this to return the first tilemap 
 }
 
 createTileMap = async (req, res) => {

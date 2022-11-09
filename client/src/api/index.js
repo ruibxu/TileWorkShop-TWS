@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL:  (window.location.href.includes('localhost'))?"http://localhost:4000":"https://tileworkshop.herokuapp.com/"
+    baseURL: (window.location.href.includes('localhost')) ? "http://localhost:4000" : "https://tileworkshop.herokuapp.com/"
 
 })
 
@@ -9,8 +9,8 @@ export const getLoggedIn = () => api.get(`auth/loggedIn/`)
 export const registerUser = (payload) => api.post(`auth/register/`, payload)
 export const loginUser = (payload) => api.post(`auth/login/`, payload)
 export const logoutUser = () => api.get(`auth/logout/`)
-export const changePassword = (payload) => api.put(`auth/changePassword/`,payload)
-export const updateAccount = (id,payload) => api.put(`auth/updateAccount/${id}`, payload)
+export const changePassword = (payload) => api.put(`auth/changePassword/`, payload)
+export const updateAccount = (id, payload) => api.put(`auth/updateAccount/${id}`, payload)
 export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
 export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, payload)
 
@@ -22,8 +22,9 @@ export const searchProject = (type) => api.get(`api/name/${type}`)
 export const searchUsers = () => api.get(`api/user`)
 export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
 export const searchProjects2 = (type, payload) => api.put(`api/search/${type}`, payload)
+
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
-export const createTileMap = (payload) => api.post(`api/tilemap`,payload)
+export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
 export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
 export const updateTileMap = (id) => api.put(`api/tilemap/${id}`)
 export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
@@ -34,7 +35,17 @@ export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${i
 export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 
-export const createTileSet = (payload) => api.post(`api/tileset`,payload)
+
+export const getTileSetById = (id) => api.post(`api/tileset/${id}`)
+export const createTileSet = (payload) => api.post(`api/tileset`, payload)
+export const deleteTileSet = (id) => api.delete(`api/tileset/${id}`)
+export const updateTileSet = (id, payload) => api.put(`api/tileset/${id}`, payload)
+export const getTileSetImage = (id) => api.get(`api/tileset/image/${id}`)
+export const updateTileSetImage = (id, payload) => api.put(`api/tileset/image/${id}`, payload)
+export const deleteTileSetImage = (id) => api.delete(`api/tileset/image/${id}`)
+export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
+export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)
+
 export const sendConfirmEmail = (id, payload) => api.post(`api/confirmEmail/${id}`, payload)
 export const sendPasswordResetEmail = (id, payload) => api.post(`api/passwordReset/${id}`, payload)
 const apis = {

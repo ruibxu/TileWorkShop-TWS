@@ -11,11 +11,11 @@ getTileSetById = async (req, res) => {
     const _id = new ObjectId(req.params.id);
 
     const tileset = await TileSet.find({ _id: _id }, (err, tileset) => {
-        if (err) { return res.status(400).json({ success: false, error: err }); }
+        if (err) { return res.status(400).json({ success: false, errorMessage: "Failed to get Tileset" }); }
         // console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
 
-    return res.status(200).json({ success: true, result: { tileset: tileset} });
+    return res.status(200).json({ success: true, result: tileset[0] }); //same here
 }
 
 createTileSet = async (req, res) => {

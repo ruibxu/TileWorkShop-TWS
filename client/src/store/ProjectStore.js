@@ -26,7 +26,9 @@ export const GlobalStoreActionType = {
     CREATE_NEW_TILEMAP: "CREATE_NEW_TILEMAP",
     CLOSE_CURRENT_ITEM: "CLOSE_CURRENT_ITEM",
     SET_CURRENT_ITEM: "SET_CURRENT_ITEM",
-    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME"
+    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
+    GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
+    GET_TILESET_BY_ID: "GET_TILSET_BY_ID"
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -185,6 +187,30 @@ const GlobalStoreContextProvider = (props) => {
 
                 })
             }
+            case GlobalStoreActionType.GET_TILEMAP_BY_ID: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentTileSet: null,
+                    currentTileMap: payload.currentTileMap,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
+            case GlobalStoreActionType.GET_TILESET_BY_ID: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentTileSet: payload.currentTileSet,
+                    currentTileMap: null,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
             default:
                 return store;
         }
@@ -278,7 +304,33 @@ const GlobalStoreContextProvider = (props) => {
 
     }
 
+    store.getTileMapById = async function (id){
+        const response = await api.getTileMapById(id);
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.GET_TILEMAP_BY_ID,
+                payload:{
+                    currentTileMap: response.data.result
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
 
+    store.getTilesetById = async function (id){
+        const response = await api.getTilesetById(id);
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.GET_TILESET_BY_ID,
+                payload:{
+                    currentTileSet: response.data.result
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
     return (
         <GlobalStoreContext.Provider value={{
             store
