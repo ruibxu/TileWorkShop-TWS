@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea, Text, Icon
@@ -12,6 +12,11 @@ import CommentList from "./CommentList";
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
 function ItemCardBig(props) {
     const { data, comments } = props
+    const [ comment, setComment ] = useState('')
+
+    const handleComment = () => {
+        console.log(comment)
+    }
 
     return (
         <div>
@@ -57,10 +62,12 @@ function ItemCardBig(props) {
                                 </Box>
                             </Box>
                         </Flex>
-                        <Textarea placeholder='Leave a comment...' fontStyle="italic" />
+                        <Textarea name='comment' placeholder='Leave a comment...' fontStyle="italic" 
+                            onBlur={(event)=>setComment(event.target.value)}
+                        />
                         <Flex>
                             <Spacer/>
-                            <Button colorScheme='blue' onClick={() => props.onClose()} size='sm'>
+                            <Button colorScheme='blue' onClick={handleComment} size='sm'>
                                 Comment
                             </Button>
                         </Flex>
