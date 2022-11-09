@@ -351,8 +351,7 @@ searchProjects2 = async (req, res) => {
         access: x.access,
         community: x.community,
         lastEdited: x.lastEdited,
-        type: req.params.type,
-        owner: matching_users.find(y => x.access.owner_id == y._id).username
+        type: req.params.type
     }))
     
     const usernames = matching_users.map(x => ({_id: x._id, username: x.username}))
