@@ -55,7 +55,7 @@ const Listscreen = (props) => {
 
     useEffect(() => {
         store.viewListView()
-    }, [])
+    }, [auth])
     console.log(store.tileMapList)
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
