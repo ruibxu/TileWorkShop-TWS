@@ -73,7 +73,7 @@ const Listscreen = (props) => {
         { _id: "19", owner: "Jimmy", name: "Xingqiu2", src: i5, type: 1 },
         { _id: "20", owner: "Jimmy", name: "QiQi??", src: i6, type: 1 }
     ]
-
+    
     const comments = [
         { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
         { _id: '7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },

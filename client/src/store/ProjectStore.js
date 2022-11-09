@@ -258,14 +258,14 @@ const GlobalStoreContextProvider = (props) => {
     }
 
     store.viewListView = async function () {
-        const response = await api.searchProjects2('TileMap', {
+        const response = await api.searchProjects2('Tilemap', {
             sort_type: 'community.likes',
             sort_order: 1,
-            limit: 6
+            limit: 0
         });
         if (response.status === 200) {
             storeReducer({
-                type: GlobalStoreActionType.VIEW_HOMEPAGE,
+                type: GlobalStoreActionType.VIEW_LISTVIEW,
                 payload: {
                     tileMapList: response.data.results,
                     tileSetList: [],
