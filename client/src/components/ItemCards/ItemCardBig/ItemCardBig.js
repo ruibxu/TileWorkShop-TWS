@@ -50,7 +50,7 @@ function ItemCardBig(props) {
                                     {(data.name) ? data.name : 'Untitled'}
                                 </Box>
                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                                    {"By: " + ((data.owner) ? data.owner : 'Unnamed')}
+                                    {"By: " + ((data.owner) ? data.owner.username : 'Unnamed')}
                                 </Box>
                             </Box>
                             <Box minW='50%' align="right">
