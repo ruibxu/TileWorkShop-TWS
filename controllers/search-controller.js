@@ -333,7 +333,7 @@ searchProjects2 = async (req, res) => {
     const sort_type = (req.body.sort_type)?req.body.sort_type:SORT_TYPE.RECENT
     const sort_order = (req.body.sort_order)?req.body.sort_order:((sort_type==SORT_TYPE.NAME)?SORT_ORDER.ASCENDING:SORT_ORDER.DESCENDING)
     const skip = (req.body.skip)?req.body.skip:0
-    const limit = (req.body.limit)?req.body.limit:6
+    const limit = (req.body.limit)?req.body.limit:0
 
     //generating the main conditions
     const access_conditions =  createAccessConditions(searcher_id, access)
@@ -351,7 +351,8 @@ searchProjects2 = async (req, res) => {
         access: x.access,
         community: x.community,
         lastEdited: x.lastEdited,
-        type: req.params.type
+        type: req.params.type,
+        owner: matching_users.find(y => x.access.owner_id == y._id).username
     }))
     
     const usernames = matching_users.map(x => ({_id: x._id, username: x.username}))
