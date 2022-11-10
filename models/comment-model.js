@@ -9,9 +9,11 @@ const CommentSchema = new Schema(
         _id: { type: ObjectId, required: true},
         user_id: { type: ObjectId, required: true},
         link_id: { type: ObjectId, required: true},
+        alert_user_id: { type: ObjectId, required: true},
         content: { type: String, required: true},
         community: { type: Community, required: true},
-        lastEdited: {type: Date}
+        lastEdited: {type: Date},
+        createdAt: {type: Date}
     },
     { timestamps: true },
 )

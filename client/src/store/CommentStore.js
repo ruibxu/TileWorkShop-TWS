@@ -93,7 +93,7 @@ const GlobalCommentStoreContextProvider = (props) => {
     }
     return (
         <GlobalCommentStoreContext.Provider value={{
-            comment_store
+            commentStore
         }}>
             {props.children}
         </GlobalCommentStoreContext.Provider>
