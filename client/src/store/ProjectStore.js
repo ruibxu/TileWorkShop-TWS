@@ -15,12 +15,6 @@ export const GlobalStoreActionType = {
     VIEW_LISTVIEW: "VIEW_LISTVIEW",
     VIEW_EDITTILEMAP: "VIEW_EDITTILEMAP",
     VIEW_EDITTILESET: "VIEW_EDITTILESET",
-    SORT_BY_ALPHAORDER: "SORT_BY_ALPHAORDER",
-    SORT_BY_MOST_VIEWED: "SORT_BY_MOST_VIEWED",
-    SORT_BY_MOST_LIKED: "SORT_BY_MOST_LIKED",
-    SORT_BY_MOST_RECENT: "SORT_BY_MOST_RECENT",
-    SEARCH_BY_NAME: "SEARCH_BY_NAME",
-    SEARCH_BY_CREATOR: "SEARCH_BY_CREATOR",
     MARK_ITEM_FOR_DELETION: "MARK_ITEM_FOR_DELETION",
     UNMARK_ITEM_FOR_DELTEION: "UNMARK_ITEM_FOR_DELTEION",
     CREATE_NEW_TILESET: "CREATE_NEW_TILESET",
@@ -29,7 +23,10 @@ export const GlobalStoreActionType = {
     SET_CURRENT_ITEM: "SET_CURRENT_ITEM",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
-    GET_TILESET_BY_ID: "GET_TILSET_BY_ID"
+    GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
+    CREATE_COMMENT: "CREATE_COMMENT",
+    GET_COMMENTS_BY_LINK: "GET_COMMENTS_BY_LINK",
+    UPDATE_COMMENT: "UPDATE_COMMENT"
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -37,6 +34,8 @@ const GlobalStoreContextProvider = (props) => {
         tileSetList: [],
         tileMapList: [],
         yourList: [],
+        currentCommentList: [],
+        currentComment: null,
         currentTileSet: null,
         currentTileMap: null,
         tilesetEditActive: false,
@@ -76,6 +75,8 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
+                    currentCommentList: [],
+                    currentComment: null,
                     currentTileSet: null,
                     currentTileMap: null,
                     tilesetEditActive: false,
@@ -92,6 +93,8 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
+                    currentCommentList: [],
+                    currentComment: null,
                     currentTileSet: null,
                     currentTileMap: null,
                     tilesetEditActive: false,
@@ -105,36 +108,6 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILEMAP: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SORT_BY_ALPHAORDER: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SORT_BY_MOST_VIEWED: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SORT_BY_MOST_LIKED: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SORT_BY_MOST_RECENT: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SEARCH_BY_NAME: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.SEARCH_BY_CREATOR: {
                 return setStore({
 
                 })
@@ -154,6 +127,8 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
+                    currentComment: null,
+                    currentCommentList: [],
                     currentTileSet: payload.currentTileSet,
                     currentTileMap: null,
                     tilesetEditActive: false,
@@ -166,6 +141,8 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
+                    currentComment: null,
+                    currentCommentList: [],
                     currentTileSet: null,
                     currentTileMap: payload.currentTileMap,
                     tilesetEditActive: false,
@@ -193,6 +170,8 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
+                    currentComment: null,
+                    currentCommentList: [],
                     currentTileSet: null,
                     currentTileMap: payload.currentTileMap,
                     tilesetEditActive: false,
@@ -205,8 +184,52 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
+                    currentComment: null,
+                    currentCommentList: [],
                     currentTileSet: payload.currentTileSet,
                     currentTileMap: null,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
+            case GlobalStoreActionType.CREATE_COMMENT: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentComment: payload.currentComment,
+                    currentCommentList: store.currentCommentList,
+                    currentTileSet: store.currentTileMap,
+                    currentTileMap: store.currentTileSet,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
+            case GlobalStoreActionType.GET_COMMENTS_BY_LINK: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentComment: null,
+                    currentCommentList: payload.currentCommentList,
+                    currentTileSet: store.currentTileMap,
+                    currentTileMap: store.currentTileSet,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
+            case GlobalStoreActionType.UPDATE_COMMENT: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentComment: payload.currentComment,
+                    currentCommentList: store.currentCommentList,
+                    currentTileSet: store.currentTileSet,
+                    currentTileMap: store.currentTileSet,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -336,6 +359,46 @@ const GlobalStoreContextProvider = (props) => {
                 type: GlobalStoreActionType.GET_TILESET_BY_ID,
                 payload:{
                     currentTileSet: response.data.result
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
+
+    store.createComment = async function (){
+        const response = await api.createComment();
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_COMMENT,
+                payload:{
+                    currentComment: response.data.result // result returns both comment and community. I intended currentComment to just be an id. 
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
+    store.getCommentsByLink = async function(id){
+        const response = await api.getCommentsByLink(id);
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.GET_COMMENTS_BY_LINK,
+                payload:{
+                    currentCommentList: response.data.comments  
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
+    store.updateComment = async function(id, data){
+        const response = await api.updateComment(id, data);
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_COMMENT,
+                payload:{
+                    currentComment: response.data.id  // I intended it to be something like this. Function returns an id. 
                 }
             })
         }else{
