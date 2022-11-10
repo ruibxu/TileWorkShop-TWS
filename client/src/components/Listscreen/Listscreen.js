@@ -73,17 +73,6 @@ const Listscreen = (props) => {
         { _id: "19", owner: "Jimmy", name: "Xingqiu2", src: i5, type: 1 },
         { _id: "20", owner: "Jimmy", name: "QiQi??", src: i6, type: 1 }
     ]
-    
-    const comments = [
-        { _id: '6', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '7', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '8', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '9', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '10', link_id: '1', user: "Yibo Hater", content: "This map is Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '11', link_id: '6', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '12', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } },
-        { _id: '13', link_id: '7', user: "Yibo Lover", content: "This map is Not Trash", LastEdited: "10/24/2022", community: { likes: 20, dislikes: 69420 } }
-    ]
 
     const handleOpenBigItemCard = (newData) => {
         setBigCardData(newData)
@@ -111,7 +100,7 @@ const Listscreen = (props) => {
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} comments={comments} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} />
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect} />
         </div>)

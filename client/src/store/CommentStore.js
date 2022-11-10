@@ -57,7 +57,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalCommentStoreActionType.CREATE_COMMENT,
                 payload:{
-                    currentComment: response.data.result.id // result returns both comment and community. I intended currentComment to just be an id. 
+                    currentComment: response.data.result // result returns both comment and community. I intended currentComment to just be an id. 
                 }
             })
         }else{
@@ -86,7 +86,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalCommentStoreActionType.UPDATE_COMMENT,
                 payload:{
-                    currentComment: response.data.id  // I intended it to be something like this. Function returns an id. 
+                    currentComment: response.data.result  // I intended it to be something like this. Function returns an id. 
                 }
             })
         }else{

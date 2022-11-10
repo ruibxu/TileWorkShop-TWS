@@ -15,7 +15,7 @@ import image6 from '../../../04_Qiqi_02newyear_receive.png'
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
-    const { data, comments } = props
+    const { data } = props
     const [ newComment, setNewComment ] = useState('')
 
     const isPublic = (data.access)?data.access.public:true
