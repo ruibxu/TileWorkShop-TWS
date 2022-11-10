@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
-import { ACCESS_TYPE } from "../translator-client/sort-options"
 export const GlobalCommentStoreContext = createContext({});
 
 export const GlobalCommentStoreActionType = {

@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
-import { ACCESS_TYPE } from "../translator-client/sort-options"
+import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {

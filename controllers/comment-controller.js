@@ -2,6 +2,7 @@ const { createCommunity, updateCommunity, deleteCommentsByLink} = require('./sha
 const Comment = require('../models/comment-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
+const { SORT_TYPE, SORT_ORDER } = require('../translator/sort-options')
 
 const getCommentById = async (req, res) => {
     // console.log("Find Comment with id: " + JSON.stringify(req.params.id));
@@ -22,10 +23,10 @@ const getCommentsByLink = async (req, res) => {
     const comment_list = await Comment.find({ link_id: _id }, (err, comments) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
         // console.log("Found comment: " + JSON.stringify(comments));
-    }).catch(err => console.log(err));
+    }).sort({[`${SORT_TYPE.LIKE}`]:SORT_ORDER.DESCENDING, _id: -1}).catch(err => console.log(err));
 
     const _ids = comment_list.map((x) => x._id)
-    const replies = await Comment.find({ link_id: { $in: _ids } })
+    const replies = await Comment.find({ link_id: { $in: _ids } }).sort({['dateCreated']:SORT_ORDER.ASCENDING, _id: -1})
     const all_comments = [...comment_list, ...replies]
     const owner_ids = all_comments.map(x => x.user_id)
     console.log(owner_ids)
