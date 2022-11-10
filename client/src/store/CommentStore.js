@@ -58,7 +58,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalCommentStoreActionType.CREATE_COMMENT,
                 payload:{
-                    currentComment: response.data.result // result returns both comment and community. I intended currentComment to just be an id. 
+                    currentComment: response.data.result.id // result returns both comment and community. I intended currentComment to just be an id. 
                 }
             })
         }else{
@@ -68,10 +68,13 @@ const GlobalCommentStoreContextProvider = (props) => {
     commentStore.getCommentsByLink = async function(id){
         const response = await api.getCommentsByLink(id);
         if(response.status === 200){
+            const comments = [...response.data.comments, ...response.data.replies]
+            const users = response.data.users
+            comments.map(x => x.owner = users.find(y => y._id == x.user_id))
             storeReducer({
                 type: GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK,
                 payload:{
-                    currentCommentList: response.data.comments  
+                    currentCommentList: comments
                 }
             })
         }else{

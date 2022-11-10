@@ -1,15 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Badge, Box, IconButton, Image, Flex, Spacer, Text, Button, Textarea} from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { GrFormDown, GrFormUp} from 'react-icons/gr'
+import AuthContext from "../../../auth";
 
 const ReplyEntry = (props) => {
+    const { auth } = useContext(AuthContext)
     const { info } = props
     const [edit, toggleEdit] = useState(false)
     const [content, setContent] = useState(info.content)
     const [reply, toggleReply] = useState(false)
-    const [replyText, setReplyText] = useState(`@${info.user}`)
+    const [replyText, setReplyText] = useState(`@${info.owner.username}`)
+
+    const user_id = (!auth.loggedin)?auth.user._id:''
 
     let newContent = content
 
@@ -38,7 +42,7 @@ const ReplyEntry = (props) => {
         <Box width={'100%'} className="comment"  paddingLeft={3}>
             {(!edit)?(<><Flex>
                 <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} >
-                    {info.user}
+                    {info.owner.username}
                 </Text>
                 <Spacer/>
                 <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} opacity={0.3}>
@@ -59,12 +63,14 @@ const ReplyEntry = (props) => {
                     >REPLY</Button>
                 </Flex>
                 <Spacer/>
-                <Flex alignItems='center' gap={2}>
+                {(user_id == info.user_id)?<Flex alignItems='center' gap={2}>
                     <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'
                     onClick={()=>toggleEdit(true)}
                     >EDIT</Button>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>DELETE</Button>
-                </Flex>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>
+                        DELETE
+                    </Button>
+                </Flex>:(<></>)}
             </Flex>
             {/* reply related */}
             {(reply)?<>

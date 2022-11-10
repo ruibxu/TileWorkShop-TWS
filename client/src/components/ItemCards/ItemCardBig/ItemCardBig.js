@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea, Text, Icon
@@ -8,16 +8,34 @@ import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
+import GlobalCommentStoreContext from "../../../store/CommentStore";
+import AuthContext from "../../../auth";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
 function ItemCardBig(props) {
+    const { auth } = useContext(AuthContext)
+    const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, comments } = props
-    const [ comment, setComment ] = useState('')
+    const [ newComment, setNewComment ] = useState('')
 
     const isPublic = (data.access)?data.access.public:true
 
+    useEffect(()=>{
+        if(data){
+            console.log(data._id)
+            commentStore.getCommentsByLink(data._id)
+        }
+    }, [data, commentStore.currentComment])
+    console.log(commentStore.currentCommentList)
+
     const handleComment = () => {
-        console.log(comment)
+        commentStore.createComment({
+            user_id:auth.user._id,
+            link_id:data._id,
+            alert_user_id:data.access.owner_id,
+            content: newComment
+        })
+        console.log(newComment)
     }
 
     const lastEdited = new Date(data.lastEdited)
@@ -70,7 +88,7 @@ function ItemCardBig(props) {
                             </Box>
                         </Flex>
                         <Textarea name='comment' placeholder='Leave a comment...' fontStyle="italic" 
-                            onBlur={(event)=>setComment(event.target.value)}
+                            onBlur={(event)=>setNewComment(event.target.value)}
                         />
                         <Flex>
                             <Spacer/>
@@ -78,7 +96,7 @@ function ItemCardBig(props) {
                                 Comment
                             </Button>
                         </Flex>
-                        <CommentList comments={comments} _id={data._id} />
+                        <CommentList comments={commentStore.currentCommentList} _id={data._id} />
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='yellow' mr={3} onClick={() => props.onClose()}>

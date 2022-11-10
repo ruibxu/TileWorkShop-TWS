@@ -1,11 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Badge, Box, IconButton, Image, Flex, Spacer, Text, Button, Divider, Textarea} from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { GrFormDown, GrFormUp} from 'react-icons/gr'
 import ReplyList from "./ReplyList";
+import AuthContext from "../../../auth";
+import GlobalCommentStoreContext from "../../../store/CommentStore";
 
 const CommentEntry = (props) => {
+    const { auth } = useContext(AuthContext)
+    const { commentStore } = useContext(GlobalCommentStoreContext)
     const { info, replies} = props
     const [viewReplies, toggleViewReplies] = useState(false)
     const [edit, toggleEdit] = useState(false)
@@ -14,6 +18,7 @@ const CommentEntry = (props) => {
     const [replyText, setReplyText] = useState('')
 
     const count = (replies)?replies.length:0
+    const user_id = (!auth.loggedin)?auth.user._id:''
 
     const reply_string = (count == 1)?'1 reply':`${count} replies`
 
@@ -44,7 +49,7 @@ const CommentEntry = (props) => {
         <Box width={'100%'} className="comment">
             {(!edit)?(<><Flex>
                 <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} >
-                    {info.user}
+                    {info.owner.username}
                 </Text>
                 <Spacer/>
                 <Flex>
@@ -67,12 +72,15 @@ const CommentEntry = (props) => {
                         >REPLY</Button>
                 </Flex>
                 <Spacer/>
-                <Flex alignItems='center' gap={2}>
+                {(user_id == info.user_id)?(<Flex alignItems='center' gap={2}>
                     <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'
-                        onClick={()=>toggleEdit(true)}
-                    >EDIT</Button>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>DELETE</Button>
-                </Flex>
+                    onClick={()=>toggleEdit(true)}>
+                        EDIT
+                    </Button>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>
+                        DELETE
+                        </Button>
+                </Flex>):(<></>)}
             </Flex>
             {/* reply related */}
             {(reply)?<>
