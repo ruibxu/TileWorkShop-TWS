@@ -13,7 +13,8 @@ const CommentSchema = new Schema(
         content: { type: String, required: true},
         community: { type: Community, required: true},
         lastEdited: {type: Date},
-        createdAt: {type: Date}
+        dateCreated: {type: Date},
+        edited: {type: Boolean}
     },
     { timestamps: true },
 )

@@ -50,7 +50,9 @@ const createComment = async (req, res) => {
         alert_user_id: new ObjectId(body.alert_user_id),
         content: body.content,
         community: community,
-        lastEdited : Date.now(),
+        lastEdited: Date.now(),
+        dateCreated: Date.now(),
+        edited: false
     });
     const updated = comment.save();
     if (!updated) { return res.status(400).json({ errorMessage: 'Comment Not Created!' }); }
@@ -104,6 +106,7 @@ const updateComment = async (req, res) => {
             // console.log("req.userId: " + req.body.user_id);
             if (item.user_id.equals(req.body.user_id)) {
                 item.lastEdited = Date.now();
+                item.edited = true;
                 item.content = content;
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
