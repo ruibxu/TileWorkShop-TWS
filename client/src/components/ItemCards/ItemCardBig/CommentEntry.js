@@ -18,7 +18,7 @@ const CommentEntry = (props) => {
     const [replyText, setReplyText] = useState('')
 
     const count = (replies)?replies.length:0
-    const user_id = (!auth.loggedin)?auth.user._id:''
+    const user_id = (auth.loggedIn)?auth.user._id:''
 
     const reply_string = (count == 1)?'1 reply':`${count} replies`
 
