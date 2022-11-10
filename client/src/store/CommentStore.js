@@ -33,7 +33,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             }
             case GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK: {
                 return setCommentStore({
-                    currentComment: null,
+                    currentComment: commentStore.currentComment,
                     currentCommentList: payload.currentCommentList,
                     markItemforDeletion: false
                 })
@@ -54,6 +54,7 @@ const GlobalCommentStoreContextProvider = (props) => {
     commentStore.createComment = async function (data){
         const response = await api.createComment(data);
         if(response.status === 200){
+            console.log(response.data.result)
             storeReducer({
                 type: GlobalCommentStoreActionType.CREATE_COMMENT,
                 payload:{
@@ -76,19 +77,23 @@ const GlobalCommentStoreContextProvider = (props) => {
                     currentCommentList: comments
                 }
             })
+            console.log(commentStore.currentCommentList)
         }else{
             console.log(response.data.errorMessage)
         }
     }
     commentStore.updateComment = async function(id, data){
         const response = await api.updateComment(id, data);
+        console.log('outside status')
         if(response.status === 200){
-            storeReducer({
+            console.log('inside status')
+            await storeReducer({
                 type: GlobalCommentStoreActionType.UPDATE_COMMENT,
                 payload:{
                     currentComment: response.data.result  // I intended it to be something like this. Function returns an id. 
                 }
             })
+            console.log(commentStore.currentComment)
         }else{
             console.log(response.data.errorMessage)
         }

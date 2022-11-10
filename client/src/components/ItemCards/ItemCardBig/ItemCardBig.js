@@ -20,14 +20,6 @@ function ItemCardBig(props) {
 
     const isPublic = (data.access)?data.access.public:true
 
-    useEffect(()=>{
-        if(data){
-            console.log(data._id)
-            commentStore.getCommentsByLink(data._id)
-        }
-    }, [data, commentStore.currentComment])
-    console.log(commentStore.currentCommentList)
-
     const handleComment = () => {
         commentStore.createComment({
             user_id:auth.user._id,
@@ -96,7 +88,7 @@ function ItemCardBig(props) {
                                 Comment
                             </Button>
                         </Flex>
-                        <CommentList comments={commentStore.currentCommentList} _id={data._id} />
+                        <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data}/>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='yellow' mr={3} onClick={() => props.onClose()}>

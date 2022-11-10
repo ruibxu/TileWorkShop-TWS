@@ -4,16 +4,19 @@ import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { GrFormDown, GrFormUp} from 'react-icons/gr'
 import AuthContext from "../../../auth";
+import GlobalCommentStoreContext from "../../../store/CommentStore";
 
 const ReplyEntry = (props) => {
     const { auth } = useContext(AuthContext)
-    const { info } = props
+    const { commentStore } = useContext(GlobalCommentStoreContext)
+    const { info, comment_id } = props
     const [edit, toggleEdit] = useState(false)
     const [content, setContent] = useState(info.content)
     const [reply, toggleReply] = useState(false)
     const [replyText, setReplyText] = useState(`@${info.owner.username}`)
 
     const user_id = (!auth.loggedin)?auth.user._id:''
+    const reply_id = info._id
 
     let newContent = content
 
@@ -29,8 +32,12 @@ const ReplyEntry = (props) => {
     }
 
     const handleSaveReply = () => {
-        //some backend stuff
-        //------------------
+        commentStore.createComment({
+            user_id:auth.user._id,
+            link_id:comment_id,
+            alert_user_id:(replyText.includes(`@${info.owner.username}`))?info.owner._id:comment_id,
+            content: replyText
+        })
         toggleReply()
     }
 

@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Badge, Box, IconButton, Image, Flex, Spacer, Text, Button, Divider, Textarea} from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -10,7 +10,7 @@ import GlobalCommentStoreContext from "../../../store/CommentStore";
 const CommentEntry = (props) => {
     const { auth } = useContext(AuthContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
-    const { info, replies} = props
+    const { data, info, replies} = props
     const [viewReplies, toggleViewReplies] = useState(false)
     const [edit, toggleEdit] = useState(false)
     const [content, setContent] = useState(info.content)
@@ -19,6 +19,7 @@ const CommentEntry = (props) => {
 
     const count = (replies)?replies.length:0
     const user_id = (auth.loggedIn)?auth.user._id:''
+    const comment_id = info._id
 
     const reply_string = (count == 1)?'1 reply':`${count} replies`
 
@@ -26,8 +27,12 @@ const CommentEntry = (props) => {
 
     const handleEditContent = () =>{
         //some backend stuff
+        commentStore.updateComment(comment_id, {
+            user_id: user_id,
+            content: newContent
+        })
         //------------------
-        setContent(newContent)
+        //setContent(newContent)
         toggleEdit()
     }
 
@@ -36,8 +41,12 @@ const CommentEntry = (props) => {
     }
 
     const handleSaveReply = () => {
-        //some backend stuff
-        //------------------
+        commentStore.createComment({
+            user_id:auth.user._id,
+            link_id:comment_id,
+            alert_user_id:info.owner._id,
+            content: replyText
+        })
         toggleReply()
     }
 
@@ -54,7 +63,7 @@ const CommentEntry = (props) => {
                 <Spacer/>
                 <Flex>
                     <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} opacity={0.3}>
-                        {info.LastEdited}
+                        {info.lastEdited}
                     </Text>
                 </Flex>
             </Flex>
@@ -118,7 +127,7 @@ const CommentEntry = (props) => {
                 </Button>):
             (<></>)}
             {(viewReplies)?
-                (<ReplyList replies={replies}/>):(<></>)
+                (<ReplyList replies={replies} comment_id={comment_id}/>):(<></>)
             }
             <Divider/>
         </Box>

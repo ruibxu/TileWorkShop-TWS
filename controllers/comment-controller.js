@@ -23,13 +23,12 @@ const getCommentsByLink = async (req, res) => {
     const comment_list = await Comment.find({ link_id: _id }, (err, comments) => {
         if (err) { return res.status(400).json({ success: false, error: err }); }
         // console.log("Found comment: " + JSON.stringify(comments));
-    }).sort({[`${SORT_TYPE.LIKE}`]:SORT_ORDER.DESCENDING, _id: -1}).catch(err => console.log(err));
+    }).catch(err => console.log(err));
 
     const _ids = comment_list.map((x) => x._id)
-    const replies = await Comment.find({ link_id: { $in: _ids } }).sort({['dateCreated']:SORT_ORDER.ASCENDING, _id: -1})
+    const replies = await Comment.find({ link_id: { $in: _ids } })
     const all_comments = [...comment_list, ...replies]
     const owner_ids = all_comments.map(x => x.user_id)
-    console.log(owner_ids)
     const matching_users = await User.find({ _id: { $in: owner_ids } })
     const usernames = matching_users.map(x=>({_id: x._id, username: x.username}))
 
@@ -109,15 +108,7 @@ const updateComment = async (req, res) => {
                 item.lastEdited = Date.now();
                 item.edited = true;
                 item.content = content;
-                item.save().then(() => {
-                    // console.log("SUCCESS!!!");
-                    return res.status(200).json({
-                        success: true,
-                        id: item._id,
-                        result: item,
-                        message: 'Comment updated!',
-                    })
-                })
+                item.save()
                     .catch(error => {
                         console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
@@ -125,6 +116,12 @@ const updateComment = async (req, res) => {
                             message: 'Comment not updated!',
                         })
                     })
+                return res.status(200).json({
+                    success: true,
+                    id: item._id,
+                    result: item,
+                    message: 'Comment updated!',
+                })
             }
             else {
                 // console.log("incorrect user!");
