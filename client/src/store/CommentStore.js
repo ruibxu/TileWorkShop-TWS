@@ -52,8 +52,8 @@ const GlobalCommentStoreContextProvider = (props) => {
     }
 
 
-    commentStore.createComment = async function (){
-        const response = await api.createComment();
+    commentStore.createComment = async function (data){
+        const response = await api.createComment(data);
         if(response.status === 200){
             storeReducer({
                 type: GlobalCommentStoreActionType.CREATE_COMMENT,

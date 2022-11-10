@@ -48,7 +48,7 @@ export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/comm
 
 export const getCommentById = (id) => api.get(`api/comment/${id}`)
 export const getCommentsByLink = (id) => api.get(`api/comments/${id}`)
-export const createComment = () => api.post(`api/comment`)
+export const createComment = (payload) => api.post(`api/comment`, payload)
 export const updateComment = (id, payload) => api.put(`api/comment/${id}`, payload)
 export const deleteComment = (id) => api.delete(`api/comment/${id}`)
 export const updateCommentCommunity = (id, payload) => api.put(`api/comment/community/${id}`, payload)
