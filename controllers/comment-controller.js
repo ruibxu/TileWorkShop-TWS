@@ -3,7 +3,7 @@ const Comment = require('../models/comment-model');
 const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 
-getCommentById = async (req, res) => {
+const getCommentById = async (req, res) => {
     // console.log("Find Comment with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
@@ -15,7 +15,7 @@ getCommentById = async (req, res) => {
     return res.status(200).json({ success: true, result: { comment: comment } });
 }
 
-getCommentsByLink = async (req, res) => {
+const getCommentsByLink = async (req, res) => {
     // console.log("Find Comments with link: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
@@ -35,7 +35,7 @@ getCommentsByLink = async (req, res) => {
     return res.status(200).json({ success: true, comments: comment_list, replies: replies, users:usernames});
 }
 
-createComment = async (req, res) => {
+const createComment = async (req, res) => {
     const body = req.body;
     if (!body) {
         return res.status(400).json({
@@ -56,7 +56,7 @@ createComment = async (req, res) => {
     return res.status(200).json({ success: true, result: { comment: comment, community: community } });
 }
 
-deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
     // console.log("deleting Comment: " + req.params.id);
     const objectId = req.params.id;
     Comment.findById({ _id: objectId }, (err, comment) => {
@@ -87,7 +87,7 @@ deleteComment = async (req, res) => {
     });
 }
 
-updateComment = async (req, res) => {
+const updateComment = async (req, res) => {
     // console.log("updating Comment: " + req.params.id);
     const objectId = req.params.id;
     const content = req.body.content;
@@ -132,7 +132,7 @@ updateComment = async (req, res) => {
     });
 }
 
-updateCommentCommunity = async (req, res) => {
+const updateCommentCommunity = async (req, res) => {
     // console.log("updating Comment: " + req.params.id);
     const objectId = req.params.id;
     Comment.findById({ _id: objectId }, (err, comment) => {

@@ -46,6 +46,14 @@ export const deleteTileSetImage = (id) => api.delete(`api/tileset/image/${id}`)
 export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
 export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)
 
+export const getCommentById = (id) => api.get(`api/comment/${id}`)
+export const getCommentsByLink = (id) => api.get(`api/comments/${id}`)
+export const createComment = () => api.post(`api/comment`)
+export const updateComment = (id, payload) => api.put(`api/comment/${id}`, payload)
+export const deleteComment = (id) => api.delete(`api/comment/${id}`)
+export const updateCommentCommunity = (id, payload) => api.put(`api/comment/community/${id}`, payload)
+
+
 export const sendConfirmEmail = (id, payload) => api.post(`api/confirmEmail/${id}`, payload)
 export const sendPasswordResetEmail = (id, payload) => api.post(`api/passwordReset/${id}`, payload)
 const apis = {
@@ -78,6 +86,12 @@ const apis = {
     deleteTileSetfromTileMap,
     sendConfirmEmail,
     sendPasswordResetEmail,
-    createTileSet
+    createTileSet,
+    getCommentById,
+    getCommentsByLink,
+    createComment,
+    updateComment,
+    deleteComment,
+    updateCommentCommunity
 }
 export default apis
