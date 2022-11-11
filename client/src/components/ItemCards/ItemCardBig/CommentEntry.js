@@ -54,7 +54,9 @@ const CommentEntry = (props) => {
     const handleCancelReply = () => {
         toggleReply()
     }
-
+    const handleLike = () =>{
+        commentStore.updateCommentCommunity()
+    }
     return(
         <Box width={'100%'} className="comment">
             {(!edit)?(<><Flex>
