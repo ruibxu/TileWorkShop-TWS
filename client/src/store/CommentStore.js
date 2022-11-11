@@ -7,14 +7,16 @@ export const GlobalCommentStoreContext = createContext({});
 export const GlobalCommentStoreActionType = {
     CREATE_COMMENT: "CREATE_COMMENT",
     GET_COMMENTS_BY_LINK: "GET_COMMENTS_BY_LINK",
-    UPDATE_COMMENT: "UPDATE_COMMENT"
+    UPDATE_COMMENT: "UPDATE_COMMENT",
+    MARK_COMMMENT_FOR_DELETION: "MARK_COMMMENT_FOR_DELETION",
+    UNMARK_COMMMENT_FOR_DELETION: "UNMARK_COMMMENT_FOR_DELETION"
 }
 
 const GlobalCommentStoreContextProvider = (props) => {
     const [commentStore, setCommentStore] = useState({
         currentCommentList: [],
         currentComment: null,
-        markItemforDeletion: false,
+        commentMarkedForDeletion: false,
         refetch: true
     });
     const history = useHistory();
@@ -29,7 +31,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 return setCommentStore({
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
-                    markItemforDeletion: false,
+                    commentMarkedForDeletion: false,
                     refetch: true
                 })
             }
@@ -37,7 +39,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 return setCommentStore({
                     currentComment: null,
                     currentCommentList: payload.currentCommentList,
-                    markItemforDeletion: false,
+                    commentMarkedForDeletion: false,
                     refetch: false
                 })
             }
@@ -45,7 +47,23 @@ const GlobalCommentStoreContextProvider = (props) => {
                 return setCommentStore({
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
-                    markItemforDeletion: false,
+                    commentMarkedForDeletion: false,
+                    refetch: true
+                })
+            }
+            case GlobalCommentStoreActionType.MARK_COMMMENT_FOR_DELETION:{
+                return setCommentStore({
+                    currentComment: payload.currentComment,
+                    currentCommentList: commentStore.currentCommentList,
+                    commentMarkedForDeletion: true,
+                    refetch: true
+                })
+            }
+            case GlobalCommentStoreActionType.UNMARK_COMMENT_FOR_DELETION:{
+                return setCommentStore({
+                    currentComment: null,
+                    currentCommentList: commentStore.currentCommentList,
+                    commentMarkedForDeletion: false,
                     refetch: true
                 })
             }
@@ -90,8 +108,7 @@ const GlobalCommentStoreContextProvider = (props) => {
         const response = await api.updateComment(id, data);
         console.log('outside status')
         if(response.status === 200){
-            console.log('inside status')
-            await storeReducer({
+            storeReducer({
                 type: GlobalCommentStoreActionType.UPDATE_COMMENT,
                 payload:{
                     currentComment: response.data.result  // I intended it to be something like this. Function returns an id. 
@@ -101,6 +118,29 @@ const GlobalCommentStoreContextProvider = (props) => {
         }else{
             console.log(response.data.errorMessage)
         }
+    }
+    commentStore.markCommentForDeletion = async function(id){
+        const response = await api.getCommentById(id);
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalCommentStoreActionType.MARK_COMMMENT_FOR_DELETION,
+                payload:{
+                    currentComment: response.data.result
+                }
+            })
+        }
+    }
+    commentStore.deleteMarkedComment = async function(){
+        const response = await api.deleteComment(commentStore.currentComment)
+        if(response.status === 200){
+            commentStore.getCommentsByLink()
+        }
+    }
+    commentStore.unmarkCommentForDeletion = async function () {
+        storeReducer({
+            type: GlobalCommentStoreActionType.UNMARK_COMMENT_FOR_DELETION,
+            payload: null
+        })
     }
     return (
         <GlobalCommentStoreContext.Provider value={{

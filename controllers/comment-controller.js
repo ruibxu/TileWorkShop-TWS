@@ -13,7 +13,7 @@ const getCommentById = async (req, res) => {
         // console.log("Found comment: " + JSON.stringify(comment));
     }).catch(err => console.log(err));
 
-    return res.status(200).json({ success: true, result: { comment: comment } });
+    return res.status(200).json({ success: true, result: comment  });
 }
 
 const getCommentsByLink = async (req, res) => {
