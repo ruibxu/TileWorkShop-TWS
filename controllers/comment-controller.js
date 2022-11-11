@@ -169,7 +169,7 @@ const updateCommentCommunity = async (req, res) => {
                         // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(404).json({
                             error,
-                            message: 'Comment Community not updated!',
+                            errorMessage: 'Comment Community not updated!',
                         })
                 })
         }
