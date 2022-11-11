@@ -87,7 +87,7 @@ const Homescreen = (props) => {
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
-            <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} />
+            <SignUpModal isOpen={showSignUpModal.isOpen} onClose={showSignUpModal.onClose} openLogin={showLoginModal.onOpen}/>
             <LoginModal isOpen={showLoginModal.isOpen} onClose={showLoginModal.onClose}
                 openForgetPasswordModal={showForgetPasswordModal.onOpen} setRefetch={setRefetch}
             />

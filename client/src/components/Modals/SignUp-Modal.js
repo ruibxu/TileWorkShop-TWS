@@ -56,6 +56,11 @@ const SignUpModal = (props) => {
         setPasswordVerify('')
     }
 
+    const handleAccountExist = () =>{
+        handleClose()
+        props.openLogin()
+    }
+
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='500px' onSubmit={handleSubmit}>
@@ -105,6 +110,9 @@ const SignUpModal = (props) => {
                     </InputGroup>
                 </FormControl>
             </Stack>
+            <Button variant='link' onClick={handleAccountExist}>
+                <Text color="blue.500">Already have an Account?</Text>
+            </Button>
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
