@@ -132,7 +132,7 @@ const GlobalCommentStoreContextProvider = (props) => {
         storeReducer({
             type: GlobalCommentStoreActionType.MARK_COMMMENT_FOR_DELETION,
             payload: {
-                currentComment: response.data.result
+                commentMarkedForDeletion: id
             }
         })
     }
