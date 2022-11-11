@@ -9,6 +9,7 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
 import GlobalCommentStoreContext from "../../../store/CommentStore";
+import GlobalStoreContext from "../../../store/ProjectStore";
 import AuthContext from "../../../auth";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
@@ -16,6 +17,7 @@ import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
+    const { store } = useContext(GlobalStoreContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data } = props
     const [ newComment, setNewComment ] = useState('')
@@ -46,8 +48,9 @@ function ItemCardBig(props) {
     }
 
     const handleView = () => {
-        props.redirect(`/${data.type}/${data._id}`)
+        //store.setCurrentItem(data)
         props.onClose()
+        //props.redirect(`/${data.type}/${data._id}`)
     }
 
     const lastEdited = new Date(data.lastEdited)

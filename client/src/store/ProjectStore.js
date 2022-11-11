@@ -142,7 +142,13 @@ const GlobalStoreContextProvider = (props) => {
             }
             case GlobalStoreActionType.SET_CURRENT_ITEM: {
                 return setStore({
-
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentItem: payload.currentItem,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CHANGE_ITEM_NAME: {

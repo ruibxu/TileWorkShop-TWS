@@ -80,7 +80,7 @@ const EditNavbar = (props) => {
                     />
                 </MenuButton>
                 <MenuList>
-                    <MenuItem>{auth.user.username}</MenuItem>
+                    <MenuItem>{(auth.loggedIn)?auth.user.username:''}</MenuItem>
                     <MenuDivider />
                     <MenuItem>Update</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>

@@ -14,8 +14,8 @@ import MapTileset from './MapTileset';
 
 const EditTileMapScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
-    const [isPublic, setPublic] = useState(store.currentTileMap.access.public)
-    console.log(store.currentTileMap)
+    const [isPublic, setPublic] = useState(store.currentItem.access.public)
+    console.log(store.currentItem)
 
     let history = useHistory();
     const redirect = async (route, parameters) => {
@@ -35,7 +35,7 @@ const EditTileMapScreen = (props) => {
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
-                isPublic={isPublic} setPublic={setPublic} name={store.currentTileMap.name}
+                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}
             />
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
