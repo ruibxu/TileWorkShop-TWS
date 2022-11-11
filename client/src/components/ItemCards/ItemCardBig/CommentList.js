@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Badge, Box, IconButton, Image, Flex, Spacer, Text } from '@chakra-ui/react';
 import GlobalCommentStoreContext from "../../../store/CommentStore";
 
@@ -7,7 +7,7 @@ import CommentEntry from "./CommentEntry";
 const CommentList = (props) => {
     const { data } = props
     const { commentStore } = useContext(GlobalCommentStoreContext)
-    console.log('list refreshed')
+    const { comment_list, setCommentList} = useState([])
     useEffect(()=>{
         if(data){
             console.log('working')
@@ -15,9 +15,11 @@ const CommentList = (props) => {
             commentStore.getCommentsByLink(data._id)
         }
     }, [data, commentStore.currentComment])
+    console.log('list refreshed')
     
-    const main_comments = props.comments.filter((x) => x.link_id == props._id)
-    const replies = props.comments.filter((x) => x.link_id != props._id)
+    const main_comments = commentStore.currentCommentList.filter((x) => x.link_id == props._id)
+    const replies = commentStore.currentCommentList.filter((x) => x.link_id != props._id)
+    console.log(main_comments)
 
     return(<Box>
         <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} fontSize={12}>Comments:</Text>

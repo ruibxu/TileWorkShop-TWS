@@ -15,7 +15,7 @@ const ReplyEntry = (props) => {
     const [reply, toggleReply] = useState(false)
     const [replyText, setReplyText] = useState(`@${info.owner.username}`)
 
-    const user_id = (!auth.loggedin)?auth.user._id:''
+    const user_id = (auth.loggedIn)?auth.user._id:''
     const reply_id = info._id
 
     let newContent = content

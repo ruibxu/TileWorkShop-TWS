@@ -33,7 +33,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             }
             case GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK: {
                 return setCommentStore({
-                    currentComment: commentStore.currentComment,
+                    currentComment: null,
                     currentCommentList: payload.currentCommentList,
                     markItemforDeletion: false
                 })

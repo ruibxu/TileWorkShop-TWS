@@ -102,7 +102,7 @@ const updateComment = async (req, res) => {
             })
         }
         //does this belong to the user
-        async function matchUser(item) {
+        function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             if (item.user_id.equals(req.body.user_id)) {
                 item.lastEdited = Date.now();
