@@ -9,7 +9,7 @@ const ReplyList = (props) => {
 
     return(<Box>
         {replies.map((comment) => (
-            <ReplyEntry info={comment} comment_id={props.comment_id}/>
+            <ReplyEntry info={comment} comment_id={props.comment_id} handleDeleteComment={props.handleDeleteComment}/>
         ))}
     </Box>)
 }

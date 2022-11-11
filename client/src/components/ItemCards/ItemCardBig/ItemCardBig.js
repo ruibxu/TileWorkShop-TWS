@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea, Text, Icon
@@ -19,9 +19,10 @@ function ItemCardBig(props) {
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data } = props
     const [ newComment, setNewComment ] = useState('')
-
     const showDeleteComment = useDisclosure()
-    const cancelRef = React.useRef()
+    const cancelRef = useRef()
+
+    
     const user_id = (auth.loggedIn)?auth.user._id:'not logged in'
     const owner_id = (data.access)?data.access.owner_id:'no owner'
     const isOwner = (user_id == owner_id)
@@ -38,6 +39,10 @@ function ItemCardBig(props) {
             content: commenting
         })
         console.log(newComment)
+    }
+
+    const handleDeleteComment = (_id) => {
+        showDeleteComment.onOpen()
     }
 
     const handleView = () => {
@@ -102,7 +107,7 @@ function ItemCardBig(props) {
                                 Comment
                             </Button>
                         </Flex>
-                        <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data}/>
+                        <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data} handleDeleteComment={handleDeleteComment}/>
                     </ModalBody>
                     <ModalFooter>
                         <Flex width={'100%'}>

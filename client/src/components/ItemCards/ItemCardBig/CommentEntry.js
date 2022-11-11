@@ -87,9 +87,10 @@ const CommentEntry = (props) => {
                     onClick={()=>toggleEdit(true)}>
                         EDIT
                     </Button>
-                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'>
+                    <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'
+                    onClick={()=>props.handleDeleteComment(comment_id)}>
                         DELETE
-                        </Button>
+                    </Button>
                 </Flex>):(<></>)}
             </Flex>
             {/* reply related */}
@@ -128,7 +129,7 @@ const CommentEntry = (props) => {
                 </Button>):
             (<></>)}
             {(viewReplies)?
-                (<ReplyList replies={replies} comment_id={comment_id}/>):(<></>)
+                (<ReplyList replies={replies} comment_id={comment_id} handleDeleteComment={props.handleDeleteComment}/>):(<></>)
             }
             <Divider/>
         </Box>

@@ -6,18 +6,13 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
-    AlertDialogCloseButton,
+    Text,
     Button
   } from '@chakra-ui/react'
 
 const DeleteCommentAlert = (props) => {
 
   return (
-    <>
-      <Button colorScheme='red' onClick={props.onOpen}>
-        Delete Customer
-      </Button>
-
       <AlertDialog
         isOpen={props.isOpen}
         leastDestructiveRef={props.cancelRef}
@@ -25,8 +20,8 @@ const DeleteCommentAlert = (props) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Customer
+            <AlertDialogHeader fontSize='lg' fontWeight='bold' color='purple'>
+              Delete Comment
             </AlertDialogHeader>
 
             <AlertDialogBody>
@@ -44,7 +39,6 @@ const DeleteCommentAlert = (props) => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </>
   )
 }
 
