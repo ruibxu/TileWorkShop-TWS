@@ -215,13 +215,13 @@ const GlobalStoreContextProvider = (props) => {
 
     store.viewHomePage = async function () {
         console.log('refetching homescreen view')
-        const response1 = await api.searchProjects2('Tileset', {
+        const response1 = await api.searchProjects2(PROJECT_TYPE.TILESET, {
             sort_type: 'community.likes',
             sort_order: 1,
             limit: 2
         });
         if (response1.status === 200) {
-            const response2 = await api.searchProjects2('Tilemap', {
+            const response2 = await api.searchProjects2(PROJECT_TYPE.TILEMAP, {
                 sort_type: 'community.likes',
                 sort_order: 1,
                 limit: 2
@@ -230,7 +230,7 @@ const GlobalStoreContextProvider = (props) => {
                 console.log(response2.data.errorMessage)
             } else {
                 console.log((auth.loggedIn) ? auth.user._id : 'not logged in')
-                const response3 = await api.searchProjects2('Tilemap', {
+                const response3 = await api.searchProjects2(PROJECT_TYPE.TILEMAP, {
                     searcher_id: (auth.loggedIn) ? auth.user._id : '',
                     access: ACCESS_TYPE.OWNER,
                     limit: 2
@@ -258,7 +258,7 @@ const GlobalStoreContextProvider = (props) => {
     }
 
     store.viewListView = async function () {
-        const response = await api.searchProjects2('Tilemap', {
+        const response = await api.searchProjects2(PROJECT_TYPE.TILEMAP, {
             sort_type: 'community.likes',
             sort_order: 1,
             limit: 0

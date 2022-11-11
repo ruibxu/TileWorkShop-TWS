@@ -13,6 +13,7 @@ import AuthContext from "../../../auth";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
 import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
@@ -32,6 +33,10 @@ function ItemCardBig(props) {
             content: newComment
         })
         console.log(newComment)
+    }
+
+    const handleView = () => {
+        props.onClose()
     }
 
     const lastEdited = new Date(data.lastEdited)
@@ -95,7 +100,7 @@ function ItemCardBig(props) {
                         <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data}/>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='yellow' mr={3} onClick={() => props.onClose()}>
+                        <Button colorScheme='yellow' mr={3} onClick={handleView}>
                             View
                         </Button>
                         <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>

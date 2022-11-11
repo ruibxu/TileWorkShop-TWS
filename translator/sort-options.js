@@ -12,8 +12,8 @@ const SORT_ORDER = {
 }
 
 const PROJECT_TYPE = {//This is the only one that can be safely changed
-    TILESET: 'Tileset',
-    TILEMAP: 'Tilemap'
+    TILESET: 'tileset',
+    TILEMAP: 'tilemap'
 }
 
 const ACCESS_TYPE = {
