@@ -57,11 +57,11 @@ const CommentEntry = (props) => {
     const handleLike = (value) => {
         if (value == 0) {
             commentStore.updateCommentCommunity(comment_id, {
-                new_liked_user: auth.user._id
+                new_liked_user: user_id
             })
         } else {
             commentStore.updateCommentCommunity(comment_id, {
-                new_disliked_user: auth.user._id
+                new_disliked_user: user_id
             })
         }
     }
@@ -83,9 +83,9 @@ const CommentEntry = (props) => {
                     <Flex>
                         <Flex alignItems='center' gap={2} mr={2}>
                             <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.likes}`}</Text>
-                            <IconButton icon={<FiThumbsUp size={'10px'} />} size={'10px'} disabled={!auth.loggedIn} onClick={handleLike(0)} />
+                            <IconButton icon={<FiThumbsUp size={'10px'} />} size={'10px'} disabled={!auth.loggedIn} onClick = {() => handleLike(0)} />
                             <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.dislikes}`}</Text>
-                            <IconButton icon={<FiThumbsDown size={'10px'} />} size={'10px'} disabled={!auth.loggedIn} onClick={handleLike(0)} />
+                            <IconButton icon={<FiThumbsDown size={'10px'} />} size={'10px'} disabled={!auth.loggedIn}  onClick = {() => handleLike(1)}/>
                         </Flex>
                         <Button size='10px' fontSize={13} bg='transparent' opacity={0.6} variant='link'
                             onClick={toggleReply} disabled={!auth.loggedIn}

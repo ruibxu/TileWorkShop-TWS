@@ -158,7 +158,7 @@ const updateCommentCommunity = async (req, res) => {
                             success: true,
                             id: item._id,
                             result: item,
-                            errorMessage: 'Comment Community updated!',
+                            message: 'Comment Community updated!',
                         })
                     })
                     .catch(error => {

@@ -149,6 +149,7 @@ const GlobalCommentStoreContextProvider = (props) => {
         })
     }
     commentStore.updateCommentCommunity = async function (id, payload) {
+        console.log(id)
         const response = await api.updateCommentCommunity(id, payload);
         if (response.status === 200) {
             storeReducer({
