@@ -157,6 +157,8 @@ const GlobalCommentStoreContextProvider = (props) => {
                     currentComment: response.data.result
                 }
             })
+        }else{
+            console.log(response.data.errorMessage)
         }
     }
     return (
