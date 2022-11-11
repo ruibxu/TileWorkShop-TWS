@@ -14,8 +14,8 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import List from '@mui/material/List';
 const EditTileSetScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
-    const [isPublic, setPublic] = useState(store.currentTileSet.access.public)
-    console.log(store.currentTileSet)
+    const [isPublic, setPublic] = useState(store.currentItem.access.public)
+    console.log(store.currentItem)
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
@@ -35,7 +35,7 @@ const EditTileSetScreen = (props) => {
     return (
         <div>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
-                isPublic={isPublic} setPublic={setPublic} name={store.currentTileSet.name}/>
+                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}/>
             <div id="tldraw">
                 <Tldraw />
             </div>
