@@ -33,14 +33,13 @@ function ItemCardBig(props) {
 
     const handleComment = () => {
         let commenting = newComment
-        setNewComment('')
+        // setNewComment('')
         commentStore.createComment({
             user_id:auth.user._id,
             link_id:data._id,
             alert_user_id:data.access.owner_id,
             content: commenting
         })
-        console.log(newComment)
     }
 
     const handleDeleteComment = (_id) => {

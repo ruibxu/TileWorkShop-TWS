@@ -94,7 +94,6 @@ const GlobalCommentStoreContextProvider = (props) => {
     commentStore.createComment = async function (data) {
         const response = await api.createComment(data);
         if (response.status === 200) {
-            console.log(response.data.result)
             storeReducer({
                 type: GlobalCommentStoreActionType.CREATE_COMMENT,
                 payload: {
@@ -111,13 +110,13 @@ const GlobalCommentStoreContextProvider = (props) => {
             const comments = [...response.data.comments, ...response.data.replies]
             const users = response.data.users
             comments.map(x => x.owner = users.find(y => y._id == x.user_id))
-            await storeReducer({
+            storeReducer({
                 type: GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK,
                 payload: {
                     currentCommentList: comments
                 }
             })
-            console.log(commentStore.currentCommentList)
+            // console.log(commentStore.currentCommentList)
         } else {
             console.log(response.data.errorMessage)
         }
@@ -132,7 +131,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                     currentComment: response.data.result  // I intended it to be something like this. Function returns an id. 
                 }
             })
-            console.log(commentStore.currentComment)
+            // console.log(commentStore.currentComment)
         } else {
             console.log(response.data.errorMessage)
         }
@@ -165,7 +164,6 @@ const GlobalCommentStoreContextProvider = (props) => {
         })
     }
     commentStore.updateCommentCommunity = async function (id, payload) {
-        console.log(id)
         const response = await api.updateCommentCommunity(id, payload);
         if (response.status === 200) {
             storeReducer({

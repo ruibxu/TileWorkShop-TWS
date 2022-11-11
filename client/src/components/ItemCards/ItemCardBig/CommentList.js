@@ -14,7 +14,7 @@ const CommentList = (props) => {
             console.log(data._id)
             commentStore.getCommentsByLink(data._id)
         }
-    }, [data, commentStore.currentComment])
+    }, [data, commentStore.currentComment, commentStore.curretCommentList])
     console.log('list refreshed')
     
     const main_comments = props.comments.filter((x) => x.link_id == props._id)
