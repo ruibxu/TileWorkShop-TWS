@@ -34,8 +34,7 @@ const GlobalStoreContextProvider = (props) => {
         tileSetList: [],
         tileMapList: [],
         yourList: [],
-        currentTileSet: null,
-        currentTileMap: null,
+        currentItem: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
         markItemforDeletion: false
@@ -73,8 +72,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
-                    currentTileSet: null,
-                    currentTileMap: null,
+                    currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -89,8 +87,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
-                    currentTileSet: null,
-                    currentTileMap: null,
+                    currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -121,8 +118,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
-                    currentTileSet: payload.currentTileSet,
-                    currentTileMap: null,
+                    currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -133,8 +129,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
-                    currentTileSet: null,
-                    currentTileMap: payload.currentTileMap,
+                    currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -160,8 +155,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
-                    currentTileSet: null,
-                    currentTileMap: payload.currentTileMap,
+                    currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -172,8 +166,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
-                    currentTileSet: payload.currentTileSet,
-                    currentTileMap: null,
+                    currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
                     markItemforDeletion: false
@@ -189,7 +182,7 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILEMAP,
                 payload: {
-                    currentTileMap: response.data.tileMap
+                    currentItem: response.data.tileMap
                 }
             })
             redirect(`/tilemap/${response.data.tileMap._id}`)
@@ -204,7 +197,7 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILESET,
                 payload: {
-                    currentTileSet: response.data.tileSet
+                    currentItem: response.data.tileSet
                 }
             })
             redirect(`/tileset/${response.data.tileSet._id}`)
@@ -288,7 +281,7 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.GET_TILEMAP_BY_ID,
                 payload:{
-                    currentTileMap: response.data.result
+                    currentItem: response.data.result
                 }
             })
         }else{
@@ -302,12 +295,20 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.GET_TILESET_BY_ID,
                 payload:{
-                    currentTileSet: response.data.result
+                    currentItem: response.data.result
                 }
             })
         }else{
             console.log(response.data.errorMessage)
         }
+    }  
+    store.setCurrentItem = async function (obj){
+        storeReducer({
+            type: GlobalStoreActionType.SET_CURRENT_ITEM,
+            payload:{
+                currentItem: obj
+            }
+        })
     }
     return (
         <GlobalStoreContext.Provider value={{
