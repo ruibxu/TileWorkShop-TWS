@@ -2,12 +2,14 @@ import { useContext, useState } from 'react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
+import GlobalCommentStoreContext from '../../store/CommentStore';
 
 import image6 from '../../04_Qiqi_02newyear_receive.png'
 function ItemCardSmall(props) {
     // const {store} = useContext(GlobalStoreContext);
     // const {auth} = useContext(AuthContext);
     // limited sizes 375, 445.219
+    const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, size } = props
     function handleLike() { }
     function handleUnlike() { }

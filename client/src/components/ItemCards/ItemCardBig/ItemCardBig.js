@@ -22,15 +22,20 @@ function ItemCardBig(props) {
 
     const showDeleteComment = useDisclosure()
     const cancelRef = React.useRef()
+    const user_id = (auth.loggedIn)?auth.user._id:'not logged in'
+    const owner_id = (data.access)?data.access.owner_id:'no owner'
+    const isOwner = (user_id == owner_id)
 
     const isPublic = (data.access)?data.access.public:true
 
     const handleComment = () => {
+        let commenting = newComment
+        setNewComment('')
         commentStore.createComment({
             user_id:auth.user._id,
             link_id:data._id,
             alert_user_id:data.access.owner_id,
-            content: newComment
+            content: commenting
         })
         console.log(newComment)
     }
@@ -89,24 +94,29 @@ function ItemCardBig(props) {
                             </Box>
                         </Flex>
                         <Textarea name='comment' placeholder='Leave a comment...' fontStyle="italic" 
-                            onBlur={(event)=>setNewComment(event.target.value)}
+                            onBlur={(event)=>setNewComment(event.target.value)} disabled={!auth.loggedIn}
                         />
                         <Flex>
                             <Spacer/>
-                            <Button colorScheme='blue' onClick={handleComment} size='sm'>
+                            <Button colorScheme='blue' onClick={handleComment} size='sm' disabled={!auth.loggedIn}>
                                 Comment
                             </Button>
                         </Flex>
                         <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data}/>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='yellow' mr={3} onClick={handleView}>
-                            View
-                        </Button>
-                        <Button colorScheme='red' mr={3} onClick={props.openDeleteModal}>Delete</Button>
-                        <Button colorScheme='blue' onClick={() => props.onClose()}>
-                            Close
-                        </Button>
+                        <Flex width={'100%'}>
+                            <Button colorScheme='yellow' mr={3} onClick={handleView}>
+                                View
+                            </Button>
+                            <Spacer/>
+                            <Button colorScheme='red' mr={3} onClick={props.openDeleteModal} visibility={(!isOwner)?'hidden':''}>
+                                Delete
+                            </Button>
+                            <Button colorScheme='blue' onClick={() => props.onClose()}>
+                                Close
+                            </Button>
+                        </Flex>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

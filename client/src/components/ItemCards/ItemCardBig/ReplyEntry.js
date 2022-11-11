@@ -55,20 +55,20 @@ const ReplyEntry = (props) => {
                 </Text>
                 <Spacer/>
                 <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} opacity={0.3}>
-                    {info.LastEdited}
+                    {info.lastEdited}
                 </Text>
             </Flex>
             <Text>{content}</Text>
             <Flex paddingLeft={3} gap={5}>
                 <Flex>
-                    <Flex  alignItems='center' gap={2}>
+                    <Flex  alignItems='center' gap={2} mr={2}>
                         <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.likes}`}</Text>
-                        <IconButton icon={<FiThumbsUp size={'10px'}/>} size={'10px'}/>
+                        <IconButton icon={<FiThumbsUp size={'10px'}/>} size={'10px'} disabled={!auth.loggedIn}/>
                         <Text className="comment-counts" fontSize={12} opacity={0.6}>{`${info.community.dislikes}`}</Text>
-                        <IconButton icon={<FiThumbsDown size={'10px'}/>} size={'10px'}/>
+                        <IconButton icon={<FiThumbsDown size={'10px'}/>} size={'10px'} disabled={!auth.loggedIn}/>
                     </Flex>
                     <Button size='10px' fontSize={13} bg='transparent'opacity={0.6} variant='link'
-                        onClick={toggleReply}
+                        onClick={toggleReply} disabled={!auth.loggedIn}
                     >REPLY</Button>
                 </Flex>
                 <Spacer/>

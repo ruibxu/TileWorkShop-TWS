@@ -9,7 +9,7 @@ const CommentList = (props) => {
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { comment_list, setCommentList} = useState([])
     useEffect(()=>{
-        if(data && commentStore.refetch){
+        if(data || commentStore.refetch){
             console.log('working')
             console.log(data._id)
             commentStore.getCommentsByLink(data._id)

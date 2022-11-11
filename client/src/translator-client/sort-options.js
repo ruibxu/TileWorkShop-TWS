@@ -11,7 +11,7 @@ export const SORT_ORDER = {
     DESCENDING: 1
 }
 
-export const PROJECT_TYPE = {//This is the only one that can be safely changed
+export const PROJECT_TYPE = {
     TILESET: 'tileset',
     TILEMAP: 'tilemap'
 }

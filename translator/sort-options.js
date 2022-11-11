@@ -11,7 +11,7 @@ const SORT_ORDER = {
     DESCENDING: 1
 }
 
-const PROJECT_TYPE = {//This is the only one that can be safely changed
+const PROJECT_TYPE = {
     TILESET: 'tileset',
     TILEMAP: 'tilemap'
 }
