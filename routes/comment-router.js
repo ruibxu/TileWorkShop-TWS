@@ -4,8 +4,8 @@ const auth = require('../auth/authManager')
 const CommentController = require('../controllers/comment-controller')
 
 //Queries
-router.get('/comment/:id', auth.verify, CommentController.getCommentById)
-router.get('/comments/:id', auth.verify, CommentController.getCommentsByLink)
+router.get('/comment/:id', CommentController.getCommentById)
+router.get('/comments/:id', CommentController.getCommentsByLink)
 
 //mutations
 router.post('/comment', auth.verify, CommentController.createComment)
