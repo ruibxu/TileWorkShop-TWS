@@ -9,7 +9,7 @@ const CommentList = (props) => {
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { comment_list, setCommentList} = useState([])
     useEffect(()=>{
-        if(data){
+        if(data && commentStore.refetch){
             console.log('working')
             console.log(data._id)
             commentStore.getCommentsByLink(data._id)
@@ -17,9 +17,8 @@ const CommentList = (props) => {
     }, [data, commentStore.currentComment])
     console.log('list refreshed')
     
-    const main_comments = commentStore.currentCommentList.filter((x) => x.link_id == props._id)
-    const replies = commentStore.currentCommentList.filter((x) => x.link_id != props._id)
-    console.log(main_comments)
+    const main_comments = props.comments.filter((x) => x.link_id == props._id)
+    const replies = props.comments.filter((x) => x.link_id != props._id)
 
     return(<Box>
         <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} fontSize={12}>Comments:</Text>

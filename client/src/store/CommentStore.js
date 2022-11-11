@@ -14,7 +14,8 @@ const GlobalCommentStoreContextProvider = (props) => {
     const [commentStore, setCommentStore] = useState({
         currentCommentList: [],
         currentComment: null,
-        markItemforDeletion: false
+        markItemforDeletion: false,
+        refetch: true
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
@@ -28,21 +29,24 @@ const GlobalCommentStoreContextProvider = (props) => {
                 return setCommentStore({
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
-                    markItemforDeletion: false
+                    markItemforDeletion: false,
+                    refetch: true
                 })
             }
             case GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK: {
                 return setCommentStore({
                     currentComment: null,
                     currentCommentList: payload.currentCommentList,
-                    markItemforDeletion: false
+                    markItemforDeletion: false,
+                    refetch: false
                 })
             }
             case GlobalCommentStoreActionType.UPDATE_COMMENT: {
                 return setCommentStore({
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
-                    markItemforDeletion: false
+                    markItemforDeletion: false,
+                    refetch: true
                 })
             }
             default:
