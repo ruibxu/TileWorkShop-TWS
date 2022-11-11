@@ -89,7 +89,9 @@ const Listscreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar default={access_default} />
-                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page === 1) ? data : ((page === 2) ? data2 : store.tileMapList)} page={page} setPage={setPage} />
+                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page === 1) ? data : ((page === 2) ? data2 : store.tileMapList)} page={page} setPage={setPage}
+                        redirect={redirect}
+                    />
                 </Flex>
             </Box>
             {(verified) ? <IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} /> : <></>}
@@ -100,7 +102,7 @@ const Listscreen = (props) => {
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} redirect={redirect}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect} />
         </div>)

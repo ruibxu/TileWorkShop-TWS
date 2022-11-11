@@ -13,12 +13,12 @@ const ListscreenList = (props) => {
     return (
         <Box flex='1' padding={'3%'} paddingTop={'5%'} className='identify'>
             <SimpleGrid columns={3} spacing={10} width={'100%'}className='identi'>
-                <ItemCardSmall size='100%' data={data[0]} openItemCard={props.openItemCard}/>
-                <ItemCardSmall size='100%' data={data[1]} openItemCard={props.openItemCard}/>
-                <ItemCardSmall size='100%' data={data[2]} openItemCard={props.openItemCard}/>
-                <ItemCardSmall size='100%' data={data[3]} openItemCard={props.openItemCard}/>
-                <ItemCardSmall size='100%' data={data[4]} openItemCard={props.openItemCard}/>
-                <ItemCardSmall size='100%' data={data[5]} openItemCard={props.openItemCard}/>
+                <ItemCardSmall size='100%' data={data[0]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                <ItemCardSmall size='100%' data={data[1]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                <ItemCardSmall size='100%' data={data[2]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                <ItemCardSmall size='100%' data={data[3]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                <ItemCardSmall size='100%' data={data[4]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                <ItemCardSmall size='100%' data={data[5]} openItemCard={props.openItemCard} redirect={props.redirect}/>
             </SimpleGrid>
         </Box>
     )

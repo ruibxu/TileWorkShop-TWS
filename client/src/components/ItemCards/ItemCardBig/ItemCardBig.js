@@ -46,6 +46,7 @@ function ItemCardBig(props) {
     }
 
     const handleView = () => {
+        props.redirect(`/${data.type}/${data._id}`)
         props.onClose()
     }
 

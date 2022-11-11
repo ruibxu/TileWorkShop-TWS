@@ -19,8 +19,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display' >
-                            <ItemCardSmall size={'100%'} data={popularMaps[0]} openItemCard={props.openItemCard}/>
-                            <ItemCardSmall size={'100%'} data={popularMaps[1]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'} data={popularMaps[0]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                            <ItemCardSmall size={'100%'} data={popularMaps[1]} openItemCard={props.openItemCard} redirect={props.redirect}/>
                         </Flex>
                     </Container>
                     <Divider borderColor={'purple'} />
@@ -33,8 +33,8 @@ const HomescreenPopular = (props) => {
                     <Divider borderColor={'purple'} />
                     <Container minW={'100%'} maxW={'100%'}>
                         <Flex className='popular-display'>
-                            <ItemCardSmall size={'100%'}  data={popularSets[0]} openItemCard={props.openItemCard}/>
-                            <ItemCardSmall size={'100%'}  data={popularSets[1]} openItemCard={props.openItemCard}/>
+                            <ItemCardSmall size={'100%'}  data={popularSets[0]} openItemCard={props.openItemCard} redirect={props.redirect}/>
+                            <ItemCardSmall size={'100%'}  data={popularSets[1]} openItemCard={props.openItemCard} redirect={props.redirect}/>
                         </Flex>
                     </Container>
                 </Box>

@@ -18,7 +18,7 @@ const ListscreenMain = (props) => {
                     <IconButton onClick={handleLeftClick} isDisabled={(props.page === 1) ? true : false} bg='transparent' icon={<MdArrowBackIos className='md-icon' />} paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
                 </Center>
                 <Box className={'main-list'} flex='1' >
-                    <ListscreenList openItemCard={props.openItemCard} data={props.data} />
+                    <ListscreenList openItemCard={props.openItemCard} data={props.data} redirect={props.redirect}/>
                     <Box textAlign={'center'}>
                         <Text fontSize={20} color={'purple'}>{`Page: ${props.page }`}</Text>
                     </Box>

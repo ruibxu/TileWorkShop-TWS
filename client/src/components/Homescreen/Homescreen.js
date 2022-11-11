@@ -82,8 +82,8 @@ const Homescreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex gap={0} minH={'90%'} className='Homescreen-Main' maxH={'90%'}>
                     <HomescreenNew />
-                    <HomescreenPopular openItemCard={handleOpenBigItemCard} popularSets={store.tileSetList} popularMaps={store.tileMapList}/>
-                    <HomescreenQuick openItemCard={handleOpenBigItemCard} display={store.yourList}/>
+                    <HomescreenPopular openItemCard={handleOpenBigItemCard} popularSets={store.tileSetList} popularMaps={store.tileMapList} redirect={redirect}/>
+                    <HomescreenQuick openItemCard={handleOpenBigItemCard} display={store.yourList} redirect={redirect}/>
                 </Flex>
             </Box>
             {(verified)?<IconButton id='edit-button' size="lg" icon={<BsPencilSquare className='md-icon' size='30px' />} bg='transparent' onClick={showCreateModal.onOpen} />:<></>}
@@ -93,7 +93,7 @@ const Homescreen = (props) => {
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen}/>
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} redirect={redirect}/>
             <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect}/>
             <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
