@@ -72,17 +72,21 @@ const deleteComment = async (req, res) => {
         //does this belong to the user
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
-            if (item.user_id.equals(req.body.user_id)) {
-                deleteCommentsByLink(objectId)
+            if (item.user_id == req.params.user_id) {
+                console.log(item.user_id)
                 Comment.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
+                deleteCommentsByLink(objectId)
                 return res.status(200).json({
-                    message: "Comment Deleted"
+                    message: "Comment Deleted",
+                    result: item
                 });
             }
             else {
                 // console.log("incorrect user!");
                 return res.status(400).json({
-                    errorMessage: "authentication error"
+                    errorMessage: "authentication error",
+                    test: item.user_id,
+                    test2: req.params.user_id
                 });
             }
         }

@@ -50,7 +50,7 @@ export const getCommentById = (id) => api.get(`api/comment/${id}`)
 export const getCommentsByLink = (id) => api.get(`api/comments/${id}`)
 export const createComment = (payload) => api.post(`api/comment`, payload)
 export const updateComment = (id, payload) => api.put(`api/comment/${id}`, payload)
-export const deleteComment = (id) => api.delete(`api/comment/${id}`)
+export const deleteComment = (id, user_id) => api.delete(`api/comment/${id}/${user_id}`)
 export const updateCommentCommunity = (id, payload) => api.put(`api/comment/community/${id}`, payload)
 
 

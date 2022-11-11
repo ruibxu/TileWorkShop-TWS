@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
+import GlobalCommentStoreContext from "../../store/CommentStore";
 import {
     AlertDialog,
     AlertDialogBody,
@@ -11,6 +12,13 @@ import {
   } from '@chakra-ui/react'
 
 const DeleteCommentAlert = (props) => {
+  const { commentStore } = useContext(GlobalCommentStoreContext)
+
+  const deleteComment = () => {
+    console.log(commentStore.commentMarkedForDeletion)
+    commentStore.deleteMarkedComment()
+    props.onClose()
+  }
 
   return (
       <AlertDialog
@@ -32,7 +40,7 @@ const DeleteCommentAlert = (props) => {
               <Button ref={props.cancelRef} onClick={props.onClose}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={props.onClose} ml={3}>
+              <Button colorScheme='red' onClick={deleteComment} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>

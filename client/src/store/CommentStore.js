@@ -9,6 +9,7 @@ export const GlobalCommentStoreActionType = {
     GET_COMMENTS_BY_LINK: "GET_COMMENTS_BY_LINK",
     UPDATE_COMMENT: "UPDATE_COMMENT",
     MARK_COMMMENT_FOR_DELETION: "MARK_COMMMENT_FOR_DELETION",
+    DELETE_COMMENT: "DELETE_COMMENT",
     UNMARK_COMMENT_FOR_DELETION: "UNMARK_COMMENT_FOR_DELETION",
     UPDATE_COMMENT_COMMUNITY: "UPDATE_COMMENT_COMMUNITY"
 }
@@ -60,6 +61,14 @@ const GlobalCommentStoreContextProvider = (props) => {
                     refetch: true
                 })
             }
+            case GlobalCommentStoreActionType.DELETE_COMMENT: {
+                return setCommentStore({
+                    currentComment: payload.currentComment,
+                    currentCommentList: commentStore.currentCommentList,
+                    commentMarkedForDeletion: null,
+                    refetch: true
+                })
+            }
             case GlobalCommentStoreActionType.UNMARK_COMMENT_FOR_DELETION: {
                 return setCommentStore({
                     currentComment: null,
@@ -102,7 +111,7 @@ const GlobalCommentStoreContextProvider = (props) => {
             const comments = [...response.data.comments, ...response.data.replies]
             const users = response.data.users
             comments.map(x => x.owner = users.find(y => y._id == x.user_id))
-            storeReducer({
+            await storeReducer({
                 type: GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK,
                 payload: {
                     currentCommentList: comments
@@ -137,9 +146,16 @@ const GlobalCommentStoreContextProvider = (props) => {
         })
     }
     commentStore.deleteMarkedComment = async function () {
-        const response = await api.deleteComment(commentStore.currentComment)
+        const user_id = ((auth.loggedIn)?auth.user._id:'not logged in');
+        console.log(user_id)
+        const response = await api.deleteComment(commentStore.commentMarkedForDeletion, user_id)
         if (response.status === 200) {
-            commentStore.getCommentsByLink()
+            storeReducer({
+                type: GlobalCommentStoreActionType.DELETE_COMMENT,
+                payload: {
+                    currentComment: response.data.result
+                }
+            })
         }
     }
     commentStore.unmarkCommentForDeletion = async function () {

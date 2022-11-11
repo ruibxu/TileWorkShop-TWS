@@ -89,7 +89,8 @@ deleteCommentsByLink = async (id) => {
     const _ids = comment_list.map((x) => x._id)
     const replies = await Comment.find({ link_id: { $in: _ids } })
     const reply_ids = replies.map((x)=>x._id)
-    await Comment.deleteMany($or[{_id: {$in:_ids}}, {_id: {$in:reply_ids}}])
+    const all_ids = [..._ids, ...reply_ids]
+    await Comment.deleteMany({_id: {$in: all_ids}})
 }
 
 module.exports = {

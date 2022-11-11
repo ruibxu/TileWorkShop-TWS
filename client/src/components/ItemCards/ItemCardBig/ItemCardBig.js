@@ -44,6 +44,7 @@ function ItemCardBig(props) {
     }
 
     const handleDeleteComment = (_id) => {
+        commentStore.markCommentForDeletion(_id)
         showDeleteComment.onOpen()
     }
 

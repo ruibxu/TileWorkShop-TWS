@@ -10,7 +10,7 @@ router.get('/comments/:id', CommentController.getCommentsByLink)
 //mutations
 router.post('/comment', auth.verify, CommentController.createComment)
 router.put('/comment/:id', auth.verify, CommentController.updateComment)
-router.delete('/comment/:id', auth.verify, CommentController.deleteComment)
+router.delete('/comment/:id/:user_id', auth.verify, CommentController.deleteComment)
 
 router.put('/comment/community/:id', auth.verify, CommentController.updateCommentCommunity)
 
