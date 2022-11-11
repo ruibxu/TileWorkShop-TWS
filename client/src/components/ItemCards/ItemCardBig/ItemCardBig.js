@@ -12,11 +12,15 @@ import GlobalCommentStoreContext from "../../../store/CommentStore";
 import AuthContext from "../../../auth";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
+import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data } = props
     const [ newComment, setNewComment ] = useState('')
+
+    const showDeleteComment = useDisclosure()
+    const cancelRef = React.useRef()
 
     const isPublic = (data.access)?data.access.public:true
 
@@ -98,10 +102,10 @@ function ItemCardBig(props) {
                         <Button colorScheme='blue' onClick={() => props.onClose()}>
                             Close
                         </Button>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            <DeleteCommentAlert onClose={showDeleteComment.onClose} isOpen={showDeleteComment.isOpen} cancelRef={cancelRef}/>
         </div>
     )
 }
