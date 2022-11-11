@@ -25,6 +25,7 @@ const ReplyEntry = (props) => {
             user_id: user_id,
             content: newContent
         })
+        setContent(newContent)
         toggleEdit()
     }
 

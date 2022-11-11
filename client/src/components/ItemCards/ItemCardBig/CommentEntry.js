@@ -26,10 +26,14 @@ const CommentEntry = (props) => {
     let newContent = content
     console.log(content)
     const handleEditContent = () =>{
+        setContent(newContent)
+        //some backend stuff
         commentStore.updateComment(comment_id, {
             user_id: user_id,
             content: newContent
         })
+        //------------------
+        //setContent(newContent)
         toggleEdit()
     }
 
