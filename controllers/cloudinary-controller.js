@@ -10,7 +10,7 @@ const getTileMapImage = async (req, res) => {
             errorMessage: 'image not found!',
         });
     }
-    return res.status(201).json({
+    return res.status(200).json({
         _id: public_id,
         resources: resources
     })
@@ -44,7 +44,7 @@ const deleteTileMapImage = async (req, res) => {
             errorMessage: 'image not found!',
         });
     }
-    return res.status(201).json({
+    return res.status(200).json({
         Message: 'image deleted'
     })
 }
@@ -92,7 +92,7 @@ const deleteTileMapThumbnail = async (req, res) => {
             errorMessage: 'image not found!',
         });
     }
-    return res.status(201).json({
+    return res.status(200).json({
         Message: 'image deleted'
     })
 }
@@ -107,7 +107,7 @@ const getTileSetImage = async (req, res) => {
             errorMessage: 'image not found!',
         });
     }
-    return res.status(201).json({
+    return res.status(200).json({
         _id: public_id,
         resources: resources
     })
@@ -142,7 +142,7 @@ const deleteTileSetImage = async (req, res) => {
             errorMessage: 'image not found!',
         });
     }
-    return res.status(201).json({
+    return res.status(200).json({
         Message: 'image deleted'
     })
 }
