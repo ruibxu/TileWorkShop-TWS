@@ -15,11 +15,12 @@ import LoggedIn from './LoggedIn.js'
 import GuestMode from './GuestMode';
 import AuthContext from '../../../auth';
 import GlobalStoreContext from '../../../store/ProjectStore';
+import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '../../../translator-client/sort-options';
 
 
 
 const MainNavbar = (props) => {
-    const [ type, setType ] = useState("TileSet")
+    const [ type, setType ] = useState(PROJECT_TYPE.TILEMAP)
     const [ searchBy, setSearchBy ] = useState("Name")
     const { auth } = useContext(AuthContext)
     const { store } = useContext(AuthContext)
@@ -43,12 +44,12 @@ const MainNavbar = (props) => {
             <Flex alignItems={'center'} width={'65%'} bg='transparent'>
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'}/>
                 <Select width="20%" borderColor={'purple'}>
-                    <option value='TileSet'>TileSet</option>
-                    <option value='TileMap'>TileMap</option>
+                    <option value={PROJECT_TYPE.TILESET}>TileSet</option>
+                    <option value={PROJECT_TYPE.TILEMAP}>TileMap</option>
                 </Select>
                 <Select width="20%" borderColor={'purple'}>
-                    <option value='Name'>Name</option>
-                    <option value='Creator'>Creator</option>
+                    <option value={SEARCH_TYPE.NAME}>Name</option>
+                    <option value={SEARCH_TYPE.CREATOR}>Creator</option>
                 </Select>
                 <Flex>
                     <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'
