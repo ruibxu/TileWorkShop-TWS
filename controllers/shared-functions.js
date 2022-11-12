@@ -49,7 +49,7 @@ updateCommunity = (community, body) => {
             community.favorited_Users = community.favorited_Users.filter(x => x != body.new_favorite_user);
         }
         else{
-            community.favorited_Users.push(body.new_favorited_user);
+            community.favorited_Users.push(body.new_favorite_user);
         }
     }
     if(body.views){
