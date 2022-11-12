@@ -50,10 +50,12 @@ function ItemCardBig(props) {
         })
     }
     useEffect(() => {
-        if (data.type == "tilemap") {
-            store.getTileMapById(project_id)
-        } else {
-            store.getTilesetById(project_id)
+        if(project_id){
+            if (data.type == "tilemap") {
+                store.getTileMapById(project_id)
+            } else {
+                store.getTilesetById(project_id)
+            }
         }
     }, [data])
     const handleDeleteComment = (_id) => {
