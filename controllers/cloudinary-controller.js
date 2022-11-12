@@ -19,16 +19,17 @@ const getTileMapImage = async (req, res) => {
 const updateTileMapImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
-        const filename = req.params.id;
+        const public_id = req.params.id;
         // console.log(fileStr);
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'TileMap_Uses_Upload',
-            public_id: filename
+            public_id: public_id
         });
         // console.log(uploadedResponse);
         return res.status(200).json({
             success: true,
-            response: uploadedResponse
+            _id: public_id,
+            resources: uploadedResponse
         })
     } catch (error) {
         // console.log(error);
@@ -67,16 +68,17 @@ const getTileMapThumbnail = async (req, res) => {
 const updateTileMapThumbnail = async (req, res) => {
     try {
         const fileStr = req.body.data;
-        const filename = req.params.id;
+        const public_id = req.params.id;
         // console.log(fileStr);
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'TileMap_Thumbnail_Upload',
-            public_id: filename
+            public_id: public_id
         });
         // console.log(uploadedResponse);
         return res.status(200).json({
             success: true,
-            response: uploadedResponse
+            _id: public_id,
+            resources: uploadedResponse
         })
     } catch (error) {
         // console.log(error);
@@ -116,16 +118,17 @@ const getTileSetImage = async (req, res) => {
 const updateTileSetImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
-        const filename = req.params.id;
+        const public_id = req.params.id;
         // console.log(fileStr);
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'TileSet_Editor_Upload',
-            public_id: filename
+            public_id: public_id
         });
         // console.log(uploadedResponse);
         return res.status(200).json({
             success: true,
-            response: uploadedResponse
+            _id: public_id,
+            resources: uploadedResponse
         })
     } catch (error) {
         // console.log(error);
