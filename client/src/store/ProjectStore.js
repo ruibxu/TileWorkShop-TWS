@@ -279,7 +279,7 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
-    store.getTilesetById = async function (id) {
+    store.getTileSetById = async function (id) {
         const response = await api.getTileSetById(id);
         if (response.status === 200) {
             storeReducer({

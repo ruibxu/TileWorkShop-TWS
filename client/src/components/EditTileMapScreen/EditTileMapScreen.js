@@ -6,6 +6,7 @@ import MapToolbar from './MapToolbar';
 import MapWorkspace from './MapWorkspace';
 import { Box, Flex } from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
+import GlobalEditStoreContext from '../../store/EditStore';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import MapLayer from './MapLayer';
@@ -14,13 +15,19 @@ import MapTileset from './MapTileset';
 
 const EditTileMapScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
-    const [isPublic, setPublic] = useState(store.currentItem.access.public)
-    console.log(store.currentItem)
-
+    const { editStore } = useContext(GlobalEditStoreContext);
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
+    const Tilemap_id =
+    useEffect(()=>{
+        editStore.getTileMapById
+    },[])
+    const [isPublic, setPublic] = useState(store.currentItem.access.public)
+    console.log(store.currentItem)
+
+    
 
     const showShareModal = useDisclosure()
     let TempInfo = [

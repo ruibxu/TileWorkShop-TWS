@@ -54,7 +54,7 @@ function ItemCardBig(props) {
             if (data.type == "tilemap") {
                 store.getTileMapById(project_id)
             } else {
-                store.getTilesetById(project_id)
+                store.getTileSetById(project_id)
             }
         }
     }, [data])

@@ -16,6 +16,7 @@ const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
         currentId: null,
         currentItem: null,
+        type: null
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
@@ -26,15 +27,19 @@ const GlobalEditStoreContextProvider = (props) => {
         const { type, payload } = action;
         switch (type) {
             case GlobalEditStoreActionType.GET_TILEMAP_BY_ID: {
-                return setEditStore({
+                return setEditStore({...editStore,
                     currentId: payload._id,
                     currentItem: payload.currentItem,
+                    access: payload.currentItem.access,
+                    type: PROJECT_TYPE.TILEMAP
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
-                return setEditStore({
+                return setEditStore({...editStore,
                     currentId: payload._id,
                     currentItem: payload.currentItem,
+                    access: payload.currentItem.access,
+                    type: PROJECT_TYPE.TILESET
                 })
             }
         }
@@ -57,7 +62,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
-    editStore.getTilesetById = async function (id) {
+    editStore.getTileSetById = async function (id) {
         const response = await api.getTileSetById(id);
         const result = response.data.result
         result.community = null
