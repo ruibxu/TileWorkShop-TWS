@@ -56,23 +56,23 @@ const Listscreen = (props) => {
     useEffect(() => {
         store.viewListView()
     }, [auth])
-    console.log(store.tileMapList)
-    const data = [
-        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
-        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
-        { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1 },
-        { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0 },
-        { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0 },
-        { _id: "14", owner: "Jimmy", name: "QiQi?", src: image6, type: 0 }]
+    // console.log(store.tileMapList)
+    // const data = [
+    //     { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
+    //     { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
+    //     { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1 },
+    //     { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0 },
+    //     { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0 },
+    //     { _id: "14", owner: "Jimmy", name: "QiQi?", src: image6, type: 0 }]
 
-    const data2 = [
-        { _id: "15", owner: "Yajie", name: "Alebdo", src: i1, type: 1 },
-        { _id: "16", owner: "Yajie", name: "Ganyu1", src: i2, type: 1 },
-        { _id: "17", owner: "Yajie", name: "Ganyu2", src: i3, type: 1 },
-        { _id: "18", owner: "Jimmy", name: "Xingqiu1", src: i4, type: 1 },
-        { _id: "19", owner: "Jimmy", name: "Xingqiu2", src: i5, type: 1 },
-        { _id: "20", owner: "Jimmy", name: "QiQi??", src: i6, type: 1 }
-    ]
+    // const data2 = [
+    //     { _id: "15", owner: "Yajie", name: "Alebdo", src: i1, type: 1 },
+    //     { _id: "16", owner: "Yajie", name: "Ganyu1", src: i2, type: 1 },
+    //     { _id: "17", owner: "Yajie", name: "Ganyu2", src: i3, type: 1 },
+    //     { _id: "18", owner: "Jimmy", name: "Xingqiu1", src: i4, type: 1 },
+    //     { _id: "19", owner: "Jimmy", name: "Xingqiu2", src: i5, type: 1 },
+    //     { _id: "20", owner: "Jimmy", name: "QiQi??", src: i6, type: 1 }
+    // ]
 
     const handleOpenBigItemCard = (newData) => {
         setBigCardData(newData)
@@ -89,7 +89,7 @@ const Listscreen = (props) => {
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
                     <ListscreenSideBar default={access_default} />
-                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={(page === 1) ? data : ((page === 2) ? data2 : store.tileMapList)} page={page} setPage={setPage}
+                    <ListscreenMain openItemCard={handleOpenBigItemCard} data={store.tileMapList} page={page} setPage={setPage}
                         redirect={redirect}
                     />
                 </Flex>
