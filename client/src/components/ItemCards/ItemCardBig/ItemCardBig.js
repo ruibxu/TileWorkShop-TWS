@@ -57,26 +57,14 @@ function ItemCardBig(props) {
     }
 
     const handleLike = (event, value) => {
+        let payload = null;
+        if (value == 0){payload = {new_liked_user: user_id}}
+        if (value == 1){payload = {new_disliked_user: user_id}}
+        if (value == 2){payload = {new_favorite_user: user_id}}
         if (data.type == "tilemap") {
-            if (value == 0) {
-                store.updateTileMapCommunity(data._id, {
-                    new_liked_user: user_id
-                })
-            } else {
-                store.updateTileMapCommunity(data._id, {
-                    new_disliked_user: user_id
-                })
-            }
+            store.updateTileMapCommunity(data._id, payload)
         } else {
-            if (value == 0) {
-                store.updateTileSetCommunity(data._id, {
-                    new_liked_user: user_id
-                })
-            } else {
-                store.updateTileSetCommunity(data._id, {
-                    new_disliked_user: user_id
-                })
-            }
+            store.updateTileSetCommunity(data._id, payload)
         }
     }
     const lastEdited = new Date(data.lastEdited)
@@ -92,9 +80,12 @@ function ItemCardBig(props) {
                         <Flex alignItems='center'>
                             <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={(data.src) ? data.src : image6} />
                             <Flex gap={2} alignItems={'center'}  >
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)} icon={<FiThumbsUp className='md-icon' />} ></IconButton>
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)} icon={<FiThumbsDown className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)} 
+                                icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)} 
+                                icon={<FiThumbsUp className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)} 
+                                icon={<FiThumbsDown className='md-icon' />} ></IconButton>
                             </Flex>
                         </Flex>
 
