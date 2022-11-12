@@ -1,3 +1,4 @@
+//Likely unneeded
 const Community = require('../models/community-model');
 
 updateCommunity = async (req, res) => {

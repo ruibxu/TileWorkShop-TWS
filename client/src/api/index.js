@@ -27,24 +27,26 @@ export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
 export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
 export const updateTileMap = (id) => api.put(`api/tilemap/${id}`)
-export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
-export const updateTileMapImage = (id) => api.put(`api/tilemap/image/${id}`)
-export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
 export const updateTileMapAccess = (id) => api.put(`api/tilemap/access/${id}`)
 export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${id}`)
 export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
-
+export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
+export const updateTileMapImage = (id) => api.put(`api/tilemap/image/${id}`)
+export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
+export const getTileMapThumbnail = (id) => api.get(`api/tilemap/thumbnail/${id}`)
+export const updateTileMapThumbnail = (id) => api.put(`api/tilemap/thumbnail/${id}`)
+export const deleteTileMapThumbnail = (id) => api.delete(`api/tilemap/thumbnail/${id}`)
 
 export const getTileSetById = (id) => api.post(`api/tileset/${id}`)
 export const createTileSet = (payload) => api.post(`api/tileset`, payload)
 export const deleteTileSet = (id) => api.delete(`api/tileset/${id}`)
 export const updateTileSet = (id, payload) => api.put(`api/tileset/${id}`, payload)
+export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
+export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)
 export const getTileSetImage = (id) => api.get(`api/tileset/image/${id}`)
 export const updateTileSetImage = (id, payload) => api.put(`api/tileset/image/${id}`, payload)
 export const deleteTileSetImage = (id) => api.delete(`api/tileset/image/${id}`)
-export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
-export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)
 
 export const getCommentById = (id) => api.get(`api/comment/${id}`)
 export const getCommentsByLink = (id) => api.get(`api/comments/${id}`)
@@ -65,6 +67,7 @@ const apis = {
     updateAccount,
     verifyAccount,
     forgetPassword,
+
     getUsernameByIds,
     getViewableProjects,
     getEditableProjects,
@@ -73,25 +76,40 @@ const apis = {
     searchUsers,
     searchProjectByUsers,
     searchProjects2,
+
     getTileMapById,
     createTileMap,
     deleteTileMap,
     updateTileMap,
-    getTileMapImage,
-    updateTileMapImage,
-    deleteTileMapImage,
     updateTileMapAccess,
     updateTileMapCommunity,
     addTileSetToTileMap,
     deleteTileSetfromTileMap,
-    sendConfirmEmail,
-    sendPasswordResetEmail,
+    getTileMapImage,
+    updateTileMapImage,
+    deleteTileMapImage,
+    getTileMapThumbnail,
+    updateTileMapThumbnail,
+    deleteTileMapThumbnail,
+
     createTileSet,
+    createTileSet,
+    deleteTileSet,
+    updateTileSet,
+    updateTileSetAccess,
+    updateTileSetCommunity,
+    getTileSetImage,
+    updateTileSetImage,
+    deleteTileSetImage,
+
     getCommentById,
     getCommentsByLink,
     createComment,
     updateComment,
     deleteComment,
-    updateCommentCommunity
+    updateCommentCommunity,
+
+    sendConfirmEmail,
+    sendPasswordResetEmail
 }
 export default apis
