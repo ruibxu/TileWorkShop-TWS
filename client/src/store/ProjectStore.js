@@ -200,13 +200,13 @@ const GlobalStoreContextProvider = (props) => {
         console.log('refetching homescreen view')
         const response1 = await api.searchProjects2(PROJECT_TYPE.TILESET, {
             sort_type: 'community.likes',
-            sort_order: 1,
+            sort_order: -1,
             limit: 2
         });
         if (response1.status === 200) {
             const response2 = await api.searchProjects2(PROJECT_TYPE.TILEMAP, {
                 sort_type: 'community.likes',
-                sort_order: 1,
+                sort_order: -1,
                 limit: 2
             });
             if (response2.status !== 200) {

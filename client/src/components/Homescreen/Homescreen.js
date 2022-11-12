@@ -39,7 +39,7 @@ const Homescreen = (props) => {
     useEffect(() =>{
         console.log('homescreen effect')
         store.viewHomePage();
-    },[auth])
+    },[auth, store.currentItem])
     // console.log(store.tileMapList)
     // console.log(store.yourList)
     

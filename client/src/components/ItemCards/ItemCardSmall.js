@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
-import { AiOutlineHeart } from 'react-icons/ai'
+import { HiThumbUp, HiThumbDown } from 'react-icons/hi'
+import { AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import GlobalCommentStoreContext from '../../store/CommentStore';
 import GlobalStoreContext from '../../store/ProjectStore';
 import AuthContext from '../../auth';
@@ -12,7 +13,6 @@ function ItemCardSmall(props) {
     // limited sizes 375, 445.219
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, size } = props
-    function handleLike() { }
     function handleUnlike() { }
     function handleDislike() { }
     function handleUnDislike() { }
@@ -23,12 +23,34 @@ function ItemCardSmall(props) {
         props.openItemCard()
     }
 
+    const handleLike = (event, value) => {
+        if (!auth.loggedIn){return}
+        let payload = null;
+        if (value == 0){payload = {new_liked_user: user_id}}
+        if (value == 1){payload = {new_disliked_user: user_id}}
+        if (value == 2){payload = {new_favorite_user: user_id}}
+        if (data.type == "tilemap") {
+            store.updateTileMapCommunity(data._id, payload)
+        } else {
+            store.updateTileSetCommunity(data._id, payload)
+        }
+    }
+
     function handleDoubleClickImage(){
         store.setCurrentItem(data)
         props.redirect(`/${data.type}/${data._id}`)
     }
 
     if(!data){return <></>}
+
+    const community = data.community
+    const user_id = (auth.loggedIn) ? auth.user._id : 'not logged in'
+    const owner_id = (data.access) ? data.access.owner_id : 'no owner'
+    const isOwner = (user_id == owner_id)
+
+    const liked = (community)?community.liked_Users.includes(user_id):false
+    const disliked = (community)?community.disliked_Users.includes(user_id):false
+    const favorited = (community)?community.favorited_Users.includes(user_id):false
 
     let cardElement =
         <Box w={(size) ? size : '375px'} maxW={(size) ? size : '375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box' >
@@ -47,9 +69,12 @@ function ItemCardSmall(props) {
                 </Box>
                 <Spacer />
                 <Flex gap={2} alignItems={'center'} width='140px'>
-                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
-                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<FiThumbsUp className='md-icon' />} ></IconButton>
-                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<FiThumbsDown className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)} 
+                    icon={(favorited)?<AiFillHeart className='md-icon' />:<AiOutlineHeart className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)} 
+                    icon={(liked)?<HiThumbUp className='md-icon' />:<FiThumbsUp className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)} 
+                    icon={(disliked)?<HiThumbDown className='md-icon' />:<FiThumbsDown className='md-icon' />} ></IconButton>
                 </Flex>
             </Flex>
         </Box>
