@@ -45,11 +45,11 @@ updateCommunity = (community, body) => {
         community.dislikes = community.disliked_Users.length
     }
     if(body.new_favorite_user){
-        if(community.favorite_Users.includes(body.new_favorite_user)){
-            community.favorite_Users = community.favorite_Users.filter(x => x != body.new_favorite_user);
+        if(community.favorited_Users.includes(body.new_favorite_user)){
+            community.favorited_Users = community.favorited_Users.filter(x => x != body.new_favorite_user);
         }
         else{
-            community.favorite_Users.push(body.new_favorite_user);
+            community.favorited_Users.push(body.new_favorited_user);
         }
     }
     if(body.views){
