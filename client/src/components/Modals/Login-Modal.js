@@ -41,7 +41,7 @@ const LoginModal = (props) => {
             email: email,
             password: password
         })
-        props.setRefetch(success)
+        //props.setRefetch(success)
         props.onClose()
         
         /*console.log(auth.loggedIn);

@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Flex, Box, Container, Text, Radio, RadioGroup, Stack, Divider, Button} from '@chakra-ui/react';
 import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '../../translator-client/sort-options';
+import AuthContext from '../../auth';
 
 
 const ListscreenSideBar = (props) => {
+    const { auth } = useContext(AuthContext)
     const [projectType, setProjectType] = useState(PROJECT_TYPE.TILEMAP)
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
     const [access, setAccess] = useState((props.default) ? props.default : `${ACCESS_TYPE.VIEWABLE}`)
 
     return (
-        <Box w='250px' minW='250px' className={'left-sidebar'}>
+        <Box w='250px' minW='250px' className={'left-sidebar'} overflow={'auto'}>
             <Box paddingTop={1}>
                 <Box paddingBottom={0}>
                     <Box paddingBottom={2}>
@@ -61,6 +63,7 @@ const ListscreenSideBar = (props) => {
                         </Stack>
                     </RadioGroup>
                     <Divider borderColor='gray' />
+                    {(auth.loggedIn)?(<>
                     <Box paddingBottom={2}>
                         <Text className={'title-font'}>Access:</Text>
                     </Box>
@@ -80,6 +83,7 @@ const ListscreenSideBar = (props) => {
                             </Radio>
                         </Stack>
                     </RadioGroup>
+                    </>):<></>}
                     <Divider borderColor='gray' />
                     <Button maxW='100%' w='100%' colorScheme='purple' rounded='none'>Update Filter</Button>
                 </Box>
