@@ -303,10 +303,18 @@ const GlobalStoreContextProvider = (props) => {
     store.updateTileMapCommunity = async function (id, payload) {
         const response = await api.updateTileMapCommunity(id, payload)
         if (response.status === 200) {
+            const result = response.data.result
+            const list = store.tileMapList
+            const update = list.find(x => x._id == result._id)
+            if(update){update.community = result.community}
+
+            const yourlist = store.yourList
+            const update2 = yourlist.find(x => x._id == result._id)
+            if(update2){update2.community = result.community}
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
                 payload: {
-                    currentItem: response.data.result
+                    currentItem: result
                 }
             })
             console.log(response.data.result)
@@ -318,10 +326,18 @@ const GlobalStoreContextProvider = (props) => {
     store.updateTileSetCommunity = async function (id, payload) {
         const response = await api.updateTileSetCommunity(id, payload)
         if (response.status === 200) {
+            const result = response.data.result
+            const list = store.tileSetList
+            const update = list.find(x => x._id == result._id)
+            if(update){update.community = result.community}
+
+            const yourlist = store.yourList
+            const update2 = yourlist.find(x => x._id == result._id)
+            if(update2){update2.community = result.community}
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
                 payload: {
-                    currentItem: response.data.result
+                    currentItem: result
                 }
             })
         } else {

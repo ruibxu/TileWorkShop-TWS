@@ -46,7 +46,6 @@ function ItemCardSmall(props) {
     const community = data.community
     const user_id = (auth.loggedIn) ? auth.user._id : 'not logged in'
     const owner_id = (data.access) ? data.access.owner_id : 'no owner'
-    const isOwner = (user_id == owner_id)
 
     const liked = (community)?community.liked_Users.includes(user_id):false
     const disliked = (community)?community.disliked_Users.includes(user_id):false
