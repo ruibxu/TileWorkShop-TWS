@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
-import { HiThumbsUp, HiThumbsDown } from 'react-icons/hi'
+import { HiThumbUp, HiThumbDown } from 'react-icons/hi'
 import { AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
@@ -29,11 +29,12 @@ function ItemCardBig(props) {
     const owner_id = (data.access) ? data.access.owner_id : 'no owner'
     const isOwner = (user_id == owner_id)
 
-    const data_community = data.community
-    console.log(data_community)
-    const liked = (data_community)?data_community.liked_Users.includes(user_id):false
-    const disliked = (data_community)?data_community.disliked_Users.includes(user_id):false
-    const favorited = (data_community)?data_community.favorited_Users.includes(user_id):false
+    const community = (store.currentItem)?store.currentItem.community:null
+    //console.log(community.liked_Users)
+    //console.log(user_id)
+    const liked = (community)?community.liked_Users.includes(user_id):false
+    const disliked = (community)?community.disliked_Users.includes(user_id):false
+    const favorited = (community)?community.favorited_Users.includes(user_id):false
 
     const isPublic = (data.access) ? data.access.public : true
     const handleComment = () => {
@@ -91,9 +92,9 @@ function ItemCardBig(props) {
                                 <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)} 
                                 icon={(favorited)?<AiFillHeart className='md-icon' />:<AiOutlineHeart className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)} 
-                                icon={<FiThumbsUp className='md-icon' />} ></IconButton>
+                                icon={(liked)?<HiThumbUp className='md-icon' />:<FiThumbsUp className='md-icon' />} ></IconButton>
                                 <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)} 
-                                icon={<FiThumbsDown className='md-icon' />} ></IconButton>
+                                icon={(disliked)?<HiThumbDown className='md-icon' />:<FiThumbsDown className='md-icon' />} ></IconButton>
                             </Flex>
                         </Flex>
 
