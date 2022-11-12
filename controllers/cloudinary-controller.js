@@ -1,7 +1,7 @@
 const { cloudinary } = require('../cloudinary');
 
 //#----------------------------------------------TileMap's tileset images
-getTileMapImage = async (req, res) => {
+const getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
     const { resources } = await cloudinary.search.expression(search).execute();
@@ -16,7 +16,7 @@ getTileMapImage = async (req, res) => {
     })
 }
 
-updateTileMapImage = async (req, res) => {
+const updateTileMapImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const filename = req.params.id;
@@ -35,7 +35,7 @@ updateTileMapImage = async (req, res) => {
     }
 }
 
-deleteTileMapImage = async (req, res) => {
+const deleteTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileMap_Uses/${public_id}`;
     const resources = await cloudinary.uploader.destroy(search);
@@ -49,7 +49,7 @@ deleteTileMapImage = async (req, res) => {
     })
 }
 //#--------------------------------------------------------------Tilemap thumbnails
-getTileMapThumbnail = async (req, res) => {
+const getTileMapThumbnail = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Thumbnail/${public_id}`;
     const { resources } = await cloudinary.search.expression(search).execute();
@@ -64,7 +64,7 @@ getTileMapThumbnail = async (req, res) => {
     })
 }
 
-updateTileMapThumbnail = async (req, res) => {
+const updateTileMapThumbnail = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const filename = req.params.id;
@@ -83,7 +83,7 @@ updateTileMapThumbnail = async (req, res) => {
     }
 }
 
-deleteTileMapThumbnail = async (req, res) => {
+const deleteTileMapThumbnail = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileMap_Thumbnail/${public_id}`;
     const resources = await cloudinary.uploader.destroy(search);
@@ -97,7 +97,7 @@ deleteTileMapThumbnail = async (req, res) => {
     })
 }
 //#--------------------------------------------------------------Tileset Images
-getTileSetImage = async (req, res) => {
+const getTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileSet_Editor/${public_id}`;
     // console.log(search)
@@ -113,7 +113,7 @@ getTileSetImage = async (req, res) => {
     })
 }
 
-updateTileSetImage = async (req, res) => {
+const updateTileSetImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const filename = req.params.id;
@@ -132,7 +132,7 @@ updateTileSetImage = async (req, res) => {
     }
 }
 
-deleteTileSetImage = async (req, res) => {
+const deleteTileSetImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileSet_Editor/${public_id}`;
     // console.log(search)
