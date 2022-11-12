@@ -6,10 +6,6 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {
-    UPDATE_ACCESS: "UPDATE_ACCESS",
-    UPDATE_TILESET: "UPDATE_TILESET",
-    UPDATE_TILEMAP: "UPDATE_TILEMAP",
-    UPDATE_VISIBILITY: "UPDATE_VISIBILITY",
     VIEW_HOMEPAGE: "VIEW_HOMEPAGE",
     VIEW_MYPAGE: "VIEW_MYPAGE",
     VIEW_LISTVIEW: "VIEW_LISTVIEW",
@@ -24,9 +20,8 @@ export const GlobalStoreActionType = {
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
-    CREATE_COMMENT: "CREATE_COMMENT",
-    GET_COMMENTS_BY_LINK: "GET_COMMENTS_BY_LINK",
-    UPDATE_COMMENT: "UPDATE_COMMENT"
+    UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY"
+
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -47,26 +42,6 @@ const GlobalStoreContextProvider = (props) => {
     const storeReducer = (action) => {
         const { type, payload } = action;
         switch (type) {
-            case GlobalStoreActionType.UPDATE_ACCESS: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.UPDATE_TILESET: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.UPDATE_TILEMAP: {
-                return setStore({
-
-                })
-            }
-            case GlobalStoreActionType.UPDATE_VISIBILITY: {
-                return setStore({
-
-                })
-            }
             case GlobalStoreActionType.VIEW_HOMEPAGE: {
                 return setStore({
                     tileSetList: payload.tileSetList,
@@ -178,8 +153,17 @@ const GlobalStoreContextProvider = (props) => {
                     markItemforDeletion: false
                 })
             }
-            default:
-                return store;
+            case GlobalStoreActionType.UPDATE_ITEM_COMMUNITY: {
+                return setStore({
+                    tileSetList: store.tileSetList,
+                    tileMapList: store.tileMapList,
+                    yourList: store.yourList,
+                    currentItem: payload.currentItem,
+                    tilesetEditActive: false,
+                    tileMapEditActive: false,
+                    markItemforDeletion: false
+                })
+            }
         }
     }
     store.createNewTilemap = async function (tmd) {
@@ -265,7 +249,7 @@ const GlobalStoreContextProvider = (props) => {
         if (response.status === 200) {
             const results = response.data.results
             const users = response.data.users
-            results.map(x => {x.owner = users.find(y => y._id == x.access.owner_id)})
+            results.map(x => { x.owner = users.find(y => y._id == x.access.owner_id) })
             console.log(results)
             storeReducer({
                 type: GlobalStoreActionType.VIEW_LISTVIEW,
@@ -281,40 +265,68 @@ const GlobalStoreContextProvider = (props) => {
 
     }
 
-    store.getTileMapById = async function (id){
+    store.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
-        if(response.status === 200){
+        if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.GET_TILEMAP_BY_ID,
-                payload:{
+                payload: {
                     currentItem: response.data.result
                 }
             })
-        }else{
+        } else {
             console.log(response.data.errorMessage)
         }
     }
 
-    store.getTilesetById = async function (id){
-        const response = await api.getTilesetById(id);
-        if(response.status === 200){
+    store.getTilesetById = async function (id) {
+        const response = await api.getTileSetById(id);
+        if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.GET_TILESET_BY_ID,
-                payload:{
+                payload: {
                     currentItem: response.data.result
                 }
             })
-        }else{
+        } else {
             console.log(response.data.errorMessage)
         }
-    }  
-    store.setCurrentItem = async function (obj){
+    }
+    store.setCurrentItem = async function (obj) {
         storeReducer({
             type: GlobalStoreActionType.SET_CURRENT_ITEM,
-            payload:{
+            payload: {
                 currentItem: obj
             }
         })
+    }
+    store.updateTileMapCommunity = async function (id, payload) {
+        const response = await api.updateTileMapCommunity(id, payload)
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
+                payload: {
+                    currentItem: response.data.result
+                }
+            })
+            console.log(response.data.result)
+        } else {
+            console.log(response.data.errorMessage)
+        }
+    }
+
+    store.updateTileSetCommunity = async function (id, payload) {
+        const response = await api.updateTileSetCommunity(id, payload)
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
+                payload: {
+                    currentItem: response.data.result
+                }
+            })
+        } else {
+            console.log(response.data.errorMessage)
+        }
     }
     return (
         <GlobalStoreContext.Provider value={{

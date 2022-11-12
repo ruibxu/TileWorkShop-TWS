@@ -6,7 +6,7 @@ const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const { cloudinary } = require('../cloudinary');
 
-getTileSetById = async (req, res) => {
+const getTileSetById = async (req, res) => {
     // console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
@@ -18,7 +18,7 @@ getTileSetById = async (req, res) => {
     return res.status(200).json({ success: true, result: tileset[0] }); //same here
 }
 
-createTileSet = async (req, res) => {
+const createTileSet = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({
             errorMessage: 'Improperly formatted request',
@@ -59,7 +59,7 @@ createTileSet = async (req, res) => {
         });
 }
 
-deleteTileSet = async (req, res) => {
+const deleteTileSet = async (req, res) => {
     // console.log("deleting TileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileset) => {
@@ -94,7 +94,7 @@ deleteTileSet = async (req, res) => {
     });
 }
 
-updateTileSet = async (req, res) => {
+const updateTileSet = async (req, res) => {
     // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileSet) => {
@@ -141,7 +141,7 @@ updateTileSet = async (req, res) => {
     });
 }
 
-updateTileSetAccess = async (req, res) => {
+const updateTileSetAccess = async (req, res) => {
     // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     if(!req.body){
@@ -194,7 +194,7 @@ updateTileSetAccess = async (req, res) => {
     });
 }
 
-updateTileSetCommunity = async (req, res) => {
+const updateTileSetCommunity = async (req, res) => {
     // console.log("updating tileSet: " + req.params.id);
     const objectId = req.params.id;
     TileSet.findById({ _id: objectId }, (err, tileSet) => {
@@ -216,6 +216,7 @@ updateTileSetCommunity = async (req, res) => {
                         return res.status(200).json({
                             success: true,
                             id: item._id,
+                            result: item,
                             message: 'TileSet Community updated!',
                         })
                     })

@@ -26,9 +26,12 @@ export const searchProjects2 = (type, payload) => api.put(`api/search/${type}`, 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
 export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
-export const updateTileMap = (id) => api.put(`api/tilemap/${id}`)
-export const updateTileMapAccess = (id) => api.put(`api/tilemap/access/${id}`)
-export const updateTileMapCommunity = (id) => api.put(`api/tilemap/community/${id}`)
+export const updateTileMap = (id, payload) => api.put(`api/tilemap/${id}`, payload)
+export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
+export const updateTileMapImage = (id, payload) => api.put(`api/tilemap/image/${id}`, payload)
+export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
+export const updateTileMapAccess = (id, payload) => api.put(`api/tilemap/access/${id}`, payload)
+export const updateTileMapCommunity = (id, payload) => api.put(`api/tilemap/community/${id}`, payload)
 export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
 export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
@@ -38,7 +41,8 @@ export const getTileMapThumbnail = (id) => api.get(`api/tilemap/thumbnail/${id}`
 export const updateTileMapThumbnail = (id) => api.put(`api/tilemap/thumbnail/${id}`)
 export const deleteTileMapThumbnail = (id) => api.delete(`api/tilemap/thumbnail/${id}`)
 
-export const getTileSetById = (id) => api.post(`api/tileset/${id}`)
+
+export const getTileSetById = (id) => api.get(`api/tileset/${id}`)
 export const createTileSet = (payload) => api.post(`api/tileset`, payload)
 export const deleteTileSet = (id) => api.delete(`api/tileset/${id}`)
 export const updateTileSet = (id, payload) => api.put(`api/tileset/${id}`, payload)
@@ -108,8 +112,14 @@ const apis = {
     updateComment,
     deleteComment,
     updateCommentCommunity,
-
-    sendConfirmEmail,
-    sendPasswordResetEmail
+    getTileSetById,
+    createTileSet,
+    deleteTileSet,
+    updateTileSet,
+    getTileSetImage,
+    updateTileSetImage,
+    deleteTileSetImage,
+    updateTileSetAccess,
+    updateTileSetCommunity
 }
 export default apis
