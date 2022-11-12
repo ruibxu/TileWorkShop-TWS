@@ -4,11 +4,11 @@ import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import GlobalCommentStoreContext from '../../store/CommentStore';
 import GlobalStoreContext from '../../store/ProjectStore';
-
+import AuthContext from '../../auth';
 import image6 from '../../04_Qiqi_02newyear_receive.png'
 function ItemCardSmall(props) {
     const {store} = useContext(GlobalStoreContext);
-    // const {auth} = useContext(AuthContext);
+    const {auth} = useContext(AuthContext);
     // limited sizes 375, 445.219
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, size } = props
@@ -47,9 +47,9 @@ function ItemCardSmall(props) {
                 </Box>
                 <Spacer />
                 <Flex gap={2} alignItems={'center'} width='140px'>
-                    <IconButton bg='transparent' icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
-                    <IconButton bg='transparent' icon={<FiThumbsUp className='md-icon' />} ></IconButton>
-                    <IconButton bg='transparent' icon={<FiThumbsDown className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<AiOutlineHeart className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<FiThumbsUp className='md-icon' />} ></IconButton>
+                    <IconButton bg='transparent' disabled={!auth.loggedIn} icon={<FiThumbsDown className='md-icon' />} ></IconButton>
                 </Flex>
             </Flex>
         </Box>

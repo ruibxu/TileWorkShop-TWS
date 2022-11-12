@@ -6,7 +6,7 @@ const User = require('../models/user-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Access = require('../models/access-model')
 const { cloudinary } = require('../cloudinary');
-getTileMapById = async (req, res) => {
+const getTileMapById = async (req, res) => {
     // console.log("Find Tilemap with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
@@ -18,7 +18,7 @@ getTileMapById = async (req, res) => {
     return res.status(200).json({ success: true, result: tilemap[0] }); //changed this to return the first tilemap 
 }
 
-createTileMap = async (req, res) => {
+const createTileMap = async (req, res) => {
     if (!req.body) {
         return res.status(400).json({
             errorMessage: 'Improperly formatted request',
@@ -54,7 +54,7 @@ createTileMap = async (req, res) => {
     });
 }
 
-deleteTileMap = async (req, res) => {
+const deleteTileMap = async (req, res) => {
     // console.log("deleting TileMap: " + req.params.id);
     const objectId = req.params.id;
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
@@ -87,7 +87,7 @@ deleteTileMap = async (req, res) => {
     });
 }
 
-updateTileMap = async (req, res) => {
+const updateTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
@@ -136,7 +136,7 @@ updateTileMap = async (req, res) => {
     });
 }
 
-updateTileMapAccess = async (req, res) => {
+const updateTileMapAccess = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     if(!req.body){
@@ -187,7 +187,7 @@ updateTileMapAccess = async (req, res) => {
     });
 }
 
-updateTileMapCommunity = async (req, res) => {
+const updateTileMapCommunity = async (req, res) => {
     // console.log("updating TileMap: " + req.params.id);
     const objectId = req.params.id;
     TileMap.findById({ _id: objectId }, (err, tileMap) => {
@@ -209,7 +209,7 @@ updateTileMapCommunity = async (req, res) => {
                         return res.status(200).json({
                             success: true,
                             id: item._id,
-                            tilemap: item,
+                            result: item,
                             message: 'TileMap Community updated!',
                         })
                     })
@@ -225,7 +225,7 @@ updateTileMapCommunity = async (req, res) => {
     });
 }
 
-addTileSetToTileMap = async (req, res) => {
+const addTileSetToTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     const tileset = req.body.tileset;
@@ -271,7 +271,7 @@ addTileSetToTileMap = async (req, res) => {
     });
 }
 
-deleteTileSetfromTileMap = async (req, res) => {
+const deleteTileSetfromTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     const delete_id = req.body.tileset_id;
@@ -317,7 +317,7 @@ deleteTileSetfromTileMap = async (req, res) => {
     });
 }
 
-getTileMapImage = async (req, res) => {
+const getTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `public_id:TileMap_Uses/${public_id}`;
     const { resources } = await cloudinary.search.expression(search).execute();
@@ -332,7 +332,7 @@ getTileMapImage = async (req, res) => {
     })
 }
 
-updateTileMapImage = async (req, res) => {
+const updateTileMapImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const filename = req.params.id;
@@ -351,7 +351,7 @@ updateTileMapImage = async (req, res) => {
     }
 }
 
-deleteTileMapImage = async (req, res) => {
+const deleteTileMapImage = async (req, res) => {
     const public_id = req.params.id;
     const search = `TileMap_Uses/${public_id}`;
     const resources = await cloudinary.uploader.destroy(search);
