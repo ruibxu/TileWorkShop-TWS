@@ -1,12 +1,15 @@
 const tileset = require('./Tileset.json')
 const Tileset = require('../models/tileset-model')
+const {
+    getTileSetImage,
+    updateTileSetImage,
+    deleteTileSetImage,
+} = require('../controllers/cloudinary-controller')
 const {     getTileSetById,
    createTileSet,
    deleteTileSet,
    updateTileSet,
-   getTileSetImage,
-   updateTileSetImage,
-   deleteTileSetImage,
+
    updateTileSetAccess,
    updateTileSetCommunity } = require('../controllers/tileset-controller');
 const auth = require('../auth/authManager')
