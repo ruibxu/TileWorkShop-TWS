@@ -1,31 +1,33 @@
 const tilemap = require('./Tilemap.json')
 const Tilemap = require('../models/tilemap-model')
+const { getTileMapImage,
+    updateTileMapImage,
+    deleteTileMapImage } = require('../controllers/cloudinary-controller')
 const { getTileMapById,
-        createTileMap,
-        deleteTileMap,
-        updateTileMap,
-        getTileMapImage,
-        updateTileMapImage,
-        deleteTileMapImage,
-        updateTileMapAccess,
-        updateTileMapCommunity,
-        addTileSetToTileMap,
-        deleteTileSetfromTileMap } = require('../controllers/tilemap-controller');
+    createTileMap,
+    deleteTileMap,
+    updateTileMap,
+    updateTileMapAccess,
+    updateTileMapCommunity,
+    addTileSetToTileMap,
+    deleteTileSetfromTileMap } = require('../controllers/tilemap-controller');
 const auth = require('../auth/authManager')
 const signToken = require('../auth/authManager')
 const httpMock = require('node-mocks-http');
 
-var request = httpMock.createRequest({ method: "POST", url: "http://localhost:3000/", body: {
-    "user_id": "6355d16eb6390d46b4019880",
-    "data":{
-        "name": "Super Mario",
-        "height": "64",
-        "width": "64",
-        "layers": [],
-        "tileset": []
+var request = httpMock.createRequest({
+    method: "POST", url: "http://localhost:3000/", body: {
+        "user_id": "6355d16eb6390d46b4019880",
+        "data": {
+            "name": "Super Mario",
+            "height": "64",
+            "width": "64",
+            "layers": [],
+            "tileset": []
+        }
     }
-}})
-var response = httpMock.createResponse({locals:{success:true}})
+})
+var response = httpMock.createResponse({ locals: { success: true } })
 
 describe("Testing Tilemap", () => {
     it.only("should create a tilemap", async () => {
@@ -91,7 +93,7 @@ describe("Testing Tilemap", () => {
         const res = await updateTileMapCommunity(request, response)
         expect(res).toBe(res);
     })
-    
+
     it.only("should add TileSet To TileMap", async () => {
         Tilemap.findById = jest.fn().mockReturnValueOnce(null)
         Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
@@ -99,7 +101,7 @@ describe("Testing Tilemap", () => {
         const res = await addTileSetToTileMap(request, response)
         expect(res).toBe(res);
     })
-    
+
     it.only("should  delete TileSet from TileMap", async () => {
         Tilemap.findById = jest.fn().mockReturnValueOnce(null)
         Tilemap.prototype.save = jest.fn().mockImplementation(() => { })
