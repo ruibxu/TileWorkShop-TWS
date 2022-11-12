@@ -42,7 +42,7 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
-        result = response.data.result
+        const result = response.data.result
         result.community = null
         if (response.status === 200) {
             storeReducer({
@@ -59,7 +59,7 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.getTilesetById = async function (id) {
         const response = await api.getTileSetById(id);
-        result = response.data.result
+        const result = response.data.result
         result.community = null
         if (response.status === 200) {
             storeReducer({

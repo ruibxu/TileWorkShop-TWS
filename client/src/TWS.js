@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { AuthContextProvider } from './auth';
 import { GlobalStoreContextProvider } from './store/ProjectStore'
 import { GlobalCommentStoreContextProvider } from './store/CommentStore';
+import { GlobalEditStoreContextProvider } from './store/EditStore';
 import Homescreen from './components/Homescreen/Homescreen.js';
 import Listscreen from './components/Listscreen/Listscreen.js';
 import EditTileSetScreen from './components/EditTileSetScreen/EditTileSetScreen.js';
@@ -23,8 +24,10 @@ const TWS = () => {
                             <Route path="/" exact component={() => <Homescreen />} />
                             <Route path="/homescreen" exact component={() => <Homescreen />} />
                             <Route path="/listscreen" exact component={() => <Listscreen />} />
-                            <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
-                            <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
+                            <GlobalEditStoreContextProvider>
+                                <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
+                                <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
+                            </GlobalEditStoreContextProvider>
                             <Route path="/forgetpassword/:id" exact component={() => <ForgetPasswordLink />} />
                             <Route path="/verifyaccount/:id" exact component={() => <VerifyAccountLink />} />
                         </Switch>
