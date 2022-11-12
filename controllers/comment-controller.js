@@ -48,6 +48,7 @@ const createComment = async (req, res) => {
         user_id: new ObjectId(body.user_id),
         link_id: new ObjectId(body.link_id),
         alert_user_id: new ObjectId(body.alert_user_id),
+        project_id: new ObjectId(body.project_id),
         content: body.content,
         community: community,
         lastEdited: Date.now(),

@@ -35,6 +35,7 @@ function ItemCardBig(props) {
     const liked = (community)?community.liked_Users.includes(user_id):false
     const disliked = (community)?community.disliked_Users.includes(user_id):false
     const favorited = (community)?community.favorited_Users.includes(user_id):false
+    const project_id = data._id
 
     const isPublic = (data.access) ? data.access.public : true
     const handleComment = () => {
@@ -42,16 +43,17 @@ function ItemCardBig(props) {
         // setNewComment('')
         commentStore.createComment({
             user_id: auth.user._id,
-            link_id: data._id,
+            link_id: project_id,
             alert_user_id: data.access.owner_id,
+            project_id: project_id,
             content: commenting
         })
     }
     useEffect(() => {
         if (data.type == "tilemap") {
-            store.getTileMapById(data._id)
+            store.getTileMapById(project_id)
         } else {
-            store.getTilesetById(data._id)
+            store.getTilesetById(project_id)
         }
     }, [data])
     const handleDeleteComment = (_id) => {
@@ -61,7 +63,7 @@ function ItemCardBig(props) {
     const handleView = () => {
         //store.setCurrentItem(data)
         props.onClose()
-        //props.redirect(`/${data.type}/${data._id}`)
+        //props.redirect(`/${data.type}/${project_id}`)
     }
 
     const handleLike = (event, value) => {
@@ -71,9 +73,9 @@ function ItemCardBig(props) {
         if (value == 1){payload = {new_disliked_user: user_id}}
         if (value == 2){payload = {new_favorite_user: user_id}}
         if (data.type == "tilemap") {
-            store.updateTileMapCommunity(data._id, payload)
+            store.updateTileMapCommunity(project_id, payload)
         } else {
-            store.updateTileSetCommunity(data._id, payload)
+            store.updateTileSetCommunity(project_id, payload)
         }
     }
     const lastEdited = new Date(data.lastEdited)
@@ -136,7 +138,7 @@ function ItemCardBig(props) {
                                 Comment
                             </Button>
                         </Flex>
-                        <CommentList comments={commentStore.currentCommentList} _id={data._id} data={data} handleDeleteComment={handleDeleteComment} />
+                        <CommentList comments={commentStore.currentCommentList} _id={project_id} data={data} handleDeleteComment={handleDeleteComment} project_id={project_id}/>
                     </ModalBody>
                     <ModalFooter>
                         <Flex width={'100%'}>

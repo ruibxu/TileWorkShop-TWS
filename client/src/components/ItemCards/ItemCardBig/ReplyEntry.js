@@ -38,6 +38,7 @@ const ReplyEntry = (props) => {
             user_id:auth.user._id,
             link_id:comment_id,
             alert_user_id:(replyText.includes(`@${info.owner.username}`))?info.owner._id:comment_id,
+            project_id: props.project_id,
             content: replyText
         })
         toggleReply()

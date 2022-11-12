@@ -24,7 +24,7 @@ const CommentList = (props) => {
         <Text fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} fontSize={12}>Comments:</Text>
         {main_comments.map((comment) => (
             <CommentEntry info={comment} replies={replies.filter(x => x.link_id == comment._id)} data={data}
-            handleDeleteComment={props.handleDeleteComment}/>
+            handleDeleteComment={props.handleDeleteComment} project_id={props.project_id}/>
         ))}
     </Box>)
 }

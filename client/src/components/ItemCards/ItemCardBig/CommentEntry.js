@@ -46,6 +46,7 @@ const CommentEntry = (props) => {
             user_id: auth.user._id,
             link_id: comment_id,
             alert_user_id: info.owner._id,
+            project_id: props.project_id,
             content: replyText
         })
         toggleReply()
@@ -139,7 +140,7 @@ const CommentEntry = (props) => {
                 </Button>) :
                 (<></>)}
             {(viewReplies) ?
-                (<ReplyList replies={replies} comment_id={comment_id} handleDeleteComment={props.handleDeleteComment} />) : (<></>)
+                (<ReplyList replies={replies} comment_id={comment_id} handleDeleteComment={props.handleDeleteComment} project_id={props.project_id}/>) : (<></>)
             }
             <Divider />
         </Box>

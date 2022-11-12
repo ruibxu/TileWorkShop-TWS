@@ -10,6 +10,7 @@ const CommentSchema = new Schema(
         user_id: { type: ObjectId, required: true},
         link_id: { type: ObjectId, required: true},
         alert_user_id: { type: ObjectId, required: true},
+        project_id: { type: ObjectId, required: true},
         content: { type: String, required: true},
         community: { type: Community, required: true},
         lastEdited: {type: Date},
