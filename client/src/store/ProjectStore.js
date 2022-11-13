@@ -21,15 +21,15 @@ export const GlobalStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY",
-    UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS"
-
+    UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS",
+    SEARCH: "SEARCH"
 }
 
 const GlobalStoreContextProvider = (props) => {
     const [store, setStore] = useState({
         tileSetList: [],
         tileMapList: [],
-        yourList: [],
+        yourList: null,
         currentItem: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
@@ -182,11 +182,33 @@ const GlobalStoreContextProvider = (props) => {
                     access_type: payload.access_type?payload.access_type:store.access_type,
                 })
             }
+            case GlobalStoreActionType.SEARCH:{
+                return setStore({
+                    ...store,
+                    tileSetList: payload.tileSetList? payload.tileSetList: [],
+                    tileMapList: payload.tileMapList? payload.tileMapList: []
+                })
+            }
             default:
                 return store;
         }
     }
-
+    store.search = async () => {
+        const response = await api.searchProjects2(store.project_type, {
+            searcher_id: (auth.loggedIn)?auth.user._id:'',
+            access: store.access_type,
+            search_type: store.search_by,
+            search_value: store.search_term,
+            sort_type: store.sort_type,
+            sort_order: store.sort_order
+        })
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.SEARCH,
+                yourList: response.data.result
+            })
+        }
+    }
     store.update_sort_options = (pair) => {
         storeReducer({
             type: GlobalStoreActionType.UPDATE_SORT_OPTIONS,
@@ -282,9 +304,8 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.VIEW_LISTVIEW,
                 payload: {
-                    tileMapList: results,
-                    tileSetList: [],
-                    yourList: []
+                    yourList: results,
+
                 }
             })
         } else {
