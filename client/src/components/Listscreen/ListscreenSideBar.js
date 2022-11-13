@@ -9,9 +9,6 @@ const ListscreenSideBar = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext)
     //const [projectType, setProjectType] = useState(PROJECT_TYPE.TILEMAP)
-    const [type, setType] = useState(SORT_TYPE.RECENT)
-    const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
-    const [access, setAccess] = useState((props.default) ? props.default : `${ACCESS_TYPE.VIEWABLE}`)
 
     const handleChangeSortOptions = (type, value) => {
         const pair = {[type]: value}
@@ -27,10 +24,10 @@ const ListscreenSideBar = (props) => {
         <Box w='250px' minW='250px' className={'left-sidebar'} overflow={'auto'}>
             <Box paddingTop={1}>
                 <Box paddingBottom={0}>
-                    {/* <Box paddingBottom={2}>
+                    <Box paddingBottom={2}>
                         <Text className={'title-font'}>Project Type:</Text>
                     </Box>
-                    <RadioGroup onChange={setProjectType} value={projectType} color={'red'} paddingBottom={4} paddingLeft={4}>
+                    <RadioGroup onChange={(value)=>handleChangeSortOptions('project_type', value)} value={store.project_type} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>
                             <Radio value={PROJECT_TYPE.TILEMAP} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>TileMap</Text>
@@ -39,8 +36,8 @@ const ListscreenSideBar = (props) => {
                                 <Text className={'radio-font'}>TileSet</Text>
                             </Radio>
                         </Stack>
-                    </RadioGroup> */}
-                    {/* <Divider borderColor='gray' /> */}
+                    </RadioGroup>
+                    <Divider borderColor='gray' />
                     <Box paddingBottom={2}>
                         <Text className={'title-font'}>Sort by:</Text>
                     </Box>
