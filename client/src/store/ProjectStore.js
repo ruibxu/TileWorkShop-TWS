@@ -217,14 +217,30 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
     store.getWhatsNew = async () =>{
-        const response = await api.getWhatsNew()
+        const id = (auth.loggedIn)?auth.user._id:'guest'
+        const response = await api.getWhatsNew(id)
+        const {comments, projects, users} = response.data
+        projects.map(x => x.owner = users.find(y => y._id == x.access.owner_id))
+        comments.map(x => x.owner = users.find(y => y._id == x.user_id))
+        comments.map(x => x.project = projects.find(y => y._id == x.project_id))
+        const render_info = comments.map(x => ({
+            _id: x._id,
+            print: `${(x.owner)?x.owner.username:'Unnamed'} ${(x.project_id == x.link_id)?'commented':'replied'} \"${x.content}\"`,
+            dateCreated: x.dateCreated,
+            edited: x.edited,
+            project_id: x.project_id,
+            project_type: x.project.type,
+            project_name: x.project.name,
+            user_id: x.user_id
+        }))
         if(response.status === 200){
             storeReducer({
                 type: GlobalStoreActionType.WHATS_NEW,
                 payload:{
-                    whatsList: response.data.comments
+                    whatsList: render_info
                 }
             })
+            console.log(render_info)
         }
     }
     store.search = async () => {

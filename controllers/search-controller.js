@@ -391,11 +391,11 @@ const getWhatsNew = async (req, res) => {
         type: PROJECT_TYPE.TILESET
     }))
     const projects = [...mapped_tm, ...mapped_ts]//returning
-    const comment_owner_ids = comments_list.map(x => x._id)
-    const project_owner_ids = projects.map(x => x._id)
+    const comment_owner_ids = comments_list.map(x => x.user_id)
+    const project_owner_ids = projects.map(x => x.access.owner_id)
     const all_owner_ids = [...comment_owner_ids, ...project_owner_ids]
 
-    const all_users = await User.find({_id:{$in:all_owner_ids}})
+    const all_users = await User.find({ _id: { $in: all_owner_ids } })
     const usernames = all_users.map(x => ({_id: x._id, username: x.username}))//returning
 
     return res.status(200).json({
