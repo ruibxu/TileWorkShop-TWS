@@ -29,7 +29,7 @@ const GlobalEditStoreContextProvider = (props) => {
         switch (type) {
             case GlobalEditStoreActionType.GET_TILEMAP_BY_ID: {
                 return setEditStore({...editStore,
-                    currentId: payload._id,
+                    currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
                     type: PROJECT_TYPE.TILEMAP
@@ -37,7 +37,7 @@ const GlobalEditStoreContextProvider = (props) => {
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
                 return setEditStore({...editStore,
-                    currentId: payload._id,
+                    currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
                     type: PROJECT_TYPE.TILESET
@@ -54,7 +54,7 @@ const GlobalEditStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {
-                    currentId: result.id,
+                    currentId: result._id,
                     currentItem: result
                 }
             })
@@ -71,7 +71,7 @@ const GlobalEditStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
-                    currentId: result.id,
+                    currentId: result._id,
                     currentItem: result
                 }
             })
