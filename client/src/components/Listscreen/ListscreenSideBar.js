@@ -2,14 +2,26 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Flex, Box, Container, Text, Radio, RadioGroup, Stack, Divider, Button} from '@chakra-ui/react';
 import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '../../translator-client/sort-options';
 import AuthContext from '../../auth';
+import GlobalStoreContext from '../../store/ProjectStore';
 
 
 const ListscreenSideBar = (props) => {
     const { auth } = useContext(AuthContext)
+    const { store } = useContext(GlobalStoreContext)
     //const [projectType, setProjectType] = useState(PROJECT_TYPE.TILEMAP)
     const [type, setType] = useState(SORT_TYPE.RECENT)
     const [order, setOrder] = useState(`{SORT_ORDER.DESCENDING}`)
     const [access, setAccess] = useState((props.default) ? props.default : `${ACCESS_TYPE.VIEWABLE}`)
+
+    const handleChangeSortOptions = (type, value) => {
+        const pair = {[type]: value}
+        console.log(pair)
+        store.update_sort_options(pair)
+    }
+
+    useEffect(() => {
+        console.log(store)
+    }, [store])
 
     return (
         <Box w='250px' minW='250px' className={'left-sidebar'} overflow={'auto'}>
@@ -32,7 +44,7 @@ const ListscreenSideBar = (props) => {
                     <Box paddingBottom={2}>
                         <Text className={'title-font'}>Sort by:</Text>
                     </Box>
-                    <RadioGroup onChange={setType} value={type} color={'red'} paddingBottom={4} paddingLeft={4}>
+                    <RadioGroup onChange={(value) => handleChangeSortOptions('sort_type', value)} value={store.sort_type} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>
                             <Radio value={SORT_TYPE.NAME} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Aphlabetical Order</Text>
@@ -52,12 +64,12 @@ const ListscreenSideBar = (props) => {
                     <Box paddingBottom={2}>
                         <Text className={'title-font'}>Sort Order:</Text>
                     </Box>
-                    <RadioGroup onChange={setOrder} value={order} color={'red'} paddingBottom={4} paddingLeft={4}>
+                    <RadioGroup onChange={(value) => handleChangeSortOptions('sort_order', parseInt(value))} value={`${store.sort_order}`} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>
-                            <Radio value={`{SORT_ORDER.ASCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                            <Radio value={`${SORT_ORDER.ASCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Ascending</Text>
                             </Radio>
-                            <Radio value={`{SORT_ORDER.DESCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
+                            <Radio value={`${SORT_ORDER.DESCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Descending</Text>
                             </Radio>
                         </Stack>
@@ -67,7 +79,7 @@ const ListscreenSideBar = (props) => {
                     <Box paddingBottom={2}>
                         <Text className={'title-font'}>Access:</Text>
                     </Box>
-                    <RadioGroup onChange={setAccess} value={access} color={'red'} paddingBottom={4} paddingLeft={4}>
+                    <RadioGroup onChange={(value) => handleChangeSortOptions('access_type', parseInt(value))} value={`${store.access_type}`} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>
                             <Radio value={`${ACCESS_TYPE.OWNER}`} size='lg' colorScheme='blue' borderColor={'purple'}>
                                 <Text className={'radio-font'}>Owned</Text>
