@@ -223,6 +223,9 @@ const GlobalStoreContextProvider = (props) => {
         // console.log(store.sort_type)
         // console.log(store.sort_order)
         // console.log(response.data.results)
+        const results = response.data.results;
+        const users = response.data.users;
+        results.map(x => x.owner = users.find(y => y._id == x.access.owner_id))
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SEARCH,

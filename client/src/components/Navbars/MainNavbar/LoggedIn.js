@@ -62,9 +62,6 @@ const LoggedIn = (props) => {
             <MenuDivider />
             <MenuItem onClick={()=>props.openUpdateAccountModal()}>Update</MenuItem>
             <MenuItem onClick={()=>props.handleLogout()}>Logout</MenuItem>
-            <MenuDivider />
-            <MenuItem onClick={()=>props.redirect('/tileset/test')}>TileSet</MenuItem>
-            <MenuItem onClick={()=>props.redirect('/tilemap/test')}>TileMap</MenuItem>
         </MenuList>
         </Menu>
         </Flex>
