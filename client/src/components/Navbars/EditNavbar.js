@@ -84,9 +84,6 @@ const EditNavbar = (props) => {
                     <MenuDivider />
                     <MenuItem>Update</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    <MenuDivider />
-                    <MenuItem onClick={()=>props.redirect('/tileset')}>TileSet</MenuItem>
-                    <MenuItem onClick={()=>props.redirect('/tilemap')}>TileMap</MenuItem>
                 </MenuList>
                 </Menu>
             </Flex>

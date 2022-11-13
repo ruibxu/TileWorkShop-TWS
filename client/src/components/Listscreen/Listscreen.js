@@ -54,7 +54,7 @@ const Listscreen = (props) => {
     const showCreateModal = useDisclosure();
 
     useEffect(() => {
-        store.viewListView()
+        store.search()
     }, [auth])
 
     const handleOpenBigItemCard = (newData) => {

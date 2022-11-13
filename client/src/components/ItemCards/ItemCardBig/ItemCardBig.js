@@ -4,7 +4,7 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button, Textarea, Text, Icon
 } from '@chakra-ui/react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
-import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
+import { FiThumbsUp, FiThumbsDown, FiEye } from 'react-icons/fi'
 import { HiThumbUp, HiThumbDown } from 'react-icons/hi'
 import { AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
@@ -106,6 +106,8 @@ function ItemCardBig(props) {
                     <ModalCloseButton />
                     <ModalBody overflowY={'scroll'}>
                         <Flex className="item-counter" gap={4} alignItems='center'>
+                            <FiEye bg='transparent' size={'10px'} />
+                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? `${store.currentItem.community.views}` : 0} </Text>
                             <FiThumbsUp bg='transparent' size={'10px'} />
                             <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? `${store.currentItem.community.likes}` : 0} </Text>
                             <FiThumbsDown bg='transparent' size={'10px'} />
