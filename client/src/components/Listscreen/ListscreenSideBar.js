@@ -94,7 +94,9 @@ const ListscreenSideBar = (props) => {
                     </RadioGroup>
                     </>):<></>}
                     <Divider borderColor='gray' />
-                    <Button maxW='100%' w='100%' colorScheme='purple' rounded='none'>Update Filter</Button>
+                    <Button maxW='100%' w='100%' colorScheme='purple' rounded='none'
+                    onClick={()=>{store.search()}}>
+                        Update Filter</Button>
                 </Box>
             </Box>
         </Box>
