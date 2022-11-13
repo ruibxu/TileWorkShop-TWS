@@ -22,7 +22,8 @@ export const GlobalStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY",
     UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS",
-    SEARCH: "SEARCH"
+    SEARCH: "SEARCH",
+    WHATS_NEW: "WHATS_NEW"
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -39,7 +40,8 @@ const GlobalStoreContextProvider = (props) => {
         project_type: PROJECT_TYPE.TILEMAP,
         sort_type: SORT_TYPE.RECENT,
         sort_order: `${SORT_ORDER.DESCENDING}`,
-        access_type: ACCESS_TYPE.VIEWABLE
+        access_type: ACCESS_TYPE.VIEWABLE,
+        whatsList: []
     });
 
     const history = useHistory();
@@ -204,8 +206,25 @@ const GlobalStoreContextProvider = (props) => {
                     yourList: payload.yourList
                 })
             }
+            case GlobalStoreActionType.WHATS_NEW:{
+                return setStroe({
+                    ...store,
+                    whatsList: payload.whatsList
+                })
+            }
             default:
                 return store;
+        }
+    }
+    store.getWhatsNew = async () =>{
+        const response = await api.getWhatsNew()
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalStoreActionType.WHATS_NEW,
+                payload:{
+                    whatsList: response.data.comments
+                }
+            })
         }
     }
     store.search = async () => {
