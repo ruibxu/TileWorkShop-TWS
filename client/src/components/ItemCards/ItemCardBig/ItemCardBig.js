@@ -58,9 +58,9 @@ function ItemCardBig(props) {
             }
         }
     }, [data])
-    useEffect(()=>{
-        handleOnOpen()
-    },[props.isOpen])
+    // useEffect(()=>{
+    //     //handleOnOpen()
+    // },[props.isOpen])
     const handleDeleteComment = (_id) => {
         commentStore.markCommentForDeletion(_id)
         showDeleteComment.onOpen()
@@ -83,13 +83,13 @@ function ItemCardBig(props) {
             store.updateTileSetCommunity(project_id, payload)
         }
     }
-    const handleOnOpen = () => {
-        if (data.type == "tilemap") {
-            store.updateTileMapCommunity(project_id, { views: true })
-        } else {
-            store.updateTileSetCommunity(project_id, { views: true })
-        }
-    }
+    // const handleOnOpen = () => {
+    //     if (data.type == "tilemap") {
+    //         store.updateTileMapCommunity(project_id, { views: true })
+    //     } else {
+    //         store.updateTileSetCommunity(project_id, { views: true })
+    //     }
+    // }
     const lastEdited = new Date(data.lastEdited)
     const year = lastEdited.getFullYear()
     const month = lastEdited.getMonth() + 1
