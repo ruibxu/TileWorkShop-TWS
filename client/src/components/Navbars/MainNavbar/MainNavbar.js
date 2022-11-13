@@ -56,7 +56,7 @@ const MainNavbar = (props) => {
                 <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'65%'} bg='transparent'>
-                <Input placeholder='Search...' className='search-bar' borderColor={'purple'}/>
+                <Input placeholder='Search...' className='search-bar' borderColor={'purple'} onChange = {(event) => {console.log(event.target.value)}}/>
                 <Menu>
                     <MenuButton as={Button} rightIcon={<BiChevronDown />} width="15%" borderColor={'purple'} variant='outline'>
                         {project_type}
