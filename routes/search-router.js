@@ -11,6 +11,7 @@ router.get('/name/:type', SearchController.searchProject)
 router.get('/user', SearchController.searchUsers)
 router.get('/user/:type', SearchController.searchProjectByUsers)
 router.put('/search/:type', SearchController.searchProjects2)
+router.get('/new/:id', SearchController.getWhatsNew)
 
 
 

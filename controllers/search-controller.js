@@ -1,6 +1,7 @@
 const TileMap = require('../models/tilemap-model')
 const TileSet = require('../models/tileset-model')
 const User = require('../models/user-model')
+const Comment = require('../models/comment-model');
 const { SORT_TYPE, SORT_ORDER, PROJECT_TYPE, ACCESS_TYPE, SEARCH_TYPE } = require('../translator/sort-options')
 const ObjectId = require('mongoose').Types.ObjectId;
 /*
@@ -15,7 +16,7 @@ OPTIONAL "body.search_value": whatever they type in the search bar
 OPTIONAL "body.limit": the number of items you want back Defaults to 6
 */
 
-getUsernameByIds = async (req, res) => {
+const getUsernameByIds = async (req, res) => {
     const user_ids = req.body.user_ids //REQUIRED a list of userids to get the names of
     
     if (!user_ids){
@@ -29,7 +30,7 @@ getUsernameByIds = async (req, res) => {
     return res.status(200).json({mappings: mapping})
 }
 
-getViewableProjects = async (req, res) =>{
+const getViewableProjects = async (req, res) =>{
     //optional {searcher_id: provide if logged in}
     const Search = (req.params.type == PROJECT_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id;
@@ -65,7 +66,7 @@ getViewableProjects = async (req, res) =>{
     })
 }
 
-getEditableProjects = async (req, res) =>{
+const getEditableProjects = async (req, res) =>{
     //REQUIRED {searcher_id: need to be logged in}
     const Search = (req.params.type == PROJECT_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id;
@@ -102,7 +103,7 @@ getEditableProjects = async (req, res) =>{
     })
 }
 
-getFavoriteProjects = async (req, res) =>{
+const getFavoriteProjects = async (req, res) =>{
     //required: {searcher_id:}
     const Search = (req.params.type == PROJECT_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
@@ -144,7 +145,7 @@ getFavoriteProjects = async (req, res) =>{
     })
 }
 
-searchProject = async (req, res) =>{
+const searchProject = async (req, res) =>{
     //required: {searcher_id:}
     const Search = (req.params.type == PROJECT_TYPE.TILEMAP)?TileMap:TileSet;
     const userid = req.body.searcher_id
@@ -196,7 +197,7 @@ searchProject = async (req, res) =>{
     })
 }
 
-searchUsers = async(req, res) => {
+const searchUsers = async(req, res) => {
     //REQUIRED req.body.exact: boolean
     const search_value = req.body.search_value?req.body.search_value:''
     const limit = req.body.search_value?req.body.search_value:6
@@ -221,7 +222,7 @@ searchUsers = async(req, res) => {
     })
 }
 
-searchProjectByUsers = async(req, res) => {
+const searchProjectByUsers = async(req, res) => {
     //REQUIRED req.body.id_list list of user_ids
     const id_list = req.body.id_list
     const Search = (req.params.type == PROJECT_TYPE.TILEMAP)?TileMap:TileSet;
@@ -273,7 +274,7 @@ searchProjectByUsers = async(req, res) => {
     })
 }
 //Helper Functions---------------------------------------------------------------------
-createAccessConditions = (searcher_id, access) => {
+const createAccessConditions = (searcher_id, access) => {
     if(!searcher_id){
         return [{['access.public']: true}]
     }
@@ -296,7 +297,7 @@ createAccessConditions = (searcher_id, access) => {
     return conditions
 }
 
-createSearchConditions = async (search_type, search_value) => {
+const createSearchConditions = async (search_type, search_value) => {
     if(!search_value){return []}//becomes getAllAccessables
     if(search_type == SEARCH_TYPE.NAME){return [{name:{ "$regex": search_value, "$options": "i" }}]}
     //search by creater
@@ -306,7 +307,7 @@ createSearchConditions = async (search_type, search_value) => {
     return [{['access.owner_id']:{ $in: id_list}}]
 }
 
-createSortConditions = (sort_type, sort_order) =>{
+const createSortConditions = (sort_type, sort_order) =>{
     return [[`${sort_type}`, sort_order], ["_id", -1]]
 }
 
@@ -316,7 +317,7 @@ createSortConditions = (sort_type, sort_order) =>{
 
 
 //This is made to be the universal search function
-searchProjects2 = async (req, res) => {
+const searchProjects2 = async (req, res) => {
     if(!req.params.type){
         return res
             .status(400)
@@ -361,7 +362,48 @@ searchProjects2 = async (req, res) => {
         results: mapped,
         users: usernames
     })
+}
 
+const getWhatsNew = async (req, res) => {
+    const searcher_id = req.params.id
+    const find_conditions_alert = (searcher_id == guest)?{}:{alert_user_id:searcher_id}
+    //const find_conditions = (searcher_id == guest)?{}:{['access.owner_id']: searcher_id}
+    const comments_list = await Comment.find(find_conditions_alert).sort([['dateCreated', SORT_ORDER.ASCENDING], ["_id", -1]]).limit(10)//returning
+    const project_ids = comments_list.map(x => x.project_id)
+
+    const tilemaps = await TileMap.find({_id: {$in:project_ids}})
+    const tilesets = await TileSet.find({_id: {$in:project_ids}})
+
+    const mapped_tm = tilemaps.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited,
+        type: PROJECT_TYPE.TILEMAP
+    }))
+    const mapped_ts = tilesets.map(x => ({
+        _id: x._id,
+        name: x.name,
+        access: x.access,
+        community: x.community,
+        lastEdited: x.lastEdited,
+        type: PROJECT_TYPE.TILESET
+    }))
+    const projects = [...mapped_tm, ...mapped_ts]//returning
+    const comment_owner_ids = comments_list.map(x => x._id)
+    const project_owner_ids = projects.map(x => x._id)
+    const all_owner_ids = [...comment_owner_ids, ...project_owner_ids]
+
+    const all_users = await User.find({_id:{$in:all_owner_ids}})
+    const usernames = all_users.map(x => ({_id: x._id, username: x.username}))//returning
+
+    return res.status(200).json({
+        success: true,
+        comments: comments_list,
+        projects: projects,
+        users: usernames
+    })
 }
 
 module.exports = {
@@ -372,7 +414,8 @@ module.exports = {
     searchProject,
     searchUsers,
     searchProjectByUsers,
-    searchProjects2
+    searchProjects2,
+    getWhatsNew
 }
 
 
