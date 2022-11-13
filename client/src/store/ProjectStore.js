@@ -58,6 +58,7 @@ const GlobalStoreContextProvider = (props) => {
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
+                    whatsList: payload.whatsList,
                     currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -332,6 +333,22 @@ const GlobalStoreContextProvider = (props) => {
                 if (response3.status !== 200) {
                     console.log(response3.data.errorMessage)
                 } else {
+                    const id = (auth.loggedIn)?auth.user._id:'guest'
+                    const response = await api.getWhatsNew(id)
+                    const {comments, projects, users} = response.data
+                    projects.map(x => x.owner = users.find(y => y._id == x.access.owner_id))
+                    comments.map(x => x.owner = users.find(y => y._id == x.user_id))
+                    comments.map(x => x.project = projects.find(y => y._id == x.project_id))
+                    const render_info = comments.map(x => ({
+                        _id: x._id,
+                        print: `${(x.owner)?x.owner.username:'Unnamed'} ${(x.project_id == x.link_id)?'commented':'replied'} \"${x.content}\"`,
+                        dateCreated: x.dateCreated,
+                        edited: x.edited,
+                        project_id: x.project_id,
+                        project_type: x.project.type,
+                        project_name: x.project.name,
+                        user_id: x.user_id
+                    }))
                     response1.data.results.map(x => x.owner = response1.data.users.find(y => y._id == x.access.owner_id))
                     response2.data.results.map(x => x.owner = response2.data.users.find(y => y._id == x.access.owner_id))
                     response3.data.results.map(x => x.owner = response3.data.users.find(y => y._id == x.access.owner_id))
@@ -341,7 +358,8 @@ const GlobalStoreContextProvider = (props) => {
                         payload: {
                             tileSetList: response1.data.results,
                             tileMapList: response2.data.results,
-                            yourList: response3.data.results
+                            yourList: response3.data.results,
+                            whatsList: render_info
                         }
                     })
                 }
