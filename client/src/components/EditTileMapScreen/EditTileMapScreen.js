@@ -7,6 +7,7 @@ import MapWorkspace from './MapWorkspace';
 import { Box, Flex } from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
+import AuthContext from '../../auth';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import MapLayer from './MapLayer';
@@ -14,12 +15,14 @@ import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
 const EditTileMapScreen = (props) => {
+    const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
     const { editStore } = useContext(GlobalEditStoreContext);
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
+    if(!auth.loggedIn){redirect('/homescreen')}
     let { id } = useParams();
     useEffect(()=>{
         editStore.getTileMapById(id)

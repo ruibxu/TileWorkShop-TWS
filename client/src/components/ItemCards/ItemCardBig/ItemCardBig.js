@@ -144,7 +144,7 @@ function ItemCardBig(props) {
                     </ModalBody>
                     <ModalFooter>
                         <Flex width={'100%'}>
-                            <Button colorScheme='yellow' mr={3} onClick={handleView}>
+                            <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
                             </Button>
                             <Spacer />
