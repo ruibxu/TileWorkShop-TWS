@@ -64,10 +64,10 @@ const ListscreenSideBar = (props) => {
                     <RadioGroup onChange={(value) => handleChangeSortOptions('sort_order', parseInt(value))} value={`${store.sort_order}`} color={'red'} paddingBottom={4} paddingLeft={4}>
                         <Stack direction='column' gap={1}>
                             <Radio value={`${SORT_ORDER.ASCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
-                                <Text className={'radio-font'}>Ascending</Text>
+                                <Text className={'radio-font'}>Descending</Text>
                             </Radio>
                             <Radio value={`${SORT_ORDER.DESCENDING}`} size='lg' colorScheme='blue' borderColor={'purple'}>
-                                <Text className={'radio-font'}>Descending</Text>
+                                <Text className={'radio-font'}>Ascending</Text>
                             </Radio>
                         </Stack>
                     </RadioGroup>
