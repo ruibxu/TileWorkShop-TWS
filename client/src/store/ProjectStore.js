@@ -20,7 +20,8 @@ export const GlobalStoreActionType = {
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
-    UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY"
+    UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY",
+    UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS"
 
 }
 
@@ -32,8 +33,15 @@ const GlobalStoreContextProvider = (props) => {
         currentItem: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
-        markItemforDeletion: false
+        markItemforDeletion: false,
+        search_term: '',
+        search_by: SEARCH_TYPE.NAME,
+        project_type: PROJECT_TYPE.TILEMAP,
+        sort_type: SORT_TYPE.RECENT,
+        sort_order: `${SORT_ORDER.DESCENDING}`,
+        access_type: ACCESS_TYPE.VIEWABLE
     });
+
     const history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -164,8 +172,28 @@ const GlobalStoreContextProvider = (props) => {
                     markItemforDeletion: false
                 })
             }
+            case GlobalStoreActionType.UPDATE_SORT_OPTIONS: {
+                return setStore({...store,
+                    search_term: payload.search_term?payload.search_term:store.search_term,
+                    search_by: payload.search_by?payload.search_by:store.search_by,
+                    project_type: payload.project_type?payload.project_type:store.project_type,
+                    sort_type: payload.sort_type?payload.sort_type:store.sort_type,
+                    sort_order: payload.sort_order?payload.sort_order:store.sort_order,
+                    access_type: payload.access_type?payload.access_type:store.access_type,
+                })
+            }
+            default:
+                return store;
         }
     }
+
+    store.update_sort_options = (pair) => {
+        storeReducer({
+            type: GlobalStoreActionType.UPDATE_SORT_OPTIONS,
+            payload: pair
+        })
+    }
+
     store.createNewTilemap = async function (tmd) {
         const response = await api.createTileMap(tmd);
         if (response.status === 200) {

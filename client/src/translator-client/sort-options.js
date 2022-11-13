@@ -17,10 +17,10 @@ export const PROJECT_TYPE = {
 }
 
 export const ACCESS_TYPE = {
-    VIEWABLE: 1,
-    EDITABLE: 2,
-    OWNER: 3,
-    FAVORITE: 0
+    VIEWABLE: 2,
+    EDITABLE: 3,
+    OWNER: 4,
+    FAVORITE: 1
 }
 
 export const SEARCH_TYPE = {
