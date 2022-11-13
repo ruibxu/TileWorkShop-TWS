@@ -77,7 +77,7 @@ const MainNavbar = (props) => {
                 </Menu>
                 <Flex>
                     <IconButton bg='transparent' className='search-bar' icon={<MdSearch className='md-icon'
-                    onClick={()=>props.redirect('/listscreen', {changePassword: true})}/>}/>
+                    onClick={()=>{props.redirect('/listscreen', {changePassword: true}); store.search()} }/>}/>
                 </Flex>
             </Flex>
             {props.loggedin?

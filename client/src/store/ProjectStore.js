@@ -29,7 +29,7 @@ const GlobalStoreContextProvider = (props) => {
     const [store, setStore] = useState({
         tileSetList: [],
         tileMapList: [],
-        yourList: null,
+        yourList: [],
         currentItem: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
@@ -51,7 +51,8 @@ const GlobalStoreContextProvider = (props) => {
         const { type, payload } = action;
         switch (type) {
             case GlobalStoreActionType.VIEW_HOMEPAGE: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
@@ -62,11 +63,13 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.VIEW_MYPAGE: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                 })
             }
             case GlobalStoreActionType.VIEW_LISTVIEW: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: payload.tileSetList,
                     tileMapList: payload.tileMapList,
                     yourList: payload.yourList,
@@ -77,27 +80,32 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILESET: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILEMAP: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.MARK_ITEM_FOR_DELETION: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.UNMARK_ITEM_FOR_DELTEION: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.CREATE_NEW_TILESET: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
@@ -108,7 +116,8 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.CREATE_NEW_TILEMAP: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: [],
                     tileMapList: [],
                     yourList: [],
@@ -119,12 +128,14 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.CLOSE_CURRENT_ITEM: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.SET_CURRENT_ITEM: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
@@ -135,12 +146,14 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.CHANGE_ITEM_NAME: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
 
                 })
             }
             case GlobalStoreActionType.GET_TILEMAP_BY_ID: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
@@ -151,7 +164,8 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.GET_TILESET_BY_ID: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
@@ -162,7 +176,8 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.UPDATE_ITEM_COMMUNITY: {
-                return setStore({...store,
+                return setStore({
+                    ...store,
                     tileSetList: store.tileSetList,
                     tileMapList: store.tileMapList,
                     yourList: store.yourList,
@@ -173,20 +188,20 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.UPDATE_SORT_OPTIONS: {
-                return setStore({...store,
-                    search_term: payload.search_term?payload.search_term:store.search_term,
-                    search_by: payload.search_by?payload.search_by:store.search_by,
-                    project_type: payload.project_type?payload.project_type:store.project_type,
-                    sort_type: payload.sort_type?payload.sort_type:store.sort_type,
-                    sort_order: payload.sort_order?payload.sort_order:store.sort_order,
-                    access_type: payload.access_type?payload.access_type:store.access_type,
-                })
-            }
-            case GlobalStoreActionType.SEARCH:{
                 return setStore({
                     ...store,
-                    tileSetList: payload.tileSetList? payload.tileSetList: [],
-                    tileMapList: payload.tileMapList? payload.tileMapList: []
+                    search_term: payload.search_term ? payload.search_term : store.search_term,
+                    search_by: payload.search_by ? payload.search_by : store.search_by,
+                    project_type: payload.project_type ? payload.project_type : store.project_type,
+                    sort_type: payload.sort_type ? payload.sort_type : store.sort_type,
+                    sort_order: payload.sort_order ? payload.sort_order : store.sort_order,
+                    access_type: payload.access_type ? payload.access_type : store.access_type,
+                })
+            }
+            case GlobalStoreActionType.SEARCH: {
+                return setStore({
+                    ...store,
+                    yourList: payload.yourList
                 })
             }
             default:
@@ -195,17 +210,25 @@ const GlobalStoreContextProvider = (props) => {
     }
     store.search = async () => {
         const response = await api.searchProjects2(store.project_type, {
-            searcher_id: (auth.loggedIn)?auth.user._id:'',
+            searcher_id: (auth.loggedIn) ? auth.user._id : '',
             access: store.access_type,
             search_type: store.search_by,
             search_value: store.search_term,
             sort_type: store.sort_type,
             sort_order: store.sort_order
         })
-        if(response.status === 200){
+        // console.log(store.access_type)
+        // console.log(store.search_by)
+        // console.log(store.search_term)
+        // console.log(store.sort_type)
+        // console.log(store.sort_order)
+        // console.log(response.data.results)
+        if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.SEARCH,
-                yourList: response.data.result
+                payload: {
+                    yourList: response.data.results
+                }
             })
         }
     }
@@ -304,6 +327,8 @@ const GlobalStoreContextProvider = (props) => {
             storeReducer({
                 type: GlobalStoreActionType.VIEW_LISTVIEW,
                 payload: {
+                    tileMapList: [],
+                    tileSetList: [],
                     yourList: results,
 
                 }
@@ -355,11 +380,11 @@ const GlobalStoreContextProvider = (props) => {
             const result = response.data.result
             const list = store.tileMapList
             const update = list.find(x => x._id == result._id)
-            if(update){update.community = result.community}
+            if (update) { update.community = result.community }
 
             const yourlist = store.yourList
             const update2 = yourlist.find(x => x._id == result._id)
-            if(update2){update2.community = result.community}
+            if (update2) { update2.community = result.community }
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
                 payload: {
@@ -378,11 +403,11 @@ const GlobalStoreContextProvider = (props) => {
             const result = response.data.result
             const list = store.tileSetList
             const update = list.find(x => x._id == result._id)
-            if(update){update.community = result.community}
+            if (update) { update.community = result.community }
 
             const yourlist = store.yourList
             const update2 = yourlist.find(x => x._id == result._id)
-            if(update2){update2.community = result.community}
+            if (update2) { update2.community = result.community }
             storeReducer({
                 type: GlobalStoreActionType.UPDATE_ITEM_COMMUNITY,
                 payload: {
