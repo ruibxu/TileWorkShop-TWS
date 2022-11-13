@@ -4,6 +4,8 @@ import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import ListscreenList from './ListscreenList';
 
 const ListscreenMain = (props) => {
+
+    const displayIndex = props.page*6
     
     const handleLeftClick = () => {
         props.setPage(props.page - 1)
@@ -15,16 +17,18 @@ const ListscreenMain = (props) => {
         <Box height={'100%'} flex='1'>
             <Flex height={'100%'}>
                 <Center minW='50px' w='50px'>
-                    <IconButton onClick={handleLeftClick} isDisabled={(props.page === 1) ? true : false} bg='transparent' icon={<MdArrowBackIos className='md-icon' />} paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
+                    <IconButton onClick={handleLeftClick} isDisabled={(props.page === 1) ? true : false} bg='transparent' icon={<MdArrowBackIos className='md-icon' />} 
+                    paddingLeft={4} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
                 </Center>
                 <Box className={'main-list'} flex='1' >
-                    <ListscreenList openItemCard={props.openItemCard} data={props.data} redirect={props.redirect}/>
+                    <ListscreenList openItemCard={props.openItemCard} data={props.data} redirect={props.redirect} displayIndex={displayIndex}/>
                     <Box textAlign={'center'}>
                         <Text fontSize={20} color={'purple'}>{`Page: ${props.page }`}</Text>
                     </Box>
                 </Box>
                 <Center minW='50px' w='50px'>
-                    <IconButton onClick={handleRightClick} bg='transparent' icon={<MdArrowForwardIos className='md-icon' />} minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
+                    <IconButton onClick={handleRightClick} bg='transparent' isDisabled={(props.data[displayIndex])? false:true}icon={<MdArrowForwardIos className='md-icon' />} 
+                    minW={'100%'} minH={'100%'} colorScheme='gray' borderRadius={0} />
                 </Center>
             </Flex>
         </Box>
