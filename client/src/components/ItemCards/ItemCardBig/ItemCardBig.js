@@ -6,7 +6,7 @@ import {
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { HiThumbUp, HiThumbDown } from 'react-icons/hi'
-import { AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { GoComment } from 'react-icons/go'
 import CommentList from "./CommentList";
 import GlobalCommentStoreContext from "../../../store/CommentStore";
@@ -29,12 +29,12 @@ function ItemCardBig(props) {
     const owner_id = (data.access) ? data.access.owner_id : 'no owner'
     const isOwner = (user_id == owner_id)
 
-    const community = (store.currentItem)?store.currentItem.community:null
+    const community = (store.currentItem) ? store.currentItem.community : null
     //console.log(community.liked_Users)
     //console.log(user_id)
-    const liked = (community)?community.liked_Users.includes(user_id):false
-    const disliked = (community)?community.disliked_Users.includes(user_id):false
-    const favorited = (community)?community.favorited_Users.includes(user_id):false
+    const liked = (community) ? community.liked_Users.includes(user_id) : false
+    const disliked = (community) ? community.disliked_Users.includes(user_id) : false
+    const favorited = (community) ? community.favorited_Users.includes(user_id) : false
     const project_id = data._id
 
     const isPublic = (data.access) ? data.access.public : true
@@ -50,7 +50,7 @@ function ItemCardBig(props) {
         })
     }
     useEffect(() => {
-        if(project_id){
+        if (project_id) {
             if (data.type == "tilemap") {
                 store.getTileMapById(project_id)
             } else {
@@ -69,15 +69,22 @@ function ItemCardBig(props) {
     }
 
     const handleLike = (event, value) => {
-        if (!auth.loggedIn){return}
+        if (!auth.loggedIn) { return }
         let payload = null;
-        if (value == 0){payload = {new_liked_user: user_id}}
-        if (value == 1){payload = {new_disliked_user: user_id}}
-        if (value == 2){payload = {new_favorite_user: user_id}}
+        if (value == 0) { payload = { new_liked_user: user_id } }
+        if (value == 1) { payload = { new_disliked_user: user_id } }
+        if (value == 2) { payload = { new_favorite_user: user_id } }
         if (data.type == "tilemap") {
             store.updateTileMapCommunity(project_id, payload)
         } else {
             store.updateTileSetCommunity(project_id, payload)
+        }
+    }
+    const handleOnOpen = () => {
+        if (data.type == "tilemap") {
+            store.updateTileMapCommunity(project_id, { views: true })
+        } else {
+            store.updateTileSetCommunity(project_id, { views: true })
         }
     }
     const lastEdited = new Date(data.lastEdited)
@@ -86,19 +93,19 @@ function ItemCardBig(props) {
     const day = lastEdited.getDate()
     return (
         <div>
-            <Modal isOpen={props.isOpen} onClose={props.onClose}>
+            <Modal isOpen={props.isOpen} onClose={props.onClose} onClick={() => handleOnOpen()}>
                 <ModalOverlay />
                 <ModalContent height="800px" maxWidth="1000px">
                     <ModalHeader>
                         <Flex alignItems='center'>
                             <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={(data.src) ? data.src : image6} />
                             <Flex gap={2} alignItems={'center'}  >
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)} 
-                                icon={(favorited)?<AiFillHeart className='md-icon' />:<AiOutlineHeart className='md-icon' />} ></IconButton>
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)} 
-                                icon={(liked)?<HiThumbUp className='md-icon' />:<FiThumbsUp className='md-icon' />} ></IconButton>
-                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)} 
-                                icon={(disliked)?<HiThumbDown className='md-icon' />:<FiThumbsDown className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)}
+                                    icon={(favorited) ? <AiFillHeart className='md-icon' /> : <AiOutlineHeart className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 0)}
+                                    icon={(liked) ? <HiThumbUp className='md-icon' /> : <FiThumbsUp className='md-icon' />} ></IconButton>
+                                <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 1)}
+                                    icon={(disliked) ? <HiThumbDown className='md-icon' /> : <FiThumbsDown className='md-icon' />} ></IconButton>
                             </Flex>
                         </Flex>
 
@@ -140,7 +147,7 @@ function ItemCardBig(props) {
                                 Comment
                             </Button>
                         </Flex>
-                        <CommentList comments={commentStore.currentCommentList} _id={project_id} data={data} handleDeleteComment={handleDeleteComment} project_id={project_id}/>
+                        <CommentList comments={commentStore.currentCommentList} _id={project_id} data={data} handleDeleteComment={handleDeleteComment} project_id={project_id} />
                     </ModalBody>
                     <ModalFooter>
                         <Flex width={'100%'}>
