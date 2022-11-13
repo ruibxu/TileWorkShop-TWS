@@ -58,6 +58,9 @@ function ItemCardBig(props) {
             }
         }
     }, [data])
+    useEffect(()=>{
+        handleOnOpen()
+    },[props.isOpen])
     const handleDeleteComment = (_id) => {
         commentStore.markCommentForDeletion(_id)
         showDeleteComment.onOpen()
@@ -93,7 +96,7 @@ function ItemCardBig(props) {
     const day = lastEdited.getDate()
     return (
         <div>
-            <Modal isOpen={props.isOpen} onClose={props.onClose} onClick={() => handleOnOpen()}>
+            <Modal isOpen={props.isOpen} onClose={props.onClose} >
                 <ModalOverlay />
                 <ModalContent height="800px" maxWidth="1000px">
                     <ModalHeader>
