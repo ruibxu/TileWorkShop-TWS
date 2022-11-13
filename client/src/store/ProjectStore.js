@@ -207,7 +207,7 @@ const GlobalStoreContextProvider = (props) => {
                 })
             }
             case GlobalStoreActionType.WHATS_NEW:{
-                return setStroe({
+                return setStore({
                     ...store,
                     whatsList: payload.whatsList
                 })
