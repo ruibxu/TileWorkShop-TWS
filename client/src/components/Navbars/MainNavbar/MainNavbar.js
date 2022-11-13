@@ -42,7 +42,7 @@ const MainNavbar = (props) => {
                 <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'65%'} bg='transparent'>
-                <Input placeholder='Search...' className='search-bar' borderColor={'purple'}/>
+                <Input placeholder='Search...' className='search-bar' borderColor={'purple'} onChange = {(event) => {console.log(event.target.value)}}/>
                 <Select width="20%" borderColor={'purple'}>
                     <option value={PROJECT_TYPE.TILESET}>TileSet</option>
                     <option value={PROJECT_TYPE.TILEMAP}>TileMap</option>
