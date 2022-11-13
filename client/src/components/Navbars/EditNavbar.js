@@ -76,7 +76,7 @@ const EditNavbar = (props) => {
                     minW={0}>
                     <Avatar
                     size={'sm'}
-                    name={auth.user.username}
+                    name={(auth.loggedIn)?auth.user.username:'not logged in'}
                     />
                 </MenuButton>
                 <MenuList>

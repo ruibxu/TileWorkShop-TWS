@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams} from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 import MapToolbar from './MapToolbar';
@@ -20,14 +20,17 @@ const EditTileMapScreen = (props) => {
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
-    const Tilemap_id =
+    let { id } = useParams();
     useEffect(()=>{
-        editStore.getTileMapById
-    },[])
-    const [isPublic, setPublic] = useState(store.currentItem.access.public)
-    console.log(store.currentItem)
+        editStore.getTileMapById(id)
+    },[editStore.currentId])
+    const [tilemap, setTilemap] = useState(editStore.currentItem)
+    useEffect(()=>{
+        setTilemap(editStore.currentItem)
+    },[editStore.currentItem])
+    const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
 
-    
+    //what ft
 
     const showShareModal = useDisclosure()
     let TempInfo = [
@@ -42,7 +45,7 @@ const EditTileMapScreen = (props) => {
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
-                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}
+                isPublic={isPublic} setPublic={setPublic} name={(tilemap)?tilemap.name:'empty'}
             />
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>

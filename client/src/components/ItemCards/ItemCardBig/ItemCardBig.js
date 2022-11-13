@@ -64,8 +64,8 @@ function ItemCardBig(props) {
     }
     const handleView = () => {
         //store.setCurrentItem(data)
-        props.onClose()
-        //props.redirect(`/${data.type}/${project_id}`)
+        //props.onClose()
+        props.redirect(`/${data.type}/${project_id}`)
     }
 
     const handleLike = (event, value) => {

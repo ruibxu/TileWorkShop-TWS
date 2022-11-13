@@ -16,6 +16,7 @@ const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
         currentId: null,
         currentItem: null,
+        access: null,
         type: null
     });
     const history = useHistory();
@@ -47,9 +48,9 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
-        const result = response.data.result
-        result.community = null
         if (response.status === 200) {
+            const result = response.data.result
+            result.community = null
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {
@@ -74,6 +75,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentItem: result
                 }
             })
+            console.log(editStore.currentItem)
         } else {
             console.log(response.data.errorMessage)
         }
