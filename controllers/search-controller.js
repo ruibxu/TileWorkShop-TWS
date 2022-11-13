@@ -297,11 +297,11 @@ const createAccessConditions = (searcher_id, access) => {
     return conditions
 }
 
-const createSearchConditions = async (search_type, search_value) => {
+const createSearchConditions = async (search_type, search_value, exact) => {
     if(!search_value){return []}//becomes getAllAccessables
     if(search_type == SEARCH_TYPE.NAME){return [{name:{ "$regex": search_value, "$options": "i" }}]}
     //search by creater
-    conditions = (req.body.exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
+    conditions = (exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
     matching_users = await User.find({username:{ "$regex": search_value, "$options": "i" }})
     id_list = matching_users.map(x => x._id)
     return [{['access.owner_id']:{ $in: id_list}}]
@@ -338,7 +338,7 @@ const searchProjects2 = async (req, res) => {
 
     //generating the main conditions
     const access_conditions =  createAccessConditions(searcher_id, access)
-    const search_conditions = await createSearchConditions(search_type, search_value)
+    const search_conditions = await createSearchConditions(search_type, search_value, req.body.exact)
     const sort_conditions = createSortConditions(sort_type, sort_order)
     //Finding the values
     const find_conditions = access_conditions.concat(search_conditions)
