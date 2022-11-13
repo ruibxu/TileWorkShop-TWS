@@ -30,7 +30,7 @@ const GlobalCommentStoreContextProvider = (props) => {
         const { type, payload } = action;
         switch (type) {
             case GlobalCommentStoreActionType.CREATE_COMMENT: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: null,
@@ -38,7 +38,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.GET_COMMENTS_BY_LINK: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: commentStore.currentComment,
                     currentCommentList: payload.currentCommentList,
                     commentMarkedForDeletion: null,
@@ -46,7 +46,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.UPDATE_COMMENT: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: null,
@@ -54,7 +54,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.MARK_COMMMENT_FOR_DELETION: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: commentStore.currentComment,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: payload.commentMarkedForDeletion,
@@ -62,7 +62,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.DELETE_COMMENT: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: null,
@@ -70,7 +70,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.UNMARK_COMMENT_FOR_DELETION: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: null,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: null,
@@ -78,7 +78,7 @@ const GlobalCommentStoreContextProvider = (props) => {
                 })
             }
             case GlobalCommentStoreActionType.UPDATE_COMMENT_COMMUNITY: {
-                return setCommentStore({
+                return setCommentStore({...commentStore,
                     currentComment: payload.currentComment,
                     currentCommentList: commentStore.currentCommentList,
                     commentMarkedForDeletion: null,
