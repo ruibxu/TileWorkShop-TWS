@@ -193,7 +193,7 @@ const GlobalStoreContextProvider = (props) => {
             case GlobalStoreActionType.UPDATE_SORT_OPTIONS: {
                 return setStore({
                     ...store,
-                    search_term: payload.search_term ? payload.search_term : store.search_term,
+                    search_term: payload.search_term ? payload.search_term : (payload.search_term == '')?'':store.search_term,
                     search_by: payload.search_by ? payload.search_by : store.search_by,
                     project_type: payload.project_type ? payload.project_type : store.project_type,
                     sort_type: payload.sort_type ? payload.sort_type : store.sort_type,
