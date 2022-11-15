@@ -98,7 +98,7 @@ function ItemCardBig(props) {
         <div>
             <Modal isOpen={props.isOpen} onClose={props.onClose} >
                 <ModalOverlay />
-                <ModalContent height="800px" maxWidth="1000px">
+                <ModalContent height="90%" maxWidth="1000px">
                     <ModalHeader>
                         <Flex alignItems='center'>
                             <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={(data.src) ? data.src : image6} />
