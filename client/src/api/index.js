@@ -119,6 +119,9 @@ const apis = {
     updateTileSetImage,
     deleteTileSetImage,
     updateTileSetAccess,
-    updateTileSetCommunity
+    updateTileSetCommunity,
+    
+    sendConfirmEmail,
+    sendPasswordResetEmail
 }
 export default apis
