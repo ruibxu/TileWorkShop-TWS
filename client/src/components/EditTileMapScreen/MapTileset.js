@@ -54,12 +54,13 @@ const MapTileset = (props) => {
  */
     return (
         
-        <Box>
-            <TilesetToolbar />
-            <Box h ='100%' w = '100%'>
-            <Canvas />
-            </Box>
-        </Box>
+        // <Box>
+        //     <TilesetToolbar />
+        //     <Box h ='100%' w = '100%'>
+        //     <Canvas />
+        //     </Box>
+        // </Box>
+        <div>      <TilesetToolbar />      <Canvas /></div>
 
     )
 }
