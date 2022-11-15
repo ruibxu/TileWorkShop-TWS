@@ -11,7 +11,7 @@ const sendConfirmEmail = (req, res) => {
     from: 'tileworkshoptws@gmail.com', // Change to your verified sender
     templateId: 'd-703fe27c09934dc5b217313390de64f0',//Temple ID
     dynamic_template_data: {
-      link: "https://tileworkshop.herokuapp.com/verifyaccount/" + user_id
+      link: "https://tileworkshop.herokuapp.com/verifyAccount/" + user_id
     }
   }
   sgMail
@@ -35,7 +35,7 @@ const sendPasswordResetEmail = (req, res) =>{
     from: 'tileworkshoptws@gmail.com', // Change to your verified sender
     templateId: 'd-cf2125e69f7944dd8b81552a8477b1a5',//Temple ID
     dynamic_template_data: {
-      link: "https://tileworkshop.herokuapp.com/forgetpassword/" + user_id
+      link: "https://tileworkshop.herokuapp.com/forgetPassword/" + user_id
   }
   }
   sgMail
