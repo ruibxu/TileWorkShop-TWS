@@ -292,7 +292,7 @@ const createAccessConditions = (searcher_id, access) => {
     }
     conditions.push({$or:or_part})
     if(access == ACCESS_TYPE.FAVORITE){
-        conditions.push({['community.favorited_Users']: userid})
+        conditions.push({['community.favorited_Users']: searcher_id})
     }
     return conditions
 }
