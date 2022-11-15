@@ -137,6 +137,7 @@ const GlobalCommentStoreContextProvider = (props) => {
         }
     }
     commentStore.markCommentForDeletion = async function (id) {
+        console.log(id)
         storeReducer({
             type: GlobalCommentStoreActionType.MARK_COMMMENT_FOR_DELETION,
             payload: {
@@ -147,6 +148,7 @@ const GlobalCommentStoreContextProvider = (props) => {
     commentStore.deleteMarkedComment = async function () {
         const user_id = ((auth.loggedIn)?auth.user._id:'not logged in');
         console.log(user_id)
+        console.log(commentStore.commentMarkedForDeletion)
         const response = await api.deleteComment(commentStore.commentMarkedForDeletion, user_id)
         if (response.status === 200) {
             storeReducer({
@@ -155,6 +157,8 @@ const GlobalCommentStoreContextProvider = (props) => {
                     currentComment: response.data.result
                 }
             })
+        }else{
+            console.log(response.data.errorMessage)
         }
     }
     commentStore.unmarkCommentForDeletion = async function () {
