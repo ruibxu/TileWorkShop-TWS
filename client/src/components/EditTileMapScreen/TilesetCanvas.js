@@ -1,28 +1,22 @@
 import React, { useRef, useEffect } from 'react'
 
 const TilesetCanvas = (props) => {
-    // var image = new Image();
-    // const canvasRef = useRef();
-    // image.src= "https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png";
-    // const draw = ctx => {
-    //     ctx.drawImage(image, 0, 0,320,512);
-    // }
-
-    // useEffect(() => {
-    //     const canvas = canvasRef.current
-    //     const context = canvas.getContext('2d')
-
-    //     draw(context)
-    // }, [draw])
-    const myCanvas = useRef();
+    const canvasRef = useRef(null);
+    // const contextRef = useRef(null);
+  
     useEffect(() => {
-      var canvas = document.getElementById("canvas");
+      // var canvas2 = document.getElementById("canvas");
+      // canvasRef.current = canvas2;
+      var canvas = document.createElement("canvas");
+      canvas.height = 128;
+      canvas.width = 128;
       var context = canvas.getContext("2d");
       var image = new Image();
       var parts =[];
       image.src =
       "https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png";
       //
+    //   contextRef.current = context;
       image.crossOrigin="anonymous";
       var width = image.width;
       var height = image.height;
@@ -32,14 +26,16 @@ const TilesetCanvas = (props) => {
       var x = 0;
       var y = 0;
       var count = w * h;
-    //   image.onload = split;
-    split();
+    //   image.onload = split();
+      split();
       function split() {
           for (let i = 0; i < h; i++) {
               y = i * tilesize;
+              console.log(y);
               for (let j = 0; j < w; j++) {
                   x = j * tilesize;
-                  context.drawImage(image, x, y, tilesize, tilesize, x, y, tilesize, tilesize);
+                  console.log(x);
+                  context.drawImage(image, x, y, tilesize, tilesize, 0, 0, tilesize, tilesize);
                   parts.push( canvas.toDataURL() );
               }
           }
@@ -47,6 +43,7 @@ const TilesetCanvas = (props) => {
             var slicedImage = document.createElement('img')
             slicedImage.src = parts[i];
             var div = document.getElementById('canvas');
+            // const div =canvasRef.current;
             div.appendChild( slicedImage );
           }
           // context.drawImage(this, 128, 128, tilesize, tilesize, x, y, tilesize, tilesize);
@@ -54,8 +51,11 @@ const TilesetCanvas = (props) => {
       };
     }, []);
   
-    return <canvas id = "canvas" width="640"
-    height="1024" />
+      return <div id = "canvas" 
+    //   ref={ canvasRef }
+    //   width="640"
+    //   height="1024" 
+    />
   }
 
 export default TilesetCanvas
