@@ -1,4 +1,8 @@
 import React, { useRef, useEffect } from 'react'
+import {
+    Box,
+    Flex,
+} from '@chakra-ui/react';
 
 const TilesetCanvas = (props) => {
     const canvasRef = useRef(null);
@@ -37,11 +41,13 @@ const TilesetCanvas = (props) => {
                   console.log(x);
                   context.drawImage(image, x, y, tilesize, tilesize, 0, 0, tilesize, tilesize);
                   parts.push( canvas.toDataURL() );
+                  context.clearRect(0, 0, canvas.width, canvas.height);
               }
           }
           for (let i = 0;i< count;i++){
             var slicedImage = document.createElement('img')
             slicedImage.src = parts[i];
+            slicedImage.className = "tileset_img";
             var div = document.getElementById('canvas');
             // const div =canvasRef.current;
             div.appendChild( slicedImage );
@@ -51,10 +57,10 @@ const TilesetCanvas = (props) => {
       };
     }, []);
   
-      return <div id = "canvas" 
+      return <Box id = "canvas" 
     //   ref={ canvasRef }
-    //   width="640"
-    //   height="1024" 
+     display = {'flex'}
+     width = {'50px'}
     />
   }
 
