@@ -62,7 +62,7 @@ const EditTileMapScreen = (props) => {
                     <MapLayer redirect={redirect} />
                     </Box>
                     <Box bg= 'lightgrey' height='60%' className='mapTileset'>
-                    <MapTileset redirect={redirect} />
+                    <MapTileset height={"100%"} redirect={redirect} />
                     </Box>
                 </Box>
             </Flex>

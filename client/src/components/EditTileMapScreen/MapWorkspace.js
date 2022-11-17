@@ -3,7 +3,6 @@ import {
     Box,
     Flex,
     HStack,
-    Image,
     IconButton,
     Container,
 
@@ -14,14 +13,15 @@ import { MdOutlineFormatColorFill } from "react-icons/md"
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
-
 import image from '../../img/map1.png';
-const MapWorkspace = (props) => {
+import MapCanvas from './MapCanvas.js';
 
+
+const MapWorkspace = (props) => {
 
     return (
         <Container maxW='100%' bg='lightgrey' height='100%' centerContent>
-            <Box padding={'50'}><Image src = {image} alt={'map1'} /></Box>
+            <Box padding={'50'}><MapCanvas width='1200' height='700'/></Box>
         </Container>
     )
 }
