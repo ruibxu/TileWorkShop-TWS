@@ -316,10 +316,15 @@ body {
 .item-counter {
     position: relative;
 }
-/* 
-.tileset_img {
-    flex-wrap: wrap;
+
+.selected_tile{
+    opacity: 50%;
 }
+/*
+
+.tileset_img{
+}
+
 
 .tileset_container {
     flex-wrap: wrap;

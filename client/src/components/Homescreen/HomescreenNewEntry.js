@@ -11,7 +11,7 @@ const HomescreenNewEntry = (props) => {
         project_type,
         project_name,
         user_id} = props.info
-        console.log(props.info)
+        //console.log(props.info)
 
     return (<Box width={'100%'} className='share-entry'>
         <Flex height='100%' width={'100%'} alignItems='center'>

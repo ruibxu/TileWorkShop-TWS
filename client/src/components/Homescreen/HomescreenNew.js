@@ -22,7 +22,7 @@ const HomescreenNew = (props) => {
         {username: 'YiboClone', action: 'created', projectName: 'Super Mario Bros 6', content: 'Super Mario Bros 6',notificationTime:'7/1/2022'}
     ]
 
-    console.log(store.whatsList)
+    //console.log(store.whatsList)
     return (
         <Container minW={'21%'} >
             <Box borderWidth='2px' borderRadius='xl' overflow='hidden' borderColor={'purple'}  height={'100%'}>
