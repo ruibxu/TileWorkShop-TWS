@@ -10,6 +10,6 @@ router.put('/forgetPassword', AuthController.forgetPassword)
 router.put('/changePassword', AuthController.changePassword)
 router.put('/updateAccount/:id', AuthController.updateAccount)
 router.put('/verifyAccount/:id', AuthController.verifyAccount)
-
+router.delete('/delete', AuthController.deleteUser)
 
 module.exports = router

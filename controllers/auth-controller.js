@@ -13,8 +13,8 @@ getLoggedIn = async (req, res) => {
                 user: null,
                 errorMessage: "?"
             })
-        }else{
-            auth.verify(req, res, async function(){
+        } else {
+            auth.verify(req, res, async function () {
                 userId = req.userId
             })
         }
@@ -180,10 +180,10 @@ updateAccount = async (req, res) => {
 
         if (password && passwordVerify) {
             if (password.length < 8) {
-                return res.status(201).json({errorMessage:"Please enter a password of at least 8 characters."});
+                return res.status(201).json({ errorMessage: "Please enter a password of at least 8 characters." });
             }
             if (password !== passwordVerify) {
-                return res.status(201).json({errorMessage:"Please enter the same password twice."});
+                return res.status(201).json({ errorMessage: "Please enter the same password twice." });
             }
             const saltRounds = 10;
             const salt = await bcrypt.genSalt(saltRounds);
@@ -194,7 +194,7 @@ updateAccount = async (req, res) => {
         if (username) {
             const existingUser = await User.findOne({ username: username });
             if (existingUser) {
-                return res.status(201).json({errorMessage:"An account with this username already exists."});
+                return res.status(201).json({ errorMessage: "An account with this username already exists." });
             } else {
                 // console.log("new username: " + username);
                 user.username = username;
@@ -234,9 +234,9 @@ registerUser = async (req, res) => {
         if (password.length < 8) {
             console.log('password')
             return res.status(201).json({
-                    success: false,
-                    errorMessage: "Please enter a password of at least 8 characters."
-                });
+                success: false,
+                errorMessage: "Please enter a password of at least 8 characters."
+            });
         }
         // console.log("password long enough");
         if (password !== passwordVerify) {
@@ -287,13 +287,13 @@ registerUser = async (req, res) => {
         return res.status(200).json({
             user: {
                 username: savedUser.username,
-                email: savedUser.email, 
+                email: savedUser.email,
                 _id: savedUser._id,
                 verified: savedUser.authentication
             },
             success: true
         })
-        
+
         // console.log("new user saved: " + savedUser._id);
 
         // LOGIN THE USER
@@ -350,13 +350,13 @@ forgetPassword = async (req, res) => {
         return res.status(200).json({
             user: {
                 username: existingUser.username,
-                email: existingUser.email, 
+                email: existingUser.email,
                 _id: existingUser._id,
                 verified: existingUser.authentication
             },
             success: true
         })
-        
+
 
     } catch (err) {
         console.error(err);
@@ -387,16 +387,24 @@ verifyAccount = async (req, res) => {
                 }
             })
         })
-        .catch(error => {
-            // console.log("FAILURE: " + JSON.stringify(error));
-            return res.status(201).json({
-                error,
-                message: 'User not verified',
+            .catch(error => {
+                // console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(201).json({
+                    error,
+                    message: 'User not verified',
+                })
             })
-        })
     });
 }
 
+deleteUser = async (req, res) => {
+    const user = await User.deleteOne({ username: "test" }).then(() => {
+        return res.status(200)
+    })
+    if (user) {
+        return res.status(200).json({ success: true })
+    }
+}
 module.exports = {
     getLoggedIn,
     registerUser,
@@ -405,5 +413,6 @@ module.exports = {
     changePassword,
     updateAccount,
     verifyAccount,
-    forgetPassword
+    forgetPassword,
+    deleteUser
 }

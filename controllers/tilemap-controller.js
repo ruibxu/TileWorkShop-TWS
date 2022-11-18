@@ -25,7 +25,6 @@ const createTileMap = async (req, res) => {
         })
     }
     const data = req.body.data;
-
     const objectId = new ObjectId();
     const community = createCommunity(0);
     const access = new Access({
@@ -39,7 +38,7 @@ const createTileMap = async (req, res) => {
     data.access = access;
     data.lastEdited = Date.now();
     const tilemap = new TileMap(data);
-    // console.log(tilemap)
+    console.log(tilemap)
     tilemap.save().then(() => {
         return res.status(200).json({
             success: true,
@@ -316,7 +315,14 @@ const deleteTileSetfromTileMap = async (req, res) => {
         matchUser(tilemap);
     });
 }
-
+const deleteTest = async (req,res) =>{
+    const tilemap = await TileMap.deleteOne({ name: "test" }).then(() => {
+        return res.status(200)
+    })
+    if (tilemap) {
+        return res.status(200).json({ success: true })
+    }
+}
 module.exports = {
     getTileMapById,
     createTileMap,
@@ -325,5 +331,6 @@ module.exports = {
     updateTileMapAccess,
     updateTileMapCommunity,
     addTileSetToTileMap,
-    deleteTileSetfromTileMap
+    deleteTileSetfromTileMap,
+    deleteTest
 }

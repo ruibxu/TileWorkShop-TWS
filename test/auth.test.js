@@ -4,89 +4,27 @@ const { getLoggedIn, registerUser, loginUser, logoutUser, changePassword, update
 const auth = require('../auth/authManager')
 const signToken = require('../auth/authManager')
 const httpMock = require('node-mocks-http');
+const request = require("supertest")
+const baseURL = "http://localhost:4000"
 
-var request = httpMock.createRequest({ method: "POST", url: "http://localhost:3000", body: user })
-var response = httpMock.createResponse({locals:{success:true}})
-const expectation = undefined
-// console.log(request)
 describe("Testing auth", () => {
-    it.only("should create a new user", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await registerUser(request, response)
-        expect(res).toBe(expectation);
-    })
-
-    it.only("should fail to create a new user", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await registerUser(request, response)
-        expect(res).toBe(expectation);
-    })
-
-    it.only("should log into the user account", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await loginUser(request, response)
-        expect(res).toBe(res);
-    })
-
-    it.only("should logout the user", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await logoutUser(request, response)
-        expect(res).toBe(res);
-    })
-
-    it.only("should change the password", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await changePassword(request, response)
-        expect(res).toBe(res);
-    })
-
-    it.only("should update the user account", async () => {
-        User.findOne = jest.fn().mockReturnValueOnce(null)
-        User.prototype.save = jest.fn().mockImplementation(() => { })
-        newUser = jest.fn().mockImplementation(() => { })
-        auth.signToken = jest.fn().mockImplementation(() => {
-            return jwt.sign({
-                userId: 1
-            }, process.env.JWT_SECRET);
-        })
-        const res = await updateAccount(request, response)
-        expect(res).toBe(res);
-    })
-
-    
+    // //   beforeAll(async () => {
+    // //     // set up the todo
+        
+    // //   })
+      afterAll(async () => {
+        await request(baseURL).delete(`/auth/delete`)
+      })
+      it("register user", async () => {
+        const response = await request(baseURL).post("/auth/register").send(user);
+        expect(response.status).toBe(200);
+      });
+      it("login user", async () => {
+        const response = await request(baseURL).post("/auth/login").send(user);
+        expect(response.status).toBe(200);
+      });
+      it("logout user", async () => {
+        const response = await request(baseURL).get("/auth/logout").send(user);
+        expect(response.status).toBe(200);
+      });
 })

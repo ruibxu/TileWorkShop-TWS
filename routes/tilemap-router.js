@@ -17,7 +17,7 @@ router.put('/tilemap/community/:id', auth.verify, TileMapController.updateTileMa
 
 router.put('/tilemap/set/:id', auth.verify, TileMapController.addTileSetToTileMap)
 router.delete('/tilemap/set/:id', auth.verify, TileMapController.deleteTileSetfromTileMap)
-
+router.delete('/tilemap/delete', auth.verify, TileMapController.deleteTest)
 
 
 module.exports = router
