@@ -25,7 +25,7 @@ let tid = ''
 describe("Testing auth", () => {
     beforeAll(async () => {
         // set up the todo
-        // await request(baseURL).post("/auth/register").send(user);
+        await request(baseURL).post("/auth/register").send(user);
         const login = await request(baseURL).post("/auth/login").send(user);
         user_id = login.body.user._id
         token = login.body.user.token
