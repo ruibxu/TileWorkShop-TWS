@@ -14,7 +14,7 @@ describe("Testing auth", () => {
 
     // //   })
     afterAll(async () => {
-        await request(baseURL).delete(`/auth/delete`)
+        const fin = await request(baseURL).delete(`/auth/delete`)
     })
     it("register user", async () => {
         const response = await request(baseURL).post("/auth/register").send(user);

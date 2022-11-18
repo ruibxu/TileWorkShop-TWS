@@ -25,7 +25,7 @@ let tid = ''
 describe("Testing auth", () => {
     beforeAll(async () => {
         // set up the todo
-        await request(baseURL).post("/auth/register").send(user);
+        // await request(baseURL).post("/auth/register").send(user);
         const login = await request(baseURL).post("/auth/login").send(user);
         user_id = login.body.user._id
         token = login.body.user.token
@@ -44,7 +44,6 @@ describe("Testing auth", () => {
         tilemap.user_id = user_id
         const response = await request(baseURL).delete(`/api/tilemap/${tid}`)
         .set('Cookie', `token = ${token}`).send(tilemap);
-        console.log(response)
         expect(response.status).toBe(200);
     });
 
