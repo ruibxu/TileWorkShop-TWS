@@ -5,7 +5,8 @@ const auth = require('../auth/authManager')
 const signToken = require('../auth/authManager')
 const httpMock = require('node-mocks-http');
 const request = require("supertest")
-const baseURL = "http://localhost:4000"
+const baseURL = "https://tileworkshop.herokuapp.com/"
+
 
 describe("Testing auth", () => {
     // //   beforeAll(async () => {
