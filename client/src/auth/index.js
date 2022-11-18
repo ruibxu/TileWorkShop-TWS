@@ -47,11 +47,9 @@ function AuthContextProvider(props) {
     }
 
     useEffect(() => {
-        console.log(" auth use effect ")
-        if (auth.loggedIn) {
+        if (!auth.loggedIn) {
             auth.getLoggedIn();
         }
-
     }, []);
 
     const authReducer = (action) => {

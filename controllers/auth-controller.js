@@ -13,6 +13,10 @@ getLoggedIn = async (req, res) => {
                 user: null,
                 errorMessage: "?"
             })
+        }else{
+            auth.verify(req, res, async function(){
+                userId = req.userId
+            })
         }
 
         const loggedInUser = await User.findOne({ _id: userId });
