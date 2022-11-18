@@ -20,6 +20,7 @@ const tilemap = {
         "tileset": []
     }
 }
+
 let tid = ''
 describe("Testing auth", () => {
     beforeAll(async () => {
