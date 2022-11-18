@@ -6,9 +6,8 @@ const auth = require('../auth/authManager')
 const signToken = require('../auth/authManager')
 const httpMock = require('node-mocks-http');
 const user = require('../test/User.json')
-const request = 
-require("supertest")
-const baseURL = "https://tileworkshop.herokuapp.com/"
+const request = require("supertest")
+const baseURL = "https://tileworkshop.herokuapp.com"
 let user_id = ''
 let token = ''
 const tilemap = {
