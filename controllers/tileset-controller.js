@@ -232,11 +232,21 @@ const updateTileSetCommunity = async (req, res) => {
     });
 }
 
+const deleteTest = async (req,res) =>{
+    const tileset = await TileSet.deleteOne({ name: "test" }).then(() => {
+        return res.status(200)
+    })
+    if (tileset) {
+        return res.status(200).json({ success: true })
+    }
+}
+
 module.exports = {
     getTileSetById,
     createTileSet,
     deleteTileSet,
     updateTileSet,
     updateTileSetAccess,
-    updateTileSetCommunity
+    updateTileSetCommunity,
+    deleteTest
 }

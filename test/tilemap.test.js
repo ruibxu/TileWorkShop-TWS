@@ -1,10 +1,3 @@
-const Tilemap = require('../models/tilemap-model')
-const { getTileMapImage, updateTileMapImage, deleteTileMapImage } = require('../controllers/cloudinary-controller')
-const { getTileMapById, createTileMap, deleteTileMap, updateTileMap, updateTileMapAccess,
-    updateTileMapCommunity, addTileSetToTileMap, deleteTileSetfromTileMap } = require('../controllers/tilemap-controller');
-const auth = require('../auth/authManager')
-const signToken = require('../auth/authManager')
-const httpMock = require('node-mocks-http');
 const user = require('../test/User.json')
 const request = require("supertest")
 const baseURL = "https://tileworkshop.herokuapp.com"
@@ -24,7 +17,6 @@ const tilemap = {
 let tid = ''
 describe("Testing auth", () => {
     beforeAll(async () => {
-        // set up the todo
         await request(baseURL).post("/auth/register").send(user);
         const login = await request(baseURL).post("/auth/login").send(user);
         user_id = login.body.user._id
@@ -42,7 +34,7 @@ describe("Testing auth", () => {
     });
     it("delete tilemap", async () => {
         tilemap.user_id = user_id
-        const response = await request(baseURL).delete(`/api/tilemap/${tid}`)
+        const response = await request(baseURL).delete(`/api/tilemap/delete`)
         .set('Cookie', `token = ${token}`).send(tilemap);
         expect(response.status).toBe(200);
     });
