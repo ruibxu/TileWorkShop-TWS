@@ -39,6 +39,11 @@ function ItemCardBig(props) {
     const favorited = (community) ? community.favorited_Users.includes(user_id) : false
     const project_id = data._id
 
+    const likes = (community) ? community.likes : 0
+    const dislikes = (community) ? community.dislikes : 0
+    const views = (community) ? community.views: 0
+    const numOfComments = (commentStore.currentCommentList) ? `${commentStore.currentCommentList.length}` : 0
+
     const isPublic = (data.access) ? data.access.public : true
     const handleComment = () => {
         let commenting = newComment
@@ -125,13 +130,13 @@ function ItemCardBig(props) {
                     <ModalBody overflowY={'scroll'}>
                         <Flex className="item-counter" gap={4} alignItems='center'>
                             <FiEye bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? (store.currentItem.community)? `${store.currentItem.community.views}` : 0: 0} </Text>
+                            <Text fontSize={12} opacity={0.5}> {views} </Text>
                             <FiThumbsUp bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? (store.currentItem.community)?`${store.currentItem.community.likes}` : 0: 0} </Text>
+                            <Text fontSize={12} opacity={0.5}> {likes} </Text>
                             <FiThumbsDown bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}>{(store.currentItem) ? (store.currentItem.community)?`${store.currentItem.community.dislikes}` : 0: 0}</Text>
+                            <Text fontSize={12} opacity={0.5}>{dislikes}</Text>
                             <GoComment bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}>{(commentStore.currentCommentList.length) ? (store.currentItem.community)?`${commentStore.currentCommentList.length}` : 0: 0}</Text>
+                            <Text fontSize={12} opacity={0.5}>{numOfComments}</Text>
                         </Flex>
                         <Flex>
                             <Box minW='50%'>
