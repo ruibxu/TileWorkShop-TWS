@@ -1,16 +1,19 @@
 import { useSafeLayoutEffect } from '@chakra-ui/react';
-import React, {useRef, useEffect, useState} from 'react'
+import React, {useRef, useEffect, useState, useContext} from 'react'
 import { MdLayers } from 'react-icons/md';
 import { Image, Flex, Box} from '@chakra-ui/react'
 import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
 import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
+import GlobalEditStoreContext from '../../../store/EditStore';
 const MapCanvas = (props) => {
     let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, setCurrentLayer} = props
     // const canvasRef = useRef(null);
     // const contextRef = useRef(null);
     // const [mouseDown, setMouseDown] = useState(false)
     const [selection, setSelection] = useState([1,0])
+    const { editStore } = useContext(GlobalEditStoreContext)
+    const layers = editStore.layers
     //const [currentLayer, setCurrentLayer] = useState(0)
     
     let tilesetCrop = 64;
@@ -38,7 +41,7 @@ const MapCanvas = (props) => {
     }, [])
 
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    let layers = [{},{},{}]
+    //let layers = [{},{},{}]
 
     const handleMouseDown = (event) => {
         console.log(getCoords(event))
@@ -110,7 +113,7 @@ const MapCanvas = (props) => {
         const {x, y} = e.target.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        return [Math.floor(mouseX/64), Math.floor(mouseY/64)]
+        return [Math.floor(mouseX/64), Math.floor(mouseY/64)]//use tilemap scale here
     }
 
     

@@ -17,7 +17,8 @@ const GlobalEditStoreContextProvider = (props) => {
         currentId: null,
         currentItem: null,
         access: null,
-        type: null
+        type: null,
+        layers: [{},{},{}]
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
