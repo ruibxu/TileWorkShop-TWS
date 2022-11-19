@@ -38,6 +38,7 @@ const MapCanvas = (props) => {
         context.strokeStype = 'black'
         context.lineWidth = 5
         contextRef.current = context
+        draw()
     }, [])
 
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
@@ -123,8 +124,8 @@ const MapCanvas = (props) => {
         <Box>
             <TilesetToolbar />
             <Box>
-            <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} overflow={'auto'}
-                onMouseDown={handleMouseDown}
+            <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} width={'640px'} objectFit='cover'
+                onMouseDown={handleMouseDown} onLoad={draw}
             />
             <div className='tileset-container_selection' ref={selectRef}></div>
             </Box>
