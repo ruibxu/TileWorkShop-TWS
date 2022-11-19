@@ -72,15 +72,15 @@ const deleteTileSet = async (req, res) => {
         //does this belong to the user
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
-            if (item.access.owner_id.equals(req.body.user_id)) {
+            if (item.access.owner_id == req.params.user_id) {
                 deleteCommentsByLink(objectId)
-                TileSet.findOneAndDelete({ _id: objectId })
-                .then(res.status(200)
-                .json({
-                    success: true,
+                const found = await TileSet.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
+                //remember to delete from cloudinary
+                return res.status(200).json({
+                    sucess: true,
+                    result: found,
                     message: "TileSet Deleted"
-                }))
-                .catch(err => console.log(err));
+                });
                 //remember to delete from cloudinary
             }
             else {

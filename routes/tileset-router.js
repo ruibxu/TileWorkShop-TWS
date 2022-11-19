@@ -9,7 +9,7 @@ router.get('/tileset/:id', TileSetController.getTileSetById)
 //mutations
 router.post('/tileset', auth.verify, TileSetController.createTileSet)
 router.put('/tileset/:id', auth.verify, TileSetController.updateTileSet)
-router.delete('/tileset/:id', auth.verify, TileSetController.deleteTileSet)
+router.delete('/tileset/:id/:user_id', auth.verify, TileSetController.deleteTileSet)
 
 router.put('/tileset/access/:id', auth.verify, TileSetController.updateTileSetAccess)
 router.put('/tileset/community/:id', auth.verify, TileSetController.updateTileSetCommunity)

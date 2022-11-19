@@ -26,7 +26,7 @@ export const getWhatsNew = (id) => api.get(`api/new/${id}`)
 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
-export const deleteTileMap = (id) => api.delete(`api/tilemap/${id}`)
+export const deleteTileMap = (id, user_id) => api.delete(`api/tilemap/${id}/${user_id}`)
 export const updateTileMap = (id, payload) => api.put(`api/tilemap/${id}`, payload)
 export const updateTileMapAccess = (id, payload) => api.put(`api/tilemap/access/${id}`, payload)
 export const updateTileMapCommunity = (id, payload) => api.put(`api/tilemap/community/${id}`, payload)
@@ -42,7 +42,7 @@ export const deleteTileMapThumbnail = (id) => api.delete(`api/tilemap/thumbnail/
 
 export const getTileSetById = (id) => api.get(`api/tileset/${id}`)
 export const createTileSet = (payload) => api.post(`api/tileset`, payload)
-export const deleteTileSet = (id) => api.delete(`api/tileset/${id}`)
+export const deleteTileSet = (id, user_id) => api.delete(`api/tileset/${id}/${user_id}`)
 export const updateTileSet = (id, payload) => api.put(`api/tileset/${id}`, payload)
 export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
 export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)

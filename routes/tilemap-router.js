@@ -10,7 +10,7 @@ router.get('/tilemap/:id', TileMapController.getTileMapById)
 //mutations
 router.post('/tilemap', auth.verify, TileMapController.createTileMap)
 router.put('/tilemap/:id', auth.verify, TileMapController.updateTileMap)
-router.delete('/tilemap/:id', auth.verify, TileMapController.deleteTileMap)
+router.delete('/tilemap/:id/:user_id', auth.verify, TileMapController.deleteTileMap)
 
 router.put('/tilemap/access/:id', auth.verify, TileMapController.updateTileMapAccess)
 router.put('/tilemap/community/:id', auth.verify, TileMapController.updateTileMapCommunity)

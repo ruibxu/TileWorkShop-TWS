@@ -12,6 +12,7 @@ import CommentList from "./CommentList";
 import GlobalCommentStoreContext from "../../../store/CommentStore";
 import GlobalStoreContext from "../../../store/ProjectStore";
 import AuthContext from "../../../auth";
+import DeleteModal from "../../Modals/Delete-Modal";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
 import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
@@ -23,6 +24,7 @@ function ItemCardBig(props) {
     const { data } = props
     const [newComment, setNewComment] = useState('')
     const showDeleteComment = useDisclosure()
+    const showDeleteModal = useDisclosure()
     const cancelRef = useRef()
 
     const user_id = (auth.loggedIn) ? auth.user._id : 'not logged in'
@@ -65,6 +67,12 @@ function ItemCardBig(props) {
         commentStore.markCommentForDeletion(_id)
         showDeleteComment.onOpen()
     }
+
+    const handleDeleteProject = () => {
+        store.markItemforDeletion(props.data)
+        showDeleteModal.onOpen()
+    }
+
     const handleView = () => {
         //store.setCurrentItem(data)
         //props.onClose()
@@ -117,13 +125,13 @@ function ItemCardBig(props) {
                     <ModalBody overflowY={'scroll'}>
                         <Flex className="item-counter" gap={4} alignItems='center'>
                             <FiEye bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? `${store.currentItem.community.views}` : 0} </Text>
+                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? (store.currentItem.community)? `${store.currentItem.community.views}` : 0: 0} </Text>
                             <FiThumbsUp bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? `${store.currentItem.community.likes}` : 0} </Text>
+                            <Text fontSize={12} opacity={0.5}> {(store.currentItem) ? (store.currentItem.community)?`${store.currentItem.community.likes}` : 0: 0} </Text>
                             <FiThumbsDown bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}>{(store.currentItem) ? `${store.currentItem.community.dislikes}` : 0}</Text>
+                            <Text fontSize={12} opacity={0.5}>{(store.currentItem) ? (store.currentItem.community)?`${store.currentItem.community.dislikes}` : 0: 0}</Text>
                             <GoComment bg='transparent' size={'10px'} />
-                            <Text fontSize={12} opacity={0.5}>{(commentStore.currentCommentList.length) ? `${commentStore.currentCommentList.length}` : 0}</Text>
+                            <Text fontSize={12} opacity={0.5}>{(commentStore.currentCommentList.length) ? (store.currentItem.community)?`${commentStore.currentCommentList.length}` : 0: 0}</Text>
                         </Flex>
                         <Flex>
                             <Box minW='50%'>
@@ -160,7 +168,7 @@ function ItemCardBig(props) {
                                 View
                             </Button>
                             <Spacer />
-                            <Button colorScheme='red' mr={3} onClick={props.openDeleteModal} visibility={(!isOwner) ? 'hidden' : ''}>
+                            <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''}>
                                 Delete
                             </Button>
                             <Button colorScheme='blue' onClick={() => props.onClose()}>
@@ -171,6 +179,7 @@ function ItemCardBig(props) {
                 </ModalContent>
             </Modal>
             <DeleteCommentAlert onClose={showDeleteComment.onClose} isOpen={showDeleteComment.isOpen} cancelRef={cancelRef} />
+            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} data={data} closeItemCard={props.onClose}/>
         </div>
     )
 }

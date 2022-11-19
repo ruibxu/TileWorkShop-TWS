@@ -50,12 +50,11 @@ const Listscreen = (props) => {
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
-    const showDeleteModal = useDisclosure();
     const showCreateModal = useDisclosure();
 
     useEffect(() => {
         store.search()
-    }, [auth])
+    }, [auth, store.markedItemforDeletion])
 
     const handleOpenBigItemCard = (newData) => {
         setBigCardData(newData)
@@ -85,8 +84,7 @@ const Listscreen = (props) => {
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} openDeleteModal={showDeleteModal.onOpen} data={bigCardData} redirect={redirect}/>
-            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} redirect={redirect}/>
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect} />
         </div>)
 }

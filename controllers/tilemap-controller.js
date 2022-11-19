@@ -66,12 +66,13 @@ const deleteTileMap = async (req, res) => {
         //does this belong to the user
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
-            if (item.access.owner_id.equals(req.body.user_id)) {
+            if (item.access.owner_id == req.params.user_id) {
                 deleteCommentsByLink(objectId)
-                TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
+                const found = await TileMap.findOneAndDelete({ _id: objectId }).catch(err => console.log(err));
                 //remember to delete from cloudinary
                 return res.status(200).json({
                     sucess: true,
+                    result: found,
                     message: "TileMap Deleted"
                 });
             }

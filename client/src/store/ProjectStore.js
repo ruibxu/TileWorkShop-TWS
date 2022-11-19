@@ -12,7 +12,7 @@ export const GlobalStoreActionType = {
     VIEW_EDITTILEMAP: "VIEW_EDITTILEMAP",
     VIEW_EDITTILESET: "VIEW_EDITTILESET",
     MARK_ITEM_FOR_DELETION: "MARK_ITEM_FOR_DELETION",
-    UNMARK_ITEM_FOR_DELTEION: "UNMARK_ITEM_FOR_DELTEION",
+    UNMARK_ITEM_FOR_DELETION: "UNMARK_ITEM_FOR_DELTEION",
     CREATE_NEW_TILESET: "CREATE_NEW_TILESET",
     CREATE_NEW_TILEMAP: "CREATE_NEW_TILEMAP",
     CLOSE_CURRENT_ITEM: "CLOSE_CURRENT_ITEM",
@@ -23,7 +23,8 @@ export const GlobalStoreActionType = {
     UPDATE_ITEM_COMMUNITY: "UPDATE_ITEM_COMMUNITY",
     UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS",
     SEARCH: "SEARCH",
-    WHATS_NEW: "WHATS_NEW"
+    WHATS_NEW: "WHATS_NEW",
+    DELETE_ITEM: "DELETE_ITEM"
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -34,7 +35,7 @@ const GlobalStoreContextProvider = (props) => {
         currentItem: null,
         tilesetEditActive: false,
         tileMapEditActive: false,
-        markItemforDeletion: false,
+        markedItemforDeletion: null,
         search_term: '',
         search_by: SEARCH_TYPE.NAME,
         project_type: PROJECT_TYPE.TILEMAP,
@@ -62,7 +63,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.VIEW_MYPAGE: {
@@ -79,7 +79,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.VIEW_EDITTILESET: {
@@ -97,13 +96,20 @@ const GlobalStoreContextProvider = (props) => {
             case GlobalStoreActionType.MARK_ITEM_FOR_DELETION: {
                 return setStore({
                     ...store,
-
+                    markedItemforDeletion: payload.markedItemforDeletion,
                 })
             }
-            case GlobalStoreActionType.UNMARK_ITEM_FOR_DELTEION: {
+            case GlobalStoreActionType.UNMARK_ITEM_FOR_DELETION: {
                 return setStore({
                     ...store,
-
+                    markedItemforDeletion: null,
+                })
+            }
+            case GlobalStoreActionType.DELETE_ITEM: {
+                return setStore({
+                    ...store,
+                    currentItem: payload.currentItem,
+                    markedItemforDeletion: null,
                 })
             }
             case GlobalStoreActionType.CREATE_NEW_TILESET: {
@@ -115,7 +121,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CREATE_NEW_TILEMAP: {
@@ -127,7 +132,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CLOSE_CURRENT_ITEM: {
@@ -145,7 +149,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.CHANGE_ITEM_NAME: {
@@ -163,7 +166,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.GET_TILESET_BY_ID: {
@@ -175,7 +177,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.UPDATE_ITEM_COMMUNITY: {
@@ -187,7 +188,6 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
-                    markItemforDeletion: false
                 })
             }
             case GlobalStoreActionType.UPDATE_SORT_OPTIONS: {
@@ -217,6 +217,45 @@ const GlobalStoreContextProvider = (props) => {
                 return store;
         }
     }
+    store.markItemforDeletion = async (item) => {
+        storeReducer({
+            type: GlobalStoreActionType.MARK_ITEM_FOR_DELETION,
+            payload: {
+                markedItemforDeletion: item
+            }
+        })
+        console.log(store.markedItemforDeletion)
+    }
+
+    store.unmarkItemforDeletion = async () => {
+        storeReducer({
+            type: GlobalStoreActionType.UNMARK_ITEM_FOR_DELETION,
+            payload: null
+        })
+    }
+
+    store.deleteItem = async () => {
+        const user_id = ((auth.loggedIn)?auth.user._id:'not logged in');
+        console.log(user_id)
+        console.log(store.markedItemforDeletion)
+        const id = store.markedItemforDeletion._id
+        const type = store.markedItemforDeletion.type
+        let response = null
+        if(type == PROJECT_TYPE.TILEMAP){response = await api.deleteTileMap(id, user_id)}
+        else {response = await api.deleteTileSet(id, user_id)}
+        if (response.status == 200){
+            console.log(response.data.result)
+            storeReducer({
+                type: GlobalStoreActionType.DELETE_ITEM,
+                payload: {
+                    currentItem: store.markedItemforDeletion
+                }
+            })
+        }else{
+            console.log(response.data.errorMessage)
+        }
+    }
+
     store.getWhatsNew = async () =>{
         const id = (auth.loggedIn)?auth.user._id:'guest'
         const response = await api.getWhatsNew(id)

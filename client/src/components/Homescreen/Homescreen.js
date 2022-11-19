@@ -39,7 +39,7 @@ const Homescreen = (props) => {
     useEffect(() =>{
         console.log('homescreen effect')
         store.viewHomePage();
-    }, [auth, history])
+    }, [auth, history, store.markedItemforDeletion])
     // console.log(store.tileMapList)
     // console.log(store.yourList)
     
@@ -53,7 +53,6 @@ const Homescreen = (props) => {
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
-    const showDeleteModal = useDisclosure();
     const showCreateModal = useDisclosure();
     const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword });
     //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
@@ -92,8 +91,7 @@ const Homescreen = (props) => {
             />
             <ForgetPasswordModal isOpen={showForgetPasswordModal.isOpen} onClose={showForgetPasswordModal.onClose} />
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
-            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} openDeleteModal={showDeleteModal.onOpen} redirect={redirect}/>
-            <DeleteModal isOpen={showDeleteModal.isOpen} onClose={showDeleteModal.onClose} />
+            <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} redirect={redirect}/>
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect}/>
             <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
         </div>)

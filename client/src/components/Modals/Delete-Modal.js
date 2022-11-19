@@ -1,4 +1,5 @@
-import React, { useState} from 'react'
+import React, { useState, useContext} from 'react'
+import GlobalStoreContext from '../../store/ProjectStore';
 
 import {
     Modal,
@@ -18,13 +19,14 @@ import {
   } from '@chakra-ui/react'
 
 const DeleteModal = (props) => {
-    const [showPassword, setShowPassword] = React.useState(false)
+    const { store } = useContext(GlobalStoreContext);
 
-    const handleClick = () => setShowPassword(!showPassword)
-    const handleForgetPassword = () =>{
+    const handleDelete = () => {
+        props.closeItemCard()
+        store.deleteItem()
         props.onClose()
-        props.openForgetPasswordModal()
     }
+
 
 
     return(<Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -45,7 +47,7 @@ const DeleteModal = (props) => {
         <Divider borderColor={'purple'}/>
         <ModalFooter>
             <Flex width='100%' minW='100%'>
-                <Button colorScheme='red' mr={3} onClick={props.onClose} minW={220}>
+                <Button colorScheme='red' mr={3} onClick={handleDelete} minW={220}>
                     Delete
                 </Button>
                 <Spacer/>
