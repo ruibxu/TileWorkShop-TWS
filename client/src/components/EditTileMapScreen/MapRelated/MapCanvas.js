@@ -4,7 +4,7 @@ const MapCanvas= (props) => {
 
     return(
         <canvas 
-            width= {props.width}  // replace with props.
+            width= {props.width}  // replace with props.//testing
             height= {props.height} 
             style ={CanvasStyle}
         />
