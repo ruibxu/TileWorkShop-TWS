@@ -16,8 +16,8 @@ const MapCanvas = (props) => {
     const layers = editStore.layers
     //const [currentLayer, setCurrentLayer] = useState(0)
     
-    let tilesetCrop = 64;
-    let tilemapCrop = 64;
+    let tilesetCrop = 128;
+    let tilemapCrop = 128;
     let mouseDown = false
     const setMouseDown = (x) => {
         mouseDown = x
@@ -114,7 +114,7 @@ const MapCanvas = (props) => {
         const {x, y} = e.target.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        return [Math.floor(mouseX/64), Math.floor(mouseY/64)]//use tilemap scale here
+        return [Math.floor(mouseX/128), Math.floor(mouseY/128)]//use tilemap scale here
     }
 
     
