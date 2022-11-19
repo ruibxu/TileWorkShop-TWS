@@ -6,14 +6,13 @@ import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
 import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 const MapCanvas = (props) => {
-    let { parts } = props
-    const canvasRef = useRef(null);
-    const contextRef = useRef(null);
-    const sourceRef = useRef(null);
-    const selectRef = useRef(null);
+    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, setCurrentLayer} = props
+    // const canvasRef = useRef(null);
+    // const contextRef = useRef(null);
     // const [mouseDown, setMouseDown] = useState(false)
     const [selection, setSelection] = useState([1,0])
-    const [currentLayer, setCurrentLayer] = useState(0)
+    //const [currentLayer, setCurrentLayer] = useState(0)
+    
     let tilesetCrop = 64;
     let tilemapCrop = 64;
     let mouseDown = false
@@ -21,14 +20,15 @@ const MapCanvas = (props) => {
         mouseDown = x
     }
 
-    const layers = [{'0-0': [4,4], '0-1': [3,3]},{'0-3': [3,3]},{'0-5': [3,3]}]
+    const width='1200'
+    const height='700'
 
     useEffect(()=>{
         const canvas = canvasRef.current
-        canvas.width = props.width *2
-        canvas.height = props.height *2
-        canvas.style.width = `${props.width}px`
-        canvas.style.height = `${props.height}px`
+        canvas.width = width *2
+        canvas.height = height *2
+        canvas.style.width = `${width}px`
+        canvas.style.height = `${height}px`
 
         const context = canvas.getContext('2d')
         context.scale(2,2)
@@ -37,12 +37,13 @@ const MapCanvas = (props) => {
         contextRef.current = context
     }, [])
 
+    //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
+    let layers = [{},{},{}]
+
     const handleMouseDown = (event) => {
         console.log(getCoords(event))
         //attempting to highlight selected
         const selectionC = getCoords(event)
-        selectRef.current.style.left = `${selectionC[0]*64}px`
-        selectRef.current.style.top = `${selectionC[1]*64}px`
         setSelection(selectionC)
         //attempting to highlight selected ends
     }
@@ -54,6 +55,7 @@ const MapCanvas = (props) => {
 
     const onMouseUp = () => {
         setMouseDown(false)
+        console.log(layers)
     }
 
     const onMouseLeave = () => {
@@ -67,10 +69,12 @@ const MapCanvas = (props) => {
     }
 
     const addTile = (event) => {
+        console.log(currentLayer)
         let clicked = getCoords(event);
         let key = `${clicked[0]}-${clicked[1]}`
         if (event.shiftKey){
-            delete layers[currentLayer][key]
+            console.log('shifting')
+            delete layers[currentLayer][key];
         }else{
             layers[currentLayer][key] = [selection[0], selection[1]]
         }
@@ -78,7 +82,7 @@ const MapCanvas = (props) => {
     }
 
     const draw = () => {
-        //contextRef.current.clearRect(0,0,canvasRef.current.width, canvasRef.current.height)
+        contextRef.current.clearRect(0,0,canvasRef.current.width, canvasRef.current.height)
 
         layers.forEach(layer => {
             Object.keys(layer).forEach(key=>{
@@ -86,7 +90,7 @@ const MapCanvas = (props) => {
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])
                 var [tilesetX, tilesetY] = layer[key]
-
+                if(tilesetY == -1 || tilesetY == -1){return}
                 contextRef.current.drawImage(
                     sourceRef.current,
                     tilesetX * tilesetCrop, tilesetY *tilesetCrop, //top left corner of the grab
@@ -116,7 +120,7 @@ const MapCanvas = (props) => {
         <Box>
             <TilesetToolbar />
             <Box>
-            <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} overflow={'auto'} onLoad={draw}
+            <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} overflow={'auto'}
                 onMouseDown={handleMouseDown}
             />
             <div className='tileset-container_selection' ref={selectRef}></div>

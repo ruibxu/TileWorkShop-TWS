@@ -20,6 +20,9 @@ const EditTileMapScreen = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext);
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
+    const sourceRef = useRef(null);
+    const selectRef = useRef(null);
+    const [currentLayer, setCurrentLayer] = useState(0)
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -35,6 +38,8 @@ const EditTileMapScreen = (props) => {
     },[editStore.currentItem])
     const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
     let parts = []
+    const width='1200'
+    const height='700'
 
     //what ft
 
@@ -47,6 +52,7 @@ const EditTileMapScreen = (props) => {
         { username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color: 'purple' },
         { username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color: 'orange' }
     ]
+    console.log(currentLayer)
 
     return (
         <div className='tilemap'>
@@ -57,11 +63,15 @@ const EditTileMapScreen = (props) => {
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
-                {/* <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
+                <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}/>
-                </Box> */}
+                </Box>
                 <Box flex='1' bg='lightgrey' >
-                <MapWorkspace redirect={redirect} parts={parts} canvasRef={canvasRef} contextRef={contextRef}/>
+                    <MapWorkspace redirect={redirect} parts={parts} 
+                    canvasRef={canvasRef} contextRef={contextRef}
+                    sourceRef={sourceRef} selectRef={contextRef}
+                    currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
+                    />
                 </Box>
                 <Box width='15%'>
                     <Box bg= 'lightgrey' height='100%' className='mapLayer'>
