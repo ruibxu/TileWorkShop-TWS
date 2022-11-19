@@ -23,8 +23,8 @@ const MapCanvas = (props) => {
         mouseDown = x
     }
 
-    const width='1200'
-    const height='700'
+    const width='1280'
+    const height='1280'
 
     useEffect(()=>{
         const canvas = canvasRef.current
@@ -114,7 +114,7 @@ const MapCanvas = (props) => {
         const {x, y} = e.target.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        return [Math.floor(mouseX/128), Math.floor(mouseY/128)]//use tilemap scale here
+        return [Math.floor(mouseX/tilemapCrop), Math.floor(mouseY/tilemapCrop)]//use tilemap scale here
     }
 
     
