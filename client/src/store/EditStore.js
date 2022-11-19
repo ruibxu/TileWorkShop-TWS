@@ -18,7 +18,11 @@ const GlobalEditStoreContextProvider = (props) => {
         currentItem: null,
         access: null,
         type: null,
-        layers: [{},{},{}]
+        layers: 
+            [{name: 'Layer 1', hidden: false, locked: false, data:{}},
+        {name: 'Layer 2', hidden: true, locked: false, data: {}},
+        {name: 'Layer 3', hidden: false, locked: true, data: {}},
+        {name: 'Layer 4', hidden: true, locked: true, data: {}}]
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {

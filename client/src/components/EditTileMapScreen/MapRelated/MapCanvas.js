@@ -78,9 +78,9 @@ const MapCanvas = (props) => {
         let key = `${clicked[0]}-${clicked[1]}`
         if (event.shiftKey){
             console.log('shifting')
-            delete layers[currentLayer][key];
+            delete layers[currentLayer].data[key];
         }else{
-            layers[currentLayer][key] = [selection[0], selection[1]]
+            layers[currentLayer].data[key] = [selection[0], selection[1]]
         }
         draw()
     }
@@ -89,11 +89,11 @@ const MapCanvas = (props) => {
         contextRef.current.clearRect(0,0,canvasRef.current.width, canvasRef.current.height)
 
         layers.forEach(layer => {
-            Object.keys(layer).forEach(key=>{
+            Object.keys(layer.data).forEach(key=>{
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])
-                var [tilesetX, tilesetY] = layer[key]
+                var [tilesetX, tilesetY] = layer.data[key]
                 if(tilesetY == -1 || tilesetY == -1){return}
                 contextRef.current.drawImage(
                     sourceRef.current,

@@ -60,10 +60,6 @@ const TilesetCanvas = (props) => {
         }
     }
 
-
-
-
-
     return (<SimpleGrid id="canvas"
         columns={w}
         rows={h}

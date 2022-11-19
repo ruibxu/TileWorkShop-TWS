@@ -38,8 +38,6 @@ const EditTileMapScreen = (props) => {
     },[editStore.currentItem])
     const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
     let parts = []
-    const width='1200'
-    const height='700'
 
     //what ft
 
@@ -75,7 +73,7 @@ const EditTileMapScreen = (props) => {
                 </Box>
                 <Box width='15%'>
                     <Box bg= 'lightgrey' height='100%' className='mapLayer'>
-                        <MapLayer redirect={redirect} />
+                        <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}/>
                     </Box>
                 </Box>
             </Flex>
