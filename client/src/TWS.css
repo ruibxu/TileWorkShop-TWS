@@ -224,15 +224,14 @@ body {
 .mapLayer {
     position: relative;
     background-color: var(--navbar-background);
-    border-left: 2px solid var(--navbar-border);
-    border-bottom: 2px solid var(--navbar-border);
+    border: 1px solid var(--navbar-border);
 }
 
 .mapTileset {
     position: relative;
     background-color: var(--navbar-background);
-    border-left: 2px solid var(--navbar-border);
-    border-bottom: 2px solid var(--navbar-border);
+    border: 1px solid var(--navbar-border);
+
 }
 
 .share-title {
