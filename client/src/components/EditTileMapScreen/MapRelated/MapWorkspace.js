@@ -21,7 +21,7 @@ const MapWorkspace = (props) => {
 
     return (
         <Container maxW='100%' bg='lightgrey' height='100%' centerContent>
-            <Box padding={'50'}><MapCanvas width='1200' height='700'/></Box>
+            <Box padding={'50'}><MapCanvas width='1200' height='700' parts={props.parts}/></Box>
         </Container>
     )
 }

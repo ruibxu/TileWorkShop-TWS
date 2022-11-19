@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useHistory, useParams} from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
@@ -18,6 +18,8 @@ const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
     const { editStore } = useContext(GlobalEditStoreContext);
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -32,6 +34,7 @@ const EditTileMapScreen = (props) => {
         setTilemap(editStore.currentItem)
     },[editStore.currentItem])
     const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
+    let parts = []
 
     //what ft
 
@@ -54,11 +57,11 @@ const EditTileMapScreen = (props) => {
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
-                <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
-                    <MapTileset height={"100%"} redirect={redirect} />
-                </Box>
-                <Box flex='1' bg='lightgrey' className = 'mapWorkspace'>
-                <MapWorkspace redirect={redirect} />
+                {/* <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
+                    <MapTileset height={"100%"} redirect={redirect} parts={parts}/>
+                </Box> */}
+                <Box flex='1' bg='lightgrey' >
+                <MapWorkspace redirect={redirect} parts={parts} canvasRef={canvasRef} contextRef={contextRef}/>
                 </Box>
                 <Box width='15%'>
                     <Box bg= 'lightgrey' height='100%' className='mapLayer'>

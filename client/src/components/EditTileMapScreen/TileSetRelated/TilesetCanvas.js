@@ -10,13 +10,14 @@ import { SimpleGrid } from '@chakra-ui/react'
 
 const TilesetCanvas = (props) => {
     const canvasRef = useRef(null);
+    let { parts } = props
     // const contextRef = useRef(null);
     var canvas = document.createElement("canvas");
     canvas.height = 128;
     canvas.width = 128;
     var context = canvas.getContext("2d");
     var image = new Image();
-    var parts = [];
+    parts = [];
     image.src =
         "https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png";
     image.crossOrigin = "anonymous";
