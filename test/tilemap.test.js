@@ -13,8 +13,6 @@ const tilemap = {
         "tileset": []
     }
 }
-
-let tid = ''
 describe("Testing auth", () => {
     beforeAll(async () => {
         await request(baseURL).post("/auth/register").send(user);
@@ -29,7 +27,6 @@ describe("Testing auth", () => {
         tilemap.user_id = user_id
         const response = await request(baseURL).post("/api/tilemap")
         .set('Cookie', `token = ${token}`).send(tilemap);
-        tid = response.body.tileMap._id
         expect(response.status).toBe(200);
     });
     it("delete tilemap", async () => {
