@@ -4,7 +4,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 import MapToolbar from './MapToolbar';
 import MapWorkspace from './MapWorkspace';
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Menu, MenuButton, MenuList, MenuItem, Button, Spacer} from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
 import AuthContext from '../../auth';
@@ -14,6 +14,8 @@ import MapLayer from './MapLayer';
 import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
+import EditButtonGroup from './ButtonGroups/EditButtonGroup';
+
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
@@ -22,18 +24,11 @@ const EditTileMapScreen = (props) => {
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
-    if(!auth.loggedIn){redirect('/homescreen')}
-    let { id } = useParams();
-    useEffect(()=>{
-        editStore.getTileMapById(id)
-    },[editStore.currentId])
-    const [tilemap, setTilemap] = useState(editStore.currentItem)
-    useEffect(()=>{
-        setTilemap(editStore.currentItem)
-    },[editStore.currentItem])
+    //if(!auth.loggedIn){redirect('/homescreen')}
+    //let { id } = useParams();
+    const [tilemap, setTilemap] = useState({access:{}})
     const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
 
-    //what ft
 
     const showShareModal = useDisclosure()
     let TempInfo = [
@@ -50,23 +45,20 @@ const EditTileMapScreen = (props) => {
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap)?tilemap.name:'empty'}
             />
-
-            <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
-
-            <Flex color='Black' height={'100%'}>
-                <Box flex='1' bg='lightgrey'>
-                <MapWorkspace redirect={redirect} />
-                </Box>
-                <Box width='30%'>
-                    <Box bg= 'lightgrey' height='40%' className='mapLayer'>
-                    <MapLayer redirect={redirect} />
-                    </Box>
-                    <Box bg= 'lightgrey' height='60%' className='mapTileset'>
-                    <MapTileset height={"100%"} redirect={redirect} />
-                    </Box>
-                </Box>
+            <Flex>
+                <Menu>
+                    <MenuButton as={Button} size='sm' borderColor={'purple'} variant='outline'>
+                        File
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem value={'1'} onClick={(e)=>console.log(e.target.value)}>Name</MenuItem>
+                        <MenuItem value={'2'} onClick={(e)=>console.log(e.target.value)}>Creator</MenuItem>
+                    </MenuList>
+                </Menu>
+                <Spacer/>
+                <EditButtonGroup/>
             </Flex>
-
+            
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}

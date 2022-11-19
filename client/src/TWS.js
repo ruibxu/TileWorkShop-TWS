@@ -21,7 +21,7 @@ const TWS = () => {
                 <GlobalStoreContextProvider>
                     <GlobalCommentStoreContextProvider>
                         <Switch>
-                            <Route path="/" exact component={() => <Homescreen />} />
+                            <Route path="/" exact component={() => <EditTileMapScreen />} />
                             <Route path="/homescreen" exact component={() => <Homescreen />} />
                             <Route path="/listscreen" exact component={() => <Listscreen />} />
                             <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
