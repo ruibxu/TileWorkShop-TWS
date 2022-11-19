@@ -54,15 +54,15 @@ const EditTileMapScreen = (props) => {
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
 
             <Flex color='Black' height={'100%'}>
+                <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
+                    <MapTileset height={"100%"} redirect={redirect} />
+                </Box>
                 <Box flex='1' bg='lightgrey'>
                 <MapWorkspace redirect={redirect} />
                 </Box>
-                <Box width='30%'>
-                    <Box bg= 'lightgrey' height='40%' className='mapLayer'>
-                    <MapLayer redirect={redirect} />
-                    </Box>
-                    <Box bg= 'lightgrey' height='60%' className='mapTileset'>
-                    <MapTileset height={"100%"} redirect={redirect} />
+                <Box width='15%'>
+                    <Box bg= 'lightgrey' height='100%' className='mapLayer'>
+                        <MapLayer redirect={redirect} />
                     </Box>
                 </Box>
             </Flex>
