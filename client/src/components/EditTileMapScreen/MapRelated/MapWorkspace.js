@@ -13,7 +13,7 @@ import { MdOutlineFormatColorFill } from "react-icons/md"
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
-import image from '../../img/map1.png';
+import image from '../../../img/map1.png';
 import MapCanvas from './MapCanvas.js';
 
 

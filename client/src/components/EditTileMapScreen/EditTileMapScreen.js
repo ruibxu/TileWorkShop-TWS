@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams} from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
-import MapToolbar from './MapToolbar';
-import MapWorkspace from './MapWorkspace';
+
 import { Box, Flex } from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
 import AuthContext from '../../auth';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
-import MapLayer from './MapLayer';
-import LayerToolbar from './LayerToolbar';
-import MapTileset from './MapTileset';
+import MapLayer from './LayerRelated/MapLayer';
+import MapTileset from './TileSetRelated/MapTileset';
+import MapToolbar from './MapRelated/MapToolbar';
+import MapWorkspace from './MapRelated/MapWorkspace';
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
