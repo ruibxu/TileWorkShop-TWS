@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import TilesetToolbar from './TilesetToolbar';
 //import image from '../../img/tileset1.png';
-import Canvas from './TilesetCanvas';
+import Canvas from './TilesetCanvas2';
 
 const MapTileset = (props) => {
     /*
@@ -57,7 +57,7 @@ const MapTileset = (props) => {
         <Box>
             <TilesetToolbar />
             <Box>
-            <Canvas />
+            <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection}/>
             </Box>
         </Box>
         // <div>      <TilesetToolbar />      <Canvas /></div>

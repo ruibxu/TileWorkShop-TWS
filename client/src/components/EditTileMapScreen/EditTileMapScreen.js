@@ -23,6 +23,7 @@ const EditTileMapScreen = (props) => {
     const sourceRef = useRef(null);
     const selectRef = useRef(null);
     const [currentLayer, setCurrentLayer] = useState(0)
+    const [selection, setSelection] = useState([1,0])
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -62,13 +63,16 @@ const EditTileMapScreen = (props) => {
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
                 <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
-                    <MapTileset height={"100%"} redirect={redirect} parts={parts}/>
+                    <MapTileset height={"100%"} redirect={redirect} parts={parts}
+                        setSelection={setSelection} sourceRef={sourceRef}
+                    />
                 </Box>
                 <Box flex='1' bg='lightgrey' >
                     <MapWorkspace redirect={redirect} parts={parts} 
                     canvasRef={canvasRef} contextRef={contextRef}
                     sourceRef={sourceRef} selectRef={contextRef}
                     currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
+                    selection={selection} setSelection={setSelection}
                     />
                 </Box>
                 <Box width='15%'>

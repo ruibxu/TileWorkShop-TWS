@@ -7,11 +7,10 @@ import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, setCurrentLayer} = props
+    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection} = props
     // const canvasRef = useRef(null);
     // const contextRef = useRef(null);
     // const [mouseDown, setMouseDown] = useState(false)
-    const [selection, setSelection] = useState([1,0])
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = editStore.layers
     //const [currentLayer, setCurrentLayer] = useState(0)
@@ -121,7 +120,7 @@ const MapCanvas = (props) => {
 
 
     return(<Flex>
-        <Box>
+        {/* <Box>
             <TilesetToolbar />
             <Box>
             <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} width={'640px'} objectFit='cover'
@@ -129,7 +128,7 @@ const MapCanvas = (props) => {
             />
             <div className='tileset-container_selection' ref={selectRef}></div>
             </Box>
-        </Box>
+        </Box> */}
         <Box className = 'mapWorkspace'>
         <canvas id={'tilemap'}
             onMouseDown={onMouseDown}
