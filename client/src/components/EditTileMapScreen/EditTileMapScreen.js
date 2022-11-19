@@ -15,6 +15,7 @@ import LayerToolbar from './LayerToolbar';
 import MapTileset from './MapTileset';
 
 import EditButtonGroup from './ButtonGroups/EditButtonGroup';
+import ExtraButtonGroup from './ButtonGroups/ZoomGroup';
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
@@ -45,6 +46,7 @@ const EditTileMapScreen = (props) => {
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap)?tilemap.name:'empty'}
             />
+            <Box height={'100%'} bg='grey'>
             <Flex>
                 <Menu>
                     <MenuButton as={Button} size='sm' borderColor={'purple'} variant='outline'>
@@ -57,7 +59,16 @@ const EditTileMapScreen = (props) => {
                 </Menu>
                 <Spacer/>
                 <EditButtonGroup/>
+                <Spacer/>
+                <ExtraButtonGroup/>
+                <Spacer/>
+                <Button>Ok</Button>
             </Flex>
+            <Flex bg='red' height={'100%'}>
+                
+            </Flex>
+            </Box>
+            
             
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
