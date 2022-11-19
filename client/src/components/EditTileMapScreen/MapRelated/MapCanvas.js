@@ -78,7 +78,7 @@ const MapCanvas = (props) => {
     }
 
     const draw = () => {
-        contextRef.current.clearRect(0,0,canvasRef.current.width, canvasRef.current.height)
+        //contextRef.current.clearRect(0,0,canvasRef.current.width, canvasRef.current.height)
 
         layers.forEach(layer => {
             Object.keys(layer).forEach(key=>{
