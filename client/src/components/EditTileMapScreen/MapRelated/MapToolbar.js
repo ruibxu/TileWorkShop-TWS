@@ -32,7 +32,6 @@ const MapToolbar = (props) => {
   const { currentButton } = props
 
   const handleOnClick= (value) => {
-    console.log(value);
     props.setCurrentButton(value)
     console.log(currentButton)
   }

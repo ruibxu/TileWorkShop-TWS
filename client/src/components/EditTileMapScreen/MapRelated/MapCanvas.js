@@ -16,11 +16,7 @@ const MapCanvas = (props) => {
 
     let tilemapCrop = 128;
     let mouseDown = false
-    const setMouseDown = (x) => {
-        mouseDown = x
-    }
-
-    
+    const setMouseDown = (x) => {mouseDown = x}
 
     useEffect(() => {
         console.log('this is a problem')
@@ -42,13 +38,29 @@ const MapCanvas = (props) => {
     useEffect(() =>{
         draw()
     },[editStore.layers])
-
-    const onMouseDown = (event) => {
+    //Main switch call functions--------------------------------------------------
+    const stampbrush_down = (event) => {
         setMouseDown(true)
         addTile(event)
     }
+    const stampbrush_up = () => {
+        if (mouseDown) {
+            editStore.addLayerStateTransaction(layers)
+            editStore.changeLayer(layers)
+        }
+        setMouseDown(false)
+        draw()
+    }
+    const stampbrush_move = (event) => {
+        if (mouseDown) {addTile(event)}
+    }
 
-    const onMouseUp = () => {
+    const eraser_down = (event) => {
+        setMouseDown(true)
+        removeTile(event)
+    }
+
+    const eraser_up = () => {
         if (mouseDown) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
@@ -57,24 +69,30 @@ const MapCanvas = (props) => {
         draw()
     }
 
-    const onMouseMove = (event) => {
-        if (mouseDown) {
-            addTile(event)
-        }
+    const eraser_move = (event) =>{
+        if (mouseDown) {removeTile(event)}
     }
 
+    //Main switch call functions end----------------------------------------------
+
+    //Helper functions -----------------------------------------------------------
     const addTile = (event) => {
-        console.log(currentLayer)
+        console.log('from add tile')
         let clicked = getCoords(event);
         let key = `${clicked[0]}-${clicked[1]}`
-        if (event.shiftKey) {
-            delete layers[currentLayer].data[key];
-        } else {
-            layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
-        }
-        console.log([selection[0], selection[1], currentTileSetId])
+        layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
         draw()
     }
+
+    const removeTile = (event) => {
+        console.log('from remove tile')
+        let clicked = getCoords(event);
+        let key = `${clicked[0]}-${clicked[1]}`
+        delete layers[currentLayer].data[key];
+        draw()
+    }
+
+
 
     const draw = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
@@ -98,10 +116,6 @@ const MapCanvas = (props) => {
                 )
             })
         });
-        // if(!isDrawing){return}
-        // const {offsetX, offsetY} = nativeEvent;
-        // contextRef.current.lineTo(offsetX,offsetY)
-        // contextRef.current.stroke()
     }
 
     const getCoords = (e) => {
@@ -110,9 +124,30 @@ const MapCanvas = (props) => {
         const mouseY = e.clientY - y;
         return [Math.floor(mouseX / tilemapCrop), Math.floor(mouseY / tilemapCrop)]//use tilemap scale here
     }
+    //Helper functions -end-------------------------------------------------------
 
+    const onMouseDown = (event) => {
+        switch(currentButton){
+            case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
+            case TOOLS.ERASER:{return eraser_down(event)}
+        }
+    }
 
+    const onMouseUp = () => {
+        switch(currentButton){
+            case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
+            case TOOLS.ERASER:{return eraser_up()}
+        }
+        
+    }
 
+    const onMouseMove = (event) => {
+        console.log(currentButton)
+        switch(currentButton){
+            case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
+            case TOOLS.ERASER:{return eraser_move(event)}
+        }
+    }
 
     return (<Flex>
         <Box className='mapWorkspace'>

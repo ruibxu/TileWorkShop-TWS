@@ -25,7 +25,7 @@ const EditTileMapScreen = (props) => {
     const [currentLayer, setCurrentLayer] = useState(0)
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
-    const [currentButton, setCurrentButton] = useState("test");
+    const [currentButton, setCurrentButton] = useState("stamp brush");
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
