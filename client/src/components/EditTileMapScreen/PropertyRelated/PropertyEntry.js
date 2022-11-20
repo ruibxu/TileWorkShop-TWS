@@ -8,54 +8,44 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 
 
 const PropertyEntry = (props) => {
-    const {name,value} = props.info
-    const currentLayer = props.currentLayer
+    const {name,type,value} = props.info
     const currentProperty = props.currentProperty
-    //const [edit, toggleEdit] = useState(false)
+    const { editStore } = useContext(GlobalEditStoreContext)
+    const [edit, toggleEdit] = useState(false)
+    const [val, setVal] = useState(value)
 
-    /*const handleSelect = () => {
-        props.setCurrentProperty()
-    }*/
-    /*
+    const handleSelect = () => {
+        props.setCurrentProperty(name)
+    }
 
-
-    const handleToggleRename = () => {
+    const handleToggleChangeVal = () => {
         toggleEdit(true)
     }
 
-
-    const handleFinishRename = (e) => {
+    const handleFinishChangeVal = (e) => {
         toggleEdit(false)
-        if(e.target.value == rename){return}//only renames when the name actually changes
-        const newName = e.target.value
-        setRename(newName)
-        handleMakeTransaction('name', newName)
+        if(e.target.value == val){return}//only renames when the name actually changes
+        const newVal = e.target.value
+        setVal(newVal)
     }
 
-    useEffect(()=>{//for undo redo purposes
-        const reset = editStore.layers.find(x => x.id == id)
-        if(!reset){return}
-        if(reset.name != rename){
-            setRename(reset.name)
-            toggleEdit(false)
-        }
-        if(reset.hidden != hide){toggleHide(reset.hidden)}
-        if(reset.locked != lock){toggleLock(reset.locked)}
-    },[editStore.layers])
-    */
-
-    return (
-    <Box height='35px' width={'100%'}>
-        <Flex height='100%' width={'100%'} alignItems='center'>
-            <Box width='100%'>
-                <Input defaultValue={name} autoFocus={true}/>
+    return (<Box height='35px' width={'100%'} className={(currentProperty == name)?'layer-entry-selected':'layer-entry'} name={name}>
+        <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect} onDoubleClick={handleToggleChangeVal}>
+            <Box width={'100%'} paddingLeft={3}>
+                {name}
             </Box>
             <Spacer/>
-            <Box paddingLeft={3} width='100%'>
-                <Input defaultValue={value} autoFocus={true}/>
-            </Box>
+
+            {(edit)?
+            <Box onBlur={handleFinishChangeVal} width={'100%'} >
+                    <Input defaultValue={val} autoFocus={true}/>
+                </Box>
+            :<Box paddingLeft={3} width={'100%'} >
+                {val?val:'unnamed Layer'}
+            </Box>}
         </Flex>
     </Box>)
+
 }
 
 export default PropertyEntry;
