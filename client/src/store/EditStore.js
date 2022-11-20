@@ -34,8 +34,18 @@ const GlobalEditStoreContextProvider = (props) => {
         type: null,
         editing: false,
         layers:
-            [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {} },
-            { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {} },
+            [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {}, 
+                properties: [
+                    {name: 'bowlean', type:'boolean', value:'true'},
+                    {name: 'something', type:'string', value:'print'},
+                    {name: 'number', type:'number', value:'5'}
+                ]
+            },
+            { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {}, 
+                properties: [
+                    {name: 'bowlean', type:'boolean', value:'false'},
+                    {name: 'something', type:'string', value:'layer2'},
+                ]},
             { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
             { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }],
         tilesets: [{_id:'test', name:'testname', pixel:128, height:8, width:5, 

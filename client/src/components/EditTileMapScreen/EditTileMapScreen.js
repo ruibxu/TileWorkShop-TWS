@@ -14,6 +14,7 @@ import MapTileset from './TileSetRelated/MapTileset';
 import MapToolbar from './MapRelated/MapToolbar';
 import MapWorkspace from './MapRelated/MapWorkspace';
 import Property from './PropertyRelated/Property';
+import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
@@ -26,7 +27,7 @@ const EditTileMapScreen = (props) => {
     const [currentLayer, setCurrentLayer] = useState(0)
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
-    const [currentButton, setCurrentButton] = useState("stamp brush");
+    const [currentButton, setCurrentButton] = useState("Stamp Brush");
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -50,6 +51,9 @@ const EditTileMapScreen = (props) => {
     //what ft
 
     const showShareModal = useDisclosure()
+    const showTilesetDrawer = useDisclosure()
+    const tsRef = useRef()
+
     let TempInfo = [
         { username: 'Yibo', email: 'yibo.hu@stonybrook.edu', access: 'Owner', color: 'red' },
         { username: 'NotYibo', email: 'Notyibo@stonybrook.edu', access: 'Editor', color: 'blue' },
@@ -73,6 +77,7 @@ const EditTileMapScreen = (props) => {
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
                         currentTileSetId={currentTileSetId}
+                        tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                     />
                 </Box>
                 <Box flex='1' bg='lightgrey' >
@@ -99,6 +104,7 @@ const EditTileMapScreen = (props) => {
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
+            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}/>
         </div>)
 }
 
