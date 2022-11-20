@@ -21,6 +21,7 @@ const EditTileSetScreen = (props) => {
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
+        editStore.clearTransactions();
         history.push(route, parameters);
     }
 
