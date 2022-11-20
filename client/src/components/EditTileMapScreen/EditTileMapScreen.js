@@ -13,6 +13,7 @@ import MapLayer from './LayerRelated/MapLayer';
 import MapTileset from './TileSetRelated/MapTileset';
 import MapToolbar from './MapRelated/MapToolbar';
 import MapWorkspace from './MapRelated/MapWorkspace';
+import Property from './PropertyRelated/Property';
 import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
 
 const EditTileMapScreen = (props) => {
@@ -73,7 +74,7 @@ const EditTileMapScreen = (props) => {
             <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
-                <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
+                <Box bg='lightgrey' height='100%' width='30%' minW={'256px'}className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
                         currentTileSetId={currentTileSetId}
@@ -91,8 +92,11 @@ const EditTileMapScreen = (props) => {
                     />
                 </Box>
                 <Box width='280px'>
-                    <Box bg='lightgrey' height='100%' className='mapLayer'>
+                    <Box bg='lightgrey' height='30%' className='mapLayer' >
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                    </Box>
+                    <Box bg='lightgrey' height='70%' className='mapLayer'>
+                        <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
                 </Box>
             </Flex>
@@ -101,7 +105,9 @@ const EditTileMapScreen = (props) => {
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
-            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose} />
+            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
+                currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
+            />
         </div>)
 }
 
