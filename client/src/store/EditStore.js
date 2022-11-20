@@ -121,6 +121,7 @@ const GlobalEditStoreContextProvider = (props) => {
     editStore.addLayerStateTransaction = function (newState) {
         let transaction = new LayerState_Transaction(editStore, editStore.layers, newState);
         tps.addTransaction(transaction);
+        console.log(transaction)
     }
 
     editStore.undo = function () {
