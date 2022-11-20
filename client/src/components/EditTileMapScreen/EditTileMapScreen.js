@@ -13,6 +13,7 @@ import MapLayer from './LayerRelated/MapLayer';
 import MapTileset from './TileSetRelated/MapTileset';
 import MapToolbar from './MapRelated/MapToolbar';
 import MapWorkspace from './MapRelated/MapWorkspace';
+import Property from './PropertyRelated/Property';
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
@@ -85,8 +86,11 @@ const EditTileMapScreen = (props) => {
                     />
                 </Box>
                 <Box width='280px'>
-                    <Box bg='lightgrey' height='100%' className='mapLayer'>
+                    <Box bg='lightgrey' height='30%' className='mapLayer' >
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                    </Box>
+                    <Box bg='lightgrey' height='70%' className='mapLayer'>
+                        <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
                 </Box>
             </Flex>
