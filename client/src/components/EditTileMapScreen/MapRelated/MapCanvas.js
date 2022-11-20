@@ -9,7 +9,7 @@ import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection, currentTileSetId } = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -42,16 +42,6 @@ const MapCanvas = (props) => {
     useEffect(() =>{
         draw()
     },[editStore.layers])
-    //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    //let layers = [{},{},{}]
-
-    const handleMouseDown = (event) => {
-        console.log(getCoords(event))
-        //attempting to highlight selected
-        const selectionC = getCoords(event)
-        setSelection(selectionC)
-        //attempting to highlight selected ends
-    }
 
     const onMouseDown = (event) => {
         setMouseDown(true)
@@ -64,13 +54,8 @@ const MapCanvas = (props) => {
             editStore.changeLayer(layers)
         }
         setMouseDown(false)
-        
         draw()
     }
-
-    // const onMouseLeave = () => {
-    //     setMouseDown(false)
-    // }
 
     const onMouseMove = (event) => {
         if (mouseDown) {
