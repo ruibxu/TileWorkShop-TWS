@@ -3,14 +3,18 @@ import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
+import LayerState_Transaction from "../transactions/LayerState_Transaction"
+import jsTPS from "../common/jsTPS"
 export const GlobalEditStoreContext = createContext({});
 
 export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
-    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME"
+    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
+    UPDATE_LAYER: "UPDATE_LAYER"
 
 }
+const tps = new jsTPS();
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
@@ -18,11 +22,11 @@ const GlobalEditStoreContextProvider = (props) => {
         currentItem: null,
         access: null,
         type: null,
-        layers: 
-            [{name: 'Layer 1', hidden: false, locked: false, data:{}},
-        {name: 'Layer 2', hidden: true, locked: false, data: {}},
-        {name: 'Layer 3', hidden: false, locked: true, data: {}},
-        {name: 'Layer 4', hidden: true, locked: true, data: {}}]
+        layers:
+            [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {} },
+            { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {} },
+            { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
+            { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }]
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
@@ -33,7 +37,8 @@ const GlobalEditStoreContextProvider = (props) => {
         const { type, payload } = action;
         switch (type) {
             case GlobalEditStoreActionType.GET_TILEMAP_BY_ID: {
-                return setEditStore({...editStore,
+                return setEditStore({
+                    ...editStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
@@ -41,16 +46,43 @@ const GlobalEditStoreContextProvider = (props) => {
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
-                return setEditStore({...editStore,
+                return setEditStore({
+                    ...editStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
                     type: PROJECT_TYPE.TILESET
                 })
             }
+            case GlobalEditStoreActionType.UPDATE_LAYER: {
+                return setEditStore({
+                    ...editStore,
+                    layers: payload.layers
+                })
+            }
+
         }
     }
-
+    editStore.addTile = function (currentLayer, key, selection) {
+        const layers = editStore.layers
+        layers[currentLayer].data[key] = [selection[0], selection[1]]
+        storeReducer({
+            type: GlobalEditStoreActionType.ADD_TILE,
+            payload: {
+                layers: layers
+            }
+        })
+    }
+    editStore.deleteTile = function (currentLayer, key) {
+        const layers = editStore.layers
+        delete layers[currentLayer].data[key];
+        storeReducer({
+            type: GlobalEditStoreActionType.ADD_TILE,
+            payload: {
+                layers: layers
+            }
+        })
+    }
     editStore.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
         if (response.status === 200) {
@@ -85,6 +117,41 @@ const GlobalEditStoreContextProvider = (props) => {
             console.log(response.data.errorMessage)
         }
     }
+
+    editStore.changeLayer = async function (state) {
+        storeReducer({
+            type: GlobalEditStoreActionType.UPDATE_LAYER,
+            payload: {
+                layers: state
+            }
+        })
+    }
+
+    editStore.addLayerStateTransaction = function (newState) {
+        console.log(editStore.layers)
+        console.log("potato")
+        console.log(newState)
+
+        let transaction = new LayerState_Transaction(editStore, editStore.layers, newState);
+        tps.addTransaction(transaction);
+    }
+
+    editStore.undo = function () {
+        tps.undoTransaction();
+    }
+
+    editStore.redo = function () {
+        tps.doTransaction();
+    }
+
+    editStore.canUndo = function () {
+        return tps.hasTransactionToUndo();
+    }
+
+    editStore.canRedo = function () {
+        return tps.hasTransactionToRedo();
+    }
+
     return (
         <GlobalEditStoreContext.Provider value={{
             editStore

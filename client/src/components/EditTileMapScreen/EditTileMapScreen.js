@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
-import { useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 
@@ -23,21 +23,25 @@ const EditTileMapScreen = (props) => {
     const sourceRef = useRef(null);
     const selectRef = useRef(null);
     const [currentLayer, setCurrentLayer] = useState(0)
-    const [selection, setSelection] = useState([1,0])
+    const [selection, setSelection] = useState([1, 0])
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
     }
-    if(!auth.loggedIn){redirect('/homescreen')}
+    if (!auth.loggedIn) { redirect('/homescreen') }
+
     let { id } = useParams();
-    useEffect(()=>{
+    useEffect(() => {
         editStore.getTileMapById(id)
-    },[editStore.currentId])
+    }, [editStore.currentId])
+
     const [tilemap, setTilemap] = useState(editStore.currentItem)
-    useEffect(()=>{
+
+    useEffect(() => {
         setTilemap(editStore.currentItem)
-    },[editStore.currentItem])
-    const [isPublic, setPublic] = useState((tilemap)?tilemap.access.public:false)
+    }, [editStore.currentItem])
+    
+    const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
     let parts = []
 
     //what ft
@@ -55,29 +59,29 @@ const EditTileMapScreen = (props) => {
 
     return (
         <div className='tilemap'>
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
-                isPublic={isPublic} setPublic={setPublic} name={(tilemap)?tilemap.name:'empty'}
+            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
+                isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
             <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
-                <Box bg= 'lightgrey' height='100%' width='30%' className='mapTileset'>
+                <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
                     />
                 </Box>
                 <Box flex='1' bg='lightgrey' >
-                    <MapWorkspace redirect={redirect} parts={parts} 
-                    canvasRef={canvasRef} contextRef={contextRef}
-                    sourceRef={sourceRef} selectRef={contextRef}
-                    currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
-                    selection={selection} setSelection={setSelection}
+                    <MapWorkspace redirect={redirect} parts={parts}
+                        canvasRef={canvasRef} contextRef={contextRef}
+                        sourceRef={sourceRef} selectRef={contextRef}
+                        currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
+                        selection={selection} setSelection={setSelection}
                     />
                 </Box>
                 <Box width='15%'>
-                    <Box bg= 'lightgrey' height='100%' className='mapLayer'>
-                        <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}/>
+                    <Box bg='lightgrey' height='100%' className='mapLayer'>
+                        <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
                 </Box>
             </Flex>

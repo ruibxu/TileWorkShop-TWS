@@ -14,6 +14,8 @@ const TilesetCanvas = (props) => {
     let tilesetCrop = 128;
 
     const handleSelect = (event) => {
+        console.log(event.clientX)
+        console.log(event.clientY)
         console.log(getCoords(event))
         //attempting to highlight selected
         const selectionC = getCoords(event)

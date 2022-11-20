@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect,useRef } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
     Box,
     Flex,
@@ -53,11 +53,11 @@ const MapTileset = (props) => {
                 </canvas>
  */
     return (
-        
+
         <Box>
             <TilesetToolbar />
             <Box>
-            <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection}/>
+                <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} />
             </Box>
         </Box>
         // <div>      <TilesetToolbar />      <Canvas /></div>
