@@ -16,7 +16,6 @@ const MapCanvas = (props) => {
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
     //const [currentLayer, setCurrentLayer] = useState(0)
 
-    let tilesetCrop = 128;
     let tilemapCrop = 128;
     let mouseDown = false
     const setMouseDown = (x) => {
@@ -102,9 +101,7 @@ const MapCanvas = (props) => {
                 let positionY = Number(positions[1])
                 let [tilesetX, tilesetY, tilesetId] = layer.data[key]
                 const source = editStore.tilesets.find(x => x._id == tilesetId)
-                console.log(source)
-                //source.image.ref=tempRef
-                console.log(tempRef.current)
+                let tilesetCrop = source.pixel
                 //let image = <Image src={source.image.src} ref={tempRef}/>
                 if (tilesetY == -1 || tilesetY == -1 || !source) { return }
                 contextRef.current.drawImage(
