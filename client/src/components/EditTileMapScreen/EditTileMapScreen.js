@@ -23,7 +23,8 @@ const EditTileMapScreen = (props) => {
     const sourceRef = useRef(null);
     const selectRef = useRef(null);
     const [currentLayer, setCurrentLayer] = useState(0)
-    const [selection, setSelection] = useState([1, 0])
+    const [selection, setSelection] = useState([1, 0, 'test'])
+    const [currentTileSetId, setCurrentTileSetId] = useState('test')
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -69,6 +70,7 @@ const EditTileMapScreen = (props) => {
                 <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
+                        currentTileSetId={currentTileSetId}
                     />
                 </Box>
                 <Box flex='1' bg='lightgrey' >
@@ -77,6 +79,7 @@ const EditTileMapScreen = (props) => {
                         sourceRef={sourceRef} selectRef={contextRef}
                         currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
                         selection={selection} setSelection={setSelection}
+                        currentTileSetId={currentTileSetId}
                     />
                 </Box>
                 <Box width='15%'>

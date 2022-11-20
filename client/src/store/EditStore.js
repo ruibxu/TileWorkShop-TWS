@@ -7,6 +7,7 @@ import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 export const GlobalEditStoreContext = createContext({});
 
+
 export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
@@ -15,6 +16,13 @@ export const GlobalEditStoreActionType = {
 
 }
 const tps = new jsTPS();
+
+const createImage = (src) => {
+    let img = new Image()
+    img.src = src
+    img.crossOrigin = "anonymous"
+    return img
+}
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
@@ -26,7 +34,9 @@ const GlobalEditStoreContextProvider = (props) => {
             [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {} },
             { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {} },
             { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
-            { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }]
+            { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }],
+        tilesets: [{_id:'test', name:'testname', pixel:128, src:'https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png', 
+        image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png')}]
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {

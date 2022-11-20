@@ -1,18 +1,19 @@
 import { useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
 import { MdLayers } from 'react-icons/md';
-import { Image, Flex, Box } from '@chakra-ui/react'
+import { Flex, Box } from '@chakra-ui/react'
 import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
 import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection } = props
+    let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection, currentTileSetId } = props
     // const canvasRef = useRef(null);
     // const contextRef = useRef(null);
     // const [mouseDown, setMouseDown] = useState(false)
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
+    const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
     //const [currentLayer, setCurrentLayer] = useState(0)
 
     let tilesetCrop = 128;
@@ -85,8 +86,9 @@ const MapCanvas = (props) => {
         if (event.shiftKey) {
             delete layers[currentLayer].data[key];
         } else {
-            layers[currentLayer].data[key] = [selection[0], selection[1]]
+            layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
         }
+        console.log([selection[0], selection[1], currentTileSetId])
         draw()
     }
 
@@ -98,10 +100,15 @@ const MapCanvas = (props) => {
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])
-                var [tilesetX, tilesetY] = layer.data[key]
-                if (tilesetY == -1 || tilesetY == -1) { return }
+                let [tilesetX, tilesetY, tilesetId] = layer.data[key]
+                const source = editStore.tilesets.find(x => x._id == tilesetId)
+                console.log(source)
+                //source.image.ref=tempRef
+                console.log(tempRef.current)
+                //let image = <Image src={source.image.src} ref={tempRef}/>
+                if (tilesetY == -1 || tilesetY == -1 || !source) { return }
                 contextRef.current.drawImage(
-                    sourceRef.current,
+                    source.image,
                     tilesetX * tilesetCrop, tilesetY * tilesetCrop, //top left corner of the grab
                     tilesetCrop, tilesetCrop, //Size of the grab
                     positionX * tilemapCrop, positionY * tilemapCrop, //where the grab is placed
@@ -126,15 +133,6 @@ const MapCanvas = (props) => {
 
 
     return (<Flex>
-        {/* <Box>
-            <TilesetToolbar />
-            <Box>
-            <Image id={'tileset Image'} src={tileset1} ref={sourceRef} color='Black' height={'100%'} width={'640px'} objectFit='cover'
-                onMouseDown={handleMouseDown} onLoad={draw}
-            />
-            <div className='tileset-container_selection' ref={selectRef}></div>
-            </Box>
-        </Box> */}
         <Box className='mapWorkspace'>
             <canvas id={'tilemap'}
                 onMouseDown={onMouseDown}

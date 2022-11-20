@@ -9,17 +9,20 @@ import { SimpleGrid, Image} from '@chakra-ui/react'
 
 
 const TilesetCanvas = (props) => {
-    const { sourceRef } = props
+    const { sourceRef, currentTileSetId } = props
     console.log('Tileset Canvas 2')
     let tilesetCrop = 128;
+
+    
 
     const handleSelect = (event) => {
         console.log(event.clientX)
         console.log(event.clientY)
-        console.log(getCoords(event))
+        
         //attempting to highlight selected
         const selectionC = getCoords(event)
-        props.setSelection(selectionC)
+        props.setSelection([...selectionC, currentTileSetId])
+        console.log([...selectionC, currentTileSetId])
         //attempting to highlight selected ends
     }
 

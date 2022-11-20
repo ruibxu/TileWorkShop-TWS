@@ -57,7 +57,7 @@ const MapTileset = (props) => {
         <Box>
             <TilesetToolbar />
             <Box>
-                <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} />
+                <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} currentTileSetId={props.currentTileSetId}/>
             </Box>
         </Box>
         // <div>      <TilesetToolbar />      <Canvas /></div>
