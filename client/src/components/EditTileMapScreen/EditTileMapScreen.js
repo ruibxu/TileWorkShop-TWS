@@ -82,7 +82,7 @@ const EditTileMapScreen = (props) => {
                         currentTileSetId={currentTileSetId}
                     />
                 </Box>
-                <Box width='15%'>
+                <Box width='280px'>
                     <Box bg='lightgrey' height='100%' className='mapLayer'>
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
