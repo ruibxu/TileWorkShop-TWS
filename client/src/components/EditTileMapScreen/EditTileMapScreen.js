@@ -65,7 +65,7 @@ const EditTileMapScreen = (props) => {
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={props.currentButton} setCurrentButton={setCurrentButton}/></div>
+            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={currentButton} setCurrentButton={setCurrentButton}/></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
                 <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
