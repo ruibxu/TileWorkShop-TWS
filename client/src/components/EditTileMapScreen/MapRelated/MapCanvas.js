@@ -58,12 +58,11 @@ const MapCanvas = (props) => {
 
     const onMouseUp = () => {
         setMouseDown(false)
-        console.log(layers)
     }
 
-    const onMouseLeave = () => {
-        setMouseDown(false)
-    }
+    // const onMouseLeave = () => {
+    //     setMouseDown(false)
+    // }
 
     const onMouseMove = (event) => {
         if(mouseDown){
@@ -134,7 +133,7 @@ const MapCanvas = (props) => {
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
+            onMouseLeave={onMouseUp}
             ref={canvasRef}
             className={CanvasStyle}
         /></Box>
