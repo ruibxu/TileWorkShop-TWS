@@ -9,10 +9,15 @@ import {
     DrawerCloseButton,
     Input,
     Button,
+    Divider,
+    Spacer, Flex, IconButton
   } from '@chakra-ui/react'
+import TilesetDrawerList from './TilesetDrawerList'
+import { AiOutlineFileAdd } from "react-icons/ai"
+
 
 const TilesetDrawer = (props) => {
-    const {isOpen, onClose, btnRef} = props
+    const {isOpen, onClose, btnRef, currentTileSetId} = props
 
     return <Drawer
         isOpen={isOpen}
@@ -23,17 +28,23 @@ const TilesetDrawer = (props) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
-
+          <DrawerHeader>
+            Tilesets:
+            <Input placeholder='Search...' mb={2} mt={2}/>
+          </DrawerHeader>
+            <Divider width={'100%'} borderColor={'purple'}/>
           <DrawerBody>
-            <Input placeholder='Type here...' />
+            <TilesetDrawerList currentTileSetId={currentTileSetId} setCurrentTileSetId={props.setCurrentTileSetId}
+            setSelection={props.setSelection}
+            />
           </DrawerBody>
-
+          <Divider width={'100%'} borderColor={'purple'}/>
           <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme='blue'>Save</Button>
+            <Flex width={'100%'}>
+              <IconButton bg='transparent' title="Add New Tileset" icon={<AiOutlineFileAdd className='md-icon' variant={'outline'} colorScheme='purple'/>} />
+              <Spacer/>
+              <Button colorScheme='purple' variant={'outline'}>Done</Button>
+            </Flex>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

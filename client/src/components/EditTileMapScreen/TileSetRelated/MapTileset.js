@@ -11,12 +11,16 @@ import {
 import TilesetToolbar from './TilesetToolbar';
 //import image from '../../img/tileset1.png';
 import Canvas from './TilesetCanvas2';
+import GlobalEditStoreContext from '../../../store/EditStore';
 
 const MapTileset = (props) => {
-    return (
+    const { editStore } = useContext(GlobalEditStoreContext)
+    const currentTileset = editStore.tilesets.find(x => x._id == props.currentTileSetId)
+    const currentTilesetName = currentTileset?currentTileset.name:'Unnamed'
 
+    return (
         <Box>
-            <TilesetToolbar tsRef={props.tsRef} openDrawer={props.openDrawer}/>
+            <TilesetToolbar tsRef={props.tsRef} openDrawer={props.openDrawer} currentTilesetName={currentTilesetName}/>
             <Box>
                 <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} currentTileSetId={props.currentTileSetId}/>
             </Box>
