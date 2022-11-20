@@ -7,14 +7,13 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 
 
 const LayerEntry = (props) => {
-    const {name, hidden, locked, properties, data} = props.info
-    const index = props.index
+    const {id, name, hidden, locked, properties, data} = props.info
     const currentLayer = props.currentLayer
     const handleSelect = () => {
         props.setCurrentLayer(index)
     }
 
-    return (<Box height='35px' width={'100%'} className={(currentLayer == index)?'layer-entry-selected':'layer-entry'} id={index}>
+    return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected':'layer-entry'} id={index}>
         <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect}>
             <Box paddingLeft={3}>
                 {name?name:'unnamed Layer'}
