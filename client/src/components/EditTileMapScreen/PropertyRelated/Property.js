@@ -17,6 +17,7 @@ const Property = (props) => {
             case 'number':{return new Number(property.value)}
         }
     }
+    console.log(props.currentLayer)
     
     const displayProperties = properties.map(x => ({name: x.name, type: x.type, value: convertValue(x)}))
     /*const properties = [
@@ -30,7 +31,7 @@ const Property = (props) => {
             <PropertyToolbar/>
             <Box overflowY={'auto'} >
                     {displayProperties.map((property, index) => (<PropertyEntry info={property} index={index} 
-                    currentProperty={currentProperty}
+                    currentProperty={currentProperty} currentLayer={props.currentLayer}
                     setCurrentProperty={setCurrentProperty}
                     />))}
             </Box>
