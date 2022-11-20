@@ -155,6 +155,10 @@ const GlobalEditStoreContextProvider = (props) => {
         return tps.hasTransactionToRedo();
     }
 
+    editStore.clearTransactions = () => {
+        tps.clearAllTransactions();
+    }
+
     return (
         <GlobalEditStoreContext.Provider value={{
             editStore

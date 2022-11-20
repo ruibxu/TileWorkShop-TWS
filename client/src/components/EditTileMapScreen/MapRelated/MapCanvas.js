@@ -19,7 +19,6 @@ const MapCanvas = (props) => {
     const setMouseDown = (x) => {mouseDown = x}
 
     useEffect(() => {
-        console.log('this is a problem')
         const width = tilemapCrop*editStore.width
         const height = tilemapCrop*editStore.height
         const canvas = canvasRef.current

@@ -30,6 +30,7 @@ const EditTileMapScreen = (props) => {
     const [currentButton, setCurrentButton] = useState("Stamp Brush");
     let history = useHistory();
     const redirect = async (route, parameters) => {
+        editStore.clearTransactions()
         history.push(route, parameters);
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
