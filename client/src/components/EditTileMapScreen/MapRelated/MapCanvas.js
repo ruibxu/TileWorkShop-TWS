@@ -14,7 +14,7 @@ const MapCanvas = (props) => {
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
 
-    let tilemapCrop = 128;
+    let tilemapCrop = 64;
     let mouseDown = false
     const setMouseDown = (x) => {mouseDown = x}
 
