@@ -35,7 +35,7 @@ const GlobalEditStoreContextProvider = (props) => {
             { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {} },
             { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
             { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }],
-        tilesets: [{_id:'test', name:'testname', pixel:128, src:'https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png', 
+        tilesets: [{_id:'test', name:'testname', pixel:128, height:8, width:5, 
         image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png')}]
     });
     const history = useHistory();
