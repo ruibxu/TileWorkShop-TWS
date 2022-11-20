@@ -81,6 +81,7 @@ const EditTileMapScreen = (props) => {
                         currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
                         selection={selection} setSelection={setSelection}
                         currentTileSetId={currentTileSetId}
+                        currentButton={currentButton} setCurrentButton={setCurrentButton}
                     />
                 </Box>
                 <Box width='280px'>

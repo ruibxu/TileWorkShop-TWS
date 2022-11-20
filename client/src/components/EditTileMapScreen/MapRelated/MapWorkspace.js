@@ -28,6 +28,7 @@ const MapWorkspace = (props) => {
             currentLayer={props.currentLayer} 
             selection={props.selection} setSelection={props.setSelection}
             currentTileSetId={props.currentTileSetId}
+            currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
 
             /></Box>
         </Container>
