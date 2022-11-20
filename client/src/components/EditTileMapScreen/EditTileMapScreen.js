@@ -44,10 +44,11 @@ const EditTileMapScreen = (props) => {
     useEffect(() => {
         setTilemap(editStore.currentItem)
     }, [editStore.currentItem])
-    
+
     const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
     let parts = []
 
+    
     //what ft
 
     const showShareModal = useDisclosure()
@@ -63,17 +64,17 @@ const EditTileMapScreen = (props) => {
         { username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color: 'orange' }
     ]
     console.log(currentLayer)
-
+    
     return (
-        <div className='tilemap'>
+        <div className='tilemap' >
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={currentButton} setCurrentButton={setCurrentButton}/></div>
+            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
-                <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
+                <Box bg='lightgrey' height='100%' width='30%' minW={'256px'}className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
                         currentTileSetId={currentTileSetId}
@@ -104,7 +105,9 @@ const EditTileMapScreen = (props) => {
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
-            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}/>
+            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
+                currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
+            />
         </div>)
 }
 
