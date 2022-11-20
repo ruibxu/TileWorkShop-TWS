@@ -8,13 +8,9 @@ import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 const MapCanvas = (props) => {
     let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection, currentTileSetId } = props
-    // const canvasRef = useRef(null);
-    // const contextRef = useRef(null);
-    // const [mouseDown, setMouseDown] = useState(false)
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
-    //const [currentLayer, setCurrentLayer] = useState(0)
 
     let tilemapCrop = 128;
     let mouseDown = false
@@ -22,10 +18,12 @@ const MapCanvas = (props) => {
         mouseDown = x
     }
 
-    const width = '1280'
-    const height = '1280'
+    
 
     useEffect(() => {
+        console.log('this is a problem')
+        const width = tilemapCrop*editStore.width
+        const height = tilemapCrop*editStore.height
         const canvas = canvasRef.current
         canvas.width = width * 2
         canvas.height = height * 2
@@ -38,7 +36,7 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [])
+    }, [editStore.width, editStore.height])
     useEffect(() =>{
         draw()
     },[editStore.layers])

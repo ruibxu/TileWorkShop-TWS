@@ -28,6 +28,8 @@ const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
         currentId: null,
         currentItem: null,
+        width: 10,
+        height: 10,
         access: null,
         type: null,
         editing: false,
