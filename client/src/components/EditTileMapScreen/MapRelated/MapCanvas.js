@@ -128,6 +128,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
             case TOOLS.ERASER:{return eraser_down(event)}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
         }
     }
 
@@ -135,6 +136,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.ERASER:{return eraser_up()}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up()}
         }
         
     }
@@ -144,6 +146,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
             case TOOLS.ERASER:{return eraser_move(event)}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
     }
 
