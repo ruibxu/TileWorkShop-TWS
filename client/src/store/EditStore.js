@@ -73,26 +73,6 @@ const GlobalEditStoreContextProvider = (props) => {
 
         }
     }
-    editStore.addTile = function (currentLayer, key, selection) {
-        const layers = editStore.layers
-        layers[currentLayer].data[key] = [selection[0], selection[1]]
-        storeReducer({
-            type: GlobalEditStoreActionType.ADD_TILE,
-            payload: {
-                layers: layers
-            }
-        })
-    }
-    editStore.deleteTile = function (currentLayer, key) {
-        const layers = editStore.layers
-        delete layers[currentLayer].data[key];
-        storeReducer({
-            type: GlobalEditStoreActionType.ADD_TILE,
-            payload: {
-                layers: layers
-            }
-        })
-    }
     editStore.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
         if (response.status === 200) {
