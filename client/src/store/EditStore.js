@@ -12,7 +12,8 @@ export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
-    UPDATE_LAYER: "UPDATE_LAYER"
+    UPDATE_LAYER: "UPDATE_LAYER",
+    UPDATE_MAP_SIZE: "UPDATE_MAP_SIZE"
 
 }
 const tps = new jsTPS();
@@ -86,6 +87,13 @@ const GlobalEditStoreContextProvider = (props) => {
                     layers: payload.layers
                 })
             }
+            case GlobalEditStoreActionType.UPDATE_MAP_SIZE: {
+                return setEditStore({
+                    ...editStore,
+                    height: payload.height,
+                    width: payload.width
+                })
+            }
 
         }
     }
@@ -129,6 +137,16 @@ const GlobalEditStoreContextProvider = (props) => {
             type: GlobalEditStoreActionType.UPDATE_LAYER,
             payload: {
                 layers: state
+            }
+        })
+    }
+
+    editStore.updateMapSize = async function (height, width) {
+        storeReducer({
+            type: GlobalEditStoreActionType.UPDATE_MAP_SIZE,
+            payload: {
+                height: height,
+                width: width
             }
         })
     }

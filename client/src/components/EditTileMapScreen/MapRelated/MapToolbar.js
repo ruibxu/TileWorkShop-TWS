@@ -25,6 +25,7 @@ import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { BiSelectMultiple } from "react-icons/bi"
 import { TOOLS } from '../../../translator-client/edit-options';
+import ResizeMapModal from '../../Modals/ResizeMap-Modal';
 
 
 const MapToolbar = (props) => {
@@ -34,8 +35,13 @@ const MapToolbar = (props) => {
   const [canRedo, setCanRedo] = useState(false)
   const handleOnClick = (value) => {
     props.setCurrentButton(value)
-    console.log(currentButton)
+    //console.log(currentButton)
   }
+  const handleResizeMap = (value) => {
+    props.setCurrentButton(value)
+    //console.log(currentButton)
+  }
+
   const handleKeyPress = (event) => {
     if (event.ctrlKey && event.key === 'z') {
       editStore.undo()
@@ -60,7 +66,7 @@ const MapToolbar = (props) => {
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
-          <IconButton bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
+          <IconButton onClick={props.openResizeMapModal} bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH} icon={<TfiBrushAlt className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />

@@ -15,6 +15,7 @@ import MapToolbar from './MapRelated/MapToolbar';
 import MapWorkspace from './MapRelated/MapWorkspace';
 import Property from './PropertyRelated/Property';
 import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
+import ResizeMapModal from '../Modals/ResizeMap-Modal';
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
@@ -53,6 +54,7 @@ const EditTileMapScreen = (props) => {
     //what ft
 
     const showShareModal = useDisclosure()
+    const showResizeMapModal = useDisclosure()
     const showTilesetDrawer = useDisclosure()
     const tsRef = useRef()
 
@@ -68,11 +70,12 @@ const EditTileMapScreen = (props) => {
     
     return (
         <div className='tilemap' >
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
+            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
+            <div className='mapToolbar'><MapToolbar redirect={redirect} openResizeMapModal={showResizeMapModal.onOpen} 
+            currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
                 <Box bg='lightgrey' height='100%' width='30%' minW={'256px'}className='mapTileset'>
@@ -105,6 +108,8 @@ const EditTileMapScreen = (props) => {
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
+            />
+            <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
             />
             <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
                 currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
