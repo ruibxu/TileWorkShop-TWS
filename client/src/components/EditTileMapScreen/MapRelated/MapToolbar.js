@@ -52,7 +52,10 @@ const MapToolbar = (props) => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [])
-
+  useEffect(()=>{
+    setCanUndo(editStore.canUndo())
+    setCanRedo(editStore.canRedo())
+  },[editStore])
   return (
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
