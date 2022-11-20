@@ -19,19 +19,8 @@ const TilesetCanvas = (props) => {
     
 
     const handleSelect = (event) => {
-        
-        
-        //attempting to highlight selected
-        //const intendedSize = currentTS.pixel * currentTS.width
         const selectionC = getCoords(event)
         props.setSelection([...selectionC, currentTileSetId])
-        // console.log([...selectionC, currentTileSetId])
-        // console.log(sourceRef)
-        // console.log(sourceRef.current.clientHeight)//scaled
-        // console.log(sourceRef.current.clientWidth)
-        // console.log(sourceRef.current.naturalHeight)//original
-        // console.log(sourceRef.current.naturalWidth)
-        //attempting to highlight selected ends
     }
 
     const getCoords = (e) => {
