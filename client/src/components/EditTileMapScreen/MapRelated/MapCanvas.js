@@ -6,6 +6,8 @@ import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
 import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
+import { TOOLS } from '../../../translator-client/edit-options';
+
 const MapCanvas = (props) => {
     let { canvasRef, contextRef, sourceRef, selectRef, currentLayer, selection, setSelection, currentTileSetId } = props
     const { editStore } = useContext(GlobalEditStoreContext)

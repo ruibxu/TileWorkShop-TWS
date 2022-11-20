@@ -24,10 +24,12 @@ import { GrSelect } from "react-icons/gr"
 import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { BiSelectMultiple } from "react-icons/bi"
+import { TOOLS } from '../../../translator-client/edit-options';
 
 
 const MapToolbar = (props) => {
   const { editStore } = useContext(GlobalEditStoreContext);
+  const { currentButton } = props
 
   const handleOnClick= (value) => {
     console.log(value);
@@ -40,13 +42,13 @@ const MapToolbar = (props) => {
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
           <IconButton bg='transparent' title="Resize Map" icon={<GiResize className='md-icon'/> } />
-          <IconButton onClick={()=>handleOnClick("Stamp Brush")} variant={(currentButton == "Stamp Brush")?'outline':'solid'} bg='transparent' title="Stamp Brush" icon={<TfiBrushAlt className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Bucket Fill Tool")} variant={(currentButton == "Bucket Fill Tool")?'outline':'solid'} bg='transparent' title="Bucket Fill Tool" icon={<MdOutlineFormatColorFill className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Shape Fill Tool")} variant={(currentButton == "Bucket Fill Tool")?'outline':'solid'} bg='transparent' title="Shape Fill Tool" icon={<RiShape2Fill className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Eraser")} variant={(currentButton == "Bucket Fill Tool")?'outline':'solid'} bg='transparent' title="Eraser" icon={<RiEraserLine className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Rectangular Select")} variant={(currentButton == "Bucket Fill Tool")?'outline':'solid'} bg='transparent' title="Rectangular Select" icon={<GrSelect className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Select Same Tile")} variant={(currentButton == "Select Same Tile")?'outline':'solid'} bg='transparent' title="Select Same Tile" icon={<BiSelectMultiple className='md-icon' />} />
-          <IconButton onClick={()=>handleOnClick("Magic Wand")} variant={(currentButton == "Magic Wand")?'outline':'solid'} bg='transparent' title="Magic Wand" icon={<ImMagicWand className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.STAMP_BRUSH)} variant={(currentButton == TOOLS.STAMP_BRUSH)?'outline':'solid'} bg='transparent' title={TOOLS.STAMP_BRUSH} icon={<TfiBrushAlt className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.BUCKET_FILL_TOOL)} variant={(currentButton == TOOLS.BUCKET_FILL_TOOL)?'outline':'solid'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.SHAPE_FILL_TOOL)} variant={(currentButton == TOOLS.SHAPE_FILL_TOOL)?'outline':'solid'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.ERASER)} variant={(currentButton == TOOLS.ERASER)?'outline':'solid'} bg='transparent' title={TOOLS.ERASER} icon={<RiEraserLine className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.REACTANGULAR_SELECT)} variant={(currentButton == TOOLS.REACTANGULAR_SELECT)?'outline':'solid'} bg='transparent' title={TOOLS.REACTANGULAR_SELECT} icon={<GrSelect className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.SELECT_SAME_TILE)} variant={(currentButton == TOOLS.SELECT_SAME_TILE)?'outline':'solid'} bg='transparent' title={TOOLS.SELECT_SAME_TILE} icon={<BiSelectMultiple className='md-icon' />} />
+          <IconButton onClick={()=>handleOnClick(TOOLS.MAGIC_WAND)} variant={(currentButton == TOOLS.MAGIC_WAND)?'outline':'solid'} bg='transparent' title={TOOLS.MAGIC_WAND} icon={<ImMagicWand className='md-icon' />} />
           <IconButton  bg='transparent' title="Undo" onClick={() => editStore.undo()} disabled = {!editStore.canUndo()} icon={<ImUndo className='md-icon' />} />
           <IconButton  bg='transparent' title="Redo" onClick={() => editStore.redo()} disabled = {!editStore.canRedo()}icon={<ImRedo className='md-icon' />} />
           <IconButton  bg='transparent' title="Zoom In" icon={<ImZoomIn className='md-icon' />} />
