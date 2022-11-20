@@ -72,12 +72,38 @@ const MapCanvas = (props) => {
         if (mouseDown) {removeTile(event)}
     }
 
+    // fill shape tool
+    const shapefill_down = (event) => {
+        setMouseDown(true)
+        addTile(event)
+    }
+    const shapefill_up = () => {
+        if (mouseDown) {
+            editStore.addLayerStateTransaction(layers)
+            editStore.changeLayer(layers)
+        }
+        setMouseDown(false)
+        draw()
+    }
+    const shapefill_move = (event) => {
+        if (mouseDown) {fillTile(event)}
+    }
+
     //Main switch call functions end----------------------------------------------
 
     //Helper functions -----------------------------------------------------------
     const addTile = (event) => {
         console.log('from add tile')
         let clicked = getCoords(event);
+        let key = `${clicked[0]}-${clicked[1]}`
+        layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
+        draw()
+    }
+
+    const fillTile = (event) => {
+        console.log('from fill tile')
+        let clicked = getCoords(event);
+        console.log(clicked)
         let key = `${clicked[0]}-${clicked[1]}`
         layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
         draw()
@@ -127,7 +153,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
             case TOOLS.ERASER:{return eraser_down(event)}
-            // case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
         }
     }
 
@@ -135,7 +161,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.ERASER:{return eraser_up()}
-            // case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up()}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up()}
         }
         
     }
@@ -145,7 +171,7 @@ const MapCanvas = (props) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
             case TOOLS.ERASER:{return eraser_move(event)}
-            // case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_move(event)}
         }
     }
 
