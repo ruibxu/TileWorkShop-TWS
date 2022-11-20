@@ -25,6 +25,7 @@ const EditTileMapScreen = (props) => {
     const [currentLayer, setCurrentLayer] = useState(0)
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
+    const [currentButton, setCurrentButton] = useState("test");
     let history = useHistory();
     const redirect = async (route, parameters) => {
         history.push(route, parameters);
@@ -64,7 +65,7 @@ const EditTileMapScreen = (props) => {
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar'><MapToolbar redirect={redirect} /></div>
+            <div className='mapToolbar'><MapToolbar redirect={redirect} currentButton={props.currentButton} setCurrentButton={setCurrentButton}/></div>
 
             <Flex color='Black' height={'100%'} overflow={'auto'}>
                 <Box bg='lightgrey' height='100%' width='30%' className='mapTileset'>
