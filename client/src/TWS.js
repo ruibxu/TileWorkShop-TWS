@@ -21,17 +21,17 @@ const TWS = () => {
             <AuthContextProvider>
                 <GlobalStoreContextProvider>
                     <GlobalCommentStoreContextProvider>
-                        <Switch>
-                            <Route path="/" exact component={() => <Homescreen />} />
-                            <Route path="/homescreen" exact component={() => <Homescreen />} />
-                            <Route path="/listscreen" exact component={() => <Listscreen />} />
-                            <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
-                            <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
-                            <GlobalEditStoreContextProvider>
+                        <GlobalEditStoreContextProvider>
+                            <Switch>
+                                <Route path="/" exact component={() => <Homescreen />} />
+                                <Route path="/homescreen" exact component={() => <Homescreen />} />
+                                <Route path="/listscreen" exact component={() => <Listscreen />} />
+                                <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
+                                <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
                                 <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
                                 <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
-                            </GlobalEditStoreContextProvider>
-                        </Switch>
+                            </Switch>
+                        </GlobalEditStoreContextProvider>
                     </GlobalCommentStoreContextProvider>
                 </GlobalStoreContextProvider>
             </AuthContextProvider>
