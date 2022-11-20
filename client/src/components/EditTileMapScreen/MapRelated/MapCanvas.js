@@ -39,7 +39,9 @@ const MapCanvas = (props) => {
         contextRef.current = context
         draw()
     }, [])
-
+    useEffect(() =>{
+        draw()
+    },[editStore.layers])
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
     //let layers = [{},{},{}]
 

@@ -41,8 +41,8 @@ const MapToolbar = (props) => {
           <IconButton bg='transparent' title="Rectangular Select" icon={<GrSelect className='md-icon' />} />
           <IconButton bg='transparent' title="Select Same Tile" icon={<BiSelectMultiple className='md-icon' />} />
           <IconButton bg='transparent' title="Magic Wand" icon={<ImMagicWand className='md-icon' />} />
-          <IconButton bg='transparent' title="Undo" onClick={() => editStore.undo()} icon={<ImUndo className='md-icon' />} />
-          <IconButton bg='transparent' title="Redo" onClick={() => editStore.redo()} icon={<ImRedo className='md-icon' />} />
+          <IconButton bg='transparent' title="Undo" onClick={() => editStore.undo()} disabled = {!editStore.canUndo()} icon={<ImUndo className='md-icon' />} />
+          <IconButton bg='transparent' title="Redo" onClick={() => editStore.redo()} disabled = {!editStore.canRedo()}icon={<ImRedo className='md-icon' />} />
           <IconButton bg='transparent' title="Zoom In" icon={<ImZoomIn className='md-icon' />} />
           <IconButton bg='transparent' title="Zoom Out" icon={<ImZoomOut className='md-icon' />} />
         </Flex>

@@ -128,10 +128,6 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.addLayerStateTransaction = function (newState) {
-        console.log(editStore.layers)
-        console.log("potato")
-        console.log(newState)
-
         let transaction = new LayerState_Transaction(editStore, editStore.layers, newState);
         tps.addTransaction(transaction);
     }
