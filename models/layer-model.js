@@ -5,6 +5,7 @@ const Property = require('./property-model').schema
 
 const LayerSchema = new Schema(
     {
+        id: {type: Number, required: true},
         name: { type: String, required: true },
         data: { type: [Object], required: true },
         properties: { type:[Property], required: true },
