@@ -92,8 +92,6 @@ const MapCanvas = (props) => {
         draw()
     }
 
-
-
     const draw = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
