@@ -26,6 +26,7 @@ const MapCanvas = (props) => {
     const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
     //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
     let zoomValue = editStore.zoomValue
+    console.log(zoomValue)
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
@@ -260,7 +261,7 @@ const MapCanvas = (props) => {
         const { x, y } = canvasRef.current.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        return [Math.floor(mouseX / tilemapCrop), Math.floor(mouseY / tilemapCrop)]//use tilemap scale here
+        return [Math.floor((mouseX/zoomValue) / tilemapCrop), Math.floor((mouseY/zoomValue) / tilemapCrop)]//use tilemap scale here
     }
     //Helper functions -end-------------------------------------------------------
 

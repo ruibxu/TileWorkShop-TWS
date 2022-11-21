@@ -3,7 +3,6 @@ import { Flex, Box } from '@chakra-ui/react'
 
 const OverlayTile = (props) => {
     const {coords, zoomValue} = props
-    console.log(coords)
     const key = `${coords[0]}-${coords[1]}`
 
     return <Box className='cover-map-tile'
