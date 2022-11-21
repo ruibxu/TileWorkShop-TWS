@@ -292,9 +292,9 @@ const MapCanvas = (props) => {
 
     const onMouseLeave = (event) => {
         switch(currentButton){
-            case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
+            case TOOLS.STAMP_BRUSH:{return}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
-            case TOOLS.ERASER:{return eraser_up()}
+            case TOOLS.ERASER:{return}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
     }
