@@ -7,6 +7,7 @@ import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
+import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 
 const MapCanvas = (props) => {
     let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
@@ -14,7 +15,7 @@ const MapCanvas = (props) => {
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
 
-    let tilemapCrop = 64;
+    let tilemapCrop= 64;
     let mouseDown = false
     const setMouseDown = (x) => {mouseDown = x}
     let makeNewTransaction = true
@@ -24,15 +25,21 @@ const MapCanvas = (props) => {
     const clearSelectedTiles = () => {selectedTiles = []}
     const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
     //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
+    let zoomValue = editStore.zoomValue
+    console.log(zoomValue)
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
-        const height = tilemapCrop*editStore.height
+        const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
-        canvas.width = width * 2
+        canvas.width = width * 2 
         canvas.height = height * 2
-        canvas.style.width = `${width}px`
-        canvas.style.height = `${height}px`
+        console.log(zoomValue)
+        console.log(selectedTiles)
+        canvas.style.width = `${width*zoomValue}px`
+        canvas.style.height = `${height*zoomValue}px`
+        console.log('set selected tiles')
+        console.log(canvasRef)
 
         const context = canvas.getContext('2d')
         context.scale(2, 2)
@@ -40,7 +47,7 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height])
+    }, [editStore.width, editStore.height, editStore.zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
         draw()
     },[editStore.layers])
@@ -73,6 +80,7 @@ const MapCanvas = (props) => {
             return;
         }
         const fillArray = findFillAreaRecursive(coords, tileToMatch, []) 
+        setSelectedTiles(fillArray)
         console.log(fillArray)
         addArray(fillArray)
         //addTile(getCoords(event))
@@ -219,6 +227,7 @@ const MapCanvas = (props) => {
     //These are the only 2 functions that directly changes what layers looks like
 
     const canEdit = (layer, key) => {
+        if(!layer){return false}
         if(layer.locked || !editStore.editing){return false}
         //more fields go here
 
@@ -253,14 +262,16 @@ const MapCanvas = (props) => {
     }
 
     const getCoords = (e) => {
-        const { x, y } = e.target.getBoundingClientRect()
+        //e.target.getBoundingClientRect()
+        const { x, y } = canvasRef.current.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        return [Math.floor(mouseX / tilemapCrop), Math.floor(mouseY / tilemapCrop)]//use tilemap scale here
+        return [Math.floor((mouseX/zoomValue) / tilemapCrop), Math.floor((mouseY/zoomValue) / tilemapCrop)]//use tilemap scale here
     }
     //Helper functions -end-------------------------------------------------------
 
     const onMouseDown = (event) => {
+        event.preventDefault();
         console.log('mouseDown')
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
@@ -271,6 +282,7 @@ const MapCanvas = (props) => {
     }
 
     const onMouseUp = (event) => {
+        event.preventDefault();
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
@@ -281,6 +293,7 @@ const MapCanvas = (props) => {
     }
 
     const onMouseMove = (event) => {
+        event.preventDefault();
         //console.log(currentButton)
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
@@ -291,13 +304,15 @@ const MapCanvas = (props) => {
     }
 
     const onMouseLeave = (event) => {
+        event.preventDefault();
         switch(currentButton){
-            case TOOLS.STAMP_BRUSH:{return}
+            case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
-            case TOOLS.ERASER:{return}
+            case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
     }
+    console.log('temp')
 
     return (<Flex>
         <Box className='mapWorkspace'>
@@ -308,7 +323,13 @@ const MapCanvas = (props) => {
                 onMouseLeave={onMouseLeave}
                 ref={canvasRef}
                 className={CanvasStyle}
-            /></Box>
+            />
+            <MainOverlay
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}/>
+            </Box>
     </Flex>
     );
 }

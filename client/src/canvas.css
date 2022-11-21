@@ -1,3 +1,12 @@
+:root {
+    --swatch-foundation: #FFFFFF;
+    --swatch-primary: #D9D9D9;
+    --swatch-complement: #6A2C70;
+    --navbar-background: rgb(224, 224, 224);
+    --navbar-border: rgb(182, 182, 182);
+    --my-font-family: "Helvetica, Arial, sans-serif;";
+    --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+}
 #tilemap {
     
 }
@@ -21,4 +30,37 @@
 
 .tileset-entry-selected {
     background-color: var(--navbar-background);
+}
+
+.cover-map {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 0;
+}
+
+.cover-map:hover {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 1;
+}
+
+.cover-map-tile{
+    opacity: 0;
+    background-color: var(--swatch-complement);
+}
+
+.cover-map-tile:hover{
+    color: white;
+    opacity: 0.15;
+    background-color: var(--swatch-complement);
+}
+
+.cover-map-tile:hover{
+
 }

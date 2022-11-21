@@ -29,6 +29,7 @@ const EditTileMapScreen = (props) => {
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
     const [currentButton, setCurrentButton] = useState("Stamp Brush");
+    const [zoomValue, setZoomValue] = useState(1)
     let history = useHistory();
     const redirect = async (route, parameters) => {
         editStore.clearTransactions()
@@ -49,6 +50,7 @@ const EditTileMapScreen = (props) => {
 
     const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
     let parts = []
+    console.log('reload EditTileMapScreen')
 
     
     //what ft
@@ -66,7 +68,6 @@ const EditTileMapScreen = (props) => {
         { username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color: 'purple' },
         { username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color: 'orange' }
     ]
-    console.log(currentLayer)
     
     return (
         <div className='tilemap' >
@@ -74,8 +75,13 @@ const EditTileMapScreen = (props) => {
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar' height={'10%'}  ><MapToolbar redirect={redirect} openResizeMapModal={showResizeMapModal.onOpen} 
-            currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
+            <div className='mapToolbar' height={'10%'}  >
+                <MapToolbar redirect={redirect} 
+                openResizeMapModal={showResizeMapModal.onOpen} 
+                currentButton={currentButton} setCurrentButton={setCurrentButton}
+                zoomValue={zoomValue}  setZoomValue={setZoomValue}
+                />
+            </div>
 
             <Flex color='Black' height={'88%'} overflow={'auto'}>
                 <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>

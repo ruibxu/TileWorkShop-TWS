@@ -19,6 +19,7 @@ import MapCanvas from './MapCanvas.js';
 
 const MapWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
+    console.log('reload mapWorkSpace')
 
     return (
         <Box centerContent>
@@ -29,7 +30,6 @@ const MapWorkspace = (props) => {
             selection={props.selection} setSelection={props.setSelection}
             currentTileSetId={props.currentTileSetId}
             currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
-
             /></Box>
         </Box>
     )
