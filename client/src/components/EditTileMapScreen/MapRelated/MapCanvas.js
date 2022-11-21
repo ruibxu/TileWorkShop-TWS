@@ -102,26 +102,57 @@ const MapCanvas = (props) => {
         if (mouseDown) {removeTile(getCoords(event))}
     }
 
-    // fill shape tool (Incomplete)
+    // fill shape tool 
+    let startCoords = [-3,-3]
+    const setStartingCoords = (x) => {startCoords = x}
     const shapefill_down = (event) => {
         setMouseDown(true)
-        addTile(getCoords(event))
+        setStartingCoords(getCoords(event))
     }
-    const shapefill_up = () => {
-        if (mouseDown) {
+    const shapefill_up = (event) => {
+        if (mouseDown){
+            const endCoords = getCoords(event)
+            const array = findRecArray(startCoords, endCoords)
+            addArray(array)
+            console.log(array)
+        }
+        if (mouseDown && makeNewTransaction) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
         setMouseDown(false)
         draw()
     }
-    const shapefill_move = (event) => {
-        if (mouseDown) {fillTile(event)}
-    }
+    // const shapefill_move = (event) => {
+    //     if (mouseDown) {fillTile(event)}
+    // }
 
     //Main switch call functions end----------------------------------------------
 
     //Helper functions -----------------------------------------------------------
+    const findRecArray = (coords1, coords2) => {
+        let minX = Math.min(coords1[0], coords2[0])
+        let maxX = Math.max(coords1[0], coords2[0])
+        let minY = Math.min(coords1[1], coords2[1])
+        let maxY = Math.max(coords1[1], coords2[1])
+        if(minX == -3 || minY == -3){return}
+        
+        minX = (minX < 0)?0:minX;
+        minY = (minY < 0)?0:minY;
+        maxX = (maxX > editStore.width-1)?editStore.width-1:maxX
+        maxY = (maxY > editStore.height-1)?editStore.height-1:maxY
+
+        const list = []
+        for(let x = minX; x <= maxX; x++){
+            for(let y = minY; y <= maxY; y++){
+                list.push(`${x}-${y}`)
+            }
+        }
+        console.log([minX, maxX, minY, maxY])
+        return list
+        // for(let x = minX; x <= maxX)
+    }
+
     const findFillAreaRecursive = (coors, match, list) => {
         if(coors[0] >= editStore.width || coors[1] >= editStore.height || coors[0] < 0 || coors[1] < 0){return list}
         const key = `${coors[0]}-${coors[1]}`
@@ -224,12 +255,12 @@ const MapCanvas = (props) => {
         }
     }
 
-    const onMouseUp = () => {
+    const onMouseUp = (event) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
-            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up()}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
         
     }
@@ -240,7 +271,16 @@ const MapCanvas = (props) => {
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
             case TOOLS.BUCKET_FILL_TOOL:{return}
             case TOOLS.ERASER:{return eraser_move(event)}
-            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_move(event)}
+            case TOOLS.SHAPE_FILL_TOOL:{return}
+        }
+    }
+
+    const onMouseLeave = (event) => {
+        switch(currentButton){
+            case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
+            case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
+            case TOOLS.ERASER:{return eraser_up()}
+            case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
     }
 
@@ -250,7 +290,7 @@ const MapCanvas = (props) => {
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onMouseMove={onMouseMove}
-                onMouseLeave={onMouseUp}
+                onMouseLeave={onMouseLeave}
                 ref={canvasRef}
                 className={CanvasStyle}
             /></Box>
