@@ -33,15 +33,11 @@ const MapToolbar = (props) => {
   const { currentButton } = props
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
+  const {zoomValue}=props
   const handleOnClick = (value) => {
     props.setCurrentButton(value)
     //console.log(currentButton)
   }
-  const handleResizeMap = (value) => {
-    props.setCurrentButton(value)
-    //console.log(currentButton)
-  }
-
   const handleKeyPress = (event) => {
     if (event.ctrlKey && event.key === 'z') {
       editStore.undo()
@@ -51,6 +47,15 @@ const MapToolbar = (props) => {
     }
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
+  }
+  const handleZoomIn = () => {
+    if(zoomValue<4){
+      props.setZoomValue(zoomValue*2)
+    }
+  }
+  const handleZoomOut = () => {
+    if(zoomValue>0.25)
+    props.setZoomValue(zoomValue/2)
   }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -76,8 +81,8 @@ const MapToolbar = (props) => {
           <IconButton onClick={() => handleOnClick(TOOLS.MAGIC_WAND)} outlineColor={(currentButton == TOOLS.MAGIC_WAND) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MAGIC_WAND} icon={<ImMagicWand className='md-icon' />} />
           <IconButton bg='transparent' title="Undo" onClick={() => { editStore.undo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canUndo} icon={<ImUndo className='md-icon' />} />
           <IconButton bg='transparent' title="Redo" onClick={() => { editStore.redo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canRedo} icon={<ImRedo className='md-icon' />} />
-          <IconButton bg='transparent' title="Zoom In" icon={<ImZoomIn className='md-icon' />} />
-          <IconButton bg='transparent' title="Zoom Out" icon={<ImZoomOut className='md-icon' />} />
+          <IconButton bg='transparent' title="Zoom In" onClick={handleZoomIn} icon={<ImZoomIn className='md-icon' />} />
+          <IconButton bg='transparent' title="Zoom Out" onClick={handleZoomOut} icon={<ImZoomOut className='md-icon' />} />
         </Flex>
       </HStack>
     </Box>)

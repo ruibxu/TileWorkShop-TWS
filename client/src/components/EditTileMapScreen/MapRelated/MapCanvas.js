@@ -10,7 +10,7 @@ import { TOOLS } from '../../../translator-client/edit-options';
 import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton,zoomValue} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -28,12 +28,13 @@ const MapCanvas = (props) => {
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
-        const height = tilemapCrop*editStore.height
+        const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
-        canvas.width = width * 2
+        canvas.width = width * 2 
         canvas.height = height * 2
-        canvas.style.width = `${width}px`
-        canvas.style.height = `${height}px`
+        console.log(zoomValue)
+        canvas.style.width = `${width*zoomValue}px`
+        canvas.style.height = `${height*zoomValue}px`
 
         const context = canvas.getContext('2d')
         context.scale(2, 2)
@@ -41,7 +42,7 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height])
+    }, [editStore.width, editStore.height,zoomValue])
     useEffect(() =>{
         draw()
     },[editStore.layers])
