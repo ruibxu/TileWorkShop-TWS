@@ -35,8 +35,11 @@ const MapCanvas = (props) => {
         canvas.width = width * 2 
         canvas.height = height * 2
         console.log(zoomValue)
+        console.log(selectedTiles)
         canvas.style.width = `${width*zoomValue}px`
         canvas.style.height = `${height*zoomValue}px`
+        console.log('set selected tiles')
+        console.log(canvasRef)
 
         const context = canvas.getContext('2d')
         context.scale(2, 2)
@@ -44,7 +47,7 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height,zoomValue, editStore.MapTileOverlay])
+    }, [editStore.width, editStore.height, editStore.zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
         draw()
     },[editStore.layers])
@@ -77,6 +80,7 @@ const MapCanvas = (props) => {
             return;
         }
         const fillArray = findFillAreaRecursive(coords, tileToMatch, []) 
+        setSelectedTiles(fillArray)
         console.log(fillArray)
         addArray(fillArray)
         //addTile(getCoords(event))
@@ -223,6 +227,7 @@ const MapCanvas = (props) => {
     //These are the only 2 functions that directly changes what layers looks like
 
     const canEdit = (layer, key) => {
+        if(!layer){return false}
         if(layer.locked || !editStore.editing){return false}
         //more fields go here
 
