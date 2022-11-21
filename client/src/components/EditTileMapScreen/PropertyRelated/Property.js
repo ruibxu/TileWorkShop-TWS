@@ -7,7 +7,7 @@ import PropertyEntry from './PropertyEntry';
 const Property = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
     const layer = editStore.layers.find(layer=>layer.id==props.currentLayer)
-    const properties = layer.properties?layer.properties:[]
+    const properties = (layer)?layer.properties?layer.properties:[]:[]
     const [currentProperty, setCurrentProperty] = useState("test")
 
     const convertValue = (property) => {

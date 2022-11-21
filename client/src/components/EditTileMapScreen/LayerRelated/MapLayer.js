@@ -17,7 +17,8 @@ const MapLayer = (props) => {
 
     return (
         <div>
-            <LayerToolbar/>  
+            <LayerToolbar currentLayer={props.currentLayer}
+                setCurrentLayer={props.setCurrentLayer} layers={layers}/>  
             <Box overflowY = "auto">
                 {layers.map((layer, index) => (<LayerEntry info={layer} index={index} 
                 currentLayer={props.currentLayer}
