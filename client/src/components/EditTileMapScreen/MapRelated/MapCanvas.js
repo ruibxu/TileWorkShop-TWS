@@ -201,6 +201,8 @@ const MapCanvas = (props) => {
         console.log('from add tile')
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
+        let edit = canEdit(layer, key)
+        if(!edit){return}
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
         draw()
     }
@@ -209,10 +211,21 @@ const MapCanvas = (props) => {
         console.log('from remove tile')
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
+        let edit = canEdit(layer, key)
+        if(!edit){return}
         delete layer.data[key];
         draw()
     }
     //These are the only 2 functions that directly changes what layers looks like
+
+    const canEdit = (layer, key) => {
+        if(layer.locked || !editStore.editing){return false}
+        //more fields go here
+
+        if(!selectedTiles.length){return true}
+        if(selectedTiles.includes(key)){return true}
+        return false
+    }
 
     const draw = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)

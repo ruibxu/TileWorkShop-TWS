@@ -33,7 +33,7 @@ const GlobalEditStoreContextProvider = (props) => {
         height: 10,
         access: null,
         type: null,
-        editing: false,
+        editing: true,
         layers:
             [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {}, 
                 properties: [
