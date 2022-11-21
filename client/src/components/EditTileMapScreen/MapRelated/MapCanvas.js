@@ -17,6 +17,8 @@ const MapCanvas = (props) => {
     let tilemapCrop = 64;
     let mouseDown = false
     const setMouseDown = (x) => {mouseDown = x}
+    let makeNewTransaction = true
+    const setMakeNewTransaction = (x) => {makeNewTransaction = x}
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
@@ -41,7 +43,7 @@ const MapCanvas = (props) => {
     // stampbrush functions
     const stampbrush_down = (event) => {
         setMouseDown(true)
-        addTile(event)
+        addTile(getCoords(event))
     }
     const stampbrush_up = () => {
         if (mouseDown) {
@@ -52,31 +54,39 @@ const MapCanvas = (props) => {
         draw()
     }
     const stampbrush_move = (event) => {
-        if (mouseDown) {addTile(event)}
+        if (mouseDown) {addTile(getCoords(event))}
     }
 
     //Bucket fill function
     const bucketfill_down = (event) => {
         setMouseDown(true)
-        addTile(event)
+        const coords = getCoords(event)
+        const tileToMatch = getTile(coords)
+        const stop = matchTile([selection[0], selection[1], currentTileSetId], tileToMatch)
+        if(stop){
+            setMakeNewTransaction(false)
+            return;
+        }
+        const fillArray = findFillAreaRecursive(coords, tileToMatch, []) 
+        console.log(fillArray)
+        addArray(fillArray)
+        //addTile(getCoords(event))
     }
     const bucketfill_up = () => {
-        if (mouseDown) {
+        if (mouseDown && makeNewTransaction) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
+        setMakeNewTransaction(true)
         setMouseDown(false)
         draw()
-    }
-    const bucketfill_move = (event) => {
-        if (mouseDown) {addTile(event)}
     }
 
 
     //eraser functions
     const eraser_down = (event) => {
         setMouseDown(true)
-        removeTile(event)
+        removeTile(getCoords(event))
     }
 
     const eraser_up = () => {
@@ -89,13 +99,13 @@ const MapCanvas = (props) => {
     }
 
     const eraser_move = (event) =>{
-        if (mouseDown) {removeTile(event)}
+        if (mouseDown) {removeTile(getCoords(event))}
     }
 
-    // fill shape tool
+    // fill shape tool (Incomplete)
     const shapefill_down = (event) => {
         setMouseDown(true)
-        addTile(event)
+        addTile(getCoords(event))
     }
     const shapefill_up = () => {
         if (mouseDown) {
@@ -112,10 +122,46 @@ const MapCanvas = (props) => {
     //Main switch call functions end----------------------------------------------
 
     //Helper functions -----------------------------------------------------------
-    const addTile = (event) => {
+    const findFillAreaRecursive = (coors, match, list) => {
+        if(coors[0] >= editStore.width || coors[1] >= editStore.height || coors[0] < 0 || coors[1] < 0){return list}
+        const key = `${coors[0]}-${coors[1]}`
+        if(list.includes(key)){return list}
+        const currentTile = getTile(coors)
+        const stop = matchTile(match, currentTile)
+        if(!stop){return list}
+        list.push(key)
+        list = findFillAreaRecursive([coors[0]+1, coors[1]], match, list)
+        list = findFillAreaRecursive([coors[0]-1, coors[1]], match, list)
+        list = findFillAreaRecursive([coors[0], coors[1]+1], match, list)
+        list = findFillAreaRecursive([coors[0], coors[1]-1], match, list)
+        return list
+    }
+
+    const addArray = (coorsArray) => {
+        coorsArray.forEach((key) => {
+            addTile(key.split('-'))
+        })
+    }
+
+    const getTile = (coors) => {
+        let key = `${coors[0]}-${coors[1]}`
+        const tile = layers[currentLayer].data[key]
+        return tile
+    }
+
+    const matchTile = (tile1, tile2) => {
+        if(tile1 == null && tile2 == null){return true}
+        if(tile1 == null || tile2 == null){return false}
+        if(tile1.length != tile2.length){return false}
+        for(let i = 0; i < tile1.length; i++){
+            if(tile1[i] != tile2[i]){return false}
+        }
+        return true
+    }
+
+    const addTile = (coors) => {
         console.log('from add tile')
-        let clicked = getCoords(event);
-        let key = `${clicked[0]}-${clicked[1]}`
+        let key = `${coors[0]}-${coors[1]}`
         layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
         draw()
     }
@@ -129,10 +175,9 @@ const MapCanvas = (props) => {
         draw()
     }
 
-    const removeTile = (event) => {
+    const removeTile = (coors) => {
         console.log('from remove tile')
-        let clicked = getCoords(event);
-        let key = `${clicked[0]}-${clicked[1]}`
+        let key = `${coors[0]}-${coors[1]}`
         delete layers[currentLayer].data[key];
         draw()
     }
@@ -170,6 +215,7 @@ const MapCanvas = (props) => {
     //Helper functions -end-------------------------------------------------------
 
     const onMouseDown = (event) => {
+        console.log('mouseDown')
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_down(event)}
@@ -189,10 +235,10 @@ const MapCanvas = (props) => {
     }
 
     const onMouseMove = (event) => {
-        console.log(currentButton)
+        //console.log(currentButton)
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
-            case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_move(event)}
+            case TOOLS.BUCKET_FILL_TOOL:{return}
             case TOOLS.ERASER:{return eraser_move(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_move(event)}
         }
