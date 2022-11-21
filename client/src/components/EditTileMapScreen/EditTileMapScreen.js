@@ -70,22 +70,22 @@ const EditTileMapScreen = (props) => {
     
     return (
         <div className='tilemap' >
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
+            <EditNavbar height={'10%'} redirect={redirect} openShareModal={showShareModal.onOpen} 
                 isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
             />
 
-            <div className='mapToolbar'><MapToolbar redirect={redirect} openResizeMapModal={showResizeMapModal.onOpen} 
+            <div className='mapToolbar' height={'10%'}  ><MapToolbar redirect={redirect} openResizeMapModal={showResizeMapModal.onOpen} 
             currentButton={currentButton} setCurrentButton={setCurrentButton} /></div>
 
-            <Flex color='Black' height={'100%'} overflow={'auto'}>
-                <Box bg='lightgrey' height='100%' width='30%' minW={'256px'}className='mapTileset'>
+            <Flex color='Black' height={'88%'} overflow={'auto'}>
+                <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
                         currentTileSetId={currentTileSetId}
                         tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                     />
                 </Box>
-                <Box flex='1' bg='lightgrey' >
+                <Box flex='1' bg='lightgrey' height='100%' width='60%'  overflow={'auto'}>
                     <MapWorkspace redirect={redirect} parts={parts}
                         canvasRef={canvasRef} contextRef={contextRef}
                         sourceRef={sourceRef} selectRef={contextRef}
@@ -95,7 +95,7 @@ const EditTileMapScreen = (props) => {
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
                     />
                 </Box>
-                <Box width='280px'>
+                <Box height='100%' width='20%'>
                     <Box bg='lightgrey' height='30%' className='mapLayer' >
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
