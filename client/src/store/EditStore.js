@@ -5,6 +5,7 @@ import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
+import { ImCrop } from "react-icons/im"
 export const GlobalEditStoreContext = createContext({});
 
 
@@ -31,6 +32,7 @@ const GlobalEditStoreContextProvider = (props) => {
         currentItem: null,
         width: 10,
         height: 10,
+        scale: 64,
         access: null,
         type: null,
         editing: true,

@@ -22,3 +22,35 @@
 .tileset-entry-selected {
     background-color: var(--navbar-background);
 }
+
+.cover-map {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 0;
+}
+
+.cover-map:hover {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 1;
+}
+
+.cover-map-tile{
+    opacity: 0;
+    background-color: orange;
+}
+
+.cover-map-tile:hover{
+    opacity: 1;
+    background-color: orange;
+}
+
+.cover-map-tile:hover{
+
+}

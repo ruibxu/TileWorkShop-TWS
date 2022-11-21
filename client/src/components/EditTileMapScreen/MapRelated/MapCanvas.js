@@ -7,6 +7,7 @@ import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
+import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 
 const MapCanvas = (props) => {
     let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
@@ -14,7 +15,7 @@ const MapCanvas = (props) => {
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
 
-    let tilemapCrop = 64;
+    let tilemapCrop= 64;
     let mouseDown = false
     const setMouseDown = (x) => {mouseDown = x}
     let makeNewTransaction = true
@@ -253,7 +254,8 @@ const MapCanvas = (props) => {
     }
 
     const getCoords = (e) => {
-        const { x, y } = e.target.getBoundingClientRect()
+        //e.target.getBoundingClientRect()
+        const { x, y } = canvasRef.current.getBoundingClientRect()
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
         return [Math.floor(mouseX / tilemapCrop), Math.floor(mouseY / tilemapCrop)]//use tilemap scale here
@@ -308,7 +310,13 @@ const MapCanvas = (props) => {
                 onMouseLeave={onMouseLeave}
                 ref={canvasRef}
                 className={CanvasStyle}
-            /></Box>
+            />
+            <MainOverlay
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}/>
+            </Box>
     </Flex>
     );
 }
