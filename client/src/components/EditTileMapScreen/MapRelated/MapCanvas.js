@@ -19,6 +19,11 @@ const MapCanvas = (props) => {
     const setMouseDown = (x) => {mouseDown = x}
     let makeNewTransaction = true
     const setMakeNewTransaction = (x) => {makeNewTransaction = x}
+    let selectedTiles = []
+    const setSelectedTiles = (x) => {selectedTiles = x}
+    const clearSelectedTiles = () => {selectedTiles = []}
+    const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
+    //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
@@ -176,7 +181,8 @@ const MapCanvas = (props) => {
 
     const getTile = (coors) => {
         let key = `${coors[0]}-${coors[1]}`
-        const tile = layers[currentLayer].data[key]
+        let layer = layers.find(x => x.id == currentLayer)
+        const tile = layer.data[key]
         return tile
     }
 
@@ -190,24 +196,29 @@ const MapCanvas = (props) => {
         return true
     }
 
+    //These are the only 2 functions that directly changes what layers looks like
     const addTile = (coors) => {
         console.log('from add tile')
         let key = `${coors[0]}-${coors[1]}`
-        layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
+        let layer = layers.find(x => x.id == currentLayer)
+        layer.data[key] = [selection[0], selection[1], currentTileSetId]
         draw()
     }
 
     const removeTile = (coors) => {
         console.log('from remove tile')
         let key = `${coors[0]}-${coors[1]}`
-        delete layers[currentLayer].data[key];
+        let layer = layers.find(x => x.id == currentLayer)
+        delete layer.data[key];
         draw()
     }
+    //These are the only 2 functions that directly changes what layers looks like
 
     const draw = () => {
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
         layers.slice().reverse().forEach(layer => {
+            if(layer.hidden){return}
             Object.keys(layer.data).forEach(key => {
                 let positions = key.split('-')
                 let positionX = Number(positions[0])

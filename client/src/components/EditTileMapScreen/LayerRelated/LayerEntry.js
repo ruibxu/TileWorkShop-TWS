@@ -58,12 +58,12 @@ const LayerEntry = (props) => {
     },[editStore.layers])
 
     return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected':'layer-entry'} id={id}>
-        <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect} onDoubleClick={handleToggleRename}>
+        <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect} >
             {(edit)?
             <Box onBlur={handleFinishRename} >
                     <Input defaultValue={rename} autoFocus={true}/>
                 </Box>
-            :<Box paddingLeft={3}>
+            :<Box paddingLeft={3} onDoubleClick={handleToggleRename}>
                 {rename?rename:'unnamed Layer'}
             </Box>}
             <Spacer/>
