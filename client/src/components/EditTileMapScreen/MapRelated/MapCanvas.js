@@ -42,7 +42,7 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height,zoomValue])
+    }, [editStore.width, editStore.height,zoomValue, editStore.MapTileOverlay])
     useEffect(() =>{
         draw()
     },[editStore.layers])
@@ -264,6 +264,7 @@ const MapCanvas = (props) => {
     //Helper functions -end-------------------------------------------------------
 
     const onMouseDown = (event) => {
+        event.preventDefault();
         console.log('mouseDown')
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
@@ -274,6 +275,7 @@ const MapCanvas = (props) => {
     }
 
     const onMouseUp = (event) => {
+        event.preventDefault();
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
@@ -284,6 +286,7 @@ const MapCanvas = (props) => {
     }
 
     const onMouseMove = (event) => {
+        event.preventDefault();
         //console.log(currentButton)
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
@@ -294,13 +297,15 @@ const MapCanvas = (props) => {
     }
 
     const onMouseLeave = (event) => {
+        event.preventDefault();
         switch(currentButton){
-            case TOOLS.STAMP_BRUSH:{return}
+            case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
-            case TOOLS.ERASER:{return}
+            case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
         }
     }
+    console.log('temp')
 
     return (<Flex>
         <Box className='mapWorkspace'>
