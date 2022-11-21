@@ -8,11 +8,9 @@ const MainOverlay = (props) => {
     const {onMouseDown, onMouseUp, onMouseMove, onMouseLeave} = props
     const width = editStore.width;
     const height = editStore.height;
-    
-    let elements = []
-    for(let i = 0; i < width*height; i++){
-        elements.push(<OverlayTile/>)
-    }
+
+    const elements = editStore.MapTileOverlay
+    console.log('force reload')
 
     return <SimpleGrid onClick={() => console.log('clicked')} className='cover-map'
         columns={width} spacing={'0px'}

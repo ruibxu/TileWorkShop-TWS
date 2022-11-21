@@ -1,3 +1,12 @@
+:root {
+    --swatch-foundation: #FFFFFF;
+    --swatch-primary: #D9D9D9;
+    --swatch-complement: #6A2C70;
+    --navbar-background: rgb(224, 224, 224);
+    --navbar-border: rgb(182, 182, 182);
+    --my-font-family: "Helvetica, Arial, sans-serif;";
+    --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+}
 #tilemap {
     
 }
@@ -43,12 +52,13 @@
 
 .cover-map-tile{
     opacity: 0;
-    background-color: orange;
+    background-color: var(--swatch-complement);
 }
 
 .cover-map-tile:hover{
-    opacity: 1;
-    background-color: orange;
+    color: white;
+    opacity: 0.15;
+    background-color: var(--swatch-complement);
 }
 
 .cover-map-tile:hover{

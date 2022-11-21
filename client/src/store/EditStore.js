@@ -6,6 +6,7 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
+import OverlayTile from "../components/EditTileMapScreen/MapCanvasOverlay/OverlayTiles"
 export const GlobalEditStoreContext = createContext({});
 
 
@@ -26,6 +27,16 @@ const createImage = (src) => {
     return img
 }
 
+const createOverlay = (width, height) => {
+    let elements = []
+    for(let x = 0; x < width; x++){
+        for(let y = 0; y < height; y++){
+            elements.push(<OverlayTile coords={[x,y]}/>)
+        }
+    }
+    return elements
+}
+
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
         currentId: null,
@@ -33,6 +44,7 @@ const GlobalEditStoreContextProvider = (props) => {
         width: 10,
         height: 10,
         scale: 64,
+        MapTileOverlay: createOverlay(10, 10),
         access: null,
         type: null,
         editing: true,
@@ -93,7 +105,8 @@ const GlobalEditStoreContextProvider = (props) => {
                 return setEditStore({
                     ...editStore,
                     height: payload.height,
-                    width: payload.width
+                    width: payload.width,
+                    MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
                 })
             }
 
@@ -144,11 +157,17 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.updateMapSize = async function (height, width) {
+        let newOverlay = (false)
+        if(editStore.height != height || editStore.width != width){
+            newOverlay = createOverlay(width, height)
+        }
+        // createOverlay(payload.width, payload.height)
         storeReducer({
             type: GlobalEditStoreActionType.UPDATE_MAP_SIZE,
             payload: {
                 height: height,
-                width: width
+                width: width,
+                MapTileOverlay: newOverlay
             }
         })
     }

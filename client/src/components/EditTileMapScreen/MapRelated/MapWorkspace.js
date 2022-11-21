@@ -19,7 +19,7 @@ import MapCanvas from './MapCanvas.js';
 
 const MapWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    console.log('reloaded')
+    console.log('reload mapWorkSpace')
 
     return (
         <Box centerContent>

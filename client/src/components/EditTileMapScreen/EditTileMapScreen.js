@@ -49,6 +49,7 @@ const EditTileMapScreen = (props) => {
 
     const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
     let parts = []
+    console.log('reload EditTileMapScreen')
 
     
     //what ft
@@ -66,7 +67,6 @@ const EditTileMapScreen = (props) => {
         { username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color: 'purple' },
         { username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color: 'orange' }
     ]
-    console.log(currentLayer)
     
     return (
         <div className='tilemap' >
