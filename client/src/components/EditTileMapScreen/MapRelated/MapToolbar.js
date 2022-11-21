@@ -49,13 +49,15 @@ const MapToolbar = (props) => {
     setCanRedo(editStore.canRedo())
   }
   const handleZoomIn = () => {
-    if(zoomValue<4){
-      props.setZoomValue(zoomValue*2)
+    if(editStore.zoomValue<4){
+      editStore.updateZoomValue(editStore.zoomValue*2)
     }
   }
   const handleZoomOut = () => {
-    if(zoomValue>0.25)
-    props.setZoomValue(zoomValue/2)
+    if(editStore.zoomValue>0.25){
+      editStore.updateZoomValue(editStore.zoomValue/2)
+    }
+    
   }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);

@@ -30,7 +30,6 @@ const MapWorkspace = (props) => {
             selection={props.selection} setSelection={props.setSelection}
             currentTileSetId={props.currentTileSetId}
             currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
-            zoomValue={props.zoomValue} setZoomValue={props.setZoomValue}
             /></Box>
         </Box>
     )

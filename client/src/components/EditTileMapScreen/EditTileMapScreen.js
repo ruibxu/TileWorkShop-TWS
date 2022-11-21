@@ -99,7 +99,6 @@ const EditTileMapScreen = (props) => {
                         selection={selection} setSelection={setSelection}
                         currentTileSetId={currentTileSetId}
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
-                        zoomValue={zoomValue}  setZoomValue={setZoomValue}
                     />
                 </Box>
                 <Box flex='1' height='100%'>
