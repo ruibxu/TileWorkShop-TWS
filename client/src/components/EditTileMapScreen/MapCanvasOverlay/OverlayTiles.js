@@ -2,12 +2,12 @@ import React from "react";
 import { Flex, Box } from '@chakra-ui/react'
 
 const OverlayTile = (props) => {
-    const {coords} = props
+    const {coords, zoomValue} = props
     console.log(coords)
     const key = `${coords[0]}-${coords[1]}`
 
     return <Box className='cover-map-tile'
-        width={'64px'} height={'64px'}
+        width={`${64*zoomValue}px`} height={`${64*zoomValue}px`}
         ></Box>
 }
 

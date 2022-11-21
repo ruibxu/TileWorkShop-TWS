@@ -10,7 +10,7 @@ import { TOOLS } from '../../../translator-client/edit-options';
 import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton,zoomValue} = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -25,6 +25,7 @@ const MapCanvas = (props) => {
     const clearSelectedTiles = () => {selectedTiles = []}
     const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
     //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
+    let zoomValue = editStore.zoomValue
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width

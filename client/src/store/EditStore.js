@@ -15,7 +15,7 @@ export const GlobalEditStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     UPDATE_LAYER: "UPDATE_LAYER",
-    UPDATE_MAP_SIZE: "UPDATE_MAP_SIZE"
+    UPDATE_DISPLAY: "UPDATE_DISPLAY"
 
 }
 const tps = new jsTPS();
@@ -27,11 +27,11 @@ const createImage = (src) => {
     return img
 }
 
-const createOverlay = (width, height) => {
+const createOverlay = (width, height, zoomValue) => {
     let elements = []
     for(let x = 0; x < width; x++){
         for(let y = 0; y < height; y++){
-            elements.push(<OverlayTile coords={[x,y]}/>)
+            elements.push(<OverlayTile coords={[x,y]} zoomValue={zoomValue}/>)
         }
     }
     return elements
@@ -44,6 +44,7 @@ const GlobalEditStoreContextProvider = (props) => {
         width: 10,
         height: 10,
         scale: 64,
+        zoomValue: 1,
         MapTileOverlay: createOverlay(10, 10),
         access: null,
         type: null,
@@ -101,11 +102,12 @@ const GlobalEditStoreContextProvider = (props) => {
                     layers: payload.layers
                 })
             }
-            case GlobalEditStoreActionType.UPDATE_MAP_SIZE: {
+            case GlobalEditStoreActionType.UPDATE_DISPLAY: {
                 return setEditStore({
                     ...editStore,
-                    height: payload.height,
-                    width: payload.width,
+                    height: (payload.height)?payload.height:editStore.height,
+                    width: (payload.width)?payload.width:editStore.width,
+                    zoomValue: (payload.zoomValue)?payload.zoomValue:editStore.zoomValue,
                     MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
                 })
             }
@@ -159,14 +161,29 @@ const GlobalEditStoreContextProvider = (props) => {
     editStore.updateMapSize = async function (height, width) {
         let newOverlay = (false)
         if(editStore.height != height || editStore.width != width){
-            newOverlay = createOverlay(width, height)
+            newOverlay = createOverlay(width, height, editStore.zoomValue)
         }
         // createOverlay(payload.width, payload.height)
         storeReducer({
-            type: GlobalEditStoreActionType.UPDATE_MAP_SIZE,
+            type: GlobalEditStoreActionType.UPDATE_DISPLAY,
             payload: {
                 height: height,
                 width: width,
+                MapTileOverlay: newOverlay
+            }
+        })
+    }
+
+    editStore.updateZoomValue = async function (zoom) {
+        let newOverlay = (false)
+        if(editStore.zoomValue != zoom){
+            newOverlay = createOverlay(editStore.width, editStore.height, zoom)
+        }
+        // createOverlay(payload.width, payload.height)
+        storeReducer({
+            type: GlobalEditStoreActionType.UPDATE_DISPLAY,
+            payload: {
+                zoomValue: zoom,
                 MapTileOverlay: newOverlay
             }
         })
