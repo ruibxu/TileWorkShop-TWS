@@ -271,6 +271,53 @@ const addTileSetToTileMap = async (req, res) => {
     });
 }
 
+const updateTileSetinTileMap = async (req, res) => {
+    // console.log("updating Tilemap: " + req.params.id);
+    const objectId = req.params.id;
+    const tileset_id = req.body.tileset_id;
+    TileMap.findById({ _id: objectId }, (err, tilemap) => {
+        // console.log("tilemap found: " + JSON.stringify(tilemap));
+        if (err) {
+            return res.status(404).json({
+                errorMessage: 'Tilemap not found!',
+            })
+        }
+        //can this user update
+        async function matchUser(item) {
+            // console.log("req.userId: " + req.body.user_id);
+            access = item.access;
+            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
+                const tileset = item.tileset.filter(x => x == tileset_id)[0];
+                tileset.name = (req.body.name)?req.body.name:tileset.name;
+                item.lastEdited = Date.now();
+                item.save().then(() => {
+                    // console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: item._id,
+                        message: 'Tilemap updated!',
+                    })
+                })
+                    .catch(error => {
+                        // console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(400).json({
+                            error,
+                            message: 'Tilemap not updated!',
+                        })
+                    })
+            }
+            else {
+                // console.log("incorrect user!");
+                return res.status(400).json({
+                    success: false,
+                    errorMessage: "authentication error"
+                });
+            }
+        }
+        matchUser(tilemap);
+    });
+}
+
 const deleteTileSetfromTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
@@ -332,6 +379,7 @@ module.exports = {
     updateTileMapAccess,
     updateTileMapCommunity,
     addTileSetToTileMap,
+    updateTileSetinTileMap,
     deleteTileSetfromTileMap,
     deleteTest
 }

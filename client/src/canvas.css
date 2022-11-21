@@ -1,0 +1,24 @@
+#tilemap {
+    
+}
+
+.tileset-container_selection {
+    position:absolute;
+    outline: 3px;
+    left:0;
+    top:0;
+    width: 128px;
+    height: 128px;
+}
+
+.tileset-entry {
+    background-color: white;
+}
+
+.tileset-entry:hover {
+    background-color: var(--navbar-background);
+}
+
+.tileset-entry-selected {
+    background-color: var(--navbar-background);
+}
