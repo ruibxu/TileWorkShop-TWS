@@ -273,12 +273,6 @@ body {
     background-color: var(--navbar-background);
 }
 
-.layer-entry-selected {
-    border-bottom: 1px solid #6A2C70;
-    background-color: lightgray;
-    text-decoration: underline;
-}
-
 .layer-entry:hover {
     background-color: lightgray;
 }

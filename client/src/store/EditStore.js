@@ -3,57 +3,21 @@ import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
-import LayerState_Transaction from "../transactions/LayerState_Transaction"
-import jsTPS from "../common/jsTPS"
 export const GlobalEditStoreContext = createContext({});
-
 
 export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
-    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
-    UPDATE_LAYER: "UPDATE_LAYER",
-    UPDATE_MAP_SIZE: "UPDATE_MAP_SIZE"
+    CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME"
 
-}
-const tps = new jsTPS();
-
-const createImage = (src) => {
-    let img = new Image()
-    img.src = src
-    img.crossOrigin = "anonymous"
-    return img
 }
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
         currentId: null,
         currentItem: null,
-        width: 10,
-        height: 10,
         access: null,
-        type: null,
-        editing: true,
-        layers:
-            [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {}, 
-                properties: [
-                    {name: 'bowlean', type:'boolean', value:'true'},
-                    {name: 'something', type:'string', value:'print'},
-                    {name: 'number', type:'number', value:'5'}
-                ]
-            },
-            { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {}, 
-                properties: [
-                    {name: 'bowlean', type:'boolean', value:'false'},
-                    {name: 'something', type:'string', value:'layer2'},
-                ]},
-            { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
-            { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }],
-        tilesets: [{_id:'test', name:'testname', pixel:128, height:8, width:5, 
-                image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png')},
-            {_id:'test2', name:'pokemon', pixel:16, height:8, width:16, 
-                image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png')}
-        ]
+        type: null
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
@@ -64,8 +28,7 @@ const GlobalEditStoreContextProvider = (props) => {
         const { type, payload } = action;
         switch (type) {
             case GlobalEditStoreActionType.GET_TILEMAP_BY_ID: {
-                return setEditStore({
-                    ...editStore,
+                return setEditStore({...editStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
@@ -73,30 +36,16 @@ const GlobalEditStoreContextProvider = (props) => {
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
-                return setEditStore({
-                    ...editStore,
+                return setEditStore({...editStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
                     type: PROJECT_TYPE.TILESET
                 })
             }
-            case GlobalEditStoreActionType.UPDATE_LAYER: {
-                return setEditStore({
-                    ...editStore,
-                    layers: payload.layers
-                })
-            }
-            case GlobalEditStoreActionType.UPDATE_MAP_SIZE: {
-                return setEditStore({
-                    ...editStore,
-                    height: payload.height,
-                    width: payload.width
-                })
-            }
-
         }
     }
+
     editStore.getTileMapById = async function (id) {
         const response = await api.getTileMapById(id);
         if (response.status === 200) {
@@ -131,52 +80,6 @@ const GlobalEditStoreContextProvider = (props) => {
             console.log(response.data.errorMessage)
         }
     }
-
-    editStore.changeLayer = async function (state) {
-        storeReducer({
-            type: GlobalEditStoreActionType.UPDATE_LAYER,
-            payload: {
-                layers: state
-            }
-        })
-    }
-
-    editStore.updateMapSize = async function (height, width) {
-        storeReducer({
-            type: GlobalEditStoreActionType.UPDATE_MAP_SIZE,
-            payload: {
-                height: height,
-                width: width
-            }
-        })
-    }
-
-    editStore.addLayerStateTransaction = function (newState) {
-        let transaction = new LayerState_Transaction(editStore, editStore.layers, newState);
-        tps.addTransaction(transaction);
-        console.log(transaction)
-    }
-
-    editStore.undo = function () {
-        tps.undoTransaction();
-    }
-
-    editStore.redo = function () {
-        tps.doTransaction();
-    }
-
-    editStore.canUndo = function () {
-        return tps.hasTransactionToUndo();
-    }
-
-    editStore.canRedo = function () {
-        return tps.hasTransactionToRedo();
-    }
-
-    editStore.clearTransactions = () => {
-        tps.clearAllTransactions();
-    }
-
     return (
         <GlobalEditStoreContext.Provider value={{
             editStore

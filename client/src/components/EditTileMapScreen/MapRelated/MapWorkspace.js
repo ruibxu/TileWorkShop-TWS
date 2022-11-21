@@ -18,20 +18,11 @@ import MapCanvas from './MapCanvas.js';
 
 
 const MapWorkspace = (props) => {
-    //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
 
     return (
-        <Box centerContent>
-            <Box padding={'20'} width={'100%'} height={'100%'} ><MapCanvas parts={props.parts} 
-            canvasRef={props.canvasRef} contextRef={props.contextRef}
-            sourceRef={props.sourceRef} selectRef={props.selectRef}
-            currentLayer={props.currentLayer} 
-            selection={props.selection} setSelection={props.setSelection}
-            currentTileSetId={props.currentTileSetId}
-            currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
-
-            /></Box>
-        </Box>
+        <Container maxW='100%' bg='lightgrey' height='100%' centerContent>
+            <Box padding={'50'}><MapCanvas width='1200' height='700'/></Box>
+        </Container>
     )
 }
 

@@ -5,7 +5,6 @@ import EditNavbar from '../Navbars/EditNavbar';
 import { Container } from '@chakra-ui/react';
 import { Tldraw } from '@tldraw/tldraw'
 import GlobalStoreContext from '../../store/ProjectStore';
-import GlobalEditStoreContext from '../../store/EditStore';
 import AuthContext from '../../auth';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
@@ -17,13 +16,11 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 const EditTileSetScreen = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
-    const { editStore } = useContext(GlobalEditStoreContext);
     const [isPublic, setPublic] = useState(store.currentItem.access.public)
     if(!auth.loggedIn){redirect('/homescreen')}
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
-        editStore.clearTransactions();
         history.push(route, parameters);
     }
 

@@ -1,4 +1,3 @@
-import './canvas.css'
 import './TWS.css';
 import { React } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
@@ -21,17 +20,17 @@ const TWS = () => {
             <AuthContextProvider>
                 <GlobalStoreContextProvider>
                     <GlobalCommentStoreContextProvider>
-                        <GlobalEditStoreContextProvider>
-                            <Switch>
-                                <Route path="/" exact component={() => <Homescreen />} />
-                                <Route path="/homescreen" exact component={() => <Homescreen />} />
-                                <Route path="/listscreen" exact component={() => <Listscreen />} />
-                                <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
-                                <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
+                        <Switch>
+                            <Route path="/" exact component={() => <Homescreen />} />
+                            <Route path="/homescreen" exact component={() => <Homescreen />} />
+                            <Route path="/listscreen" exact component={() => <Listscreen />} />
+                            <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
+                            <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
+                            <GlobalEditStoreContextProvider>
                                 <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
                                 <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
-                            </Switch>
-                        </GlobalEditStoreContextProvider>
+                            </GlobalEditStoreContextProvider>
+                        </Switch>
                     </GlobalCommentStoreContextProvider>
                 </GlobalStoreContextProvider>
             </AuthContextProvider>
