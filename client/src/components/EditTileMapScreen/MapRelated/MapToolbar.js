@@ -69,7 +69,12 @@ const MapToolbar = (props) => {
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   },[editStore])
-  return (
+
+      ///<IconButton onClick={() => handleOnClick(TOOLS.REACTANGULAR_SELECT)} outlineColor={(currentButton == TOOLS.REACTANGULAR_SELECT) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.REACTANGULAR_SELECT} icon={<GrSelect className='md-icon' />} />
+      //<IconButton onClick={() => handleOnClick(TOOLS.SELECT_SAME_TILE)} outlineColor={(currentButton == TOOLS.SELECT_SAME_TILE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SELECT_SAME_TILE} icon={<BiSelectMultiple className='md-icon' />} />
+      //<IconButton onClick={() => handleOnClick(TOOLS.MAGIC_WAND)} outlineColor={(currentButton == TOOLS.MAGIC_WAND) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MAGIC_WAND} icon={<ImMagicWand className='md-icon' />} />
+  
+    return (
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
@@ -78,9 +83,6 @@ const MapToolbar = (props) => {
           <IconButton onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.ERASER)} outlineColor={(currentButton == TOOLS.ERASER) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.ERASER} icon={<RiEraserLine className='md-icon' />} />
-          <IconButton onClick={() => handleOnClick(TOOLS.REACTANGULAR_SELECT)} outlineColor={(currentButton == TOOLS.REACTANGULAR_SELECT) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.REACTANGULAR_SELECT} icon={<GrSelect className='md-icon' />} />
-          <IconButton onClick={() => handleOnClick(TOOLS.SELECT_SAME_TILE)} outlineColor={(currentButton == TOOLS.SELECT_SAME_TILE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SELECT_SAME_TILE} icon={<BiSelectMultiple className='md-icon' />} />
-          <IconButton onClick={() => handleOnClick(TOOLS.MAGIC_WAND)} outlineColor={(currentButton == TOOLS.MAGIC_WAND) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MAGIC_WAND} icon={<ImMagicWand className='md-icon' />} />
           <IconButton bg='transparent' title="Undo" onClick={() => { editStore.undo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canUndo} icon={<ImUndo className='md-icon' />} />
           <IconButton bg='transparent' title="Redo" onClick={() => { editStore.redo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canRedo} icon={<ImRedo className='md-icon' />} />
           <IconButton bg='transparent' title="Zoom In" onClick={handleZoomIn} icon={<ImZoomIn className='md-icon' />} />
