@@ -197,15 +197,6 @@ const MapCanvas = (props) => {
         draw()
     }
 
-    const fillTile = (event) => {
-        console.log('from fill tile')
-        let clicked = getCoords(event);
-        console.log(clicked)
-        let key = `${clicked[0]}-${clicked[1]}`
-        layers[currentLayer].data[key] = [selection[0], selection[1], currentTileSetId]
-        draw()
-    }
-
     const removeTile = (coors) => {
         console.log('from remove tile')
         let key = `${coors[0]}-${coors[1]}`
