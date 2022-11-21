@@ -38,6 +38,7 @@ const MapCanvas = (props) => {
         draw()
     },[editStore.layers])
     //Main switch call functions--------------------------------------------------
+    // stampbrush functions
     const stampbrush_down = (event) => {
         setMouseDown(true)
         addTile(event)
@@ -54,6 +55,25 @@ const MapCanvas = (props) => {
         if (mouseDown) {addTile(event)}
     }
 
+    //Bucket fill function
+    const bucketfill_down = (event) => {
+        setMouseDown(true)
+        addTile(event)
+    }
+    const bucketfill_up = () => {
+        if (mouseDown) {
+            editStore.addLayerStateTransaction(layers)
+            editStore.changeLayer(layers)
+        }
+        setMouseDown(false)
+        draw()
+    }
+    const bucketfill_move = (event) => {
+        if (mouseDown) {addTile(event)}
+    }
+
+
+    //eraser functions
     const eraser_down = (event) => {
         setMouseDown(true)
         removeTile(event)
@@ -152,6 +172,7 @@ const MapCanvas = (props) => {
     const onMouseDown = (event) => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
+            case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_down(event)}
             case TOOLS.ERASER:{return eraser_down(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
         }
@@ -160,6 +181,7 @@ const MapCanvas = (props) => {
     const onMouseUp = () => {
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_up()}
+            case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up()}
         }
@@ -170,6 +192,7 @@ const MapCanvas = (props) => {
         console.log(currentButton)
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
+            case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_move(event)}
             case TOOLS.ERASER:{return eraser_move(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_move(event)}
         }
