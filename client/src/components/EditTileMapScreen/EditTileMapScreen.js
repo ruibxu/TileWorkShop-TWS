@@ -85,7 +85,7 @@ const EditTileMapScreen = (props) => {
                         tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                     />
                 </Box>
-                <Box flex='1' bg='lightgrey' height='100%' width='60%'  overflow={'auto'}>
+                <Box bg='lightgrey' height='100%' width='60%' overflow={'auto'} className='mapWorkspace'>
                     <MapWorkspace redirect={redirect} parts={parts}
                         canvasRef={canvasRef} contextRef={contextRef}
                         sourceRef={sourceRef} selectRef={contextRef}
@@ -95,7 +95,7 @@ const EditTileMapScreen = (props) => {
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
                     />
                 </Box>
-                <Box height='100%' width='20%'>
+                <Box flex='1' height='100%'>
                     <Box bg='lightgrey' height='30%' className='mapLayer' >
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>

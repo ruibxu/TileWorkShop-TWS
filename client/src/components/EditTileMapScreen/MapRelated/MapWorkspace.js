@@ -21,8 +21,8 @@ const MapWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
 
     return (
-        <Container maxW='100%' bg='lightgrey' height='100%' centerContent>
-            <Box padding={'50'}><MapCanvas parts={props.parts} 
+        <Box centerContent>
+            <Box padding={'20'} width={'100%'} height={'100%'} ><MapCanvas parts={props.parts} 
             canvasRef={props.canvasRef} contextRef={props.contextRef}
             sourceRef={props.sourceRef} selectRef={props.selectRef}
             currentLayer={props.currentLayer} 
@@ -31,7 +31,7 @@ const MapWorkspace = (props) => {
             currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
 
             /></Box>
-        </Container>
+        </Box>
     )
 }
 
