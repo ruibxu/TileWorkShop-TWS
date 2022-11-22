@@ -38,26 +38,18 @@
     top:0;
     right:0;
     bottom:0;
-    opacity: 0;
-}
-
-.cover-map:hover {
-    position: absolute;
-    left:0;
-    top:0;
-    right:0;
-    bottom:0;
     opacity: 1;
 }
 
 .cover-map-tile{
-    opacity: 0;
-    background-color: var(--swatch-complement);
+    opacity: 1;
+    border: black solid 1px;
 }
 
 .cover-map-tile:hover{
     color: white;
     opacity: 0.15;
+    border: black solid 1px;
     background-color: var(--swatch-complement);
 }
 
