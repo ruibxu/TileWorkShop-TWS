@@ -58,7 +58,7 @@ const LayerEntry = (props) => {
         if(reset.locked != lock){toggleLock(reset.locked)}
     },[editStore.layers])
 
-    return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected':'layer-entry'} id={id} 
+    return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected draggable':'layer-entry draggable'} id={id} 
             draggable onDragStart={()=>handleDragStart(index)} onDragEnter={()=>handleDragEnter(index)} 
             onDragEnd={()=>handleDragEnd(index)} onDragOver={(e)=>e.preventDefault()}
             >

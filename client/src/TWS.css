@@ -271,14 +271,12 @@ body {
 .layer-entry {
     border-bottom: 1px solid #6A2C70;
     background-color: var(--navbar-background);
-    cursor: move;
 }
 
 .layer-entry-selected {
     border-bottom: 1px solid #6A2C70;
     background-color: lightgray;
     text-decoration: underline;
-    cursor: move;
 }
 
 .layer-entry:hover {
@@ -291,6 +289,10 @@ body {
 
 .layer-entry-name{
     cursor: text;
+}
+
+.draggable{
+    cursor: move;
 }
 
 .share-select {
