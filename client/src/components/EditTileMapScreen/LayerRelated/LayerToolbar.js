@@ -16,12 +16,6 @@ const LayerToolbar = (props) => {
   const { editStore } = useContext(GlobalEditStoreContext)
   const { layers, currentLayer } = props
 
-  const handleMakeTransaction = (name, value) => {
-    const layersClone = JSON.parse(JSON.stringify(editStore.layers))
-    
-    editStore.addLayerStateTransaction(layersClone)
-  }
-
   const getNewId = () => {
     const ids = layers.map(x => x.id)
     const maxId = Math.max(...ids)

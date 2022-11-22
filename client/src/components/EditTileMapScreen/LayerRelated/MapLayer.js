@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useRef} from 'react'
 import { Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
 import LayerToolbar from './LayerToolbar';
 import LayerEntry from './LayerEntry';
@@ -7,12 +7,35 @@ import GlobalEditStoreContext from '../../../store/EditStore';
 const MapLayer = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = editStore.layers
-    // const layers = [
-    //     {name: 'Layer 1', hidden: false, locked: false},
-    //     {name: 'Layer 2', hidden: true, locked: false},
-    //     {name: 'Layer 3', hidden: false, locked: true},
-    //     {name: 'Layer 4', hidden: true, locked: true}
-    // ]
+
+    //save reference dragItem and dragOverItem
+    const dragItem = useRef(null)
+    const dragOverItem = useRef(null)
+
+    const handleSort = () => {
+        const startIndex = dragItem.current
+        const endIndex = dragOverItem.current
+        dragItem.current = null
+        dragOverItem.current = null
+        if(startIndex == endIndex){return}
+        let layersClone = [...layers]
+        const item = layersClone.splice(startIndex, 1)[0]
+        layersClone.splice(endIndex, 0, item)
+        editStore.addLayerStateTransaction(layersClone)
+    }
+
+    //handle drag functions
+    const handleDragStart = (index) => {
+        dragItem.current = index
+    }
+
+    const handleDragEnter = (index) => {
+        dragOverItem.current = index
+    }
+
+    const handleDragEnd = () => {
+        handleSort()
+    }
 
 
     return (
@@ -21,8 +44,11 @@ const MapLayer = (props) => {
                 setCurrentLayer={props.setCurrentLayer} layers={layers}/>  
             <Box overflowY = "auto">
                 {layers.map((layer, index) => (<LayerEntry info={layer} index={index} 
-                currentLayer={props.currentLayer}
-                setCurrentLayer={props.setCurrentLayer}/>))}
+                currentLayer={props.currentLayer} setCurrentLayer={props.setCurrentLayer}
+                handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} handleDragEnter={handleDragEnter}
+                draggedOverIndex={dragOverItem.current}
+                />))
+                }
             </Box>       
         </div>
         

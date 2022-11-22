@@ -9,8 +9,9 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 
 const LayerEntry = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
-    const {id, name, hidden, locked, properties, data} = props.info
-    const currentLayer = props.currentLayer
+    const {currentLayer, info, index} = props
+    const {id, name, hidden, locked, properties, data} = info
+    const {handleDragStart, handleDragEnter, handleDragEnd} = props
     const [edit, toggleEdit] = useState(false)
     const [rename, setRename] = useState(name)
     const [hide, toggleHide] = useState(hidden)
@@ -57,7 +58,10 @@ const LayerEntry = (props) => {
         if(reset.locked != lock){toggleLock(reset.locked)}
     },[editStore.layers])
 
-    return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected':'layer-entry'} id={id}>
+    return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected':'layer-entry'} id={id} 
+            draggable onDragStart={()=>handleDragStart(index)} onDragEnter={()=>handleDragEnter(index)} 
+            onDragEnd={()=>handleDragEnd(index)} onDragOver={(e)=>e.preventDefault()}
+            >
         <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect} >
             {(edit)?
             <Box onBlur={handleFinishRename} >

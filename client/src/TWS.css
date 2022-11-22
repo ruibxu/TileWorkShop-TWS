@@ -271,15 +271,21 @@ body {
 .layer-entry {
     border-bottom: 1px solid #6A2C70;
     background-color: var(--navbar-background);
+    cursor: move;
 }
 
 .layer-entry-selected {
     border-bottom: 1px solid #6A2C70;
     background-color: lightgray;
     text-decoration: underline;
+    cursor: move;
 }
 
 .layer-entry:hover {
+    background-color: lightgray;
+}
+
+.layer-entry-drag-over{
     background-color: lightgray;
 }
 
