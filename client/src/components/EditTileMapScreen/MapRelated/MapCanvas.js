@@ -51,7 +51,6 @@ const MapCanvas = (props) => {
         console.log('set selected tiles')
         console.log(canvasRef)
         updateOverlayInfo(editStore.width, editStore.height, zoomValue)
-        setOverlayTiles(overlayInfo.current.overlayTiles)
 
         const context = canvas.getContext('2d')
         context.scale(2, 2)
@@ -75,6 +74,7 @@ const MapCanvas = (props) => {
             }
         }
         overlayInfo.current = {width: newWidth, height: newHeight, zoomValue: newZoomValue, overlayTiles:elements}
+        setOverlayTiles(overlayInfo.current.overlayTiles)
         console.log('overlayInfo updated')
     }
     //Main switch call functions--------------------------------------------------
