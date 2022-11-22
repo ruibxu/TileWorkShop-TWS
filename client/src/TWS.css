@@ -289,6 +289,10 @@ body {
     background-color: lightgray;
 }
 
+.layer-entry-name{
+    cursor: text;
+}
+
 .share-select {
     cursor: pointer;
 }

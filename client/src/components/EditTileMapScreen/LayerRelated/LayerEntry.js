@@ -62,12 +62,12 @@ const LayerEntry = (props) => {
             draggable onDragStart={()=>handleDragStart(index)} onDragEnter={()=>handleDragEnter(index)} 
             onDragEnd={()=>handleDragEnd(index)} onDragOver={(e)=>e.preventDefault()}
             >
-        <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect} >
+        <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect}>
             {(edit)?
             <Box onBlur={handleFinishRename} >
                     <Input defaultValue={rename} autoFocus={true}/>
                 </Box>
-            :<Box paddingLeft={3} onDoubleClick={handleToggleRename}>
+            :<Box paddingLeft={3} onDoubleClick={handleToggleRename} className={'layer-entry-name'}>
                 {rename?rename:'unnamed Layer'}
             </Box>}
             <Spacer/>
