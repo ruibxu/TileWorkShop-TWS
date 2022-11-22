@@ -33,7 +33,7 @@ const MapToolbar = (props) => {
   const { currentButton } = props
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
-  const {zoomValue}=props
+  const {zoomValue, setZoomValue}=props
   const handleOnClick = (value) => {
     props.setCurrentButton(value)
     //console.log(currentButton)
@@ -49,13 +49,15 @@ const MapToolbar = (props) => {
     setCanRedo(editStore.canRedo())
   }
   const handleZoomIn = () => {
-    if(editStore.zoomValue<4){
-      editStore.updateZoomValue(editStore.zoomValue*2)
+    if(zoomValue<4){
+      setZoomValue(zoomValue*2)
+      //editStore.updateZoomValue(editStore.zoomValue*2)
     }
   }
   const handleZoomOut = () => {
-    if(editStore.zoomValue>0.25){
-      editStore.updateZoomValue(editStore.zoomValue/2)
+    if(zoomValue>0.25){
+      setZoomValue(zoomValue/2)
+      //editStore.updateZoomValue(editStore.zoomValue/2)
     }
     
   }

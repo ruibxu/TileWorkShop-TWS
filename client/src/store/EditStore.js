@@ -27,15 +27,15 @@ const createImage = (src) => {
     return img
 }
 
-const createOverlay = (width, height, zoomValue) => {
-    let elements = []
-    for(let x = 0; x < width; x++){
-        for(let y = 0; y < height; y++){
-            elements.push(<OverlayTile coords={[x,y]} zoomValue={zoomValue}/>)
-        }
-    }
-    return elements
-}
+// const createOverlay = (width, height, zoomValue) => {
+//     let elements = []
+//     for(let x = 0; x < width; x++){
+//         for(let y = 0; y < height; y++){
+//             elements.push(<OverlayTile coords={[x,y]} zoomValue={zoomValue}/>)
+//         }
+//     }
+//     return elements
+// }
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
@@ -44,8 +44,8 @@ const GlobalEditStoreContextProvider = (props) => {
         width: 10,
         height: 10,
         scale: 64,
-        zoomValue: 1,
-        MapTileOverlay: createOverlay(10, 10),
+        // zoomValue: 1,
+        // MapTileOverlay: createOverlay(10, 10),
         access: null,
         type: null,
         editing: true,
@@ -107,8 +107,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     ...editStore,
                     height: (payload.height)?payload.height:editStore.height,
                     width: (payload.width)?payload.width:editStore.width,
-                    zoomValue: (payload.zoomValue)?payload.zoomValue:editStore.zoomValue,
-                    MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
+                    // zoomValue: (payload.zoomValue)?payload.zoomValue:editStore.zoomValue,
+                    // MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
                 })
             }
 
@@ -159,35 +159,35 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.updateMapSize = async function (height, width) {
-        let newOverlay = (false)
-        if(editStore.height != height || editStore.width != width){
-            newOverlay = createOverlay(width, height, editStore.zoomValue)
-        }
+        // let newOverlay = (false)
+        // if(editStore.height != height || editStore.width != width){
+        //     newOverlay = createOverlay(width, height, editStore.zoomValue)
+        // }
         // createOverlay(payload.width, payload.height)
         storeReducer({
             type: GlobalEditStoreActionType.UPDATE_DISPLAY,
             payload: {
                 height: height,
                 width: width,
-                MapTileOverlay: newOverlay
+                // MapTileOverlay: newOverlay
             }
         })
     }
 
-    editStore.updateZoomValue = async function (zoom) {
-        let newOverlay = (false)
-        if(editStore.zoomValue != zoom){
-            newOverlay = createOverlay(editStore.width, editStore.height, zoom)
-        }
-        // createOverlay(payload.width, payload.height)
-        storeReducer({
-            type: GlobalEditStoreActionType.UPDATE_DISPLAY,
-            payload: {
-                zoomValue: zoom,
-                MapTileOverlay: newOverlay
-            }
-        })
-    }
+    // editStore.updateZoomValue = async function (zoom) {
+    //     let newOverlay = (false)
+    //     if(editStore.zoomValue != zoom){
+    //         newOverlay = createOverlay(editStore.width, editStore.height, zoom)
+    //     }
+    //     // createOverlay(payload.width, payload.height)
+    //     storeReducer({
+    //         type: GlobalEditStoreActionType.UPDATE_DISPLAY,
+    //         payload: {
+    //             zoomValue: zoom,
+    //             MapTileOverlay: newOverlay
+    //         }
+    //     })
+    // }
 
     editStore.addLayerStateTransaction = function (newState, redoCallback, undoCallback) {
         let undoFunc = (undoCallback)?undoCallback:false

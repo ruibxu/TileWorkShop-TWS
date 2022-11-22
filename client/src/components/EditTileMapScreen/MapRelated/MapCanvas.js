@@ -8,9 +8,10 @@ import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
 import MainOverlay from '../MapCanvasOverlay/MainOverlay';
+import OverlayTile from '../MapCanvasOverlay/OverlayTiles';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton} = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -25,8 +26,17 @@ const MapCanvas = (props) => {
     const clearSelectedTiles = () => {selectedTiles = []}
     const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
     //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
-    let zoomValue = editStore.zoomValue
+    //let zoomValue = editStore.zoomValue
     console.log(zoomValue)
+
+    const overlayInfo = useRef({height: -1, width: -1, zoomValue: 8, overlayTiles:[]})
+    const [overlayTiles, setOverlayTiles] = useState([])
+
+    // useEffect(()=>{
+    //     console.log(overlayInfo)
+    //     updateOverlayInfo(editStore.width, editStore.height, zoomValue)
+    //     setOverlayTiles(overlayInfo.current.overlayTiles)
+    // }, [editStore.width, editStore.height, zoomValue])
 
     useEffect(() => {
         const width = tilemapCrop*editStore.width
@@ -40,6 +50,7 @@ const MapCanvas = (props) => {
         canvas.style.height = `${height*zoomValue}px`
         console.log('set selected tiles')
         console.log(canvasRef)
+        updateOverlayInfo(editStore.width, editStore.height, zoomValue)
 
         const context = canvas.getContext('2d')
         context.scale(2, 2)
@@ -47,10 +58,25 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height, editStore.zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
+    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
         draw()
     },[editStore.layers])
+
+    const updateOverlayInfo = (newWidth, newHeight, newZoomValue) => {
+        console.log('Attempt to update Overlay')
+        const { width, height, zoomValue } = overlayInfo.current
+        if(width == newWidth && height == newHeight && zoomValue == newZoomValue){console.log("attempt cancelled");return}
+        let elements = []
+        for(let x = 0; x < newWidth; x++){
+            for(let y = 0; y < newHeight; y++){
+                elements.push(<OverlayTile coords={[x,y]} zoomValue={newZoomValue}/>)
+            }
+        }
+        overlayInfo.current = {width: newWidth, height: newHeight, zoomValue: newZoomValue, overlayTiles:elements}
+        setOverlayTiles(overlayInfo.current.overlayTiles)
+        console.log('overlayInfo updated')
+    }
     //Main switch call functions--------------------------------------------------
     // stampbrush functions
     const stampbrush_down = (event) => {
@@ -325,6 +351,7 @@ const MapCanvas = (props) => {
                 className={CanvasStyle}
             />
             <MainOverlay
+                elements={overlayTiles}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onMouseMove={onMouseMove}
