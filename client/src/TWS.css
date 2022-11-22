@@ -283,6 +283,18 @@ body {
     background-color: lightgray;
 }
 
+.layer-entry-drag-over{
+    background-color: lightgray;
+}
+
+.layer-entry-name{
+    cursor: text;
+}
+
+.draggable{
+    cursor: move;
+}
+
 .share-select {
     cursor: pointer;
 }

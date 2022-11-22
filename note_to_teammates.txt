@@ -61,6 +61,40 @@ Optional "limit": Limits the number of items returned default: 6
         // contextRef.current.stroke()
     }
 
+//more archived
+    //save reference dragItem and dragOverItem
+    const dragItem = useRef(null)
+    const dragOverItem = useRef(null)
+
+    const handleSort = () => {
+        const startIndex = dragItem.current
+        const endIndex = dragOverItem.current
+        dragItem.current = null
+        dragOverItem.current = null
+        if(startIndex == endIndex){return}
+        //switching properties
+        let propertiesClone = [...properties]
+        const item = propertiesClone.splice(startIndex, 1)[0]
+        propertiesClone.splice(endIndex, 0, item)
+        //creating new layers
+        let layersClone = JSON.parse(JSON.stringify(editStore.layers))
+        layersClone.map(x => x.properties=(x.id == props.currentLayer)?propertiesClone:x.properties)
+        editStore.addLayerStateTransaction(layersClone)
+    }
+
+    //handle drag functions
+    const handleDragStart = (index) => {
+        dragItem.current = index
+    }
+
+    const handleDragEnter = (index) => {
+        dragOverItem.current = index
+    }
+
+    const handleDragEnd = () => {
+        handleSort()
+    }
+
 
 
 
