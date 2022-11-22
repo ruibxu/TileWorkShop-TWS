@@ -30,7 +30,7 @@ const MapCanvas = (props) => {
     console.log(zoomValue)
 
     const overlayInfo = useRef({height: -1, width: -1, zoomValue: 8, overlayTiles:[]})
-    const [overlayTiles, setOverlayTiles] = useState([])
+    const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
 
     // useEffect(()=>{
     //     console.log(overlayInfo)
