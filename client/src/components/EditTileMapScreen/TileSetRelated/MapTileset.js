@@ -20,9 +20,12 @@ const MapTileset = (props) => {
 
     return (
         <Box>
-            <TilesetToolbar tsRef={props.tsRef} openDrawer={props.openDrawer} currentTilesetName={currentTilesetName}/>
             <Box>
-                <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} currentTileSetId={props.currentTileSetId}/>
+            <TilesetToolbar tsRef={props.tsRef} openDrawer={props.openDrawer} currentTilesetName={currentTilesetName}/>
+            </Box>
+            <Box>
+                <Canvas sourceRef={props.sourceRef} setSelection={props.setSelection} 
+                currentTileSetId={props.currentTileSetId} selection={props.selection}/>
             </Box>
         </Box>
         // <div>      <TilesetToolbar />      <Canvas /></div>

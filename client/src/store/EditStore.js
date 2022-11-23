@@ -6,7 +6,6 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-import OverlayTile from "../components/EditTileMapScreen/MapCanvasOverlay/OverlayTiles"
 export const GlobalEditStoreContext = createContext({});
 
 
