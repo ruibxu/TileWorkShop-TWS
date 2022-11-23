@@ -27,7 +27,7 @@ const LayerToolbar = (props) => {
     const newLayer = {
       id: newId,
       name: 'New Layer',
-      data: [],
+      data: {},
       properties: [],
       locked: false,
       hidden: false
