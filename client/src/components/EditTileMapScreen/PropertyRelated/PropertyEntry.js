@@ -66,7 +66,7 @@ const PropertyEntry = (props) => {
                     (edit)?<Input defaultValue={val} autoFocus={true} onBlur={handleFinishChangeVal}/>:
                         <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{val?val:'unnamed Layer'}</Box>
                     :
-                (type == 'number')?
+                (type == 'int'||type == 'float')?
                     (edit)?<NumberInput defaultValue={val}>
                             <NumberInputField autoFocus={true} onBlur={handleFinishChangeVal}/>
                         </NumberInput>

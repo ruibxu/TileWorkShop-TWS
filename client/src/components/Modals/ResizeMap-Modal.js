@@ -45,7 +45,7 @@ const ResizeMapModal = (props) => {
             <ModalBody>
                 <Flex gap={5}>
                     <FormControl>
-                        <FormLabel>Height:</FormLabel>
+                        <FormLabel>Height(tiles):</FormLabel>
                         <NumberInput defaultValue={height}>
                             <NumberInputField size='md' borderColor={'purple'}
                                 onChange={(event) => { setHeight(event.target.value) }}
@@ -53,7 +53,7 @@ const ResizeMapModal = (props) => {
                         </NumberInput>
                     </FormControl>
                     <FormControl>
-                        <FormLabel>Width:</FormLabel>
+                        <FormLabel>Width(tiles):</FormLabel>
                         <NumberInput defaultValue={width}>
                             <NumberInputField size='md' borderColor={'purple'}
                                 onChange={(event) => { setWidth(event.target.value) }}

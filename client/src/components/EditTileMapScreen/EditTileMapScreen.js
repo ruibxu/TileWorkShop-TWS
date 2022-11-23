@@ -17,6 +17,7 @@ import Property from './PropertyRelated/Property';
 import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
 import ResizeMapModal from '../Modals/ResizeMap-Modal';
 
+
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
@@ -58,6 +59,7 @@ const EditTileMapScreen = (props) => {
     const showShareModal = useDisclosure()
     const showResizeMapModal = useDisclosure()
     const showTilesetDrawer = useDisclosure()
+    
     const tsRef = useRef()
 
     let TempInfo = [
@@ -107,7 +109,7 @@ const EditTileMapScreen = (props) => {
                         <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                     </Box>
                     <Box bg='lightgrey' height='70%' className='mapLayer'>
-                        <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                        <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
                     </Box>
                 </Box>
             </Flex>

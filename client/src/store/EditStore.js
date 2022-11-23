@@ -54,7 +54,7 @@ const GlobalEditStoreContextProvider = (props) => {
                 properties: [
                     {name: 'bowlean', type:'boolean', value:'true'},
                     {name: 'something', type:'string', value:'print'},
-                    {name: 'number', type:'number', value:'5'}
+                    {name: 'number', type:'int', value:'5'}
                 ]
             },
             { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {}, 
@@ -149,7 +149,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
-    editStore.changeLayer = async function (state) {
+    editStore.createNewProperty = async function (state) {
         storeReducer({
             type: GlobalEditStoreActionType.UPDATE_LAYER,
             payload: {
@@ -157,6 +157,7 @@ const GlobalEditStoreContextProvider = (props) => {
             }
         })
     }
+
 
     editStore.updateMapSize = async function (height, width) {
         // let newOverlay = (false)
