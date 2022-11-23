@@ -52,3 +52,41 @@
     border: black solid 1px;
     background-color: var(--swatch-complement);
 }
+
+.cover-tileset-selector {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 1;
+}
+
+.cover-tileset-selector:hover {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    opacity: 1;
+}
+
+.cover-tileset-selector-tile{
+    opacity: 0.15;
+    right: 0;
+    top: 0;
+}
+
+.cover-tileset-selector-tile:hover{
+    opacity: 0.15;
+    background-color: var(--swatch-complement);
+    right: 0;
+    top: 0;
+}
+
+.cover-tileset-selector-tile-selected{
+    opacity: 0.30;
+    background-color: var(--swatch-complement);
+    right: 0;
+    top: 0;
+}

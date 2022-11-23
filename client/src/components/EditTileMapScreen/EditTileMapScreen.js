@@ -89,7 +89,7 @@ const EditTileMapScreen = (props) => {
                 <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
                     <MapTileset height={"100%"} redirect={redirect} parts={parts}
                         setSelection={setSelection} sourceRef={sourceRef}
-                        currentTileSetId={currentTileSetId}
+                        currentTileSetId={currentTileSetId} selection={selection}
                         tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                     />
                 </Box>
