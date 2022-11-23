@@ -148,7 +148,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
-    editStore.createNewProperty = async function (state) {
+    editStore.changeLayer = async function (state) {
         storeReducer({
             type: GlobalEditStoreActionType.UPDATE_LAYER,
             payload: {
@@ -156,7 +156,6 @@ const GlobalEditStoreContextProvider = (props) => {
             }
         })
     }
-
 
     editStore.updateMapSize = async function (height, width) {
         // let newOverlay = (false)

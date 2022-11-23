@@ -40,8 +40,10 @@ const PropertyEntry = (props) => {
 
     const handleChangeBoolean = (newVal) => {
         console.log('clicked')
+
         setVal(newVal)
         handleMakeTransaction(name, type, newVal)
+
     }
 
     useEffect(()=>{//for undo redo purposes

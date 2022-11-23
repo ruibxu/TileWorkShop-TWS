@@ -37,7 +37,9 @@ const CreatePropertyModal = (props) => {
         console.log(type)
         console.log(name)
         let flag=0
+        // problem
         for (const property in properties){
+            console.log(property    )
             if (name===property.name){
                 flag=1
             }
@@ -61,13 +63,13 @@ const CreatePropertyModal = (props) => {
             else{
                 layer.properties.push({name: name, type:'string', value:''})
             }
-            /*
+            
             const currentName = props.currentProperty
             const redoCallback = (()=>props.setCurrentProperty(props.setCurrentProperty(name)))
             const undoCallback =(()=>props.setCurrentProperty(currentName))
             props.setCurrentProperty(name)
             editStore.addLayerStateTransaction(layersClone, redoCallback, undoCallback)
-            */
+
             props.onClose()
             
         } 

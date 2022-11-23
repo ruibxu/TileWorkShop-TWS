@@ -31,7 +31,9 @@ const Property = (props) => {
     ]*/
     return (
         <div>
-            <PropertyToolbar openCreatePropertyModal={showCreatePropertyModal.onOpen}/>
+            <PropertyToolbar openCreatePropertyModal={showCreatePropertyModal.onOpen} currentLayer={props.currentLayer}
+                currentProperty={currentProperty} setCurrentProperty={setCurrentProperty}
+            />
             <Box overflowY={'auto'} >
                     {displayProperties.map((property, index) => (<PropertyEntry info={property} index={index} 
                     currentProperty={currentProperty} currentLayer={props.currentLayer}
@@ -39,7 +41,7 @@ const Property = (props) => {
                     />))}
             </Box>
 
-            <CreatePropertyModal isOpen={showCreatePropertyModal.isOpen} onClose={showCreatePropertyModal.onClose} currentLayer={props.currentLayer} 
+            <CreatePropertyModal isOpen={showCreatePropertyModal.isOpen} onClose={showCreatePropertyModal.onClose} currentLayer={props.currentLayer}
                 currentProperty={currentProperty} setCurrentProperty={setCurrentProperty}
             />
         </div>
