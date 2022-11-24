@@ -34,17 +34,8 @@ const CreatePropertyModal = (props) => {
 
       
     const handleCreate = () => {
-        console.log(type)
-        console.log(name)
-        let flag=0
-        // problem
-        for (const property in properties){
-            console.log(property    )
-            if (name===property.name){
-                flag=1
-            }
-        }
-        if (flag==1){
+        const property =properties.find(x => x.name == name)
+        if(property){
             props.onClose()
         }
         else{
@@ -87,11 +78,7 @@ const CreatePropertyModal = (props) => {
                 <Flex gap={5}>
                     <FormControl>
                         <FormLabel>Property Name:</FormLabel>
-                        <NumberInput defaultValue={'Property Name'}>
-                            <NumberInputField size='md' borderColor={'purple'}
-                                onChange={(event) => { setName(event.target.value) }}
-                            />
-                        </NumberInput>
+                        <Input size='md' borderColor={'purple'} onChange={(event) => { setName(event.target.value) }}/>
                     </FormControl>
                     <FormControl>
                         <FormLabel>Type:</FormLabel>
@@ -110,7 +97,7 @@ const CreatePropertyModal = (props) => {
             </ModalBody>
             <Divider borderColor={'purple'} />
             <ModalFooter>
-                <Button colorScheme='blue' mr={3} disabled={name=='Property Name' ||name==''|| type==''} onClick={handleCreate} minW={425}>
+                <Button colorScheme='blue' mr={3} disabled={name==''|| type==''} onClick={handleCreate} minW={425}>
                     Create
                 </Button>
             </ModalFooter>
