@@ -30,6 +30,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         currentItem: null,
         width: 10,
         height: 10,
+        pixel: 16,
         scale: 64,
         img: null,
         access: null,

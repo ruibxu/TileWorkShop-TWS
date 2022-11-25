@@ -221,6 +221,12 @@ body {
     border: 1px solid #6A2C70;
 }
 
+.tilesetWorkspace{
+    position: relative;
+    background-color: var(--navbar-background);
+    border: 1px solid #6A2C70;
+}
+
 .mapLayer {
     position: relative;
     background-color: var(--navbar-background);

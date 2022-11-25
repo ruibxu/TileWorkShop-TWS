@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState, useRef} from 'react'
 import { useDisclosure } from '@chakra-ui/react';
 import { useHistory } from "react-router-dom";
 import EditNavbar from '../Navbars/EditNavbar';
-import { Container } from '@chakra-ui/react';
+import { Container, Box, Flex } from '@chakra-ui/react';
 import { Tldraw } from '@tldraw/tldraw'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
 import GlobalEditTilesetStoreContext from '../../store/EditTilesetStore';
 import AuthContext from '../../auth';
+import TilesetWorkspace from './TileSetCanvasRelated/TileSetWorkspace';
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 //import { GlobalStoreContext } from '../store'
@@ -21,6 +22,8 @@ const EditTileSetScreen = (props) => {
     const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
     const [isPublic, setPublic] = useState(store.currentItem.access.public)
     if(!auth.loggedIn){redirect('/homescreen')}
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
@@ -39,12 +42,17 @@ const EditTileSetScreen = (props) => {
     ]
 
     return (
-        <div>
+        <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}/>
-            <div id="tldraw">
+            <Flex  bg='lightgrey' height={'100%'} overflow={'auto'}>
+                <Box width={'100%'} height='100%' className='tilesetWorkspace'>
+                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef}/>
+                </Box>
+            </Flex>
+            {/* <div id="tldraw">
                 <Tldraw />
-            </div>
+            </div> */}
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
