@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState, useCallback} from 'react'
 import { Flex, Box } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
-import e from 'express';
 
 const TilesetCanvas = (props) => {
     const {canvasRef, contextRef} = props
@@ -9,8 +8,10 @@ const TilesetCanvas = (props) => {
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
 
+    const zoomValue = 2
+
     useEffect(() => {
-        const scale = 2;
+        const scale = 10;
         const pixel = editTilesetStore.pixel
         const width = editTilesetStore.width
         const height = editTilesetStore.height
@@ -18,49 +19,59 @@ const TilesetCanvas = (props) => {
         const heightP = height*pixel
 
         const canvas = canvasRef.current;
-        canvas.width = (widthP)*2
-        canvas.height = (heightP)*2
-        canvas.style.width = `${widthP*scale}px`
-        canvas.style.height = `${heightP*scale}px`
+        canvas.width = (widthP*scale)
+        canvas.height = (heightP*scale)
+        canvas.style.width = `${widthP*zoomValue}px`
+        canvas.style.height = `${heightP*zoomValue}px`
 
         const context = canvas.getContext('2d')
-        context.scale(2,2)
+        context.scale(scale,scale)
         context.lineCap = "round"
-        context.strokeStyle = 'Black'
+        context.strokeStyle = 'blue'
         context.lineWidth = 5
         contextRef.current = context
     }, [])
 
     //
     const startDrawing = (event) => {
-        setPosition({x: event.pageX, y: event.pageY})
+        console.log('drawing started')
+        const {nativeEvent, clientX, clientY} = event
+        const {offsetX, offsetY} = nativeEvent
+        const {x, y} = canvasRef.current.getBoundingClientRect()
+        contextRef.current.beginPath()
+        contextRef.current.moveTo(offsetX/zoomValue, offsetY/zoomValue)
         setIsDrawing(true)
-        // const {nativeEvent, clientX, clientY} = event
-        // const {x, y} = canvasRef.current.getBoundingClientRect()
-        // contextRef.current.beginPath()
-        // contextRef.current.moveTo(clientX-x,clientY-y)
-        // setIsDrawing(true)
     }
 
     const finishDrawing = (event) =>{
+        contextRef.current.closePath()
         setIsDrawing(false)
-        // contextRef.current.closePath()
-        // setIsDrawing(false)
-
     }
 
-    const draw = useCallback((x, y) => {
-        if(!isDrawing){return}
-        contextRef.current.beginPath()
-        contextRef.current.lineWidth = 10
-        contextRef.current.lineJoin = 'round'
-        contextRef.current.moveTo(lastPosition.x, lastPosition.y)
-        contextRef.current.lineTo(x,y);
-        contextRef.current.closePath()
+    const draw = (event) => {
+        if (!isDrawing){return}
+        console.log('draw')
+        const{ clientX, clientY, nativeEvent} = event
+        const {offsetX, offsetY} = nativeEvent
+        const {x, y} = canvasRef.current.getBoundingClientRect()
+        const canvasX = clientX-x
+        const canvasY = clientY-y
+        contextRef.current.lineTo(offsetX/zoomValue, offsetY/zoomValue)
         contextRef.current.stroke()
+    }
 
-        setPosition({x:0, y:0})
-    }, [lastPosition, isDrawing, setPosition])
+    // const draw = useCallback((x, y) => {
+    //     if(!isDrawing){return}
+    //     contextRef.current.beginPath()
+    //     contextRef.current.lineWidth = 10
+    //     contextRef.current.lineJoin = 'round'
+    //     contextRef.current.moveTo(lastPosition.x, lastPosition.y)
+    //     contextRef.current.lineTo(x,y);
+    //     contextRef.current.closePath()
+    //     contextRef.current.stroke()
+
+    //     setPosition({x, y})
+    // }, [lastPosition, isDrawing, setPosition])
 
     //
     const handleMouseDown = (event) => {
@@ -72,7 +83,7 @@ const TilesetCanvas = (props) => {
     }
 
     const handleMouseMove = (event) => {
-        draw(event.pageX, event.pageY)
+        draw(event)
     }
 
     return (<Flex>
