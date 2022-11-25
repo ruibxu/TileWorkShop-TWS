@@ -1,11 +1,13 @@
-import React, { useEffect, useContext, useState} from 'react'
+import React, { useEffect, useContext, useState, useCallback} from 'react'
 import { Flex, Box } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
+import e from 'express';
 
 const TilesetCanvas = (props) => {
     const {canvasRef, contextRef} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
+    const [lastPosition, setPosition] = useState({x: 0, y: 0})
 
     useEffect(() => {
         const scale = 2;
@@ -31,28 +33,34 @@ const TilesetCanvas = (props) => {
 
     //
     const startDrawing = (event) => {
-        const {nativeEvent, clientX, clientY} = event
-        const {x, y} = canvasRef.current.getBoundingClientRect()
-        contextRef.current.beginPath()
-        contextRef.current.moveTo(clientX-x,clientY-y)
+        setPosition({x: event.pageX, y: event.pageY})
         setIsDrawing(true)
+        // const {nativeEvent, clientX, clientY} = event
+        // const {x, y} = canvasRef.current.getBoundingClientRect()
+        // contextRef.current.beginPath()
+        // contextRef.current.moveTo(clientX-x,clientY-y)
+        // setIsDrawing(true)
     }
 
     const finishDrawing = (event) =>{
-        contextRef.current.closePath()
         setIsDrawing(false)
+        // contextRef.current.closePath()
+        // setIsDrawing(false)
 
     }
 
-    const draw = (event) => {
-        
-        //if(!isDrawing){return}
-        const {nativeEvent, clientX, clientY} = event
-        const {x, y} = canvasRef.current.getBoundingClientRect()
-        console.log(event.clientX-x, event.clientY-y)
-        contextRef.current.lineTo(clientX-x,clientY-y)
+    const draw = useCallback((x, y) => {
+        if(!isDrawing){return}
+        contextRef.current.beginPath()
+        contextRef.current.lineWidth = 10
+        contextRef.current.lineJoin = 'round'
+        contextRef.current.moveTo(lastPosition.x, lastPosition.y)
+        contextRef.current.lineTo(x,y);
+        contextRef.current.closePath()
         contextRef.current.stroke()
-    }
+
+        setPosition({x:0, y:0})
+    }, [lastPosition, isDrawing, setPosition])
 
     //
     const handleMouseDown = (event) => {
@@ -64,7 +72,7 @@ const TilesetCanvas = (props) => {
     }
 
     const handleMouseMove = (event) => {
-        draw(event)
+        draw(event.pageX, event.pageY)
     }
 
     return (<Flex>
