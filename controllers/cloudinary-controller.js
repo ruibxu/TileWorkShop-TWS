@@ -105,7 +105,7 @@ const getTileSetImage = async (req, res) => {
     // console.log(search)
     const { resources } = await cloudinary.search.expression(search).execute();
     if (!resources) {
-        return res.status(404).json({
+        return res.status(201).json({
             errorMessage: 'image not found!',
         });
     }
@@ -141,7 +141,7 @@ const deleteTileSetImage = async (req, res) => {
     // console.log(search)
     const resources  = await cloudinary.uploader.destroy(search);
     if (resources.result === "not found") {
-        return res.status(404).json({
+        return res.status(201).json({
             errorMessage: 'image not found!',
         });
     }
