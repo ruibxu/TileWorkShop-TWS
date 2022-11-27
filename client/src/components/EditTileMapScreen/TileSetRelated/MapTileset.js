@@ -15,8 +15,8 @@ import GlobalEditStoreContext from '../../../store/EditStore';
 
 const MapTileset = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
-    const currentTileset = editStore.tilesets.find(x => x._id == props.currentTileSetId)
-    const currentTilesetName = currentTileset?currentTileset.name:'Unnamed'
+    const currentTileset = (editStore.tilesets)?editStore.tilesets.find(x => x._id == props.currentTileSetId):'None Selected'
+    const currentTilesetName = currentTileset?currentTileset.name:'None Selected'
 
     return (
         <Box>

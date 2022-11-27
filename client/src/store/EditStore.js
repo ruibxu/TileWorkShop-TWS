@@ -38,6 +38,7 @@ const createImage = (src) => {
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
+        name: '',
         currentId: null,
         currentItem: null,
         width: 10,
@@ -83,7 +84,12 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
-                    type: PROJECT_TYPE.TILEMAP
+                    type: PROJECT_TYPE.TILEMAP,
+                    width: payload.width,
+                    height: payload.height,
+                    layers: payload.layers,
+                    tilesets: payload.tilesets,
+                    name: payload.name
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
@@ -118,11 +124,18 @@ const GlobalEditStoreContextProvider = (props) => {
         if (response.status === 200) {
             const result = response.data.result
             result.community = null
+            console.log(result)
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {
                     currentId: result._id,
-                    currentItem: result
+                    currentItem: result,
+                    access: result.access,
+                    width: result.width,
+                    height: result.height,
+                    layers: result.layers,
+                    tilesets: result.tilesets,
+                    name: result.name
                 }
             })
         } else {

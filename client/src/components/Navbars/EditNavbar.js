@@ -20,19 +20,34 @@ import {
 import { BiSave } from "react-icons/bi";
 import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
 import AuthContext from '../../auth';
+import GlobalEditStoreContext from '../../store/EditStore';
 
 
 
 const EditNavbar = (props) => {
+    const {projectName, projectAccess} = props
     const { auth } = useContext(AuthContext);
-    const [name, setName] = useState(props.name)
+    const { editStore } = useContext(GlobalEditStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
+    const [name, setName] = useState(projectName)
+    const [isPublic, setPublic] = useState(projectAccess?projectAccess.public:false)
+
+    useEffect(() => {
+        if(name == projectName){return}
+        setName(projectName)
+    }, [projectName])
+
+    useEffect(()=>{
+        if(!projectAccess){return}
+        setPublic(projectAccess.public)
+    }, [projectAccess])
 
     const handleSetPublic = (v) => {
-        props.setPublic(v)
+        setPublic(v)
     }
 
     const handleLogout = () => {
+        auth.logoutUser();
         props.redirect('/homescreen')
     }
 
@@ -70,8 +85,8 @@ const EditNavbar = (props) => {
                 </Flex>
                 <Flex gap={6} alignItems={'center'} width="width='240px">
                     <Flex gap={4} alignItems={'center'}>
-                        <Button variant={'solid'} colorScheme={(props.isPublic) ? "green" : "red"} onClick={() => handleSetPublic(!props.isPublic)} width='75px'>
-                            {(props.isPublic) ? "Public" : "Private"}
+                        <Button variant={'solid'} colorScheme={(isPublic) ? "green" : "red"} onClick={() => handleSetPublic(!isPublic)} width='75px'>
+                            {(isPublic) ? "Public" : "Private"}
                         </Button>
                         <Button variant={'solid'} colorScheme={'blue'}>Edit</Button>
                         <Button variant={'solid'} colorScheme={'blue'} onClick={props.openShareModal}>Share</Button>

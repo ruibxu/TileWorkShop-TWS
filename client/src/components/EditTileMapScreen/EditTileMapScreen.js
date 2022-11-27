@@ -40,7 +40,9 @@ const EditTileMapScreen = (props) => {
 
     let { id } = useParams();
     useEffect(() => {
-        editStore.getTileMapById(id)
+        //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
+        //editStore.getTileMapById(id)
+        //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editStore.currentId])
 
     const [tilemap, setTilemap] = useState(editStore.currentItem)
@@ -74,7 +76,7 @@ const EditTileMapScreen = (props) => {
     return (
         <div className='tilemap' >
             <EditNavbar height={'10%'} redirect={redirect} openShareModal={showShareModal.onOpen} 
-                isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
+                projectName={editStore.name} projectAccess={editStore.access}
             />
 
             <div className='mapToolbar' height={'10%'}  >

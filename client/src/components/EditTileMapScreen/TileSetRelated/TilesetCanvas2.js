@@ -15,7 +15,7 @@ const TilesetCanvas = (props) => {
     const { sourceRef, currentTileSetId, selection} = props
     const { editStore } = useContext(GlobalEditStoreContext)
 
-    const currentTS = editStore.tilesets.find(x => x._id == currentTileSetId)
+    const currentTS = (editStore.tilesets)?editStore.tilesets.find(x => x._id == currentTileSetId):{height: -1, width:-1, pixel:-1, image: false}
     const tilesetCrop = currentTS.pixel;
 
     const TilesetOverlayRef = useRef({width: 0, height: 0, pixel: 16, overlayTiles:[], selectedString:`${selection[0]}-${selection[1]}`})
@@ -66,17 +66,17 @@ const TilesetCanvas = (props) => {
         return [Math.floor(mouseX*scaleX/tilesetCrop), Math.floor(mouseY*scaleY/tilesetCrop)]//use tilemap scale here
     }
 
-    return (
-        <Box position={'relative'} maxW={'max-content'}>
-            <Image src={currentTS.image.src}
-                onMouseDown={handleSelect}
-                ref={sourceRef}/>
-            <TilesetSelectorOverlay 
-                onMouseDown={handleSelect}
-                width={TilesetOverlay.width}
-                height={TilesetOverlay.height}
-                elements={TilesetOverlay.overlayTiles}/>
-        </Box>
+    return ((currentTS.image)?
+            <Box position={'relative'} maxW={'max-content'}>
+                <Image src={currentTS.image.src}
+                    onMouseDown={handleSelect}
+                    ref={sourceRef}/>
+                <TilesetSelectorOverlay 
+                    onMouseDown={handleSelect}
+                    width={TilesetOverlay.width}
+                    height={TilesetOverlay.height}
+                    elements={TilesetOverlay.overlayTiles}/>
+            </Box>:<></>
         )
 }
 

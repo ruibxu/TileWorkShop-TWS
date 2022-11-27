@@ -209,7 +209,7 @@ const MapCanvas = (props) => {
 
     const addArray = (coorsArray) => {
         coorsArray.forEach((key) => {
-            addTile(key.split('-'))
+            addTile(key.split('-'), true)
         })
     }
 
@@ -231,23 +231,25 @@ const MapCanvas = (props) => {
     }
 
     //These are the only 2 functions that directly changes what layers looks like
-    const addTile = (coors) => {
+    const addTile = (coors, drawLater) => {
         console.log('from add tile')
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
         if(!edit){return}
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
+        if(drawLater){return}
         draw()
     }
 
-    const removeTile = (coors) => {
+    const removeTile = (coors, drawLater) => {
         console.log('from remove tile')
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
         if(!edit){return}
         delete layer.data[key];
+        if(drawLater){return}
         draw()
     }
     //These are the only 2 functions that directly changes what layers looks like
@@ -263,6 +265,7 @@ const MapCanvas = (props) => {
     }
 
     const draw = () => {
+        console.log('draw called')
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
         layers.slice().reverse().forEach(layer => {
