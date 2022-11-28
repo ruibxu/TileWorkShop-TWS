@@ -3,10 +3,17 @@ import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from
 import { HiOutlinePencil } from "react-icons/hi";
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
+import { CgColorPicker } from "react-icons/cg";
 import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
+import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 
 const TilesetTools = (props) => {
-    const {zoomValue, setZoomValue}=props
+    const {zoomValue, setZoomValue, currentButton,setCurrentButton}=props
+
+    const handleOnClick = (value) => {
+        setCurrentButton(value)
+        //console.log(currentButton)
+    }
 
     const handleZoomIn = () => {
         if(zoomValue<4){
@@ -46,13 +53,20 @@ const TilesetTools = (props) => {
                     </Box>
 
                     <Box className='toolsfortileset' >
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
-                            //onClick={}
+                        <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.DRAW) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.DRAW} icon={<HiOutlinePencil className='md-icon'/>}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.DRAW)}
                         />
                     </Box>
+
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Eraser"icon={<RiEraserLine className='md-icon'/>}
-                            //onClick={}
+                        <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.ERASER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.ERASER} icon={<RiEraserLine className='md-icon'/>}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.ERASER)}
+                        />
+                    </Box>
+
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.COLOR_PICKER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.COLOR_PICKER} icon={<CgColorPicker className='md-icon'/>}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.COLOR_PICKER)}
                         />
                     </Box>
 

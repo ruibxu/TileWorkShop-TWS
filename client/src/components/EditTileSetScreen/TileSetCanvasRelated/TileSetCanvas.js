@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState, useCallback} from 'react'
 import { Flex, Box,Spacer, color } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
+import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef, zoomValue, color} = props
+    const {canvasRef, contextRef, zoomValue, color, currentButton} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
@@ -45,7 +46,9 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
     }, [color])
 
-    //
+    //Main switch call functions--------------------------------------------------
+
+    //Draw functions
     const startDrawing = (event) => {
         console.log('drawing started')
         const {nativeEvent, clientX, clientY} = event
@@ -72,28 +75,94 @@ const TilesetCanvas = (props) => {
     }
 
     //
-    const handleMouseDown = (event) => {
+    const Draw_MouseDown = (event) => {
         startDrawing(event)
     }
 
-    const handleMouseUp = (event) => {
+    const Draw_MouseUp = (event) => {
         finishDrawing(event)
     }
 
-    const handleMouseMove = (event) => {
+    const Draw_MouseMove = (event) => {
         draw(event)
     }
+    
+    // Eraser functions
 
+
+
+
+
+
+
+
+
+    // Color Picker functions
+    const ColorPicker_MouseDown = (event) => {
+        //startDrawing(event)
+        const{nativeEvent} = event
+        const {offsetX, offsetY} = nativeEvent
+        const pixel = contextRef.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
+        const data = pixel.data;
+        console.log(data);
+    }
+
+
+
+
+
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    const onMouseDown = (event) => {
+        event.preventDefault();
+        switch(currentButton){
+            case TOOLSFORTILESET.DRAW:{return Draw_MouseDown(event)}
+            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseDown(event)}
+            case TOOLSFORTILESET.COLOR_PICKER:{return ColorPicker_MouseDown(event)}
+        }
+    }
+
+    const onMouseUp = (event) => {
+        event.preventDefault();
+        switch(currentButton){
+            case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
+            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseUp(event)}
+        }
+        
+    }
+
+    const onMouseMove = (event) => {
+        event.preventDefault();
+        //console.log(currentButton)
+        switch(currentButton){
+            case TOOLSFORTILESET.DRAW:{return Draw_MouseMove(event)}
+            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseMove(event)}
+        }
+    }
+
+    const onMouseLeave = (event) => {
+        event.preventDefault();
+        switch(currentButton){
+            case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
+            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseLeave(event)}
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <Flex height={'100%'} width={'100%'} alignItems={'center'} padding={'20%'}>
             <Spacer/>
             <Box className='mapWorkspace' >
                 <canvas 
                     ref={canvasRef}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                    onMouseMove={handleMouseMove}
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                    onMouseLeave={onMouseLeave}
+                    onMouseMove={onMouseMove}
                 />
             </Box>
             <Spacer/>
