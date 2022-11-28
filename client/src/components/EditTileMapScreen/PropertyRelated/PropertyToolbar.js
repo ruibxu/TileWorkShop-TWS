@@ -29,24 +29,31 @@ const PropertyToolbar = (props) => {
     editStore.addLayerStateTransaction(layersClone, redoCallback, undoCallback)
   }
 
+  const addProperty = (layer, propertyToAdd) => {
+    const newProperty = JSON.parse(JSON.stringify(propertyToAdd))
+    if(!layer.properties){
+      layer.properties = [newProperty]
+      return
+    }
+    if(layer.properties.find(x => x.name == newProperty.name)){return}
+    layer.properties.push(newProperty)
+  }
+
   const handleDuplicateProperty=() => {
     //problem
-    if(currentProperty==''){}
-    else{
-      const layersClone = JSON.parse(JSON.stringify(editStore.layers))
-      const layers = layersClone.filter(x => x.id != props.currentLayer)
-      const layer2 = layersClone.find(x => x.id == props.currentLayer)
-      const property=layer2.properties.find(x => x.name == currentProperty)
-      /*
-      layers.forEach(x=>x.properties==undefined?x.properties=[property]:x.properties=x.properties)
-      layers.forEach(layer=>console.log(layer.properties))
-      layers.forEach(x=>x.properties.forEach(y => (y.name == currentProperty)?x.properties=x.properties:x.properties=x.properties.push(property)))
-      console.log(layersClone)
-      editStore.addLayerStateTransaction(layersClone)
-      */
-    }
-
-    
+    if(currentProperty==''){return}
+    const layersClone = JSON.parse(JSON.stringify(editStore.layers))
+    const layers = layersClone.filter(x => x.id != props.currentLayer)
+    const layer2 = layersClone.find(x => x.id == props.currentLayer)
+    const property=layer2.properties.find(x => x.name == currentProperty)
+    //
+    layers.forEach(x => addProperty(x, property))
+    //layers.forEach(x=>x.properties==undefined?x.properties=[property]:x.properties=x.properties)
+    layers.forEach(layer=>console.log(layer.properties))
+    // layers.forEach(x=>x.properties.forEach(y => (y.name == currentProperty)?x.properties=x.properties:x.properties=[...x.properties, property]))
+    //
+    console.log(layersClone)
+    editStore.addLayerStateTransaction(layersClone)
   }
 
 
