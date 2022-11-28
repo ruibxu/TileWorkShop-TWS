@@ -13,7 +13,19 @@ const PropertyEntry = (props) => {
     const currentProperty = props.currentProperty
     const { editStore } = useContext(GlobalEditStoreContext)
     const [edit, toggleEdit] = useState(false)
+    const [typeS, setTypeS] = useState(type)
     const [val, setVal] = useState(value)
+
+    useEffect(()=>{
+        if(typeS != type){
+            setTypeS(type)
+            setVal(value)
+            return
+        }
+        if(val != value){
+            setVal(value)
+        }
+    }, [value, type])
 
     const convertValue = (property) => {
         switch(property.type){
@@ -75,11 +87,11 @@ const PropertyEntry = (props) => {
             </Box>
             <Spacer/>
             {
-                (type == 'string')?
+                (typeS == 'string')?
                     (edit)?<Input defaultValue={val} autoFocus={true} onBlur={handleFinishChangeVal}/>:
                         <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{val?val:' '}</Box>
                     :
-                (type == 'int'||type == 'float')?
+                (typeS == 'int'||typeS == 'float')?
                     (edit)?<NumberInput defaultValue={val}>
                             <NumberInputField autoFocus={true} onBlur={handleFinishChangeVal}/>
                         </NumberInput>
