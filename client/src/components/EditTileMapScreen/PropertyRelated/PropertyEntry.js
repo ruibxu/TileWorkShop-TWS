@@ -15,6 +15,15 @@ const PropertyEntry = (props) => {
     const [edit, toggleEdit] = useState(false)
     const [val, setVal] = useState(value)
 
+    const convertValue = (property) => {
+        switch(property.type){
+            case 'string':{return property.value}
+            case 'boolean':{return (property.value == 'true')}
+            case 'int':{return new Number(property.value)}
+            case 'float':{return new Number(property.value)}
+        }
+    }
+
     const handleMakeTransaction = (name, type, newValue) => {
         const layersClone = JSON.parse(JSON.stringify(editStore.layers))
         const layer = layersClone.find(x => x.id == currentLayer)
@@ -39,7 +48,7 @@ const PropertyEntry = (props) => {
     }
 
     const handleChangeBoolean = (newVal) => {
-        console.log('clicked')
+        console.log(val)
 
         setVal(newVal)
         handleMakeTransaction(name, type, `${newVal}`)
@@ -54,7 +63,9 @@ const PropertyEntry = (props) => {
         const property = properties.find(x => x.name == currentProperty)
         if(!property){return}
         if(property.name != name || property.type != type){return}
-        if(property.value != val){setVal(property.value)}
+        if(property.value != val){
+            setVal(convertValue(property))
+        }
     },[editStore.layers])
 
     return (<Box height='35px' width={'100%'} className={(currentProperty == name)?'layer-entry-selected':'layer-entry'} name={name}>
@@ -75,7 +86,7 @@ const PropertyEntry = (props) => {
                         :
                         <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{`${val}`}</Box>
                     :
-                <Box paddingLeft={3} width={'100%'} alignItems='center'>
+                <Box paddingLeft={3} width={'100%'} alignItems='center' onClick={()=>{console.log(val)}}>
                     <Switch onChange={()=>handleChangeBoolean(!val)} isChecked={val}></Switch>
                 </Box>
             }
