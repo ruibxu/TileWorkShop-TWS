@@ -152,9 +152,10 @@ const TilesetCanvas = (props) => {
     // Color Picker functions
     const ColorPicker_MouseDown = (event) => {
         //startDrawing(event)
-        const{nativeEvent} = event
-        const {offsetX, offsetY} = nativeEvent
-        const pixel = contextRef.current.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
+        const bounding = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - bounding.left;
+        const y = event.clientY - bounding.top;
+        const pixel = contextRef.current.getImageData(x, y, 1, 1);
         const data = pixel.data;
         const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
         console.log(data[0]);
