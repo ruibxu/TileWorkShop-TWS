@@ -20,7 +20,7 @@ import TilesetCanvas from './TileSetCanvas';
 
 const TilesetWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    //console.log('reload mapWorkSpace')
+    console.log('reload mapWorkSpace')
 
     return (
         <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} >

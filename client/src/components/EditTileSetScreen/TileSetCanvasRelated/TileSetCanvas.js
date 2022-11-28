@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState, useCallback} from 'react'
-import { Flex, Box,Spacer } from '@chakra-ui/react';
+import { Flex, Box,Spacer, color } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef, zoomValue} = props
+    const {canvasRef, contextRef, zoomValue, color} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
@@ -19,8 +19,6 @@ const TilesetCanvas = (props) => {
         const canvas = canvasRef.current;
         canvas.width = (widthP*scale)
         canvas.height = (heightP*scale)
-        canvas.style.width = `${widthP*zoomValue}px`
-        canvas.style.height = `${heightP*zoomValue}px`
 
         const context = canvas.getContext('2d')
         context.scale(scale,scale)
@@ -28,7 +26,23 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = 5
         contextRef.current = context
+    }, [])
+
+    useEffect(()=>{
+        const pixel = editTilesetStore.pixel
+        const width = editTilesetStore.width
+        const height = editTilesetStore.height
+        const widthP = width*pixel
+        const heightP = height*pixel
+
+        const canvas = canvasRef.current;
+        canvas.style.width = `${widthP*zoomValue}px`
+        canvas.style.height = `${heightP*zoomValue}px`
     }, [zoomValue])
+
+    // useEffect(()=>{
+    //     console.log('Color changed')
+    // }, [color])
 
     //
     const startDrawing = (event) => {

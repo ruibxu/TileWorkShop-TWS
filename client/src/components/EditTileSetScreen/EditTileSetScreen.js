@@ -28,6 +28,8 @@ const EditTileSetScreen = (props) => {
 
     const [color, setColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
     const [zoomValue, setZoomValue] = useState(1)
+    const colorPickerRef = useRef(null)
+    console.log('This is reloading too')
 
 
 
@@ -72,7 +74,7 @@ const EditTileSetScreen = (props) => {
                 </GridItem>
 
                 <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
-                    <TilesetColorPicker color={color} setColor={setColor}/>
+                    <TilesetColorPicker color={color} setColor={setColor} colorPickerRef={colorPickerRef}/>
                 </GridItem>
 
 

@@ -4,9 +4,13 @@ import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from
 
 
 const TilesetColorPicker = (props) => {
+    const { color, setColor } = props
+    const [formats, setFormats] = useState(["rgba"]);
+    const [spectrum, setSpectrum] = useState("hsva");
+    console.log(color)
 
     const handleChange = useCallback(({ colors }) => {
-        props.setColor({ ...colors.rgba });
+        setColor({ ...colors.rgba });
         
         //console.log(props.color);
     }, []);
@@ -15,11 +19,12 @@ const TilesetColorPicker = (props) => {
     return (
         <Box paddingTop={'20%'}>
                 <ColorPicker
-                spectrum="hsva"
-                formats={["rgba"]}
-                initialColor={props.color}
+                spectrum={spectrum}
+                formats={formats}
+                initialColor={color}
                 onPanStart={handleChange}
                 onPan={handleChange}
+                ref={props.colorPickerRef}
                 />
         </Box>
     )
