@@ -7,7 +7,7 @@ import { MdEventAvailable } from 'react-icons/md';
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton} = props
+    const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton, toolWidth} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
@@ -33,7 +33,7 @@ const TilesetCanvas = (props) => {
         context.scale(scale,scale)
         context.lineCap = "round"
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
-        context.lineWidth = 5
+        context.lineWidth = toolWidth
         contextRef.current = context
         BeforeChange.current = getImageData()
     }, [])
@@ -71,11 +71,19 @@ const TilesetCanvas = (props) => {
         canvas.style.height = `${heightP*zoomValue}px`
     }, [zoomValue])
 
+    // refresh when color changes
     useEffect(()=>{
         const context = contextRef.current
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
     }, [color])
 
+    // refresh when tool width changes
+    useEffect(()=>{
+        const context = contextRef.current
+        context.lineWidth = toolWidth;
+    }, [toolWidth])
+
+    // refresh when currentButton changed
     useEffect(()=>{
         const context = contextRef.current
         if(currentButton== TOOLSFORTILESET.ERASER){
@@ -132,7 +140,39 @@ const TilesetCanvas = (props) => {
         contextRef.current.lineTo(offsetX/zoomValue, offsetY/zoomValue)
         contextRef.current.stroke()
     }
-    
+
+
+
+    // Bucket fill functions
+    /*const getCoords = (e) => {
+        //e.target.getBoundingClientRect()
+        const { x, y } = canvasRef.current.getBoundingClientRect()
+        const mouseX = e.clientX - x;
+        const mouseY = e.clientY - y;
+        return [Math.floor((mouseX/zoomValue) / tilemapCrop), Math.floor((mouseY/zoomValue) / tilemapCrop)]//use tilemap scale here
+    }*/
+
+    const BucketFill_MouseDown = (event) => {
+        console.log('drawing started')
+        const {nativeEvent, clientX, clientY} = event
+        const {offsetX, offsetY} = nativeEvent
+        const x=offsetX/zoomValue
+        const y=offsetY/zoomValue
+        contextRef.current.beginPath();
+        contextRef.current.rect(x,y,editTilesetStore.pixel,editTilesetStore.pixel)
+        contextRef.current.fillStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
+        contextRef.current.fill();
+        setIsDrawing(true)
+    }
+
+    const BucketFill_MouseUp = (event) =>{
+        if(isDrawing){createTransaction()}
+        setIsDrawing(false)
+    }
+
+
+
+
 
     // Color Picker functions
     const ColorPicker_MouseDown = (event) => {
@@ -164,6 +204,7 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseDown(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseDown(event); break;}
+            case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseDown(event); break;}
             case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseDown(event); break;}
         }
     }
@@ -173,6 +214,7 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
+            case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseUp(event); break;}
         }
     }
 
@@ -190,6 +232,7 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
+            case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseUp(event); break;}
         }
     }
 

@@ -5,11 +5,14 @@ import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { CgColorPicker } from "react-icons/cg";
 import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
+import { AiOutlineArrowDown,AiOutlineArrowUp} from "react-icons/ai"
+import { MdOutlineFormatColorFill } from "react-icons/md"
+
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 
 const TilesetTools = (props) => {
-    const {zoomValue, setZoomValue, currentButton,setCurrentButton}=props
+    const {zoomValue, setZoomValue, currentButton,setCurrentButton, toolWidth,setToolWidth} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
 
     const handleUndo = () => {
@@ -39,6 +42,21 @@ const TilesetTools = (props) => {
             //editStore.updateZoomValue(editStore.zoomValue/2)
         }
     }
+
+    const handleLargerWidth = () => {
+        if(toolWidth<20){
+          setToolWidth(toolWidth+1)
+          //editStore.updateZoomValue(editStore.zoomValue*2)
+        }
+      }
+
+    const handleSmallerWidth = () => {
+        if(toolWidth>1){
+            setToolWidth(toolWidth-1)
+            //editStore.updateZoomValue(editStore.zoomValue/2)
+        }
+    }
+
 
     
     return (
@@ -77,11 +95,33 @@ const TilesetTools = (props) => {
                         />
                     </Box>
 
+
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.Bucket_FILL_TOOL) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.Bucket_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon'/>}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.Bucket_FILL_TOOL)}
+                        />
+                    </Box>
+
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.COLOR_PICKER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.COLOR_PICKER} icon={<CgColorPicker className='md-icon'/>}
                             onClick={() => handleOnClick(TOOLSFORTILESET.COLOR_PICKER)}
                         />
                     </Box>
+
+
+
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent'  title="larger tool width" icon={<AiOutlineArrowUp className='md-icon'/>}
+                            onClick={handleLargerWidth}
+                        />
+                    </Box>
+
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent'  title="smaller tool width" icon={<AiOutlineArrowDown className='md-icon'/>}
+                            onClick={handleSmallerWidth}
+                        />
+                    </Box>
+
 
             </SimpleGrid>
         </Box>)

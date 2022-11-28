@@ -11,5 +11,6 @@ export const TOOLS = {
 export const TOOLSFORTILESET = {
     DRAW: "Draw",
     ERASER: "Eraser",
-    COLOR_PICKER: "Color Picker"
+    COLOR_PICKER: "Color Picker",
+    Bucket_FILL_TOOL: "Bucket Fill Tool"
 }

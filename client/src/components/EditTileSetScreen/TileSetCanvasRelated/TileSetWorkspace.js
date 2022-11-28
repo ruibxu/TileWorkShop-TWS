@@ -27,7 +27,8 @@ const TilesetWorkspace = (props) => {
             <TilesetCanvas width={'100%'} height={'100%'} 
             canvasRef={props.canvasRef} contextRef={props.contextRef}
             color={props.color} setColor={props.setColor}zoomValue={props.zoomValue} 
-            setZoomValue={props.setZoomValue} currentButton={props.currentButton} setCurrentButton={props.setCurrentButton} />
+            setZoomValue={props.setZoomValue} currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
+            toolWidth={props.toolWidth} setToolWidth={props.setToolWidth} />
         </Box>
     )
 }
