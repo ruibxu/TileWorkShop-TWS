@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef} from 'react'
+import React, { useContext, useEffect, useRef,useState} from 'react'
 import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
 import { HiOutlinePencil } from "react-icons/hi";
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
@@ -6,10 +6,21 @@ import { GrSelect } from "react-icons/gr"
 import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 
 const TilesetTools = (props) => {
-    /*<Flex alignItems={'center'} gap={5} fontSize = '22px'>
+    const {zoomValue, setZoomValue}=props
+    
+    const handleZoomIn = () => {
+        if(zoomValue<4){
+          setZoomValue(zoomValue*2)
+          //editStore.updateZoomValue(editStore.zoomValue*2)
+        }
+      }
 
-
-    </Flex>*/
+    const handleZoomOut = () => {
+        if(zoomValue>0.25){
+            setZoomValue(zoomValue/2)
+            //editStore.updateZoomValue(editStore.zoomValue/2)
+        }
+    }
     return (
         <Box px={4} >
             <SimpleGrid columns={4} spacing={1}>
@@ -35,12 +46,12 @@ const TilesetTools = (props) => {
                     </Box>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Zoom in"icon={<ImZoomIn className='md-icon'/>}
-                            //onClick={}
+                            onClick={ handleZoomIn}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Zoom out"icon={<ImZoomOut className='md-icon'/>}
-                            //onClick={}
+                            onClick={handleZoomOut}
                         />
                     </Box>
             </SimpleGrid>

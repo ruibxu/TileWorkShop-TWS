@@ -3,12 +3,10 @@ import { Flex, Box,Spacer } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef} = props
+    const {canvasRef, contextRef, zoomValue} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
-
-    const zoomValue = 2
 
     useEffect(() => {
         const scale = 10;
@@ -30,7 +28,7 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = 5
         contextRef.current = context
-    }, [])
+    }, [zoomValue])
 
     //
     const startDrawing = (event) => {

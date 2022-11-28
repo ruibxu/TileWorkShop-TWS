@@ -27,7 +27,7 @@ const EditTileSetScreen = (props) => {
     const [isPublic, setPublic] = useState(store.currentItem.access.public)
 
     const [color, setColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
-
+    const [zoomValue, setZoomValue] = useState(1)
 
 
 
@@ -64,11 +64,11 @@ const EditTileSetScreen = (props) => {
                 templateColumns='repeat(6, 1fr)'
             >   
                 <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
-                    <TilesetTools/>
+                    <TilesetTools zoomValue= {zoomValue} setZoomValue={setZoomValue} />
                 </GridItem>
 
                 <GridItem colSpan={5} rowSpan={2}width={'100%'} height={'100%'} className='tilesetWorkspace'>
-                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color}/>
+                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color} zoomValue={zoomValue} />
                 </GridItem>
 
                 <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
