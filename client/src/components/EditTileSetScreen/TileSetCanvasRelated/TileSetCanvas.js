@@ -40,9 +40,10 @@ const TilesetCanvas = (props) => {
         canvas.style.height = `${heightP*zoomValue}px`
     }, [zoomValue])
 
-    // useEffect(()=>{
-    //     console.log('Color changed')
-    // }, [color])
+    useEffect(()=>{
+        const context = contextRef.current
+        context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
+    }, [color])
 
     //
     const startDrawing = (event) => {
@@ -66,24 +67,9 @@ const TilesetCanvas = (props) => {
         const{ clientX, clientY, nativeEvent} = event
         const {offsetX, offsetY} = nativeEvent
         const {x, y} = canvasRef.current.getBoundingClientRect()
-        const canvasX = clientX-x
-        const canvasY = clientY-y
         contextRef.current.lineTo(offsetX/zoomValue, offsetY/zoomValue)
         contextRef.current.stroke()
     }
-
-    // const draw = useCallback((x, y) => {
-    //     if(!isDrawing){return}
-    //     contextRef.current.beginPath()
-    //     contextRef.current.lineWidth = 10
-    //     contextRef.current.lineJoin = 'round'
-    //     contextRef.current.moveTo(lastPosition.x, lastPosition.y)
-    //     contextRef.current.lineTo(x,y);
-    //     contextRef.current.closePath()
-    //     contextRef.current.stroke()
-
-    //     setPosition({x, y})
-    // }, [lastPosition, isDrawing, setPosition])
 
     //
     const handleMouseDown = (event) => {
@@ -106,6 +92,7 @@ const TilesetCanvas = (props) => {
                     ref={canvasRef}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
                     onMouseMove={handleMouseMove}
                 />
             </Box>

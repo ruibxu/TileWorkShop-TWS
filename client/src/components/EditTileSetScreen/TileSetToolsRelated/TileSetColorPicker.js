@@ -7,7 +7,6 @@ const TilesetColorPicker = (props) => {
     const { color, setColor } = props
     const [formats, setFormats] = useState(["rgba"]);
     const [spectrum, setSpectrum] = useState("hsva");
-    console.log(color)
 
     const handleChange = useCallback(({ colors }) => {
         setColor({ ...colors.rgba });
