@@ -32,7 +32,6 @@ const UploadTilesetModal = (props) => {
     const [pixel, setPixel] = useState(16)
     const [upload, setUpload] = useState("")
     const handleChange = (event) => {
-        console.log(event)
         const reader = new FileReader()
         const file = document.querySelector('#input-tileset').files[0];
         reader.addEventListener('load', () => {
@@ -50,7 +49,7 @@ const UploadTilesetModal = (props) => {
                 width: width,
                 pixel: pixel
             }
-        })
+        }, upload)
         props.onClose()
     }
 

@@ -14,7 +14,8 @@ export const GlobalEditStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     UPDATE_LAYER: "UPDATE_LAYER",
-    UPDATE_DISPLAY: "UPDATE_DISPLAY"
+    UPDATE_DISPLAY: "UPDATE_DISPLAY",
+    UPDATE_TILESETS: "UPDATE_TILESETS"
 
 }
 const tps = new jsTPS();
@@ -123,16 +124,35 @@ const GlobalEditStoreContextProvider = (props) => {
                     // MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
                 })
             }
+            case GlobalEditStoreActionType.UPDATE_TILESETS: {
+                return setEditStore({
+                    ...editStore,
+                    layers: (payload.layers) ? payload.layers : editStore.layers,
+                    tilesets: payload.tilesets
+                })
+            }
 
         }
     }
-    editStore.addNewTileset = async function (payload) {
+    editStore.addNewTileset = async function (payload, image) {
+        const { name, pixel, height, width } = payload
         console.log(editStore.currentId)
         const response = await api.addTileSetToTileMap(editStore.currentId, payload);
         if (response.status === 200) {
-            console.log(1)
-        }else{
-            console.log(response.data.errorMessage)
+            const tileset_id = response.data.tileset_id
+            const response2 = await api.updateTileMapImage(tileset_id, { data: image })
+            if (response2.status === 200) {
+                const newTileset = {
+                    id: tileset_id, name: name, pixel: pixel, height: height, width: width,
+                    image: createImage(response2.data.resources.url)
+                }
+                storeReducer({
+                    type: GlobalEditStoreActionType.UPDATE_TILESETS,
+                    payload: {
+                        tilesets: [...editStore.tilesets, newTileset]
+                    }
+                })
+            }
         }
     }
     editStore.getTileMapById = async function (id) {
@@ -142,7 +162,7 @@ const GlobalEditStoreContextProvider = (props) => {
             result.community = null
             console.log(result)
             const tilesets = result.tileset
-            tilesets.map(x => x.image=createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png'))
+            tilesets.map(x => x.image = createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png'))
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {
