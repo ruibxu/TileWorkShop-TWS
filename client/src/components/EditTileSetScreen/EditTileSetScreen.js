@@ -62,7 +62,7 @@ const EditTileSetScreen = (props) => {
                 isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}/>
 
             <Grid
-                h='100%'
+                h='93.5%'
                 templateRows='repeat(2, 1fr)'
                 templateColumns='repeat(6, 1fr)'
             >   
@@ -71,7 +71,7 @@ const EditTileSetScreen = (props) => {
                     setCurrentButton={setCurrentButton}/>
                 </GridItem>
 
-                <GridItem colSpan={5} rowSpan={2}width={'100%'} height={'100%'} className='tilesetWorkspace'>
+                <GridItem colSpan={5} rowSpan={2} minWidth={'100%'} maxWidth={'100%'} height={'100%'} className='tilesetWorkspace'>
                     <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color} setColor={setColor} 
                     zoomValue={zoomValue} currentButton={currentButton}/>
                 </GridItem>
