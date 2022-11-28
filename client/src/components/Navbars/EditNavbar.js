@@ -31,7 +31,7 @@ const EditNavbar = (props) => {
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
     const [isPublic, setPublic] = useState(projectAccess?projectAccess.public:false)
-
+    const [upload, setUpload] = useState("")
     useEffect(() => {
         if(name == projectName){return}
         setName(projectName)
@@ -55,21 +55,28 @@ const EditNavbar = (props) => {
         toggleNameEdit(false);
         setName(e.target.value);
     }
-
+    const handleChange = () => {
+        const reader = new FileReader()
+        const file = document.querySelector('input[type=file]').files[0];
+        reader.addEventListener('load', () =>{
+            setUpload(reader.result)
+        },false)
+        reader.readAsDataURL(file)     
+    }
     return (
         <Box px={4} className="navbar" left={0}>
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
                     <Box>
-                        <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('input').click()} />
+                        <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('#input-edit').click()} />
                         <Input
                             type="file"
+                            onChange={handleChange}
                             style = {{display:"none"}}
                             accept="image/*"
-                            id='input'
+                            id='input-edit'
                         />
-
                     </Box>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} />
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} />
