@@ -24,6 +24,7 @@ const LayerEntry = (props) => {
     }
 
     const handleSelect = () => {
+        console.log(info)
         props.setCurrentLayer(id)
     }
 

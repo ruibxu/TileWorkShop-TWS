@@ -17,13 +17,15 @@ const LayerToolbar = (props) => {
   const { layers, currentLayer } = props
 
   const getNewId = () => {
+    if(!layers){return 1}
     const ids = layers.map(x => x.id)
-    const maxId = Math.max(...ids)
+    const maxId = Math.max(...ids, 0)
     return maxId+1
   }
 
   const generateNewLayer = () => {
     const newId = getNewId()
+    console.log('New Id test', newId)
     const newLayer = {
       id: newId,
       name: 'New Layer',
@@ -46,6 +48,7 @@ const LayerToolbar = (props) => {
     const newLayer = generateNewLayer()
     const layersClone = JSON.parse(JSON.stringify(editStore.layers))
     layersClone.unshift(newLayer)
+    console.log(newLayer)
     const currentId = currentLayer
     const redoCallback = (()=>props.setCurrentLayer(newLayer.id))
     const undoCallback =(()=>props.setCurrentLayer(currentId))
