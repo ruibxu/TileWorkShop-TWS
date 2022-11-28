@@ -25,7 +25,7 @@ import GlobalEditStoreContext from '../../store/EditStore';
 
 
 const EditNavbar = (props) => {
-    const {projectName, projectAccess} = props
+    const {projectName, projectAccess, currentStore} = props
     const { auth } = useContext(AuthContext);
     const { editStore } = useContext(GlobalEditStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
@@ -52,8 +52,10 @@ const EditNavbar = (props) => {
     }
 
     const handleNameEdit = (e) => {
+        const newName = e.target.value
+        currentStore.updateName(newName)
         toggleNameEdit(false);
-        setName(e.target.value);
+        setName(newName);
     }
     const handleChange = () => {
         const reader = new FileReader()

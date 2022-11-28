@@ -101,7 +101,7 @@ const updateTileMap = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
+            if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
                 item.lastEdited = Date.now();
                 if(req.body.name){item.name = req.body.name;}
                 if(req.body.height){item.height = req.body.height;}
@@ -118,7 +118,7 @@ const updateTileMap = async (req, res) => {
                 })
                     .catch(error => {
                         // console.log("FAILURE: " + JSON.stringify(error));
-                        return res.status(400).json({
+                        return res.status(201).json({
                             error,
                             message: 'Tilemap not updated!',
                         })
@@ -126,9 +126,11 @@ const updateTileMap = async (req, res) => {
             }
             else {
                 // console.log("incorrect user!");
-                return res.status(400).json({
+                return res.status(201).json({
                     success: false,
-                    errorMessage: "authentication error"
+                    errorMessage: "authentication error",
+                    owner: access.owner_id,
+                    user: req.body.user_id
                 });
             }
         }

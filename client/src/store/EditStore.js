@@ -15,7 +15,8 @@ export const GlobalEditStoreActionType = {
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     UPDATE_LAYER: "UPDATE_LAYER",
     UPDATE_DISPLAY: "UPDATE_DISPLAY",
-    UPDATE_TILESETS: "UPDATE_TILESETS"
+    UPDATE_TILESETS: "UPDATE_TILESETS",
+    UPDATE_NAME: "UPDATE_NAME"
 
 }
 const tps = new jsTPS();
@@ -26,16 +27,6 @@ const createImage = (src) => {
     img.crossOrigin = "anonymous"
     return img
 }
-
-// const createOverlay = (width, height, zoomValue) => {
-//     let elements = []
-//     for(let x = 0; x < width; x++){
-//         for(let y = 0; y < height; y++){
-//             elements.push(<OverlayTile coords={[x,y]} zoomValue={zoomValue}/>)
-//         }
-//     }
-//     return elements
-// }
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
@@ -131,9 +122,34 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: payload.tilesets
                 })
             }
-
+            case GlobalEditStoreActionType.UPDATE_NAME: {
+                return setEditStore({
+                    ...editStore,
+                    name: payload.name
+                })
+            }
         }
     }
+
+    editStore.updateName = async (newName) => {
+        console.log('updating name')
+        const id = editStore.currentId
+        const payload = {
+            user_id: auth.user._id,
+            name: newName
+        }
+        const response = await api.updateTileMap(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_NAME,
+                payload: {
+                    name: newName
+                }
+            })
+        }
+    }
+
     editStore.addNewTileset = async function (payload, image) {
         const { name, pixel, height, width } = payload
         console.log(editStore.currentId)
