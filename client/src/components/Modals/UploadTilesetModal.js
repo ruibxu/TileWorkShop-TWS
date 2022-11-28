@@ -43,6 +43,7 @@ const UploadTilesetModal = (props) => {
 
     const handleCreate = () => {
         editStore.addNewTileset({
+            user_id: auth.user._id,
             tileset: {
                 name: name,
                 height: height,
