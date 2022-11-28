@@ -72,6 +72,11 @@ const EditNavbar = (props) => {
         },false)
         reader.readAsDataURL(file)     
     }
+
+    const handleSave = () => {
+        currentStore.save()
+    }
+
     return (
         <Box px={4} className="navbar" left={0} >
             <HStack h={16} justifyContent={'space-between'}>
@@ -87,7 +92,7 @@ const EditNavbar = (props) => {
                             id='input-edit'
                         />
                     </Box>
-                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} />
+                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>
                 <Flex>

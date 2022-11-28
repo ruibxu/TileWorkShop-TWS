@@ -46,6 +46,7 @@ const LayerToolbar = (props) => {
 
   const handleCreateNewLayer = () => {
     const newLayer = generateNewLayer()
+    console.log(newLayer)
     const layersClone = JSON.parse(JSON.stringify(editStore.layers))
     layersClone.unshift(newLayer)
     console.log(newLayer)

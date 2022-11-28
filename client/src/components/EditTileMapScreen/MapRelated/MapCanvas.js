@@ -237,6 +237,7 @@ const MapCanvas = (props) => {
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
         if(!edit){return}
+        if(!layer.data){layer.data = {}}
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
         if(drawLater){return}
         draw()
@@ -248,6 +249,7 @@ const MapCanvas = (props) => {
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
         if(!edit){return}
+        if(!layer.data){layer.data = {}}
         delete layer.data[key];
         if(drawLater){return}
         draw()
@@ -270,6 +272,8 @@ const MapCanvas = (props) => {
 
         layers.slice().reverse().forEach(layer => {
             if(layer.hidden){return}
+            console.log(layer)
+            if(!layer.data){return}
             Object.keys(layer.data).forEach(key => {
                 let positions = key.split('-')
                 let positionX = Number(positions[0])

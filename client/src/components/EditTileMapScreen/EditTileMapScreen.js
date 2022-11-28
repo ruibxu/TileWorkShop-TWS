@@ -157,55 +157,7 @@ const EditTileMapScreen = (props) => {
             />
 
         </div>
-            
-        /*
-        <div className='tilemap' >
-            <EditNavbar height={'10%'} redirect={redirect} openShareModal={showShareModal.onOpen} 
-                projectName={editStore.name} projectAccess={editStore.access}
-            />
-
-            <div className='mapToolbar' height={'10%'}  >
-                <MapToolbar redirect={redirect} 
-                openResizeMapModal={showResizeMapModal.onOpen} 
-                currentButton={currentButton} setCurrentButton={setCurrentButton}
-                zoomValue={zoomValue}  setZoomValue={setZoomValue}
-                />
-            </div>
-
-            <Flex color='Black' height={'88%'} overflow={'auto'}>
-                <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
-                    <MapTileset height={"100%"} redirect={redirect} parts={parts}
-                        setSelection={setSelection} sourceRef={sourceRef}
-                        currentTileSetId={currentTileSetId} selection={selection}
-                        tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
-                    />
-                </Box>
-                <Box bg='lightgrey' height='100%' width='60%' overflow={'auto'} className='mapWorkspace' >
-                    <MapWorkspace height='100%' width='100%' redirect={redirect} parts={parts}
-                        canvasRef={canvasRef} contextRef={contextRef}
-                        sourceRef={sourceRef} selectRef={contextRef}
-                        currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
-                        selection={selection} setSelection={setSelection}
-                        currentTileSetId={currentTileSetId}
-                        currentButton={currentButton} setCurrentButton={setCurrentButton}
-                        zoomValue={zoomValue}
-                    />
-                </Box>
-                <Box flex='1' height='100%'>
-                    <Box bg='lightgrey' height='30%' className='mapLayer' >
-                        <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
-                    </Box>
-                    <Box bg='lightgrey' height='70%' className='mapLayer'>
-                        <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
-                    </Box>
-                </Box>
-            </Flex>
-
-
-
-        </div>
-        
-        */)
+        )
 }
 
 export default EditTileMapScreen;

@@ -16,7 +16,8 @@ export const GlobalEditStoreActionType = {
     UPDATE_LAYER: "UPDATE_LAYER",
     UPDATE_DISPLAY: "UPDATE_DISPLAY",
     UPDATE_TILESETS: "UPDATE_TILESETS",
-    UPDATE_NAME: "UPDATE_NAME"
+    UPDATE_NAME: "UPDATE_NAME",
+    UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM"
 
 }
 const tps = new jsTPS();
@@ -125,7 +126,14 @@ const GlobalEditStoreContextProvider = (props) => {
             case GlobalEditStoreActionType.UPDATE_NAME: {
                 return setEditStore({
                     ...editStore,
-                    name: payload.name
+                    name: payload.name,
+                    currentItem: payload.currentItem
+                })
+            }
+            case GlobalEditStoreActionType.UPDATE_CURRENT_ITEM: {
+                return setEditStore({
+                    ...editStore,
+                    currentItem: payload.currentItem
                 })
             }
         }
@@ -134,17 +142,46 @@ const GlobalEditStoreContextProvider = (props) => {
     editStore.updateName = async (newName) => {
         console.log('updating name')
         const id = editStore.currentId
+        const user_id = auth.user._id
         const payload = {
-            user_id: auth.user._id,
+            user_id: user_id,
             name: newName
         }
         const response = await api.updateTileMap(id, payload)
         console.log(response.data)
         if (response.status == 200){
+            const item = response.data.item
+            item.community = null
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_NAME,
                 payload: {
-                    name: newName
+                    name: newName,
+                    currentItem: item
+                }
+            })
+        }
+    }
+
+    editStore.save = async () => {
+        console.log('saving')
+        const id = editStore.currentId
+        const user_id = auth.user._id
+        const {width, height, layers} = editStore
+        const payload = {
+            user_id: user_id,
+            width: width,
+            height: height,
+            layers: layers
+        }
+        const response = await api.updateTileMap(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            const item = response.data.item
+            item.community = null
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_CURRENT_ITEM,
+                payload: {
+                    currentItem: item
                 }
             })
         }
