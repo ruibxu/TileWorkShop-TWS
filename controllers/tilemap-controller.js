@@ -113,6 +113,7 @@ const updateTileMap = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
+                        item: item,
                         message: 'Tilemap updated!',
                     })
                 })
@@ -129,8 +130,6 @@ const updateTileMap = async (req, res) => {
                 return res.status(201).json({
                     success: false,
                     errorMessage: "authentication error",
-                    owner: access.owner_id,
-                    user: req.body.user_id
                 });
             }
         }
