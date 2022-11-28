@@ -6,9 +6,20 @@ import { GrSelect } from "react-icons/gr"
 import { CgColorPicker } from "react-icons/cg";
 import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
+import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 
 const TilesetTools = (props) => {
     const {zoomValue, setZoomValue, currentButton,setCurrentButton}=props
+    const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
+
+    const handleUndo = () => {
+        console.log('handle undo')
+        editTilesetStore.undo()
+    }
+
+    const handleRedo = () => {
+        editTilesetStore.redo()
+    }
 
     const handleOnClick = (value) => {
         setCurrentButton(value)
@@ -33,12 +44,12 @@ const TilesetTools = (props) => {
             <SimpleGrid columns={4} spacing={1}>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Undo"icon={<ImUndo className='md-icon'/>}
-                            //onClick={}
+                            onClick={handleUndo}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Redo"icon={<ImRedo className='md-icon'/>}
-                            //onClick={}
+                            onClick={handleRedo}
                         />
                     </Box>
                     <Box className='toolsfortileset'>

@@ -15,6 +15,8 @@ const TilesetCanvas = (props) => {
     const overlayInfo = useRef({height: -1, width: -1, overlayTiles:[]})
     const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
 
+    let BeforeChange = useRef(null)
+
     useEffect(() => {
         const scale = 10;
         const pixel = editTilesetStore.pixel
@@ -33,6 +35,7 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = 5
         contextRef.current = context
+        BeforeChange.current = getImageData()
     }, [])
 
     useEffect(()=>{
@@ -73,25 +76,40 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
     }, [color])
 
+    const copyImageData = (src) => {
+        let newContext = contextRef.current.createImageData(src.width, src.height)
+        newContext.data.set(src.data)
+        return newContext
+    }
+
+    const createTransaction = () => {
+        console.log('transaction created')
+        let AfterChange = getImageData()
+        console.log(BeforeChange.current)
+        console.log(AfterChange)
+        const BeforeChangeClone = copyImageData(BeforeChange.current)
+        const redoCallback = () => updateImageData(BeforeChangeClone)
+        const undoCallback = () => updateImageData(AfterChange)
+        editTilesetStore.addCanvasTransaction(redoCallback, undoCallback)
+    }
+
     //Main switch call functions--------------------------------------------------
 
     //Draw functions
-    const startDrawing = (event) => {
+    const Draw_MouseDown = (event) => {
         console.log('drawing started')
         const {nativeEvent, clientX, clientY} = event
         const {offsetX, offsetY} = nativeEvent
         const {x, y} = canvasRef.current.getBoundingClientRect()
         contextRef.current.beginPath()
         contextRef.current.moveTo(offsetX/zoomValue, offsetY/zoomValue)
-        setIsDrawing(true)
     }
 
-    const finishDrawing = (event) =>{
+    const Draw_MouseUp = (event) =>{
         contextRef.current.closePath()
-        setIsDrawing(false)
     }
 
-    const draw = (event) => {
+    const Draw_MouseMove = (event) => {
         if (!isDrawing){return}
         console.log('draw')
         const{ clientX, clientY, nativeEvent} = event
@@ -99,19 +117,6 @@ const TilesetCanvas = (props) => {
         const {x, y} = canvasRef.current.getBoundingClientRect()
         contextRef.current.lineTo(offsetX/zoomValue, offsetY/zoomValue)
         contextRef.current.stroke()
-    }
-
-    //
-    const Draw_MouseDown = (event) => {
-        startDrawing(event)
-    }
-
-    const Draw_MouseUp = (event) => {
-        finishDrawing(event)
-    }
-
-    const Draw_MouseMove = (event) => {
-        draw(event)
     }
     
     // Eraser functions
@@ -129,44 +134,47 @@ const TilesetCanvas = (props) => {
         //startDrawing(event)
         const{nativeEvent} = event
         const {offsetX, offsetY} = nativeEvent
-        const pixel = contextRef.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
+        const pixel = contextRef.current.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
         const data = pixel.data;
         console.log(data);
     }
 
-
-
-
-
-
-
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    const getImageData = () => {
+        return contextRef.current.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height)
+    }
+
+    const updateImageData = (data) => {
+        contextRef.current.putImageData(data, 0, 0)
+    }
     
     const onMouseDown = (event) => {
         event.preventDefault();
+        BeforeChange.current = getImageData()
         switch(currentButton){
-            case TOOLSFORTILESET.DRAW:{return Draw_MouseDown(event)}
+            case TOOLSFORTILESET.DRAW:{Draw_MouseDown(event); break;}
             //case TOOLSFORTILESET.ERASER:{return Eraser_MouseDown(event)}
-            case TOOLSFORTILESET.COLOR_PICKER:{return ColorPicker_MouseDown(event)}
+            case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseDown(event); break;}
         }
+        setIsDrawing(true)
     }
 
     const onMouseUp = (event) => {
         event.preventDefault();
         switch(currentButton){
-            case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
+            case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             //case TOOLSFORTILESET.ERASER:{return Eraser_MouseUp(event)}
         }
-        
+        if(isDrawing){createTransaction()}
+        setIsDrawing(false)
     }
 
     const onMouseMove = (event) => {
         event.preventDefault();
         //console.log(currentButton)
         switch(currentButton){
-            case TOOLSFORTILESET.DRAW:{return Draw_MouseMove(event)}
+            case TOOLSFORTILESET.DRAW:{Draw_MouseMove(event); break;}
             //case TOOLSFORTILESET.ERASER:{return Eraser_MouseMove(event)}
         }
     }
@@ -174,7 +182,7 @@ const TilesetCanvas = (props) => {
     const onMouseLeave = (event) => {
         event.preventDefault();
         switch(currentButton){
-            case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
+            case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;} 
             //case TOOLSFORTILESET.ERASER:{return Eraser_MouseLeave(event)}
         }
     }

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
-import LayerState_Transaction from "../transactions/LayerState_Transaction"
+import Canvas_Transaction from "../transactions/Canvas_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
 export const GlobalEditTilesetStoreContext = createContext({});
@@ -71,15 +71,14 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         }
     }
 
-    editTilesetStore.addLayerStateTransaction = function (newState, redoCallback, undoCallback) {
-        let undoFunc = (undoCallback)?undoCallback:false
-        let redoFunc = (redoCallback)?redoCallback:false
-        let transaction = new LayerState_Transaction(editTilesetStore, editTilesetStore.layers, newState, redoFunc, undoFunc);
+    editTilesetStore.addCanvasTransaction = function (redoCallback, undoCallback) {
+        let transaction = new Canvas_Transaction(redoCallback, undoCallback);
         tps.addTransaction(transaction);
         console.log(transaction)
     }
 
     editTilesetStore.undo = function () {
+        console.log(editTilesetStore.canUndo())
         tps.undoTransaction();
     }
 
