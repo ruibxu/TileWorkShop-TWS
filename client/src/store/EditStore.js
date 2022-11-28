@@ -141,6 +141,8 @@ const GlobalEditStoreContextProvider = (props) => {
             const result = response.data.result
             result.community = null
             console.log(result)
+            const tilesets = result.tileset
+            tilesets.map(x => x.image=createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png'))
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {
@@ -150,7 +152,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     width: result.width,
                     height: result.height,
                     layers: result.layers,
-                    tilesets: result.tilesets,
+                    tilesets: tilesets,
                     name: result.name
                 }
             })
