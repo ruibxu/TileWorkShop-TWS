@@ -103,10 +103,13 @@ const TilesetCanvas = (props) => {
         const {x, y} = canvasRef.current.getBoundingClientRect()
         contextRef.current.beginPath()
         contextRef.current.moveTo(offsetX/zoomValue, offsetY/zoomValue)
+        setIsDrawing(true)
     }
 
     const Draw_MouseUp = (event) =>{
         contextRef.current.closePath()
+        if(isDrawing){createTransaction()}
+        setIsDrawing(false)
     }
 
     const Draw_MouseMove = (event) => {
@@ -179,7 +182,6 @@ const TilesetCanvas = (props) => {
             case TOOLSFORTILESET.ERASER:{Draw_MouseDown(event); break;}
             case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseDown(event); break;}
         }
-        setIsDrawing(true)
     }
 
     const onMouseUp = (event) => {
@@ -188,8 +190,6 @@ const TilesetCanvas = (props) => {
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
         }
-        if(isDrawing){createTransaction()}
-        setIsDrawing(false)
     }
 
     const onMouseMove = (event) => {
@@ -207,8 +207,6 @@ const TilesetCanvas = (props) => {
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
         }
-        if(isDrawing){createTransaction()}
-        setIsDrawing(false)
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
