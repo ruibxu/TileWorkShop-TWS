@@ -42,6 +42,13 @@ const EditNavbar = (props) => {
         setPublic(projectAccess.public)
     }, [projectAccess])
 
+
+    const handleDownload =() => {
+        props.setExporting(true);
+    }
+
+
+
     const handleSetPublic = (v) => {
         setPublic(v)
     }
@@ -79,7 +86,7 @@ const EditNavbar = (props) => {
                         />
                     </Box>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} />
-                    <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} />
+                    <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>
                 <Flex>
                     {(nameEdit) ?

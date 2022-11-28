@@ -29,6 +29,7 @@ const EditTileMapScreen = (props) => {
     const [currentLayer, setCurrentLayer] = useState(0)
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
+    const [exporting, setExporting] = useState(false)
     const [currentButton, setCurrentButton] = useState("Stamp Brush");
     const [zoomValue, setZoomValue] = useState(1)
     let history = useHistory();
@@ -55,6 +56,27 @@ const EditTileMapScreen = (props) => {
     let parts = []
     console.log('reload EditTileMapScreen')
 
+    //exporting
+    useEffect(() => {
+        if(exporting){
+            console.log('exporting tilemap')
+            const fileName = editStore.name;
+            const json = JSON.stringify(editStore, null, 2);
+            const blob = new Blob([json], { type: "application/json" });
+            const href = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = href;
+            link.download = fileName + ".json";
+            document.body.appendChild(link);
+            link.click();
+
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+            
+            setExporting(false)
+        }
+    }, [exporting])
     
     //what ft
 
@@ -79,6 +101,7 @@ const EditTileMapScreen = (props) => {
 
                 <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
                             isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
+                            exporting={exporting} setExporting={setExporting}
                 />
 
                 <Box  className='mapToolbar' height='6%' width='100%'> 
