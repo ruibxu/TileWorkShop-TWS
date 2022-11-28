@@ -9,8 +9,12 @@ import GlobalEditStoreContext from '../../store/EditStore';
 import GlobalEditTilesetStoreContext from '../../store/EditTilesetStore';
 import AuthContext from '../../auth';
 import TilesetWorkspace from './TileSetCanvasRelated/TileSetWorkspace';
+import { Grid, GridItem } from '@chakra-ui/react'
 
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
+import TilesetTools from './TileSetToolsRelated/TileSetTools';
+import TilesetColorPicker from './TileSetToolsRelated/TileSetColorPicker';
+
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
 //import { Fab, Typography } from '@mui/material'
@@ -21,6 +25,14 @@ const EditTileSetScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
     const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
     const [isPublic, setPublic] = useState(store.currentItem.access.public)
+
+    const [color, setColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
+
+
+
+
+
+
     if(!auth.loggedIn){redirect('/homescreen')}
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
@@ -45,11 +57,26 @@ const EditTileSetScreen = (props) => {
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}/>
-            <Flex  bg='lightgrey' height={'100%'} overflow={'auto'}>
-                <Box width={'100%'} height='100%' className='tilesetWorkspace'>
-                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef}/>
-                </Box>
-            </Flex>
+
+            <Grid
+                h='100%'
+                templateRows='repeat(2, 1fr)'
+                templateColumns='repeat(6, 1fr)'
+            >   
+                <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
+                    <TilesetTools/>
+                </GridItem>
+
+                <GridItem colSpan={5} rowSpan={2}width={'100%'} height={'100%'} className='tilesetWorkspace'>
+                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color}/>
+                </GridItem>
+
+                <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
+                    <TilesetColorPicker color={color} setColor={setColor}/>
+                </GridItem>
+
+
+            </Grid>
             {/* <div id="tldraw">
                 <Tldraw />
             </div> */}
@@ -57,6 +84,11 @@ const EditTileSetScreen = (props) => {
                 list={TempInfo} isPublic={isPublic} setPublic={setPublic}
             />
         </div>)
+
+
+
+
+
 }
 
 export default EditTileSetScreen;

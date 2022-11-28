@@ -340,8 +340,8 @@ const MapCanvas = (props) => {
     }
     console.log('temp')
 
-    return (<Flex>
-        <Box className='mapWorkspace'>
+    return (<Flex height={'100%'} width={'100%'} alignItems={'center'}   justifyContent={'center'}>
+        <Box className='mapWorkspace' >
             <canvas id={'tilemap'}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}

@@ -27,7 +27,7 @@ const TilesetCanvas = (props) => {
         const context = canvas.getContext('2d')
         context.scale(scale,scale)
         context.lineCap = "round"
-        context.strokeStyle = 'blue'
+        context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = 5
         contextRef.current = context
     }, [])
@@ -86,16 +86,19 @@ const TilesetCanvas = (props) => {
         draw(event)
     }
 
-    return (<Flex>
-        <Box className='mapWorkspace'>
-            <canvas
-                ref={canvasRef}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-                onMouseMove={handleMouseMove}
-            />
-            </Box>
-    </Flex>
+    return (
+    <Box height={'100%'} width={'100%'}  overflow={'auto'}>
+        <Flex height={'100%'} width={'100%'} alignItems={'center'} justifyContent={'center'}>
+            <Box className='mapWorkspace' >
+                <canvas 
+                    ref={canvasRef}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                />
+                </Box>
+        </Flex>
+    </Box>
     );
 
 }

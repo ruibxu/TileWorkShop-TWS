@@ -22,8 +22,9 @@ const MapWorkspace = (props) => {
     console.log('reload mapWorkSpace')
 
     return (
-        <Box centerContent>
-            <Box padding={'20'} width={'100%'} height={'100%'} ><MapCanvas parts={props.parts} 
+        <Box width={'100%'} height={'100%'} >
+            <Box width={'100%'} height={'100%'} ><MapCanvas width={'100%'} height={'100%'}
+            parts={props.parts} 
             canvasRef={props.canvasRef} contextRef={props.contextRef}
             sourceRef={props.sourceRef} selectRef={props.selectRef}
             currentLayer={props.currentLayer} 

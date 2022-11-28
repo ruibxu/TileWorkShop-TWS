@@ -20,15 +20,13 @@ import TilesetCanvas from './TileSetCanvas';
 
 const TilesetWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    console.log('reload mapWorkSpace')
+    //console.log('reload mapWorkSpace')
 
     return (
-        <Box centerContent>
-            <Flex bg='red' height={'88%'} overflow={'auto'}>
-                <Box padding={'20'} width={'100%'} height={'100%'} bg='green'>
-                    <TilesetCanvas canvasRef={props.canvasRef} contextRef={props.contextRef}/>
-                </Box>
-            </Flex>
+        <Box centerContent height={'100%'} width={'100%'} overflow={'auto'} >
+            <TilesetCanvas width={'100%'} height={'100%'} 
+            canvasRef={props.canvasRef} contextRef={props.contextRef}
+            color={props.color}/>
         </Box>
     )
 }
