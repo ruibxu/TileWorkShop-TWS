@@ -93,6 +93,7 @@ const TilesetCanvas = (props) => {
 
     const draw = (event) => {
         if (!isDrawing){return}
+        
         console.log('draw')
         const{ clientX, clientY, nativeEvent} = event
         const {offsetX, offsetY} = nativeEvent
@@ -114,7 +115,34 @@ const TilesetCanvas = (props) => {
         draw(event)
     }
     
+
     // Eraser functions
+
+
+    const Eraser_MouseDown = (event) => {
+        //contextRef.current.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${0})`;
+        //startDrawing(event)
+        //setMouseDown(true)
+        //remove(getCoords(event))
+    }
+
+    const Eraser_MouseUp = (event) => {
+        /*if (mouseDown) {
+            editStore.addLayerStateTransaction(layers)
+            editStore.changeLayer(layers)
+        }*/
+        //setMouseDown(false)
+        //draw()
+        //finishDrawing(event)
+        //contextRef.current.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
+        
+    }
+
+    const Eraser_MouseMove = (event) =>{
+        //draw(event)
+        //if (mouseDown) {removeTile(getCoords(event))}
+        //draw()
+    }
 
 
 
@@ -129,15 +157,12 @@ const TilesetCanvas = (props) => {
         //startDrawing(event)
         const{nativeEvent} = event
         const {offsetX, offsetY} = nativeEvent
-        const pixel = contextRef.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
+        const pixel = contextRef.current.getImageData(offsetX/zoomValue, offsetY/zoomValue, 1, 1);
         const data = pixel.data;
-        console.log(data);
+        const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+        console.log(data[0]);
+        console.log(rgba);
     }
-
-
-
-
-
 
 
 
@@ -148,7 +173,7 @@ const TilesetCanvas = (props) => {
         event.preventDefault();
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{return Draw_MouseDown(event)}
-            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseDown(event)}
+            case TOOLSFORTILESET.ERASER:{return Draw_MouseDown(event)}
             case TOOLSFORTILESET.COLOR_PICKER:{return ColorPicker_MouseDown(event)}
         }
     }
@@ -157,7 +182,7 @@ const TilesetCanvas = (props) => {
         event.preventDefault();
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
-            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseUp(event)}
+            case TOOLSFORTILESET.ERASER:{return Draw_MouseUp(event)}
         }
         
     }
@@ -167,7 +192,7 @@ const TilesetCanvas = (props) => {
         //console.log(currentButton)
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{return Draw_MouseMove(event)}
-            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseMove(event)}
+            case TOOLSFORTILESET.ERASER:{return Draw_MouseMove(event)}
         }
     }
 
@@ -175,7 +200,7 @@ const TilesetCanvas = (props) => {
         event.preventDefault();
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{return Draw_MouseUp(event)}
-            //case TOOLSFORTILESET.ERASER:{return Eraser_MouseLeave(event)}
+            case TOOLSFORTILESET.ERASER:{return Draw_MouseUp(event)}
         }
     }
 

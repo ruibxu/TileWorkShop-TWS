@@ -16,7 +16,7 @@ const TilesetTools = (props) => {
     }
 
     const handleZoomIn = () => {
-        if(zoomValue<4){
+        if(zoomValue<16){
           setZoomValue(zoomValue*2)
           //editStore.updateZoomValue(editStore.zoomValue*2)
         }

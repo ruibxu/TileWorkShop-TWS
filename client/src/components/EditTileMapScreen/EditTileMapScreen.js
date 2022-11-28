@@ -97,7 +97,7 @@ const EditTileMapScreen = (props) => {
                             />
                         </Box>
                         <Box bg='lightgrey' height='100%' width='60%' className='mapWorkspace' >
-                            <MapWorkspace height='100%' width='60%' redirect={redirect} parts={parts}
+                            <MapWorkspace height='100%' width='100%' redirect={redirect} parts={parts}
                                 canvasRef={canvasRef} contextRef={contextRef}
                                 sourceRef={sourceRef} selectRef={contextRef}
                                 currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
