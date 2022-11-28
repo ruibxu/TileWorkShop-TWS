@@ -42,7 +42,7 @@ const PropertyEntry = (props) => {
         console.log('clicked')
 
         setVal(newVal)
-        handleMakeTransaction(name, type, newVal)
+        handleMakeTransaction(name, type, `${newVal}`)
 
     }
 
@@ -66,7 +66,7 @@ const PropertyEntry = (props) => {
             {
                 (type == 'string')?
                     (edit)?<Input defaultValue={val} autoFocus={true} onBlur={handleFinishChangeVal}/>:
-                        <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{val?val:'unnamed Layer'}</Box>
+                        <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{val?val:' '}</Box>
                     :
                 (type == 'int'||type == 'float')?
                     (edit)?<NumberInput defaultValue={val}>
