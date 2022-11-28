@@ -13,6 +13,7 @@ import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen.
 
 import ForgetPasswordLink from './components/Instant-Redirects/ForgetPasswordLink';
 import VerifyAccountLink from './components/Instant-Redirects/VerifyAccountLink';
+import { GlobalEditTilesetStoreContextProvider } from './store/EditTilesetStore';
 
 
 const TWS = () => {
@@ -22,6 +23,7 @@ const TWS = () => {
                 <GlobalStoreContextProvider>
                     <GlobalCommentStoreContextProvider>
                         <GlobalEditStoreContextProvider>
+                            <GlobalEditTilesetStoreContextProvider>
                             <Switch>
                                 <Route path="/" exact component={() => <Homescreen />} />
                                 <Route path="/homescreen" exact component={() => <Homescreen />} />
@@ -31,6 +33,7 @@ const TWS = () => {
                                 <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
                                 <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
                             </Switch>
+                            </GlobalEditTilesetStoreContextProvider>
                         </GlobalEditStoreContextProvider>
                     </GlobalCommentStoreContextProvider>
                 </GlobalStoreContextProvider>

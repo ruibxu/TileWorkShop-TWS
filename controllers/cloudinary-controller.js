@@ -16,14 +16,31 @@ const getTileMapImage = async (req, res) => {
     })
 }
 
+const getRelatedTileSets = async (req, res) => {
+    const tilemap_id = req.params.id;
+    const search = `folder:TileMap_Uses AND tags=${tilemap_id}`
+    const { resources }= await cloudinary.search.expression(search).execute();
+    if(!resources){
+        return res.status(201).json({
+            errorMessage: 'images not found!',
+        });
+    }
+    return res.status(200).json({
+        _id: tilemap_id,
+        resources: resources
+    })
+}
+
 const updateTileMapImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
         const public_id = req.params.id;
+        const tag_id = req.body.map_id;
         // console.log(fileStr);
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'TileMap_Uses_Upload',
-            public_id: public_id
+            public_id: public_id,
+            tags: [tag_id]
         });
         // console.log(uploadedResponse);
         return res.status(200).json({
@@ -105,7 +122,7 @@ const getTileSetImage = async (req, res) => {
     // console.log(search)
     const { resources } = await cloudinary.search.expression(search).execute();
     if (!resources) {
-        return res.status(404).json({
+        return res.status(201).json({
             errorMessage: 'image not found!',
         });
     }
@@ -141,7 +158,7 @@ const deleteTileSetImage = async (req, res) => {
     // console.log(search)
     const resources  = await cloudinary.uploader.destroy(search);
     if (resources.result === "not found") {
-        return res.status(404).json({
+        return res.status(201).json({
             errorMessage: 'image not found!',
         });
     }
@@ -160,4 +177,5 @@ module.exports = {
     getTileSetImage,
     updateTileSetImage,
     deleteTileSetImage,
+    getRelatedTileSets,
 }

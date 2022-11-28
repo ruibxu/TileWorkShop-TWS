@@ -215,7 +215,23 @@ body {
     border-bottom: 2px solid var(--navbar-border);
 }
 
+.tilesetTools {
+    position: relative;
+    background-color: var(--swatch-foundation);
+    border: 1px solid #6A2C70;
+}
+
+.toolsfortileset {
+    padding-top: 10px;
+}
+
 .mapWorkspace {
+    position: relative;
+    background-color: var(--navbar-background);
+    border: 1px solid #6A2C70;
+}
+
+.tilesetWorkspace{
     position: relative;
     background-color: var(--navbar-background);
     border: 1px solid #6A2C70;

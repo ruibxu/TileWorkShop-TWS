@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem} from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
 import AuthContext from '../../auth';
@@ -74,6 +74,67 @@ const EditTileMapScreen = (props) => {
     ]
     
     return (
+        <div  className='tilemap' height='100%' width={'100%'}>
+            <Flex height='100%' width={'100%'} flexDirection= 'column'>
+
+                <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
+                            isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
+                />
+
+                <Box  className='mapToolbar' height='6%' width='100%'> 
+                    <MapToolbar redirect={redirect} 
+                        openResizeMapModal={showResizeMapModal.onOpen} 
+                        currentButton={currentButton} setCurrentButton={setCurrentButton}
+                        zoomValue={zoomValue}  setZoomValue={setZoomValue}
+                        />
+                </Box>
+
+                <Box height='88%' width='100%'>
+                    <Flex color='Black' height='100%' width='100%' overflow={'auto'}>
+                        <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
+                            <MapTileset height={"100%"} redirect={redirect} parts={parts}
+                                setSelection={setSelection} sourceRef={sourceRef}
+                                currentTileSetId={currentTileSetId} selection={selection}
+                                tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
+                            />
+                        </Box>
+                        <Box bg='lightgrey' height='100%' width='60%' className='mapWorkspace' >
+                            <MapWorkspace height='100%' width='100%' redirect={redirect} parts={parts}
+                                canvasRef={canvasRef} contextRef={contextRef}
+                                sourceRef={sourceRef} selectRef={contextRef}
+                                currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
+                                selection={selection} setSelection={setSelection}
+                                currentTileSetId={currentTileSetId}
+                                currentButton={currentButton} setCurrentButton={setCurrentButton}
+                                zoomValue={zoomValue}
+                            />
+                        </Box>
+                        <Box flex='1' height='100%'>
+                            <Box bg='lightgrey' height='30%' className='mapLayer' >
+                                <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                            </Box>
+                            <Box bg='lightgrey' height='70%' className='mapLayer'>
+                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Box>
+
+            </Flex>
+
+
+            <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
+            />
+            <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
+            />
+            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
+                currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
+            />
+
+        </div>
+            
+        /*
         <div className='tilemap' >
             <EditNavbar height={'10%'} redirect={redirect} openShareModal={showShareModal.onOpen} 
                 projectName={editStore.name} projectAccess={editStore.access}
@@ -95,8 +156,8 @@ const EditTileMapScreen = (props) => {
                         tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                     />
                 </Box>
-                <Box bg='lightgrey' height='100%' width='60%' overflow={'auto'} className='mapWorkspace'>
-                    <MapWorkspace redirect={redirect} parts={parts}
+                <Box bg='lightgrey' height='100%' width='60%' overflow={'auto'} className='mapWorkspace' >
+                    <MapWorkspace height='100%' width='100%' redirect={redirect} parts={parts}
                         canvasRef={canvasRef} contextRef={contextRef}
                         sourceRef={sourceRef} selectRef={contextRef}
                         currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
@@ -117,15 +178,10 @@ const EditTileMapScreen = (props) => {
             </Flex>
 
 
-            <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
-            />
-            <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
-            />
-            <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
-                currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
-            />
-        </div>)
+
+        </div>
+        
+        */)
 }
 
 export default EditTileMapScreen;

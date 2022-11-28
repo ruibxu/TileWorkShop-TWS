@@ -12,6 +12,7 @@ router.delete('/tileset/image/:id', CloudinaryController.deleteTileSetImage)
 router.put('/tilemap/image/:id', CloudinaryController.updateTileMapImage)
 router.delete('/tilemap/image/:id', CloudinaryController.deleteTileMapImage)
 router.get('/tilemap/image/:id', CloudinaryController.getTileMapImage)
+router.get('/tilemap/allimage/:id', CloudinaryController.getRelatedTileSets)
 
 //Tilemap Thumbnails
 router.put('/tilemap/thumbnail/:id', CloudinaryController.updateTileMapThumbnail)

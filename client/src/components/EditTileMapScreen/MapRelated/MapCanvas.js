@@ -1,7 +1,7 @@
 import { useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
 import { MdLayers } from 'react-icons/md';
-import { Flex, Box } from '@chakra-ui/react'
+import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
 import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
 import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
 import tileset1 from '../../../img/tileset1.png'
@@ -343,7 +343,8 @@ const MapCanvas = (props) => {
     }
     console.log('temp')
 
-    return (<Flex>
+    return (<Flex height={'100%'} width={'100%'} alignItems={'center'} padding={'20%'} >
+        <Spacer/>
         <Box className='mapWorkspace'>
             <canvas id={'tilemap'}
                 onMouseDown={onMouseDown}
@@ -359,7 +360,8 @@ const MapCanvas = (props) => {
                 onMouseUp={onMouseUp}
                 onMouseMove={onMouseMove}
                 onMouseLeave={onMouseLeave}/>
-            </Box>
+        </Box>
+        <Spacer/>
     </Flex>
     );
 }
