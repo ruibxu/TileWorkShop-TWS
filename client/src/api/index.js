@@ -30,9 +30,10 @@ export const deleteTileMap = (id, user_id) => api.delete(`api/tilemap/${id}/${us
 export const updateTileMap = (id, payload) => api.put(`api/tilemap/${id}`, payload)
 export const updateTileMapAccess = (id, payload) => api.put(`api/tilemap/access/${id}`, payload)
 export const updateTileMapCommunity = (id, payload) => api.put(`api/tilemap/community/${id}`, payload)
-export const addTileSetToTileMap = (id) => api.get(`api/tilemap/set/${id}`)
-export const updateTileSetinTileMap = (id, payload) => (`/tilemap/set/update/${id}`, payload)
-export const deleteTileSetfromTileMap = (id) => api.get(`api/tilemap/set/${id}`)
+export const addTileSetToTileMap = (id, payload) => api.put(`api/tilemap/set/${id}`, payload)
+export const updateTileSetinTileMap = (id, payload) => api.put(`/tilemap/set/update/${id}`, payload)
+export const deleteTileSetfromTileMap = (id) => api.delete(`api/tilemap/set/${id}`)
+
 export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
 export const updateTileMapImage = (id, payload) => api.put(`api/tilemap/image/${id}`, payload)
 export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
@@ -122,7 +123,7 @@ const apis = {
     deleteTileSetImage,
     updateTileSetAccess,
     updateTileSetCommunity,
-    
+
     sendConfirmEmail,
     sendPasswordResetEmail
 }

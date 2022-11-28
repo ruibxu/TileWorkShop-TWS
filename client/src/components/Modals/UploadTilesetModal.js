@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react'
-import GlobalStoreContext from '../../store/ProjectStore'
 import AuthContext from '../../auth'
 import {
     Modal,
@@ -22,16 +21,35 @@ import {
     NumberInputField,
     Spacer
 } from '@chakra-ui/react'
+import GlobalEditStoreContext from '../../store/EditStore';
 
 const UploadTilesetModal = (props) => {
-    const { store } = useContext(GlobalStoreContext)
+    const { editStore } = useContext(GlobalEditStoreContext);
     const { auth } = useContext(AuthContext)
     const [name, setName] = useState('Untitled')
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
     const [pixel, setPixel] = useState(16)
+    const [upload, setUpload] = useState("")
+    const handleChange = (event) => {
+        console.log(event)
+        const reader = new FileReader()
+        const file = document.querySelector('#input-tileset').files[0];
+        reader.addEventListener('load', () => {
+            setUpload(reader.result)
+        }, false)
+        reader.readAsDataURL(file)
+    }
 
     const handleCreate = () => {
+        editStore.addNewTileset({
+            tileset: {
+                name: name,
+                height: height,
+                width: width,
+                pixel: pixel
+            }
+        })
         props.onClose()
     }
 
@@ -75,6 +93,17 @@ const UploadTilesetModal = (props) => {
                         </NumberInput>
                     </FormControl>
                 </Flex>
+                <Stack spacing={2}>
+                    <FormControl>
+                        <FormLabel>Upload Image:</FormLabel>
+                        <Input
+                            type="file"
+                            onChange={(event) => handleChange(event)}
+                            accept="image/*"
+                            id='input-tileset'
+                        />
+                    </FormControl>
+                </Stack>
             </ModalBody>
             <Divider borderColor={'purple'} />
             <ModalFooter>

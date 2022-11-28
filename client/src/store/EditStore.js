@@ -50,24 +50,31 @@ const GlobalEditStoreContextProvider = (props) => {
         type: null,
         editing: true,
         layers:
-            [{ id: 0, name: 'Layer 1', hidden: false, locked: false, data: {}, 
+            [{
+                id: 0, name: 'Layer 1', hidden: false, locked: false, data: {},
                 properties: [
-                    {name: 'bowlean', type:'boolean', value:'true'},
-                    {name: 'something', type:'string', value:'print'},
-                    {name: 'number', type:'int', value:'5'}
+                    { name: 'bowlean', type: 'boolean', value: 'true' },
+                    { name: 'something', type: 'string', value: 'print' },
+                    { name: 'number', type: 'int', value: '5' }
                 ]
             },
-            { id: 1, name: 'Layer 2', hidden: true, locked: false, data: {}, 
+            {
+                id: 1, name: 'Layer 2', hidden: true, locked: false, data: {},
                 properties: [
-                    {name: 'bowlean', type:'boolean', value:'false'},
-                    {name: 'something', type:'string', value:'layer2'},
-                ]},
+                    { name: 'bowlean', type: 'boolean', value: 'false' },
+                    { name: 'something', type: 'string', value: 'layer2' },
+                ]
+            },
             { id: 2, name: 'Layer 3', hidden: false, locked: true, data: {} },
             { id: 3, name: 'Layer 4', hidden: true, locked: true, data: {} }],
-        tilesets: [{_id:'test', name:'testname', pixel:128, height:8, width:5, 
-                image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png')},
-            {_id:'test2', name:'pokemon', pixel:16, height:8, width:16, 
-                image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png')}
+        tilesets: [{
+            _id: 'test', name: 'testname', pixel: 128, height: 8, width: 5,
+            image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png')
+        },
+        {
+            _id: 'test2', name: 'pokemon', pixel: 16, height: 8, width: 16,
+            image: createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png')
+        }
         ]
     });
     const history = useHistory();
@@ -110,13 +117,22 @@ const GlobalEditStoreContextProvider = (props) => {
             case GlobalEditStoreActionType.UPDATE_DISPLAY: {
                 return setEditStore({
                     ...editStore,
-                    height: (payload.height)?payload.height:editStore.height,
-                    width: (payload.width)?payload.width:editStore.width,
+                    height: (payload.height) ? payload.height : editStore.height,
+                    width: (payload.width) ? payload.width : editStore.width,
                     // zoomValue: (payload.zoomValue)?payload.zoomValue:editStore.zoomValue,
                     // MapTileOverlay: payload.MapTileOverlay?payload.MapTileOverlay:editStore.MapTileOverlay
                 })
             }
 
+        }
+    }
+    editStore.addNewTileset = async function (payload) {
+        console.log(editStore.currentId)
+        const response = await api.addTileSetToTileMap(editStore.currentId, payload);
+        if (response.status === 200) {
+            console.log(1)
+        }else{
+            console.log(response.data.errorMessage)
         }
     }
     editStore.getTileMapById = async function (id) {
@@ -202,8 +218,8 @@ const GlobalEditStoreContextProvider = (props) => {
     // }
 
     editStore.addLayerStateTransaction = function (newState, redoCallback, undoCallback) {
-        let undoFunc = (undoCallback)?undoCallback:false
-        let redoFunc = (redoCallback)?redoCallback:false
+        let undoFunc = (undoCallback) ? undoCallback : false
+        let redoFunc = (redoCallback) ? redoCallback : false
         let transaction = new LayerState_Transaction(editStore, editStore.layers, newState, redoFunc, undoFunc);
         tps.addTransaction(transaction);
         console.log(transaction)

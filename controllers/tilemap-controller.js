@@ -259,7 +259,7 @@ const addTileSetToTileMap = async (req, res) => {
                         // console.log("FAILURE: " + JSON.stringify(error));
                         return res.status(400).json({
                             error,
-                            message: 'Tilemap not updated!',
+                            errorMessage: 'Tilemap not updated!',
                         })
                     })
             }
