@@ -229,6 +229,8 @@ const addTileSetToTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     const tileset = req.body.tileset;
+    const newId = new ObjectId();
+    tileset._id = newId
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
         // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
@@ -248,6 +250,8 @@ const addTileSetToTileMap = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
+                        result: item,
+                        tileset_id: newId,
                         message: 'Tilemap updated!',
                     })
                 })
@@ -295,6 +299,7 @@ const updateTileSetinTileMap = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
+                        result: item,
                         message: 'Tilemap updated!',
                     })
                 })
@@ -341,6 +346,7 @@ const deleteTileSetfromTileMap = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
+                        result: item,
                         message: 'Tilemap updated!',
                     })
                 })
