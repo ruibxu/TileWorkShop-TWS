@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useRef} from 'react'
 import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
 import { HiOutlinePencil } from "react-icons/hi";
+import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
+import { GrSelect } from "react-icons/gr"
+import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 
 const TilesetTools = (props) => {
     /*<Flex alignItems={'center'} gap={5} fontSize = '22px'>
@@ -16,37 +19,27 @@ const TilesetTools = (props) => {
                         />
                     </Box>
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                        <IconButton bg='transparent' title="Eraser"icon={<RiEraserLine className='md-icon'/>}
                             //onClick={}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                        <IconButton bg='transparent' title="Undo"icon={<ImUndo className='md-icon'/>}
                             //onClick={}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                        <IconButton bg='transparent' title="Redo"icon={<ImRedo className='md-icon'/>}
                             //onClick={}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                        <IconButton bg='transparent' title="Zoom in"icon={<ImZoomIn className='md-icon'/>}
                             //onClick={}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
-                            //onClick={}
-                        />
-                    </Box>
-                    <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
-                            //onClick={}
-                        />
-                    </Box>
-                    <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                        <IconButton bg='transparent' title="Zoom out"icon={<ImZoomOut className='md-icon'/>}
                             //onClick={}
                         />
                     </Box>

@@ -23,7 +23,7 @@ const TilesetWorkspace = (props) => {
     //console.log('reload mapWorkSpace')
 
     return (
-        <Box centerContent height={'100%'} width={'100%'} overflow={'auto'} >
+        <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} >
             <TilesetCanvas width={'100%'} height={'100%'} 
             canvasRef={props.canvasRef} contextRef={props.contextRef}
             color={props.color}/>

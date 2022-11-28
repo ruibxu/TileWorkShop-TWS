@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useCallback} from 'react'
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex, Box,Spacer } from '@chakra-ui/react';
 import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 
 const TilesetCanvas = (props) => {
@@ -87,8 +87,8 @@ const TilesetCanvas = (props) => {
     }
 
     return (
-    <Box height={'100%'} width={'100%'}  overflow={'auto'}>
-        <Flex height={'100%'} width={'100%'} alignItems={'center'} justifyContent={'center'}>
+        <Flex height={'100%'} width={'100%'} alignItems={'center'} padding={'20%'}>
+            <Spacer/>
             <Box className='mapWorkspace' >
                 <canvas 
                     ref={canvasRef}
@@ -96,9 +96,9 @@ const TilesetCanvas = (props) => {
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                 />
-                </Box>
+            </Box>
+            <Spacer/>
         </Flex>
-    </Box>
     );
 
 }

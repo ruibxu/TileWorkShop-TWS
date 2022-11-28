@@ -72,27 +72,22 @@ const EditTileMapScreen = (props) => {
     ]
     
     return (
-        <div  className='tilemap'>
+        <div  className='tilemap' height='100%' width={'100%'}>
+            <Flex height='100%' width={'100%'} flexDirection= 'column'>
 
-            <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen} 
-                        isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
-            />
-            <Grid
-            h='100%'
-            w='100%'
-            templateRows='repeat(20, 1fr)'
-            templateColumns='repeat(1, 1fr)'
-            >
+                <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
+                            isPublic={isPublic} setPublic={setPublic} name={(tilemap) ? tilemap.name : 'empty'}
+                />
 
-                <GridItem rowSpan={1} className='mapToolbar'> 
+                <Box  className='mapToolbar' height='6%' width='100%'> 
                     <MapToolbar redirect={redirect} 
                         openResizeMapModal={showResizeMapModal.onOpen} 
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
                         zoomValue={zoomValue}  setZoomValue={setZoomValue}
                         />
-                </GridItem>
+                </Box>
 
-                <GridItem rowSpan={19}>
+                <Box height='88%' width='100%'>
                     <Flex color='Black' height='100%' width='100%' overflow={'auto'}>
                         <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
                             <MapTileset height={"100%"} redirect={redirect} parts={parts}
@@ -101,7 +96,7 @@ const EditTileMapScreen = (props) => {
                                 tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                             />
                         </Box>
-                        <Box bg='lightgrey' height='100%' width='60%' overflow={'auto'} className='mapWorkspace' >
+                        <Box bg='lightgrey' height='100%' width='60%' className='mapWorkspace' >
                             <MapWorkspace height='100%' width='60%' redirect={redirect} parts={parts}
                                 canvasRef={canvasRef} contextRef={contextRef}
                                 sourceRef={sourceRef} selectRef={contextRef}
@@ -117,13 +112,13 @@ const EditTileMapScreen = (props) => {
                                 <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                             </Box>
                             <Box bg='lightgrey' height='70%' className='mapLayer'>
-                                <Property redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
+                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
                             </Box>
                         </Box>
                     </Flex>
-                </GridItem>
-                
-            </Grid>
+                </Box>
+
+            </Flex>
 
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}

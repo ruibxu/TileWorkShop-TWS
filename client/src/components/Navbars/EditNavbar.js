@@ -42,7 +42,7 @@ const EditNavbar = (props) => {
     }
 
     return (
-        <Box px={4} className="navbar" left={0}>
+        <Box px={4} className="navbar" left={0} >
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
