@@ -7,7 +7,7 @@ import { ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
 
 const TilesetTools = (props) => {
     const {zoomValue, setZoomValue}=props
-    
+
     const handleZoomIn = () => {
         if(zoomValue<4){
           setZoomValue(zoomValue*2)
@@ -24,16 +24,6 @@ const TilesetTools = (props) => {
     return (
         <Box px={4} >
             <SimpleGrid columns={4} spacing={1}>
-                    <Box className='toolsfortileset' >
-                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
-                            //onClick={}
-                        />
-                    </Box>
-                    <Box className='toolsfortileset'>
-                        <IconButton bg='transparent' title="Eraser"icon={<RiEraserLine className='md-icon'/>}
-                            //onClick={}
-                        />
-                    </Box>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Undo"icon={<ImUndo className='md-icon'/>}
                             //onClick={}
@@ -54,6 +44,18 @@ const TilesetTools = (props) => {
                             onClick={handleZoomOut}
                         />
                     </Box>
+
+                    <Box className='toolsfortileset' >
+                        <IconButton bg='transparent' title="Draw"icon={<HiOutlinePencil className='md-icon'/>}
+                            //onClick={}
+                        />
+                    </Box>
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent' title="Eraser"icon={<RiEraserLine className='md-icon'/>}
+                            //onClick={}
+                        />
+                    </Box>
+
             </SimpleGrid>
         </Box>)
                             
