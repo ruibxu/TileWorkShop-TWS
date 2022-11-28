@@ -161,8 +161,16 @@ const GlobalEditStoreContextProvider = (props) => {
             const result = response.data.result
             result.community = null
             console.log(result)
-            const tilesets = result.tileset
-            tilesets.map(x => x.image = createImage('https://res.cloudinary.com/dktmkohjw/image/upload/v1668971390/TileSet_Editor/tileset2_aqxdjx.png'))
+            let tilesets = result.tileset
+            if(tilesets.length > 0){
+                const response2 = await api.getTileMapAllImage(id)
+                if(response2.status == 200){
+                    const images = response2.data.resources
+                    tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
+                    tilesets.map(x => x.imageURL = x.imageFull.url)
+                    tilesets.map(x => x.image = createImage(x.imageURL))
+                }
+            }
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILEMAP_BY_ID,
                 payload: {

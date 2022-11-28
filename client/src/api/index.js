@@ -93,6 +93,7 @@ const apis = {
     updateTileSetinTileMap,
     deleteTileSetfromTileMap,
     getTileMapImage,
+    getTileMapAllImage,
     updateTileMapImage,
     deleteTileMapImage,
     getTileMapThumbnail,
