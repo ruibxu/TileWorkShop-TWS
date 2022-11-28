@@ -7,7 +7,7 @@ import { MdEventAvailable } from 'react-icons/md';
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef, zoomValue, color, currentButton} = props
+    const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
     const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
@@ -136,18 +136,6 @@ const TilesetCanvas = (props) => {
 
     // Color Picker functions
     const ColorPicker_MouseDown = (event) => {
-        //startDrawing(event)
-        // const bounding = canvasRef.current.getBoundingClientRect();
-        // const x = event.clientX - bounding.left;
-        // const y = event.clientY - bounding.top;
-        // const pixel = contextRef.current.getImageData(x, y, 1, 1);
-        // const data = pixel.data;
-        // const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
-        // console.log(data[0]);
-        // console.log(rgba);
-    }
-
-    const ColorPicker_MouseMove = (event) => {
         const{ nativeEvent} = event
         const {offsetX, offsetY} = nativeEvent
         console.log(offsetX, offsetY)
@@ -155,14 +143,10 @@ const TilesetCanvas = (props) => {
         const y = offsetY*scale/zoomValue
         const pixel = contextRef.current.getImageData(x, y, 1, 1);
         const data = pixel.data;
-        const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
-        //console.log(data);
-        console.log(rgba);
+        props.setColor({ r: data[0], g: data[1], b: data[2], a: data[3] / 255});
+        setCurrentButton(TOOLSFORTILESET.DRAW);
     }
 
-    const ColorPicker_MouseUp = (event) => {
-
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -189,7 +173,6 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
-            case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseUp(event); break;}
         }
     }
 
@@ -199,7 +182,6 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseMove(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseMove(event); break;}
-            case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseMove(event); break;}
         }
     }
 
@@ -208,7 +190,6 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
-            case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseUp(event); break;}
         }
     }
 

@@ -73,7 +73,7 @@ const EditTileSetScreen = (props) => {
 
                 <GridItem colSpan={5} rowSpan={2} minWidth={'100%'} maxWidth={'100%'} height={'100%'} className='tilesetWorkspace'>
                     <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color} setColor={setColor} 
-                    zoomValue={zoomValue} currentButton={currentButton}/>
+                    zoomValue={zoomValue} currentButton={currentButton} setCurrentButton={setCurrentButton}/>
                 </GridItem>
 
                 <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>

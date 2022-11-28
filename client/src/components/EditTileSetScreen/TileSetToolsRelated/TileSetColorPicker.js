@@ -10,9 +10,9 @@ const TilesetColorPicker = (props) => {
 
     const handleChange = useCallback(({ colors }) => {
         setColor({ ...colors.rgba });
-        
         //console.log(props.color);
     }, []);
+
 
 
     return (

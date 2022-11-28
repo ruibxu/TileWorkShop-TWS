@@ -39,6 +39,8 @@ const TilesetTools = (props) => {
             //editStore.updateZoomValue(editStore.zoomValue/2)
         }
     }
+
+    
     return (
         <Box px={4} >
             <SimpleGrid columns={4} spacing={1}>
