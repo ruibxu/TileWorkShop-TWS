@@ -76,6 +76,16 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
     }, [color])
 
+    useEffect(()=>{
+        const context = contextRef.current
+        if(currentButton== TOOLSFORTILESET.ERASER){
+            context.globalCompositeOperation ='destination-out';
+        }
+        else{
+            context.globalCompositeOperation ='source-over';
+        }
+    }, [currentButton])
+
     const copyImageData = (src) => {
         let newContext = contextRef.current.createImageData(src.width, src.height)
         newContext.data.set(src.data)
@@ -123,34 +133,6 @@ const TilesetCanvas = (props) => {
         contextRef.current.stroke()
     }
     
-
-    // Eraser functions
-
-
-    const Eraser_MouseDown = (event) => {
-        //contextRef.current.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${0})`;
-        //startDrawing(event)
-        //setMouseDown(true)
-        //remove(getCoords(event))
-    }
-
-    const Eraser_MouseUp = (event) => {
-        /*if (mouseDown) {
-            editStore.addLayerStateTransaction(layers)
-            editStore.changeLayer(layers)
-        }*/
-        //setMouseDown(false)
-        //draw()
-        //finishDrawing(event)
-        //contextRef.current.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
-        
-    }
-
-    const Eraser_MouseMove = (event) =>{
-        //draw(event)
-        //if (mouseDown) {removeTile(getCoords(event))}
-        //draw()
-    }
 
     // Color Picker functions
     const ColorPicker_MouseDown = (event) => {
