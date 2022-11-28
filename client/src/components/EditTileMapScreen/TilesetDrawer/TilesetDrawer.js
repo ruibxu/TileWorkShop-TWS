@@ -46,7 +46,7 @@ const TilesetDrawer = (props) => {
         <Flex width={'100%'}>
             <IconButton bg='transparent' title="Add New Tileset" icon={<AiOutlineFileAdd className='md-icon' variant={'outline'} colorScheme='purple' onClick={showUploadTilesetModal.onOpen} />} />
           <Spacer />
-          <Button colorScheme='purple' variant={'outline'}>Done</Button>
+          <Button colorScheme='purple' variant={'outline'} onClick = {props.onClose}>Done</Button>
         </Flex>
       </DrawerFooter>
     </DrawerContent>
