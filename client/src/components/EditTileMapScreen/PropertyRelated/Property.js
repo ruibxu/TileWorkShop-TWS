@@ -1,4 +1,4 @@
-import React, {useState,useContext, useEffect} from 'react'
+import React, {useState,useContext, useEffect, useRef} from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
 import GlobalEditStoreContext from '../../../store/EditStore';
@@ -8,10 +8,17 @@ import CreatePropertyModal from '../../Modals/CreateProperty-Model';
 
 const Property = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
-    const layer = editStore.layers.find(layer=>layer.id==props.currentLayer)
-    const properties = (layer)?layer.properties?layer.properties:[]:[]
     const [currentProperty, setCurrentProperty] = useState("test")
     const showCreatePropertyModal= useDisclosure()
+    const display = useRef([])
+    const [displayState, setDisplayState] = useState(display.current)
+    useEffect(()=>{
+        const layer = editStore.layers.find(layer=>layer.id==props.currentLayer)
+        const properties = (layer)?layer.properties?layer.properties:[]:[]
+        const displayProperties = properties.map(x => ({name: x.name, type: x.type, value: convertValue(x)}))
+        display.current = displayProperties
+        setDisplayState(display.current)
+    }, [props.currentLayer, editStore.layers])
 
     const convertValue = (property) => {
         switch(property.type){
@@ -22,20 +29,15 @@ const Property = (props) => {
         }
     }
     //console.log(props.currentLayer)
-    const displayProperties = properties.map(x => ({name: x.name, type: x.type, value: convertValue(x)}))
-    /*const properties = [
-        {name: 'Property 1', value: 'hello'},
-        {name: 'Property 2', value: 3},
-        {name: 'Property 3', value: 3.14},
-        {name: 'Property 4', value: true}
-    ]*/
+    
+    console.log(displayState)
     return (
         <div>
             <PropertyToolbar openCreatePropertyModal={showCreatePropertyModal.onOpen} currentLayer={props.currentLayer}
                 currentProperty={currentProperty} setCurrentProperty={setCurrentProperty}
             />
             <Box overflowY={'auto'} >
-                    {displayProperties.map((property, index) => (<PropertyEntry info={property} index={index} 
+                    {displayState.map((property, index) => (<PropertyEntry info={property} index={index} 
                     currentProperty={currentProperty} currentLayer={props.currentLayer}
                     setCurrentProperty={setCurrentProperty} 
                     />))}
