@@ -36,6 +36,8 @@ const CreatePropertyModal = (props) => {
     const handleCreate = () => {
         const property =properties.find(x => x.name == name)
         if(property){
+            setType('')
+            setName('')
             props.onClose()
         }
         else{
@@ -60,7 +62,8 @@ const CreatePropertyModal = (props) => {
             const undoCallback =(()=>props.setCurrentProperty(currentName))
             props.setCurrentProperty(name)
             editStore.addLayerStateTransaction(layersClone, redoCallback, undoCallback)
-
+            setType('')
+            setName('')
             props.onClose()
             
         } 
