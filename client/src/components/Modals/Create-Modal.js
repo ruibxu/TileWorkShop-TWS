@@ -20,8 +20,11 @@ import {
     Flex,
     NumberInput,
     NumberInputField,
-    Spacer
+    Spacer,
+    Box,
+    IconButton,
 } from '@chakra-ui/react'
+import { MdFolderOpen } from 'react-icons/md'
 
 const CreateModal = (props) => {
     const [createType, setCreateType] = useState('TileSet')
@@ -31,6 +34,7 @@ const CreateModal = (props) => {
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
     const [pixel, setPixel] = useState(16)
+    const [upload, setUpload] = useState("")
 
     const handleCreate = () => {
         //-Insert Create Backend call here
@@ -65,6 +69,14 @@ const CreateModal = (props) => {
         setWidth(16)
     }
 
+    const handleChange = () => {
+        const reader = new FileReader()
+        const file = document.querySelector('input[type=file]').files[0];
+        reader.addEventListener('load', () =>{
+            setUpload(reader.result)
+        },false)
+        reader.readAsDataURL(file)     
+    }
     //console.log(height)
 
     return (<Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -78,6 +90,16 @@ const CreateModal = (props) => {
                     <Stack direction='row' gap={3}>
                         <Radio value='TileSet' size='lg'>TileSet</Radio>
                         <Radio value='TileMap' size='lg'>TileMap</Radio>
+                        <Box>
+                        <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('#input-edit').click()} />
+                        <Input
+                            type="file"
+                            onChange={handleChange}
+                            style = {{display:"none"}}
+                            accept="image/*"
+                            id='input-edit'
+                        />
+                        </Box>
                     </Stack>
                 </RadioGroup>
                 <Stack spacing={2}>

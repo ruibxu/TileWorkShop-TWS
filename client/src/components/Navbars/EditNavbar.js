@@ -31,7 +31,7 @@ const EditNavbar = (props) => {
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
     const [isPublic, setPublic] = useState(projectAccess?projectAccess.public:false)
-    const [upload, setUpload] = useState("")
+
     useEffect(() => {
         if(name == projectName){return}
         setName(projectName)
@@ -46,7 +46,6 @@ const EditNavbar = (props) => {
     const handleDownload =() => {
         props.setExporting(true);
     }
-
 
 
     const handleSetPublic = (v) => {
@@ -64,14 +63,6 @@ const EditNavbar = (props) => {
         toggleNameEdit(false);
         setName(newName);
     }
-    const handleChange = () => {
-        const reader = new FileReader()
-        const file = document.querySelector('input[type=file]').files[0];
-        reader.addEventListener('load', () =>{
-            setUpload(reader.result)
-        },false)
-        reader.readAsDataURL(file)     
-    }
 
     const handleSave = () => {
         currentStore.save()
@@ -82,16 +73,6 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <Box>
-                        <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('#input-edit').click()} />
-                        <Input
-                            type="file"
-                            onChange={handleChange}
-                            style = {{display:"none"}}
-                            accept="image/*"
-                            id='input-edit'
-                        />
-                    </Box>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>
