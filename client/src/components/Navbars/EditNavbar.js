@@ -65,7 +65,8 @@ const EditNavbar = (props) => {
     }
 
     const handleSave = () => {
-        currentStore.save()
+        const imageData = props.getDataUrl()
+        currentStore.save(imageData)
     }
 
     return (

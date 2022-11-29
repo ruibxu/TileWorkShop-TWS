@@ -13,10 +13,6 @@ function ItemCardSmall(props) {
     // limited sizes 375, 445.219
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, size } = props
-    function handleUnlike() { }
-    function handleDislike() { }
-    function handleUnDislike() { }
-    function handleDelete() { }
 
     function handleClickImage(){
         props.setData(data)
