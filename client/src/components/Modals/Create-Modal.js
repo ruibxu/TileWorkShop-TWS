@@ -34,11 +34,36 @@ const CreateModal = (props) => {
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
     const [pixel, setPixel] = useState(16)
-    const [upload, setUpload] = useState("")
+    const [file,setFile] = useState();
 
     const handleCreate = () => {
+        //import
+        if(file && createType == "TileMap"){
+            let reader = new FileReader();
+            reader.readAsText(file);
+            var json;
+            reader.onload = function() {
+                json=reader.result;
+                console.log(json);
+            };
+            
+
+
+        }
+        else if(file && createType == "TileSet"){
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            var img;
+            reader.onload = function() {
+                img=reader.result;
+                console.log(img);
+            };
+            
+
+
+        }
         //-Insert Create Backend call here
-        if (createType == "TileMap") {
+        else if (createType == "TileMap") {
             store.createNewTilemap({
                 user_id: auth.user._id,
                 data: {
@@ -64,26 +89,34 @@ const CreateModal = (props) => {
         }
         //--------------------------------
         props.onClose()
-        setName('Untitled')
-        setHeight(16)
-        setWidth(16)
+        setFile();
+        if(file){
+            //change it later
+            setName('Untitled')
+            setHeight(16)
+            setWidth(16)
+        }
+        else{
+            setName('Untitled')
+            setHeight(16)
+            setWidth(16)
+        }
     }
 
-    const handleChange = () => {
-        const reader = new FileReader()
-        const file = document.querySelector('input[type=file]').files[0];
-        reader.addEventListener('load', () =>{
-            setUpload(reader.result)
-        },false)
-        reader.readAsDataURL(file)     
-    }
-    //console.log(height)
+
+	const handleChange = (event) => {
+		setFile(event.target.files[0]);
+		console.log(event.target.files[0])
+	};
+
+
+
 
     return (<Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent maxW='500px'>
             <ModalHeader>{`Create ${createType}:`}</ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton onClick={() =>setFile()}/>
             <Divider borderColor={'purple'} />
             <ModalBody>
                 <RadioGroup onChange={setCreateType} value={createType}>
@@ -92,14 +125,28 @@ const CreateModal = (props) => {
                         <Radio value='TileMap' size='lg'>TileMap</Radio>
                         <Box>
                         <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('#input-edit').click()} />
+                        {(createType=='TileSet')?
+                        <Input
+
+                            type="file"
+                            onChange={handleChange}
+                            style = {{display:"none"}}
+                            accept="image/png"
+                            id='input-edit'
+                        />:
                         <Input
                             type="file"
                             onChange={handleChange}
                             style = {{display:"none"}}
-                            accept="image/*"
+                            accept=".json*"
                             id='input-edit'
-                        />
+                        />}
                         </Box>
+                        <Box>
+                            {(file)?
+                            file.name:""}
+                        </Box>
+                        
                     </Stack>
                 </RadioGroup>
                 <Stack spacing={2}>
