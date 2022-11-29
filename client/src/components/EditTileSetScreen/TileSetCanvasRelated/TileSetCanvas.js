@@ -242,6 +242,7 @@ const TilesetCanvas = (props) => {
             <Spacer/>
             <Box className='mapWorkspace' >
                 <canvas 
+                    id='tilesetCanvas'
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
                     onMouseUp={onMouseUp}
