@@ -39,6 +39,7 @@ const MapCanvas = (props) => {
     // }, [editStore.width, editStore.height, zoomValue])
 
     useEffect(() => {
+        console.log('This use effect ran-----------------------------------')
         const width = tilemapCrop*editStore.width
         const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
@@ -58,8 +59,9 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
+    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
+        console.log('This use effect ran 2-----------------------------------')
         draw()
     },[editStore.layers])
 

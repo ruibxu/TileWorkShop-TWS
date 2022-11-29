@@ -35,6 +35,7 @@ const EditTileMapScreen = (props) => {
     let history = useHistory();
     const redirect = async (route, parameters) => {
         editStore.clearTransactions()
+        editStore.clearItem()
         history.push(route, parameters);
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
@@ -105,7 +106,7 @@ const EditTileMapScreen = (props) => {
             <Flex height='100%' width={'100%'} flexDirection= 'column'>
 
                 <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
-                            isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'empty'}
+                            isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
                             exporting={exporting} setExporting={setExporting}
                             currentStore={editStore} getDataUrl={getDataUrl}
                 />

@@ -17,7 +17,8 @@ export const GlobalEditStoreActionType = {
     UPDATE_DISPLAY: "UPDATE_DISPLAY",
     UPDATE_TILESETS: "UPDATE_TILESETS",
     UPDATE_NAME: "UPDATE_NAME",
-    UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM"
+    UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM",
+    CLEAR_ITEM: "CLEAR_ITEM"
 
 }
 const tps = new jsTPS();
@@ -136,7 +137,24 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentItem: payload.currentItem
                 })
             }
+            case GlobalEditStoreActionType.CLEAR_ITEM: {
+                return setEditStore({
+                    currentId: null,
+                    currentItem: null,
+                    access: null,
+                    type: PROJECT_TYPE.TILEMAP,
+                    width: -1,
+                    height: -1,
+                    layers: [],
+                    tilesets: [],
+                    name: 'item cleared'
+                })
+            }
         }
+    }
+
+    editStore.clearItem = () => {
+        storeReducer({type: GlobalEditStoreActionType.CLEAR_ITEM})
     }
 
     editStore.updateName = async (newName) => {
