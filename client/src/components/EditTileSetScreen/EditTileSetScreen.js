@@ -23,6 +23,7 @@ import TilesetColorPicker from './TileSetToolsRelated/TileSetColorPicker';
 const EditTileSetScreen = (props) => {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext);
+    
     const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
     const [isPublic, setPublic] = useState(store.currentItem.access.public)
 
@@ -30,11 +31,33 @@ const EditTileSetScreen = (props) => {
     const [zoomValue, setZoomValue] = useState(1)
     const [toolWidth, setToolWidth] = useState(3)
     const [currentButton, setCurrentButton] = useState("Draw");
+
+    const [exporting, setExporting]= useState(false);
     const colorPickerRef = useRef(null)
     console.log('This is reloading too')
 
 
+    //exporting
+    useEffect(() => {
+        if(exporting){
+            console.log('exporting tilemap')
+            const img=document.getElementById('tilesetCanvas')
+            var href = img.toDataURL();
+            const fileName='Hello'
+            //const fileName = editStore.name;
+            const link = document.createElement("a");
+            link.href = href;
+            link.download = fileName + ".png";
+            document.body.appendChild(link);
+            link.click();
 
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+            
+            setExporting(false)
+        }
+    }, [exporting])
 
 
     if(!auth.loggedIn){redirect('/homescreen')}
@@ -60,7 +83,8 @@ const EditTileSetScreen = (props) => {
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
-                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}/>
+                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}
+                exporting={exporting} setExporting={setExporting}/>
 
             <Grid
                 h='93.5%'
@@ -69,7 +93,8 @@ const EditTileSetScreen = (props) => {
             >   
                 <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
                     <TilesetTools zoomValue= {zoomValue} setZoomValue={setZoomValue} currentButton={currentButton} 
-                    setCurrentButton={setCurrentButton}  toolWidth={toolWidth} setToolWidth={setToolWidth}/>
+                    setCurrentButton={setCurrentButton}  toolWidth={toolWidth} setToolWidth={setToolWidth}
+                    />
                 </GridItem>
 
                 <GridItem colSpan={5} rowSpan={2} minWidth={'100%'} maxWidth={'100%'} height={'100%'} className='tilesetWorkspace'>
