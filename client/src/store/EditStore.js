@@ -192,7 +192,8 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.addNewTileset = async function (payload, image) {
-        const { name, pixel, height, width } = payload
+        console.log('payload',payload)
+        const { name, pixel, height, width } = payload.tileset
         console.log(editStore.currentId)
         const response = await api.addTileSetToTileMap(editStore.currentId, payload);
         if (response.status === 200) {
