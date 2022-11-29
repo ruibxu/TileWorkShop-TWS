@@ -77,6 +77,11 @@ const EditTileMapScreen = (props) => {
             setExporting(false)
         }
     }, [exporting])
+
+    const getDataUrl = () => {
+        console.log(canvasRef.current)
+        return canvasRef.current.toDataURL()
+    }
     
     //what ft
 
@@ -102,7 +107,7 @@ const EditTileMapScreen = (props) => {
                 <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
                             isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'empty'}
                             exporting={exporting} setExporting={setExporting}
-                            currentStore={editStore}
+                            currentStore={editStore} getDataUrl={getDataUrl}
                 />
 
                 <Box  className='mapToolbar' height='6%' width='100%'> 

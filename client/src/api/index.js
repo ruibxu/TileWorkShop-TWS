@@ -39,7 +39,7 @@ export const getTileMapAllImage = (id) => api.get(`api/tilemap/allimage/${id}`)
 export const updateTileMapImage = (id, payload) => api.put(`api/tilemap/image/${id}`, payload)
 export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
 export const getTileMapThumbnail = (id) => api.get(`api/tilemap/thumbnail/${id}`)
-export const updateTileMapThumbnail = (id) => api.put(`api/tilemap/thumbnail/${id}`)
+export const updateTileMapThumbnail = (id, payload) => api.put(`api/tilemap/thumbnail/${id}`, payload)
 export const deleteTileMapThumbnail = (id) => api.delete(`api/tilemap/thumbnail/${id}`)
 
 

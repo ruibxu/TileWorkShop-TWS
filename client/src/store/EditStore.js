@@ -162,7 +162,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
-    editStore.save = async () => {
+    editStore.save = async (image) => {
         console.log('saving')
         const id = editStore.currentId
         const user_id = auth.user._id
@@ -178,6 +178,10 @@ const GlobalEditStoreContextProvider = (props) => {
         if (response.status == 200){
             const item = response.data.item
             item.community = null
+            const imageResponse = await api.updateTileMapThumbnail(id, {data: image})
+            if(imageResponse == 200){
+                console.log('Thumbnail update success')
+            }
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_CURRENT_ITEM,
                 payload: {
