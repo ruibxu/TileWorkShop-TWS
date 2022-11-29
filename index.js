@@ -54,6 +54,8 @@ const emailRouter = require('./routes/email-router')
 app.use('/api', emailRouter)
 const cloudinaryRouter = require('./routes/cloudinary-router')
 app.use('/api', cloudinaryRouter)
+const requestRouter = require('./routes/request-router')
+app.use('/api', requestRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const db = require('./db/database')

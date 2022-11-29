@@ -1,0 +1,8 @@
+REQUEST_TYPE = {
+    FORGOT_PASSWORD: "FORGOT_PASSWORD",
+    EDIT_PROJECT: "EDIT_PROJECT"
+}
+
+module.exports = {
+    REQUEST_TYPE
+}
