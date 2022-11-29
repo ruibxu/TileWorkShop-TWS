@@ -60,6 +60,8 @@ const EditTileSetScreen = (props) => {
     }, [exporting])
 
 
+
+//////////////////////////////////////////////////////////////////
     if(!auth.loggedIn){redirect('/homescreen')}
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
