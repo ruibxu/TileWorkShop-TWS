@@ -156,8 +156,14 @@ const TilesetCanvas = (props) => {
         console.log('drawing started')
         const {nativeEvent, clientX, clientY} = event
         const {offsetX, offsetY} = nativeEvent
-        const x=offsetX/zoomValue
-        const y=offsetY/zoomValue
+        let x=offsetX/zoomValue
+        let y=offsetY/zoomValue
+        if(x%editTilesetStore.pixel!=0){ 
+            x=x-x%editTilesetStore.pixel
+        }
+        if(y%editTilesetStore.pixel!=0){ 
+            y=y-y%editTilesetStore.pixel
+        }
         contextRef.current.beginPath();
         contextRef.current.rect(x,y,editTilesetStore.pixel,editTilesetStore.pixel)
         contextRef.current.fillStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
