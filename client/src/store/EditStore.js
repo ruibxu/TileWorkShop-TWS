@@ -236,8 +236,10 @@ const GlobalEditStoreContextProvider = (props) => {
         const response = await api.getTileMapById(id);
         if (response.status === 200) {
             const result = response.data.result
+            const users = response.data.users
             result.community = null
             console.log(result)
+            console.log(users)
             let tilesets = result.tileset
             if(tilesets.length > 0){
                 const response2 = await api.getTileMapAllImage(id)

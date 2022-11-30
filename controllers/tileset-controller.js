@@ -173,6 +173,7 @@ const updateTileSetAccess = async (req, res) => {
                             success: true,
                             id: item._id,
                             tileset: item,
+                            access: item.access,
                             message: 'TileSet Access updated!',
                         })
                     })

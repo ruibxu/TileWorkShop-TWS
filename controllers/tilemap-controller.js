@@ -167,6 +167,8 @@ const updateTileMapAccess = async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         id: item._id,
+                        tilemap: item,
+                        access: item.access,
                         message: 'Tilemap updated!',
                     })
                 })
