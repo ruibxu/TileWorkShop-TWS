@@ -154,7 +154,7 @@ const EditTileMapScreen = (props) => {
 
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic} currentStore={editStore}
             />
             <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
             />

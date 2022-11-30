@@ -41,6 +41,7 @@ const GlobalEditStoreContextProvider = (props) => {
         // zoomValue: 1,
         // MapTileOverlay: createOverlay(10, 10),
         access: null,
+        accessList: [],
         type: null,
         editing: true,
         layers:

@@ -23,6 +23,7 @@ import {
   } from '@chakra-ui/react'
 
 const ShareModal = (props) => {
+    const {currentStore} = props
     const [share, setShare] = useState()
 
     const handleClose = () => {
@@ -52,7 +53,7 @@ const ShareModal = (props) => {
                     </InputRightElement>
                 </InputGroup>
             </FormControl>
-            <ShareList list={props.list}/>
+            <ShareList list={props.list} currentStore={currentStore}/>
         </ModalBody>
         <Divider borderColor={'purple'}/>
         <ModalFooter>
