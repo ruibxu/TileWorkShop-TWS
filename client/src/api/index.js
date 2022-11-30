@@ -14,13 +14,13 @@ export const updateAccount = (id, payload) => api.put(`auth/updateAccount/${id}`
 export const verifyAccount = (id) => api.put(`auth/verifyAccount/${id}`)
 export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, payload)
 
-export const getUsernameByIds = () => api.get(`api/username/map`)
-export const getViewableProjects = (type) => api.get(`api/viewable/${type}`)
-export const getEditableProjects = (type) => api.get(`api/editable/${type}`)
-export const getFavoriteProjects = (type) => api.get(`api/favorite/${type}`)
-export const searchProject = (type) => api.get(`api/name/${type}`)
-export const searchUsers = () => api.get(`api/user`)
-export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
+// export const getUsernameByIds = () => api.get(`api/username/map`)
+// export const getViewableProjects = (type) => api.get(`api/viewable/${type}`)
+// export const getEditableProjects = (type) => api.get(`api/editable/${type}`)
+// export const getFavoriteProjects = (type) => api.get(`api/favorite/${type}`)
+// export const searchProject = (type) => api.get(`api/name/${type}`)
+// export const searchUsers = () => api.get(`api/user`)
+// export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
 export const searchProjects2 = (type, payload) => api.put(`api/search/${type}`, payload)
 export const getWhatsNew = (id) => api.get(`api/new/${id}`)
 
@@ -73,13 +73,13 @@ const apis = {
     verifyAccount,
     forgetPassword,
 
-    getUsernameByIds,
-    getViewableProjects,
-    getEditableProjects,
-    getFavoriteProjects,
-    searchProject,
-    searchUsers,
-    searchProjectByUsers,
+    // getUsernameByIds,
+    // getViewableProjects,
+    // getEditableProjects,
+    // getFavoriteProjects,
+    // searchProject,
+    // searchUsers,
+    // searchProjectByUsers,
     searchProjects2,
     getWhatsNew,
 

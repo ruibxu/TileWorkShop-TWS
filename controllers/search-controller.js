@@ -407,13 +407,13 @@ const getWhatsNew = async (req, res) => {
 }
 
 module.exports = {
-    getUsernameByIds,
-    getViewableProjects,
-    getEditableProjects,
-    getFavoriteProjects,
-    searchProject,
-    searchUsers,
-    searchProjectByUsers,
+    // getUsernameByIds,
+    // getViewableProjects,
+    // getEditableProjects,
+    // getFavoriteProjects,
+    // searchProject,
+    // searchUsers,
+    // searchProjectByUsers,
     searchProjects2,
     getWhatsNew
 }
