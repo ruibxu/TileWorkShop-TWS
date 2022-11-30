@@ -1,4 +1,4 @@
-const { createCommunity, updateCommunity, updateAccess, deleteCommentsByLink} = require('./shared-functions');
+const { createCommunity, updateCommunity, updateAccess, deleteCommentsByLink, getAccessUsers} = require('./shared-functions');
 
 const TileMap = require('../models/tilemap-model');
 const TileSet = require('../models/tileset-model');
@@ -10,12 +10,14 @@ const getTileMapById = async (req, res) => {
     // console.log("Find Tilemap with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
-    const tilemap = await TileMap.find({ _id: _id }, (err, tilemap) => {
+    const found = await TileMap.find({ _id: _id }, (err, tilemap) => {
         if (err) { return res.status(400).json({ success: false, errorMessage: "Failed to get TileMap" }); }
         // console.log("Found tilemap: " + JSON.stringify(tilemap));
     }).catch(err => console.log(err));
+    const tilemap = found[0]
+    const users = getAccessUsers(tilemap.access)
 
-    return res.status(200).json({ success: true, result: tilemap[0] }); //changed this to return the first tilemap 
+    return res.status(200).json({ success: true, result: tilemap, users: users}); //changed this to return the first tilemap 
 }
 
 const createTileMap = async (req, res) => {

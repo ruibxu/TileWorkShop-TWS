@@ -1,6 +1,7 @@
 const Community = require('../models/community-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Comment = require('../models/comment-model');
+const User = require('../models/user-model');
 const { SHARE_ROLE } = require('../translator/sort-options')
 
 createCommunity = (type) => {
@@ -93,9 +94,22 @@ deleteCommentsByLink = async (id) => {
     await Comment.deleteMany({_id: {$in: all_ids}})
 }
 
+getAccessUsers = async (access) => {
+    const {owner_id, editor_ids, viewer_ids} = access
+    const all_ids = [owner_id, ...editor_ids, ...viewer_ids]
+    const users = await User.find({ _id: { $in: all_ids } })
+    const mappings = users.map(x => ({
+        id: x._id,
+        username: x.username,
+        email: x.email
+    }))
+    return mappings
+}
+
 module.exports = {
     createCommunity,
     updateCommunity,
     updateAccess,
-    deleteCommentsByLink
+    deleteCommentsByLink,
+    getAccessUsers
 }

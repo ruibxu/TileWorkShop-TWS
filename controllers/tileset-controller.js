@@ -10,12 +10,14 @@ const getTileSetById = async (req, res) => {
     // console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
-    const tileset = await TileSet.find({ _id: _id }, (err, tileset) => {
+    const found = await TileSet.find({ _id: _id }, (err, tileset) => {
         if (err) { return res.status(400).json({ success: false, errorMessage: "Failed to get Tileset" }); }
         // console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
+    const tileset = found[0]
+    const users = getAccessUsers(tileset.access)
 
-    return res.status(200).json({ success: true, result: tileset[0] }); //same here
+    return res.status(200).json({ success: true, result: tileset, users: users}); //same here
 }
 
 const createTileSet = async (req, res) => {
