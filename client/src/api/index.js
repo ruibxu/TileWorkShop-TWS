@@ -63,6 +63,8 @@ export const updateCommentCommunity = (id, payload) => api.put(`api/comment/comm
 
 export const sendConfirmEmail = (id, payload) => api.post(`api/confirmEmail/${id}`, payload)
 export const sendPasswordResetEmail = (id, payload) => api.post(`api/passwordReset/${id}`, payload)
+export const getThumbnailList = (payload) => api.put('api/thumbnails', payload)
+
 const apis = {
     getLoggedIn,
     registerUser,
@@ -127,6 +129,7 @@ const apis = {
     updateTileSetCommunity,
 
     sendConfirmEmail,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    getThumbnailList
 }
 export default apis

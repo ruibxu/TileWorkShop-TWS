@@ -19,4 +19,7 @@ router.put('/tilemap/thumbnail/:id', CloudinaryController.updateTileMapThumbnail
 router.delete('/tilemap/thumbnail/:id', CloudinaryController.deleteTileMapThumbnail)
 router.get('/tilemap/thumbnail/:id', CloudinaryController.getTileMapThumbnail)
 
+//Thumbnails
+router.put('/thumbnails', CloudinaryController.getThumbnailList)
+
 module.exports = router

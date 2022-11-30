@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
 import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
+import ImageNotFound from '../04_Qiqi_02newyear_receive.png'
+
 export const GlobalStoreContext = createContext({});
 
 export const GlobalStoreActionType = {
@@ -24,7 +26,25 @@ export const GlobalStoreActionType = {
     UPDATE_SORT_OPTIONS: "UPDATE_SORT_OPTIONS",
     SEARCH: "SEARCH",
     WHATS_NEW: "WHATS_NEW",
-    DELETE_ITEM: "DELETE_ITEM"
+    DELETE_ITEM: "DELETE_ITEM",
+    UPDATE_IMAGES: "UPDATE_IMAGES"
+}
+
+const queryImages = async (id_list, imageList) => {
+    const condition = (x) => {
+        return (imageList.find(y => y.id == x))?true:false
+    }
+    const filtered_ids = id_list.filter(x => !condition(x))
+    if(!filtered_ids.length) return []
+    const thumbnails = await api.getThumbnailList({id_list: filtered_ids})
+    const resourceList = thumbnails.data.resources
+    console.log(thumbnails)
+    const thumbnailURLs = await resourceList.map(x => ({
+        id: x.filename,
+        src: x.url,
+        success: true
+    }))
+    return thumbnailURLs
 }
 
 const GlobalStoreContextProvider = (props) => {
@@ -42,7 +62,8 @@ const GlobalStoreContextProvider = (props) => {
         sort_type: SORT_TYPE.RECENT,
         sort_order: `${SORT_ORDER.DESCENDING}`,
         access_type: ACCESS_TYPE.VIEWABLE,
-        whatsList: []
+        whatsList: [],
+        thumbnailList: []
     });
 
     const history = useHistory();
@@ -63,6 +84,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: null,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
+                    thumbnailList: (payload.thumbnailList)?payload.thumbnailList:store.thumbnailList
                 })
             }
             case GlobalStoreActionType.VIEW_MYPAGE: {
@@ -213,10 +235,24 @@ const GlobalStoreContextProvider = (props) => {
                     whatsList: payload.whatsList
                 })
             }
+            case GlobalStoreActionType.UPDATE_IMAGES:{
+                return setStore({
+                    ...store,
+                    thumbnailList: payload.thumbnailList
+                })
+            }
             default:
                 return store;
         }
     }
+
+    store.getThumbnail = (id) => {
+        const found = store.thumbnailList.find(x => x.id == id)
+        console.log(id)
+        if(found){return found}
+        return {success: false, src: ImageNotFound}
+    }
+
     store.markItemforDeletion = async (item) => {
         storeReducer({
             type: GlobalStoreActionType.MARK_ITEM_FOR_DELETION,
@@ -292,12 +328,6 @@ const GlobalStoreContextProvider = (props) => {
             sort_type: store.sort_type,
             sort_order: store.sort_order
         })
-        // console.log(store.access_type)
-        // console.log(store.search_by)
-        // console.log(store.search_term)
-        // console.log(store.sort_type)
-        // console.log(store.sort_order)
-        // console.log(response.data.results)
         const results = response.data.results;
         const users = response.data.users;
         results.map(x => x.owner = users.find(y => y._id == x.access.owner_id))
@@ -392,13 +422,19 @@ const GlobalStoreContextProvider = (props) => {
                     response2.data.results.map(x => x.owner = response2.data.users.find(y => y._id == x.access.owner_id))
                     response3.data.results.map(x => x.owner = response3.data.users.find(y => y._id == x.access.owner_id))
                     console.log(response1.data.users)
+                    const allItems = [...response1.data.results, ...response2.data.results, ...response3.data.results]
+                    const ids = allItems.map(x => x._id)
+                    console.log(ids)
+                    const queriedThumbnails = await queryImages(ids, store.thumbnailList)
+                    console.log(queriedThumbnails)
                     storeReducer({
                         type: GlobalStoreActionType.VIEW_HOMEPAGE,
                         payload: {
                             tileSetList: response1.data.results,
                             tileMapList: response2.data.results,
                             yourList: response3.data.results,
-                            whatsList: render_info
+                            whatsList: render_info,
+                            thumbnailList: [...store.thumbnailList, ...queriedThumbnails]
                         }
                     })
                 }

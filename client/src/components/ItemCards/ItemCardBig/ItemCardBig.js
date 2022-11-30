@@ -23,6 +23,7 @@ function ItemCardBig(props) {
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data } = props
     const [newComment, setNewComment] = useState('')
+    const [thumbnail, setThumbnail] = useState({success: false})
     const showDeleteComment = useDisclosure()
     const showDeleteModal = useDisclosure()
     const cancelRef = useRef()
@@ -45,6 +46,14 @@ function ItemCardBig(props) {
     const numOfComments = (commentStore.currentCommentList) ? `${commentStore.currentCommentList.length}` : 0
 
     const isPublic = (data.access) ? data.access.public : true
+
+    useEffect(()=>{
+        if(!data){return}
+        if(!thumbnail.success){
+            setThumbnail(store.getThumbnail(data._id))
+        }
+    }, [store.thumbnailList, project_id])
+
     const handleComment = () => {
         let commenting = newComment
         // setNewComment('')
@@ -114,7 +123,7 @@ function ItemCardBig(props) {
                 <ModalContent height="90%" maxWidth="1000px">
                     <ModalHeader>
                         <Flex alignItems='center'>
-                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={(data.src) ? data.src : image6} />
+                            <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="none" src={thumbnail.src} />
                             <Flex gap={2} alignItems={'center'}  >
                                 <IconButton id="big-buttons" bg='transparent' disabled={!auth.loggedIn} onClick={(event) => handleLike(event, 2)}
                                     icon={(favorited) ? <AiFillHeart className='md-icon' /> : <AiOutlineHeart className='md-icon' />} ></IconButton>

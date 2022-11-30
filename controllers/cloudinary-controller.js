@@ -6,7 +6,7 @@ const getTileMapImage = async (req, res) => {
     const search = `public_id:TileMap_Uses/${public_id}`;
     const { resources } = await cloudinary.search.expression(search).execute();
     if (!resources) {
-        return res.status(404).json({
+        return res.status(201).json({
             errorMessage: 'image not found!',
         });
     }
@@ -68,18 +68,24 @@ const deleteTileMapImage = async (req, res) => {
 }
 //#--------------------------------------------------------------Tilemap thumbnails
 const getTileMapThumbnail = async (req, res) => {
-    const public_id = req.params.id;
-    const search = `public_id:TileMap_Thumbnail/${public_id}`;
-    const { resources } = await cloudinary.search.expression(search).execute();
-    if (!resources) {
-        return res.status(404).json({
-            errorMessage: 'image not found!',
+    try{
+        const public_id = req.params.id;
+        const search = `public_id:TileMap_Thumbnail/${public_id}`;
+        const { resources } = await cloudinary.search.expression(search).execute();
+        if (!resources) {
+            return res.status(201).json({
+                errorMessage: 'image not found!',
+            });
+        }
+        return res.status(200).json({
+            _id: public_id,
+            resources: resources
+        })
+    } catch (error) {
+        return res.status(201).json({
+            errorMessage: 'query error',
         });
     }
-    return res.status(201).json({
-        _id: public_id,
-        resources: resources
-    })
 }
 
 const updateTileMapThumbnail = async (req, res) => {
@@ -117,19 +123,28 @@ const deleteTileMapThumbnail = async (req, res) => {
 }
 //#--------------------------------------------------------------Tileset Images
 const getTileSetImage = async (req, res) => {
-    const public_id = req.params.id;
-    const search = `public_id:TileSet_Editor/${public_id}`;
-    // console.log(search)
-    const { resources } = await cloudinary.search.expression(search).execute();
-    if (!resources) {
-        return res.status(201).json({
-            errorMessage: 'image not found!',
+    try{
+        const public_id = req.params.id;
+        const search = `public_id:TileSet_Editor/${public_id}`;
+        // console.log(search)
+        const { resources } = await cloudinary.search.expression(search).execute().catch(()=>{
+            console.log('failed')
+            return res.status(201).json({
+                errorMessage: 'image error!',
+            });
         });
+        if (!resources) {
+            return res.status(201).json({
+                errorMessage: 'image not found!',
+            });
+        }
+        return res.status(200).json({
+            _id: public_id,
+            resources: resources
+        })
+    } catch(error){
+        console.log('error')
     }
-    return res.status(200).json({
-        _id: public_id,
-        resources: resources
-    })
 }
 
 const updateTileSetImage = async (req, res) => {
@@ -167,6 +182,30 @@ const deleteTileSetImage = async (req, res) => {
     })
 }
 
+const getThumbnailList = async (req, res) => {
+    try{
+        const id_list = req.body.id_list
+        const search_list = id_list.map(x => `filename:${x}`)
+        const id_string = search_list.join(' OR ')
+        const search = `(folder:TileSet_Editor OR folder:TileMap_Thumbnail) AND (${id_string})`
+        const { resources } = await cloudinary.search.expression(search).execute().catch(()=>{
+            console.log('failed')
+            return res.status(201).json({
+                errorMessage: 'image error!',
+            });
+        });
+        return res.status(200).json({
+            search: search,
+            resources: resources
+        })
+    }catch(error){
+        console.log('error')
+        return res.status(201).json({
+            errorMessage: 'image error!',
+        });
+    }
+}
+
 module.exports = {
     getTileMapImage,
     updateTileMapImage,
@@ -178,4 +217,5 @@ module.exports = {
     updateTileSetImage,
     deleteTileSetImage,
     getRelatedTileSets,
+    getThumbnailList
 }

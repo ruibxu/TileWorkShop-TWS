@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect} from 'react'
 import { Badge, Box, IconButton, Image, Flex, Spacer } from '@chakra-ui/react';
 import { FiThumbsUp, FiThumbsDown } from 'react-icons/fi'
 import { HiThumbUp, HiThumbDown } from 'react-icons/hi'
@@ -13,6 +13,20 @@ function ItemCardSmall(props) {
     // limited sizes 375, 445.219
     const { commentStore } = useContext(GlobalCommentStoreContext)
     const { data, size } = props
+    const [thumbnail, setThumbnail] = useState({success: false})
+
+    useEffect(()=>{
+        if(!data){return}
+        setThumbnail(store.getThumbnail(data._id))
+    }, [data])
+
+    useEffect(()=>{
+        console.log(data)
+        if(!data){return}
+        if(!thumbnail.success){
+            setThumbnail(store.getThumbnail(data._id))
+        }
+    }, [store.thumbnailList])
 
     function handleClickImage(){
         props.setData(data)
@@ -59,7 +73,7 @@ function ItemCardSmall(props) {
     let cardElement =
         <Box w={(size) ? size : '375px'} maxW={(size) ? size : '375px'} borderRadius='lg' className='item-card' borderWidth='1px' borderColor={'purple'} box-sizing='border-box' >
             <Flex alignItems='center' as = "button" width={"100%"} >
-                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={(data.src)?data.src:image6} marginRight={0} 
+                <Image minW={'100%'} borderRadius='lg' maxW={'100%'} height='200px' fit="cover" src={thumbnail.src} marginRight={0} 
                 onClick ={handleOpen} onDoubleClick={handleDoubleClickImage}/>
             </Flex>
             <Flex alignItems="center" justifyContent='space-between' alignContent='stretch'>
