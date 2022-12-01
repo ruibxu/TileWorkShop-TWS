@@ -120,6 +120,7 @@ const updateTileSet = async (req, res) => {
                         return res.status(200).json({
                             success: true,
                             id: item._id,
+                            item: item,
                             message: 'TileSet updated!',
                         })
                     })

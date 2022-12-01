@@ -53,16 +53,68 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         }
     }
 
+    editTilesetStore.updateName = async (newName) => {
+        console.log('updating name')
+        const id = editTilesetStore.currentId
+        const user_id = auth.user._id
+        const payload = {
+            user_id: user_id,
+            name: newName
+        }
+        const response = await api.updateTileSet(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            const item = response.data.item
+            item.community = null
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_NAME,
+                payload: {
+                    name: newName,
+                    currentItem: item
+                }
+            })
+        }
+    }
+
+    editTilesetStore.save = async (image) => {
+        console.log('saving')
+        const id = editTilesetStore.currentId
+        const user_id = auth.user._id
+        const payload = {
+            user_id: user_id,
+        }
+        const response = await api.updateTileSet(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            const item = response.data.item
+            item.community = null
+            const imageResponse = await api.updateTileSetImage(id, {data: image})
+            if(imageResponse == 200){
+                console.log('Thumbnail update success')
+            }
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_CURRENT_ITEM,
+                payload: {
+                    currentItem: item
+                }
+            })
+        }
+    }
+
     editTilesetStore.getTileSetById = async function (id) {
         const response = await api.getTileSetById(id);
         const result = response.data.result
         result.community = null
         if (response.status === 200) {
+            const responseImage = await api.getTileSetImage(id)
+            const tilesetImage = responseImage.data.resources[0]
+            console.log(tilesetImage)
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
                     currentId: result._id,
-                    currentItem: result
+                    currentItem: result,
+                    img: tilesetImage
                 }
             })
             console.log(editTilesetStore.currentItem)

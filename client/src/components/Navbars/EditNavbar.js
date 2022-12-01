@@ -30,7 +30,7 @@ const EditNavbar = (props) => {
     const { editStore } = useContext(GlobalEditStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
-    const [isPublic, setPublic] = useState(projectAccess?projectAccess.public:false)
+    const [isPublic, setPublic] = useState(props.isPublic)
 
     useEffect(() => {
         if(name == projectName){return}
@@ -38,17 +38,16 @@ const EditNavbar = (props) => {
     }, [projectName])
 
     useEffect(()=>{
-        if(!projectAccess){return}
-        setPublic(projectAccess.public)
-    }, [projectAccess])
+        setPublic(props.isPublic)
+    }, [props.isPublic])
 
 
     const handleDownload =() => {
         props.setExporting(true);
     }
 
-
     const handleSetPublic = (v) => {
+        props.setPublic(v)
         setPublic(v)
     }
 
@@ -65,8 +64,7 @@ const EditNavbar = (props) => {
     }
 
     const handleSave = () => {
-        const imageData = props.getDataUrl()
-        currentStore.save(imageData)
+        props.save()
     }
 
     return (

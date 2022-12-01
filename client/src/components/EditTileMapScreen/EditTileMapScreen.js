@@ -53,7 +53,14 @@ const EditTileMapScreen = (props) => {
         setTilemap(editStore.currentItem)
     }, [editStore.currentItem])
 
-    const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
+    const [isPublic, setPublic] = useState((editStore.access) ? editStore.access.public : false)
+    
+    useEffect(()=>{
+        console.log(editStore.access)
+        if(editStore.access){
+            setPublic(editStore.access.public)
+        }
+    }, [editStore.access])
     let parts = []
     console.log('reload EditTileMapScreen')
 
@@ -79,9 +86,9 @@ const EditTileMapScreen = (props) => {
         }
     }, [exporting])
 
-    const getDataUrl = () => {
-        console.log(canvasRef.current)
-        return canvasRef.current.toDataURL()
+    const saveProject = () => {
+        const imageData = canvasRef.current.toDataURL()
+        editStore.save(imageData)
     }
     
     //what ft
@@ -108,7 +115,7 @@ const EditTileMapScreen = (props) => {
                 <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
                             isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
                             exporting={exporting} setExporting={setExporting}
-                            currentStore={editStore} getDataUrl={getDataUrl}
+                            currentStore={editStore} save={saveProject}
                 />
 
                 <Box  className='mapToolbar' height='6%' width='100%'> 
