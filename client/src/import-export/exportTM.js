@@ -61,5 +61,24 @@ const exportTM = (store) => {
     URL.revokeObjectURL(href);
 }
 
-export default exportTM
+export default exportTM;
+
+// layers.forEach((x) => {
+//     const temp = translateLayer(x)
+//     translatedlayerarray.push(temp)
+// })
+
+// translateLayer = (x) => {
+//     for(let x = 0, x < tilemapwidth; x++){
+//         for(let y = 0, y < tilemapheight; y++){
+//             key = `${x}-${y}`
+//         }
+//     }
+//     return translatedX
+// }
+
+// valueformat = [tilesetX, tilesetY, TilesetID]
+// (tilesetX * tilesetWidth)+tilesetY + startingValue
+// value = if TilesetID don't exist anymore set it to 0
+// value = null
 
