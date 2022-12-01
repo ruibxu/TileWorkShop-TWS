@@ -50,7 +50,7 @@ const getRequest = async (req, res) => {
     }).catch(err => console.log(err));
     return res.status(200).json({
         success: true,
-        request: findrq
+        request: findrq // if request doesn't exist, it would return null 
     })
 }
 module.exports = {
