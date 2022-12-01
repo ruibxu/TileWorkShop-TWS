@@ -53,8 +53,23 @@ const getRequest = async (req, res) => {
         request: findrq // if request doesn't exist, it would return null 
     })
 }
+
+const getRequestById = async (req, res) => {
+    const data = req.body.data
+    const findrq = await Request.findOne({ _id: data._id }, (err, rq) => {
+        if (err) {
+            return res.status(400).json({ success: false, errorMessage: "Failed to get request" })
+        }
+    }).catch(err => console.log(err));
+    return res.status(200).json({
+        success: true,
+        request: findrq // if request doesn't exist, it would return null 
+    })
+}
+
 module.exports = {
     createRequest,
     deleteRequest,
-    getRequest
+    getRequest,
+    getRequestById
 }

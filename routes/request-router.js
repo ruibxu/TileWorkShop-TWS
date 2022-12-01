@@ -6,4 +6,5 @@ const RequestController = require('../controllers/request-controller')
 router.post('/sendRequest', RequestController.createRequest)
 router.delete('/deleteRequest', RequestController.deleteRequest)
 router.put('/getRequest', RequestController.getRequest)
+router.put('/getRequest/:id', RequestController.getRequest)
 module.exports = router
