@@ -61,8 +61,7 @@ const CreateModal = (props) => {
             
 
 
-        }
-        //-Insert Create Backend call here
+        }//-Insert Create Backend call here
         else if (createType == "TileMap") {
             store.createNewTilemap({
                 user_id: auth.user._id,
