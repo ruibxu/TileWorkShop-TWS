@@ -12,7 +12,7 @@ export const GlobalEditTilesetStoreContext = createContext({});
 export const GlobalEditStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
-    UPDATE_DISPLAY: "UPDATE_DISPLAY",
+    UPDATE_NAME: "UPDATE_NAME",
     SET_REFS: "SET_REFS"
 }
 
@@ -22,10 +22,10 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     const [editTilesetStore, setEditTilesetStore] = useState({
         currentId: null,
         currentItem: null,
+        name: '',
         width: 10,
         height: 10,
         pixel: 16,
-        scale: 64,
         img: null,
         access: null,
         editing: true,
@@ -46,10 +46,14 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     height: payload.height,
                     pixel: payload.pixel,
                     img: payload.img,
+                    name: payload.name,
                     type: PROJECT_TYPE.TILESET,
                     canvas: null,
                     context: null
                 })
+            }
+            case GlobalEditStoreActionType.UPDATE_NAME:{
+
             }
             case GlobalEditStoreActionType.SET_REFS: {
                 return setEditTilesetStore({
@@ -127,6 +131,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     width: result.width,
                     height: result.height,
                     pixel: result.pixel,
+                    name: result.name,
                     img: image,
                 }
             })
