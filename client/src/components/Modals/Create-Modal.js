@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import GlobalStoreContext from '../../store/ProjectStore'
+import GlobalEditStoreContext from '../../store/EditStore'
+import GlobalEditTilesetStoreContext from '../../store/EditTilesetStore'
 import AuthContext from '../../auth'
 import {
     Modal,
@@ -25,11 +27,15 @@ import {
     IconButton,
 } from '@chakra-ui/react'
 import { MdFolderOpen } from 'react-icons/md'
+import importTM from '../../import-export/importTM'
+import importTS from '../../import-export/importTS'
 
 const CreateModal = (props) => {
     const [createType, setCreateType] = useState('TileSet')
     const { store } = useContext(GlobalStoreContext)
     const { auth } = useContext(AuthContext)
+    const { editStore } = useContext(GlobalEditStoreContext);
+    const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
     const [name, setName] = useState('Untitled')
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
@@ -39,28 +45,10 @@ const CreateModal = (props) => {
     const handleCreate = () => {
         //import
         if(file && createType == "TileMap"){
-            let reader = new FileReader();
-            reader.readAsText(file);
-            var json;
-            reader.onload = function() {
-                json=reader.result;
-                console.log(json);
-            };
-            
-
-
+            importTM(editStore, file)
         }
         else if(file && createType == "TileSet"){
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            var img;
-            reader.onload = function() {
-                img=reader.result;
-                console.log(img);
-            };
-            
-
-
+            importTS(editTilesetStore, file)
         }//-Insert Create Backend call here
         else if (createType == "TileMap") {
             store.createNewTilemap({

@@ -1,6 +1,6 @@
 
 
-const exportTS = (editTilesetStore) => {
+const exportTS = (store) => {
     console.log('exporting tileset')
     const img=document.getElementById('tilesetCanvas')
     var href = img.toDataURL();

@@ -1,32 +1,32 @@
 
 
-const exportTM = (editStore) => {
+const exportTM = (store) => {
     console.log('exporting tilemap')
-    const fileName = editStore.name;
-    //const  jsonClone= JSON.parse(JSON.stringify(editStore))
+    const fileName = store.name;
+    //const  jsonClone= JSON.parse(JSON.stringify(store))
 
     const exportingJson={
         "compressionlevel":-1,
-        "height":editStore.height,
+        "height":store.height,
         "infinite":false,
         // need to change
         "layers":[
             { 
                 "data":[],
-                "height":editStore.height,
+                "height":store.height,
                 "id":1,
                 "name":"background",
                 "opacity":1,
                 "type":"tilelayer",
                 "visible":true,
-                "width":editStore.width,
+                "width":store.width,
                 "x":0,
                 "y":0
             },
         ],
         "orientation":"orthogonal",
         "renderorder":"right-down",
-        "tileheight":editStore.scale,// question
+        "tileheight":store.scale,// question
         // need to change
         "tilesets":[
                 {
@@ -42,9 +42,9 @@ const exportTM = (editStore) => {
                 "tileheight":32,
                 "tilewidth":32
                 }],
-        "tilewidth":editStore.scale,
+        "tilewidth":store.scale,
         "type":"map",
-        "width":editStore.width
+        "width":store.width
     }
     
     const json = JSON.stringify(exportingJson, null, 2);
