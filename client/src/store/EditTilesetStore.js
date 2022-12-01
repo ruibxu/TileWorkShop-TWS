@@ -53,7 +53,11 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                 })
             }
             case GlobalEditStoreActionType.UPDATE_NAME:{
-
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    name: payload.name,
+                    currentItem: payload.currentItem
+                })
             }
             case GlobalEditStoreActionType.SET_REFS: {
                 return setEditTilesetStore({
