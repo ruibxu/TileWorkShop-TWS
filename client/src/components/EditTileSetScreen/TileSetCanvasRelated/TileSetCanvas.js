@@ -37,21 +37,24 @@ const TilesetCanvas = (props) => {
         context.lineWidth = toolWidth
         contextRef.current = context
         BeforeChange.current = getImageData()
-    }, [editTilesetStore.currentId, editTilesetStore.img])
+    }, [editTilesetStore.currentId])
 
-    // useEffect(()=> {
-    //     console.log('triggered')
-    //     if(editTilesetStore.img){
-    //         console.log(editTilesetStore.img)
-            
-    //         const img = new Image()
-    //         img.src = editTilesetStore.img.src
-    //         console.log(editTilesetStore.img.src)
-    //         img.onload = () => {
-    //             contextRef.current.drawImage(img, 0, 0)
-    //         }
-    //     }
-    // }, [editTilesetStore.img])
+    useEffect(()=> {
+        console.log('triggered')
+        if(editTilesetStore.img){
+            const img = new Image()
+            img.crossOrigin = "Anonymous"
+            img.src = editTilesetStore.img
+            console.log(img)
+            img.onload = () => {
+                console.log(img.width, img.height)
+                console.log(canvasRef.current.width, canvasRef.current.height)
+                contextRef.current.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvasRef.current.width/scale, canvasRef.current.height/scale)
+                console.log(contextRef.current)
+                BeforeChange.current = getImageData()
+            }
+        }
+    }, [editTilesetStore.img])
 
     useEffect(()=>{
         const width = editTilesetStore.width

@@ -17,14 +17,6 @@ export const GlobalEditStoreActionType = {
 
 const tps = new jsTPS();
 
-const createImage = (src) => {
-    if(!src){return null}
-    let img = new Image()
-    img.src = src.url
-    img.crossOrigin = "anonymous"
-    return img
-}
-
 const GlobalEditTilesetStoreContextProvider = (props) => {
     const [editTilesetStore, setEditTilesetStore] = useState({
         currentId: null,
@@ -114,7 +106,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const responseImage = await api.getTileSetImage(id)
             const tilesetImage = responseImage.data.resources[0]
             console.log(tilesetImage)
-            const image = createImage(tilesetImage)
+            const image = (tilesetImage)?tilesetImage.url:null
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
