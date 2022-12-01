@@ -12,7 +12,8 @@ export const GlobalEditTilesetStoreContext = createContext({});
 export const GlobalEditStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
-    UPDATE_DISPLAY: "UPDATE_DISPLAY"
+    UPDATE_DISPLAY: "UPDATE_DISPLAY",
+    SET_REFS: "SET_REFS"
 }
 
 const tps = new jsTPS();
@@ -28,6 +29,8 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         img: null,
         access: null,
         editing: true,
+        canvas: null,
+        context: null
     });
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
@@ -43,10 +46,18 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     height: payload.height,
                     pixel: payload.pixel,
                     img: payload.img,
-                    type: PROJECT_TYPE.TILESET
+                    type: PROJECT_TYPE.TILESET,
+                    canvas: null,
+                    context: null
                 })
             }
-
+            case GlobalEditStoreActionType.SET_REFS: {
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    canvas: payload.canvas,
+                    context: payload.context
+                })
+            }
         }
     }
 
@@ -123,6 +134,16 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         } else {
             console.log(response.data.errorMessage)
         }
+    }
+
+    editTilesetStore.setRefs = (canvas, context) => {
+        storeReducer({
+            type: GlobalEditStoreActionType.SET_REFS,
+            payload: {
+                canvas: canvas,
+                context: context
+            }
+        })
     }
 
     editTilesetStore.addCanvasTransaction = function (redoCallback, undoCallback) {

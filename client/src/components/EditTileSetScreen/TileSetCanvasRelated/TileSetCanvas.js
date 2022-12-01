@@ -36,6 +36,7 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = toolWidth
         contextRef.current = context
+        editTilesetStore.setRefs(canvasRef.current, contextRef.current)
         BeforeChange.current = getImageData()
     }, [editTilesetStore.currentId])
 
