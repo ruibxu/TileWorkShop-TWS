@@ -238,9 +238,12 @@ const MapCanvas = (props) => {
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
+        console.log('before block')
+        console.log(edit)
         if(!edit){return}
         if(!layer.data){layer.data = {}}
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
+        console.log('addtile end')
         if(drawLater){return}
         draw()
     }
@@ -259,12 +262,14 @@ const MapCanvas = (props) => {
     //These are the only 2 functions that directly changes what layers looks like
 
     const canEdit = (layer, key) => {
-        if(!layer){return false}
-        if(layer.locked || !editStore.editing){return false}
+        if(!layer){console.log('no layer selected');return false}
+        if(layer.locked){console.log('locked'); return false}
+        if(!editStore.editing){console.log('not edit mode', editStore.editing); return false}
         //more fields go here
 
         if(!selectedTiles.length){return true}
         if(selectedTiles.includes(key)){return true}
+        console.log('end')
         return false
     }
 

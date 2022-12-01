@@ -88,7 +88,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     height: payload.height,
                     layers: payload.layers,
                     tilesets: payload.tilesets,
-                    name: payload.name
+                    name: payload.name,
+                    editing: true
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
@@ -137,6 +138,7 @@ const GlobalEditStoreContextProvider = (props) => {
             }
             case GlobalEditStoreActionType.CLEAR_ITEM: {
                 return setEditStore({
+                    ...editStore,
                     currentId: null,
                     currentItem: null,
                     access: null,
@@ -145,7 +147,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     height: -1,
                     layers: [],
                     tilesets: [],
-                    name: 'item cleared'
+                    name: 'item cleared',
+                    editing: false
                 })
             }
         }
