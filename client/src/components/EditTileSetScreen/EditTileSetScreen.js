@@ -77,7 +77,6 @@ const EditTileSetScreen = (props) => {
 
 //////////////////////////////////////////////////////////////////
 
-    if(!auth.loggedIn){redirect('/homescreen')}
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
 
@@ -86,6 +85,7 @@ const EditTileSetScreen = (props) => {
         editTilesetStore.clearTransactions();
         history.push(route, parameters);
     }
+    if(!auth.loggedIn){redirect('/homescreen')}
 
     const showShareModal = useDisclosure()
     let TempInfo = [

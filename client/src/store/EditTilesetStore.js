@@ -18,8 +18,9 @@ export const GlobalEditStoreActionType = {
 const tps = new jsTPS();
 
 const createImage = (src) => {
+    if(!src){return null}
     let img = new Image()
-    img.src = src
+    img.src = src.url
     img.crossOrigin = "anonymous"
     return img
 }
@@ -45,7 +46,11 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     ...editTilesetStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
-                    access: payload.currentItem.access,
+                    access: payload.access,
+                    width: payload.width,
+                    height: payload.height,
+                    pixel: payload.pixel,
+                    img: payload.img,
                     type: PROJECT_TYPE.TILESET
                 })
             }
@@ -109,12 +114,17 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const responseImage = await api.getTileSetImage(id)
             const tilesetImage = responseImage.data.resources[0]
             console.log(tilesetImage)
+            const image = createImage(tilesetImage)
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
                     currentId: result._id,
                     currentItem: result,
-                    img: tilesetImage
+                    access: result.access,
+                    width: result.width,
+                    height: result.height,
+                    pixel: result.pixel,
+                    img: image,
                 }
             })
             console.log(editTilesetStore.currentItem)
