@@ -14,6 +14,7 @@ import { Grid, GridItem } from '@chakra-ui/react'
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import TilesetTools from './TileSetToolsRelated/TileSetTools';
 import TilesetColorPicker from './TileSetToolsRelated/TileSetColorPicker';
+import exportTS from '../../import-export/exportTS';
 
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
@@ -54,21 +55,7 @@ const EditTileSetScreen = (props) => {
     //exporting
     useEffect(() => {
         if(exporting){
-            console.log('exporting tilemap')
-            const img=document.getElementById('tilesetCanvas')
-            var href = img.toDataURL();
-            const fileName='Hello'
-            //const fileName = editStore.name;
-            const link = document.createElement("a");
-            link.href = href;
-            link.download = fileName + ".png";
-            document.body.appendChild(link);
-            link.click();
-
-            // clean up "a" element & remove ObjectURL
-            document.body.removeChild(link);
-            URL.revokeObjectURL(href);
-            
+            exportTS(editTilesetStore)
             setExporting(false)
         }
     }, [exporting])
