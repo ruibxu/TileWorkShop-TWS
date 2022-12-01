@@ -5,6 +5,7 @@ import TilesetOverlay from '../TileSetOverlay/TileSetOverley';
 import TileSetOverlayTile from '../TileSetOverlay/TileSetOverleyTile';
 import { MdEventAvailable } from 'react-icons/md';
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
+import image6 from '../../../04_Qiqi_02newyear_receive.png'
 
 const TilesetCanvas = (props) => {
     const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton, toolWidth} = props
@@ -35,8 +36,26 @@ const TilesetCanvas = (props) => {
         context.strokeStyle = `rgba(${props.color.r},${props.color.g},${props.color.b},${props.color.a})`;
         context.lineWidth = toolWidth
         contextRef.current = context
+        editTilesetStore.setRefs(canvasRef.current, contextRef.current)
         BeforeChange.current = getImageData()
-    }, [])
+    }, [editTilesetStore.currentId])
+
+    useEffect(()=> {
+        console.log('triggered')
+        if(editTilesetStore.img){
+            const img = new Image()
+            img.crossOrigin = "Anonymous"
+            img.src = editTilesetStore.img
+            console.log(img)
+            img.onload = () => {
+                console.log(img.width, img.height)
+                console.log(canvasRef.current.width, canvasRef.current.height)
+                contextRef.current.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvasRef.current.width/scale, canvasRef.current.height/scale)
+                console.log(contextRef.current)
+                BeforeChange.current = getImageData()
+            }
+        }
+    }, [editTilesetStore.img])
 
     useEffect(()=>{
         const width = editTilesetStore.width

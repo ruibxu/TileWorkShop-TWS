@@ -12,17 +12,11 @@ export const GlobalEditTilesetStoreContext = createContext({});
 export const GlobalEditStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
-    UPDATE_DISPLAY: "UPDATE_DISPLAY"
+    UPDATE_DISPLAY: "UPDATE_DISPLAY",
+    SET_REFS: "SET_REFS"
 }
 
 const tps = new jsTPS();
-
-const createImage = (src) => {
-    let img = new Image()
-    img.src = src
-    img.crossOrigin = "anonymous"
-    return img
-}
 
 const GlobalEditTilesetStoreContextProvider = (props) => {
     const [editTilesetStore, setEditTilesetStore] = useState({
@@ -35,6 +29,8 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         img: null,
         access: null,
         editing: true,
+        canvas: null,
+        context: null
     });
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
@@ -45,11 +41,71 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     ...editTilesetStore,
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
-                    access: payload.currentItem.access,
-                    type: PROJECT_TYPE.TILESET
+                    access: payload.access,
+                    width: payload.width,
+                    height: payload.height,
+                    pixel: payload.pixel,
+                    img: payload.img,
+                    type: PROJECT_TYPE.TILESET,
+                    canvas: null,
+                    context: null
                 })
             }
+            case GlobalEditStoreActionType.SET_REFS: {
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    canvas: payload.canvas,
+                    context: payload.context
+                })
+            }
+        }
+    }
 
+    editTilesetStore.updateName = async (newName) => {
+        console.log('updating name')
+        const id = editTilesetStore.currentId
+        const user_id = auth.user._id
+        const payload = {
+            user_id: user_id,
+            name: newName
+        }
+        const response = await api.updateTileSet(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            const item = response.data.item
+            item.community = null
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_NAME,
+                payload: {
+                    name: newName,
+                    currentItem: item
+                }
+            })
+        }
+    }
+
+    editTilesetStore.save = async (image) => {
+        console.log('saving')
+        const id = editTilesetStore.currentId
+        const user_id = auth.user._id
+        const payload = {
+            user_id: user_id,
+        }
+        const response = await api.updateTileSet(id, payload)
+        console.log(response.data)
+        if (response.status == 200){
+            const item = response.data.item
+            item.community = null
+            const imageResponse = await api.updateTileSetImage(id, {data: image})
+            if(imageResponse == 200){
+                console.log('Thumbnail update success')
+            }
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_CURRENT_ITEM,
+                payload: {
+                    currentItem: item
+                }
+            })
         }
     }
 
@@ -58,17 +114,36 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         const result = response.data.result
         result.community = null
         if (response.status === 200) {
+            const responseImage = await api.getTileSetImage(id)
+            const tilesetImage = responseImage.data.resources[0]
+            console.log(tilesetImage)
+            const image = (tilesetImage)?tilesetImage.url:null
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
                     currentId: result._id,
-                    currentItem: result
+                    currentItem: result,
+                    access: result.access,
+                    width: result.width,
+                    height: result.height,
+                    pixel: result.pixel,
+                    img: image,
                 }
             })
             console.log(editTilesetStore.currentItem)
         } else {
             console.log(response.data.errorMessage)
         }
+    }
+
+    editTilesetStore.setRefs = (canvas, context) => {
+        storeReducer({
+            type: GlobalEditStoreActionType.SET_REFS,
+            payload: {
+                canvas: canvas,
+                context: context
+            }
+        })
     }
 
     editTilesetStore.addCanvasTransaction = function (redoCallback, undoCallback) {

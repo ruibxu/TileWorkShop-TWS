@@ -284,6 +284,7 @@ const updateTileSetinTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     const tileset_id = req.body.tileset_id;
+    const newName = req.body.name;
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
         // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
@@ -295,9 +296,10 @@ const updateTileSetinTileMap = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                const tileset = item.tileset.filter(x => x == tileset_id)[0];
-                tileset.name = (req.body.name)?req.body.name:tileset.name;
+            if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
+                const tileset_list = item.tileset;
+                tileset_list.map(x => x.name = (tileset_id == x._id)?newName:x.name)
+                item.tileset = tileset_list
                 item.lastEdited = Date.now();
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
