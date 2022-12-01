@@ -296,7 +296,7 @@ const updateTileSetinTileMap = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
+            if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
                 const tileset_list = item.tileset;
                 tileset_list.map(x => x.name = (tileset_id == x._id)?newName:x.name)
                 item.tileset = tileset_list

@@ -154,6 +154,29 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
+    editStore.updateTilesetName = async (setid, newName) => {
+        const id = editStore.currentId
+        const payload = {
+            user_id: auth.user._id,
+            tileset_id: setid,
+            name: newName
+        }
+        console.log('This is fine')
+        const response = await api.updateTileSetinTileMap(id, payload);
+        console.log('This is not fine')
+        if(response.status == 200){
+            const result = response.data.result
+            const newTilesets = result.tileset
+            console.log(result)
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_TILESETS,
+                payload: {
+                    tilesets: newTilesets
+                }
+            })
+        }
+    }
+
     editStore.clearItem = () => {
         storeReducer({type: GlobalEditStoreActionType.CLEAR_ITEM})
     }
