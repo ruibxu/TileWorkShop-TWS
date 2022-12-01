@@ -4,12 +4,12 @@ const ObjectId = Schema.Types.ObjectId
 
 const RequestSchema = new Schema(
     {
-        _id: { type: ObjectId, required: true},
-        request_type: {type: String, required: true},
-        user_id: {type: ObjectId},
-        related_id: {type: ObjectId}
-    },
-    { timestamps: true },
+        _id: { type: ObjectId, required: true },
+        request_type: { type: String, required: true },
+        user_id: { type: ObjectId },
+        related_id: { type: ObjectId },
+        createdAt: { type: Date, expireAfterSeconds: 3600, default: Date.now }
+    }
 )
 
 module.exports = mongoose.model('Request', RequestSchema)
