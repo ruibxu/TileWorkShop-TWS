@@ -83,6 +83,7 @@ const apis = {
     // searchProjectByUsers,
     searchProjects2,
     getWhatsNew,
+    searchUserByEmail,
 
     getTileMapById,
     createTileMap,
