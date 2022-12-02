@@ -47,6 +47,7 @@ const EditNavbar = (props) => {
     }
 
     const handleSetPublic = (v) => {
+        currentStore.updatePublic()
         props.setPublic(v)
         setPublic(v)
     }

@@ -158,7 +158,7 @@ const updateTileMapAccess = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(req.body.user_id)) {
+            if (access.owner_id == req.body.user_id) {
                 const body = req.body;
                 const access = item.access;
                 const newAccess = updateAccess(access, body);
@@ -169,7 +169,7 @@ const updateTileMapAccess = async (req, res) => {
                         success: true,
                         id: item._id,
                         tilemap: item,
-                        access: item.access,
+                        access: newAccess,
                         message: 'Tilemap updated!',
                     })
                 })

@@ -32,6 +32,7 @@ const ShareModal = (props) => {
     }
     
     const handleShare = () => {
+        currentStore.updatePublic()
         props.setPublic(!props.isPublic)
     }
 

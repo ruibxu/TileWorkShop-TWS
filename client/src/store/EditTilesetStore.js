@@ -11,11 +11,12 @@ import { createAccessList } from "./sharedFunctions"
 export const GlobalEditTilesetStoreContext = createContext({});
 
 
-export const GlobalEditStoreActionType = {
+export const GlobalEditTilesetStoreActionType = {
     GET_TILESET_BY_ID: "GET_TILSET_BY_ID",
     CHANGE_ITEM_NAME: "CHANGE_ITEM_NAME",
     UPDATE_NAME: "UPDATE_NAME",
-    SET_REFS: "SET_REFS"
+    SET_REFS: "SET_REFS",
+    UPDATE_ACCESS: "UPDATE_ACCESS",
 }
 
 const tps = new jsTPS();
@@ -40,7 +41,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     const storeReducer = (action) => {
         const { type, payload } = action;
         switch (type) {
-            case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
+            case GlobalEditTilesetStoreActionType.GET_TILESET_BY_ID: {
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     currentId: payload.currentId,
@@ -58,18 +59,26 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     context: null
                 })
             }
-            case GlobalEditStoreActionType.UPDATE_NAME:{
+            case GlobalEditTilesetStoreActionType.UPDATE_NAME:{
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     name: payload.name,
                     currentItem: payload.currentItem
                 })
             }
-            case GlobalEditStoreActionType.SET_REFS: {
+            case GlobalEditTilesetStoreActionType.SET_REFS: {
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     canvas: payload.canvas,
                     context: payload.context
+                })
+            }
+            case GlobalEditTilesetStoreActionType.UPDATE_ACCESS: {
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    access: payload.access,
+                    accessList: (payload.accessList)?payload.accessList:editTilesetStore.accessList,
+                    accessUsers: (payload.accessUsers)?payload.accessUsers:editTilesetStore.accessUsers
                 })
             }
         }
@@ -89,7 +98,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const item = response.data.item
             item.community = null
             storeReducer({
-                type: GlobalEditStoreActionType.UPDATE_NAME,
+                type: GlobalEditTilesetStoreActionType.UPDATE_NAME,
                 payload: {
                     name: newName,
                     currentItem: item
@@ -115,7 +124,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                 console.log('Thumbnail update success')
             }
             storeReducer({
-                type: GlobalEditStoreActionType.UPDATE_CURRENT_ITEM,
+                type: GlobalEditTilesetStoreActionType.UPDATE_CURRENT_ITEM,
                 payload: {
                     currentItem: item
                 }
@@ -136,12 +145,13 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const access = result.access
             const accessList = createAccessList(access, users)
             storeReducer({
-                type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
+                type: GlobalEditTilesetStoreActionType.GET_TILESET_BY_ID,
                 payload: {
                     currentId: result._id,
                     currentItem: result,
                     access: result.access,
                     accessList: accessList,
+                    accessUsers: users,
                     width: result.width,
                     height: result.height,
                     pixel: result.pixel,
@@ -155,9 +165,81 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         }
     }
 
+    editTilesetStore.addAccess = async (email, new_role) => {
+        const userResponse = await api.searchUserByEmail({email: email})
+        console.log(userResponse)
+        if(!userResponse.data.success) {console.log('no user found'); return false}
+        console.log('User Found')
+        const newUser = userResponse.data.user
+        const oldList = editTilesetStore.accessUsers
+        const newUserList = [...(oldList.filter(x => x._id != newUser._id)), newUser]
+        console.log(newUser)
+        const payload = {
+            user_id: auth.user._id,
+            new_user_id: newUser._id,
+            new_role: new_role
+        }
+        console.log('reached?')
+        const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
+        console.log(response)
+        if(response.status == 200){
+            const { access } = response.data
+            const newAccessList = createAccessList(access, newUserList)
+            console.log(access)
+            await storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access,
+                    accessList: newAccessList,
+                    accessUsers: newUserList
+                }
+            })
+        }
+        return false
+    }
+
+    editTilesetStore.updateAccess = async (new_user_id, old_role, new_role) => {
+        const user_id = auth.user._id
+        console.log('update Access running')
+        const payload = {
+            user_id: user_id,
+            new_user_id: new_user_id,
+            old_role: old_role,
+            new_role: new_role,
+        }
+        const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
+        if(response.status == 200){
+            console.log('success')
+            const { access } = response.data
+            const newAccessList = createAccessList(access, editTilesetStore.accessUsers)
+            storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access,
+                    accessList: newAccessList,
+                }
+            })
+        }
+    }
+
+    editTilesetStore.updatePublic = async () => {
+        console.log('updating public')
+        const payload = {user_id: auth.user._id, updatePublic: true}
+        const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
+        if(response.status == 200){
+            const { access } = response.data
+            storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access
+                }
+            })
+        }
+    }
+
     editTilesetStore.setRefs = (canvas, context) => {
         storeReducer({
-            type: GlobalEditStoreActionType.SET_REFS,
+            type: GlobalEditTilesetStoreActionType.SET_REFS,
             payload: {
                 canvas: canvas,
                 context: context

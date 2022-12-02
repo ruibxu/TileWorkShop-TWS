@@ -72,8 +72,8 @@ updateAccess = (access, body) => {
     if(old_role == SHARE_ROLE.EDITOR){access.editor_ids = access.editor_ids.filter(x => x != new_user_id)}
     if(old_role == SHARE_ROLE.VIEWER){access.viewer_ids = access.viewer_ids.filter(x => x != new_user_id)}
 
-    if(new_role == SHARE_ROLE.EDITOR){access.editor_ids.push(new_user_id)}
-    if(new_role == SHARE_ROLE.VIEWER){access.viewer_ids.push(new_user_id)}
+    if(new_role == SHARE_ROLE.EDITOR && !access.editor_ids.includes(new_user_id)){access.editor_ids.push(new_user_id)}
+    if(new_role == SHARE_ROLE.VIEWER && !access.viewer_ids.includes(new_user_id)){access.viewer_ids.push(new_user_id)}
 
     return access
 }

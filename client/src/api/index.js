@@ -23,7 +23,7 @@ export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, paylo
 // export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
 export const searchProjects2 = (type, payload) => api.put(`api/search/${type}`, payload)
 export const getWhatsNew = (id) => api.get(`api/new/${id}`)
-export const searchUserByEmail = (payload) => api.put(`api/search/user`, payload)
+export const searchUserByEmail = (payload) => api.put(`api/searchUser`, payload)
 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
