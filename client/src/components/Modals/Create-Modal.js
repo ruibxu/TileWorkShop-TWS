@@ -45,10 +45,10 @@ const CreateModal = (props) => {
     const handleCreate = () => {
         //import
         if(file && createType == "TileMap"){
-            importTM(editStore, file)
+            importTM(auth,store,editStore,file,name,height,width)
         }
         else if(file && createType == "TileSet"){
-            importTS(editTilesetStore, file)
+            importTS(auth,store,editTilesetStore, file,name,height,width,pixel)
         }//-Insert Create Backend call here
         else if (createType == "TileMap") {
             store.createNewTilemap({
@@ -77,17 +77,9 @@ const CreateModal = (props) => {
         //--------------------------------
         props.onClose()
         setFile();
-        if(file){
-            //change it later
-            setName('Untitled')
-            setHeight(16)
-            setWidth(16)
-        }
-        else{
-            setName('Untitled')
-            setHeight(16)
-            setWidth(16)
-        }
+        setName('Untitled')
+        setHeight(16)
+        setWidth(16)
     }
 
 
