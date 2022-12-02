@@ -34,6 +34,8 @@ const EditTileSetScreen = (props) => {
 
     const [exporting, setExporting]= useState(false);
     const colorPickerRef = useRef(null)
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
     console.log('This is reloading too')
 
     let { id } = useParams();
@@ -64,8 +66,7 @@ const EditTileSetScreen = (props) => {
 
 //////////////////////////////////////////////////////////////////
 
-    const canvasRef = useRef(null);
-    const contextRef = useRef(null);
+    
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
