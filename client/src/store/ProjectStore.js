@@ -332,9 +332,14 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
-    store.createNewTileset = async function (tsd,img) {
+    store.createNewTileset = async function (tsd, img) {
         const response = await api.createTileSet(tsd);
         if (response.status === 200) {
+            if(img){
+                const id = response.data.tileSet._id
+                const imageResponse = await api.updateTileSetImage(id, {data: img})
+                if(imageResponse == 200){console.log('Image uploaded')}
+            }
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILESET,
                 payload: {
