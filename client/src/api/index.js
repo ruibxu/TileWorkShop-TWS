@@ -32,7 +32,7 @@ export const updateTileMapAccess = (id, payload) => api.put(`api/tilemap/access/
 export const updateTileMapCommunity = (id, payload) => api.put(`api/tilemap/community/${id}`, payload)
 export const addTileSetToTileMap = (id, payload) => api.put(`api/tilemap/set/${id}`, payload)
 export const updateTileSetinTileMap = (id, payload) => api.put(`api/tilemap/set/update/${id}`, payload)
-export const deleteTileSetfromTileMap = (id) => api.delete(`api/tilemap/set/${id}`)
+export const deleteTileSetfromTileMap = (id, payload) => api.delete(`api/tilemap/set/${id}`, payload)
 
 export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
 export const getTileMapAllImage = (id) => api.get(`api/tilemap/allimage/${id}`)

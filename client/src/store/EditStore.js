@@ -18,7 +18,9 @@ export const GlobalEditStoreActionType = {
     UPDATE_TILESETS: "UPDATE_TILESETS",
     UPDATE_NAME: "UPDATE_NAME",
     UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM",
-    CLEAR_ITEM: "CLEAR_ITEM"
+    CLEAR_ITEM: "CLEAR_ITEM",
+    MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
+    UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
 
 }
 const tps = new jsTPS();
@@ -41,6 +43,7 @@ const GlobalEditStoreContextProvider = (props) => {
         accessList: [],
         type: null,
         editing: true,
+        tilesetMarkedForDeletion: null,
         layers:
             [{
                 id: 0, name: 'Layer 1', hidden: false, locked: false, data: {},
@@ -89,7 +92,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     layers: payload.layers,
                     tilesets: payload.tilesets,
                     name: payload.name,
-                    editing: true
+                    editing: true,
+                    tilesetMarkedForDeletion: null
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
@@ -151,6 +155,18 @@ const GlobalEditStoreContextProvider = (props) => {
                     editing: false
                 })
             }
+            case GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION: {
+                return setEditStore({
+                    ...editStore,
+                    tilesetMarkedForDeletion: payload.tilesetMarkedForDeletion
+                })
+            }
+            case GlobalEditStoreActionType.UNMARK_TILESET_FOR_DELETION: {
+                return setEditStore({
+                    ...editStore,
+                    tilesetMarkedForDeletion: null
+                })
+            }
         }
     }
 
@@ -164,7 +180,7 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log('This is fine')
         const response = await api.updateTileSetinTileMap(id, payload);
         console.log('This is not fine')
-        if(response.status == 200){
+        if (response.status == 200) {
             const result = response.data.result
             const newTilesets = result.tileset
             console.log(result)
@@ -178,7 +194,7 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.clearItem = () => {
-        storeReducer({type: GlobalEditStoreActionType.CLEAR_ITEM})
+        storeReducer({ type: GlobalEditStoreActionType.CLEAR_ITEM })
     }
 
     editStore.updateName = async (newName) => {
@@ -191,7 +207,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
         const response = await api.updateTileMap(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
             storeReducer({
@@ -208,7 +224,7 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log('saving')
         const id = editStore.currentId
         const user_id = auth.user._id
-        const {width, height, layers} = editStore
+        const { width, height, layers } = editStore
         const payload = {
             user_id: user_id,
             width: width,
@@ -217,11 +233,11 @@ const GlobalEditStoreContextProvider = (props) => {
         }
         const response = await api.updateTileMap(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
-            const imageResponse = await api.updateTileMapThumbnail(id, {data: image})
-            if(imageResponse == 200){
+            const imageResponse = await api.updateTileMapThumbnail(id, { data: image })
+            if (imageResponse == 200) {
                 console.log('Thumbnail update success')
             }
             storeReducer({
@@ -234,7 +250,7 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.addNewTileset = async function (payload, image) {
-        console.log('payload',payload)
+        console.log('payload', payload)
         const { name, pixel, height, width } = payload.tileset
         console.log(editStore.currentId)
         const response = await api.addTileSetToTileMap(editStore.currentId, payload);
@@ -264,9 +280,9 @@ const GlobalEditStoreContextProvider = (props) => {
             console.log(result)
             console.log(users)
             let tilesets = result.tileset
-            if(tilesets.length > 0){
+            if (tilesets.length > 0) {
                 const response2 = await api.getTileMapAllImage(id)
-                if(response2.status == 200){
+                if (response2.status == 200) {
                     const images = response2.data.resources
                     tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
                     tilesets.map(x => x.imageURL = x.imageFull.url)
@@ -375,6 +391,33 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.clearTransactions = () => {
         tps.clearAllTransactions();
+    }
+
+    editStore.markTilesetForDeletion = async (_id) => {
+        const tileset = editStore.tilesets.find(x => x._id == _id)
+        storeReducer({
+            type: GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION,
+            payload: {
+                tilesetMarkedForDeletion: tileset
+            }
+        })
+    }
+    editStore.unmarkTilesetForDeletion = async () => {
+        storeReducer({
+            type: GlobalEditStoreActionType.UNMARK_TILESET_FOR_DELETION
+        })
+    }
+    editStore.deleteMarkedTileset = async () => {
+        const payload = {
+            tileset_id: editStore.tilesetMarkedForDeletion._id,
+            user_id: auth.user._id
+        }
+        console.log(editStore.currentId)
+        console.log(payload)
+        const response = await api.deleteTileSetfromTileMap(editStore.currentId, payload);
+        if (response.status === 200) {
+            console.log("Success")
+        }
     }
 
     return (

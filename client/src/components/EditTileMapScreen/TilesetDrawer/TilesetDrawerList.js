@@ -24,6 +24,7 @@ const TilesetDrawerList = (props) => {
             info={info} currentTileSetId={currentTileSetId}
             setCurrentTileSetId={props.setCurrentTileSetId}
             setSelection={props.setSelection}
+            openDeleteModal = {props.openDeleteModal}
             />))}
     </Box>
 }
