@@ -31,6 +31,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         img: null,
         access: null,
         accessList: [],
+        accessUsers: [],
         editing: true,
         canvas: null,
         context: null
@@ -46,6 +47,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     currentItem: payload.currentItem,
                     access: payload.access,
                     accessList: payload.accessList,
+                    accessUsers: payload.accessUsers,
                     width: payload.width,
                     height: payload.height,
                     pixel: payload.pixel,
