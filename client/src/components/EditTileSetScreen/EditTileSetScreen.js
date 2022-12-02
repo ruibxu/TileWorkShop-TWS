@@ -35,6 +35,7 @@ const EditTileSetScreen = (props) => {
     const [exporting, setExporting]= useState(false);
     const colorPickerRef = useRef(null)
     console.log('This is reloading too')
+    const [tileset, setTileset] = useState(editTilesetStore.currentItem)
 
     let { id } = useParams();
     useEffect(() => {
@@ -43,19 +44,19 @@ const EditTileSetScreen = (props) => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editTilesetStore.currentId])
 
-    const [tileset, setTileset] = useState(editTilesetStore.currentItem)
-
+    
     useEffect(() => {
         setTileset(editTilesetStore.currentItem)
     }, [editTilesetStore.currentItem])
 
     const [isPublic, setPublic] = useState((tileset) ? tileset.access.public : false)
-
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
 
     //exporting
     useEffect(() => {
         if(exporting){
-            exportTS(editTilesetStore)
+            exportTS(editTilesetStore,canvasRef)
             setExporting(false)
         }
     }, [exporting])
@@ -64,8 +65,7 @@ const EditTileSetScreen = (props) => {
 
 //////////////////////////////////////////////////////////////////
 
-    const canvasRef = useRef(null);
-    const contextRef = useRef(null);
+
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {

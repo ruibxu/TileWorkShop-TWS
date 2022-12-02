@@ -1,5 +1,5 @@
 
-const importTM = (store, file) => {
+const importTM = (auth,store,editStore,file,name,height,width) => {
     let reader = new FileReader();
     reader.readAsText(file);
     var json;
