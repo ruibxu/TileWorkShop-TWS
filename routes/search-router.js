@@ -12,6 +12,7 @@ const SearchController = require('../controllers/search-controller')
 // router.get('/user/:type', SearchController.searchProjectByUsers)
 router.put('/search/:type', SearchController.searchProjects2)
 router.get('/new/:id', SearchController.getWhatsNew)
+router.put('/search/user', SearchController.searchUserByEmail)
 
 
 

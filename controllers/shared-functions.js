@@ -98,7 +98,7 @@ getAccessUsers = async (access) => {
     const {owner_id, editor_ids, viewer_ids} = access
     const all_ids = [owner_id, ...editor_ids, ...viewer_ids]
     const users = await User.find({ _id: { $in: all_ids } })
-    const mappings = users.map(x => ({
+    const mappings = await users.map(x => ({
         id: x._id,
         username: x.username,
         email: x.email

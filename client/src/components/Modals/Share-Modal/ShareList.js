@@ -9,13 +9,8 @@ const ShareList = (props) => {
     const accounts = (props.list)?props.list:[];
     const [displayList, setDisplayList] = useState([])
 
-    const createAccessList = () => {
-
-    }
-
     useEffect(()=>{
-        const accessLists = currentStore.access
-        const {owner_id,editor_ids,viewer_ids} = accessLists
+        const accessLists = currentStore.accessLists
 
     }, [currentStore.access])
 
