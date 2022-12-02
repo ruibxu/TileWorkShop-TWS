@@ -23,6 +23,7 @@ export const forgetPassword = (payload) => api.put(`auth/forgetPassword/`, paylo
 // export const searchProjectByUsers = (type) => api.get(`api/user/${type}`)
 export const searchProjects2 = (type, payload) => api.put(`api/search/${type}`, payload)
 export const getWhatsNew = (id) => api.get(`api/new/${id}`)
+export const searchUserByEmail = (payload) => api.put(`api/search/user`, payload)
 
 export const getTileMapById = (id) => api.get(`api/tilemap/${id}`)
 export const createTileMap = (payload) => api.post(`api/tilemap`, payload)
@@ -32,15 +33,15 @@ export const updateTileMapAccess = (id, payload) => api.put(`api/tilemap/access/
 export const updateTileMapCommunity = (id, payload) => api.put(`api/tilemap/community/${id}`, payload)
 export const addTileSetToTileMap = (id, payload) => api.put(`api/tilemap/set/${id}`, payload)
 export const updateTileSetinTileMap = (id, payload) => api.put(`api/tilemap/set/update/${id}`, payload)
-export const deleteTileSetfromTileMap = (id) => api.delete(`api/tilemap/set/${id}`)
+export const deleteTileSetfromTileMap = (id, payload) => api.put(`api/tilemap/deleteSet/${id}`, payload)
 
-export const getTileMapImage = (id) => api.get(`api/tilemap/image/${id}`)
-export const getTileMapAllImage = (id) => api.get(`api/tilemap/allimage/${id}`)
-export const updateTileMapImage = (id, payload) => api.put(`api/tilemap/image/${id}`, payload)
-export const deleteTileMapImage = (id) => api.delete(`api/tilemap/image/${id}`)
-export const getTileMapThumbnail = (id) => api.get(`api/tilemap/thumbnail/${id}`)
-export const updateTileMapThumbnail = (id, payload) => api.put(`api/tilemap/thumbnail/${id}`, payload)
-export const deleteTileMapThumbnail = (id) => api.delete(`api/tilemap/thumbnail/${id}`)
+export const getTileMapImage = (id) => api.get(`cloud/tilemap/image/${id}`)
+export const getTileMapAllImage = (id) => api.get(`cloud/tilemap/allimage/${id}`)
+export const updateTileMapImage = (id, payload) => api.put(`cloud/tilemap/image/${id}`, payload)
+export const deleteTileMapImage = (id) => api.delete(`cloud/tilemap/image/${id}`)
+export const getTileMapThumbnail = (id) => api.get(`cloud/tilemap/thumbnail/${id}`)
+export const updateTileMapThumbnail = (id, payload) => api.put(`cloud/tilemap/thumbnail/${id}`, payload)
+export const deleteTileMapThumbnail = (id) => api.delete(`cloud/tilemap/thumbnail/${id}`)
 
 
 export const getTileSetById = (id) => api.get(`api/tileset/${id}`)
@@ -82,6 +83,7 @@ const apis = {
     // searchProjectByUsers,
     searchProjects2,
     getWhatsNew,
+    searchUserByEmail,
 
     getTileMapById,
     createTileMap,

@@ -25,20 +25,25 @@ import {
 const ShareModal = (props) => {
     const {currentStore} = props
     const [share, setShare] = useState()
+    const [search, setSearch] = useState('')
 
     const handleClose = () => {
         props.onClose()
-        setShare('')
     }
     
     const handleShare = () => {
         props.setPublic(!props.isPublic)
     }
 
+    const handleAddUser = () => {
+        console.log(search)
+        currentStore.addAccess(search, SHARE_ROLE.VIEWER)
+    }
+
     return(<Modal isOpen={props.isOpen} onClose={handleClose}>
     <ModalOverlay />
     <ModalContent maxW='600px' height='500px'>
-        <ModalHeader>{`Share "${props.name}"`}</ModalHeader>
+        <ModalHeader>{`Share "${currentStore.name}"`}</ModalHeader>
         <ModalCloseButton />
         <Divider borderColor={'purple'}/>
         <ModalBody>
@@ -46,10 +51,13 @@ const ShareModal = (props) => {
                 <InputGroup size='md'>
                     <Input borderColor={'purple'}
                         type='text' variant='flushed'
-                        placeholder='Add People'
+                        placeholder='Add People' defaultValue={search}
+                        onBlur={(e) => setSearch(e.target.value)}
                     />
                     <InputRightElement>
-                        <IconButton icon={<GrAdd/>} h='1.75rem' size='sm'/>
+                        <IconButton icon={<GrAdd/>} h='1.75rem' size='sm'
+                        onClick={handleAddUser}
+                        />
                     </InputRightElement>
                 </InputGroup>
             </FormControl>

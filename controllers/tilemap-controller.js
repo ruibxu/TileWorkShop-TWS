@@ -1,4 +1,4 @@
-const { createCommunity, updateCommunity, updateAccess, deleteCommentsByLink, getAccessUsers} = require('./shared-functions');
+const { createCommunity, updateCommunity, updateAccess, deleteCommentsByLink, getAccessUsers } = require('./shared-functions');
 
 const TileMap = require('../models/tilemap-model');
 const TileSet = require('../models/tileset-model');
@@ -15,9 +15,9 @@ const getTileMapById = async (req, res) => {
         // console.log("Found tilemap: " + JSON.stringify(tilemap));
     }).catch(err => console.log(err));
     const tilemap = found[0]
-    const users = getAccessUsers(tilemap.access)
+    const users = await getAccessUsers(tilemap.access)
 
-    return res.status(200).json({ success: true, result: tilemap, users: users}); //changed this to return the first tilemap 
+    return res.status(200).json({ success: true, result: tilemap, users: users }); //changed this to return the first tilemap 
 }
 
 const createTileMap = async (req, res) => {
@@ -105,10 +105,10 @@ const updateTileMap = async (req, res) => {
             access = item.access;
             if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
                 item.lastEdited = Date.now();
-                if(req.body.name){item.name = req.body.name;}
-                if(req.body.height){item.height = req.body.height;}
-                if(req.body.width){item.width = req.body.width;}
-                if(req.body.layers){item.layers = req.body.layers;}
+                if (req.body.name) { item.name = req.body.name; }
+                if (req.body.height) { item.height = req.body.height; }
+                if (req.body.width) { item.width = req.body.width; }
+                if (req.body.layers) { item.layers = req.body.layers; }
                 //add tileset image update later
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
@@ -142,10 +142,11 @@ const updateTileMap = async (req, res) => {
 const updateTileMapAccess = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
-    if(!req.body){
+    if (!req.body) {
         return res.status(201).json({
-            errorMessage:"Please enter required field"
-        })}
+            errorMessage: "Please enter required field"
+        })
+    }
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
         // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
@@ -203,27 +204,27 @@ const updateTileMapCommunity = async (req, res) => {
             })
         }
         //can this user update
-        async function editCommunity(item){
+        async function editCommunity(item) {
             const body = req.body;
             const community = item.community;
             const newCommunity = updateCommunity(community, body);
             item.community = newCommunity;
             item.save()
-                    .then(() => {
-                        // console.log("SUCCESS!!!");
-                        return res.status(200).json({
-                            success: true,
-                            id: item._id,
-                            result: item,
-                            message: 'TileMap Community updated!',
-                        })
+                .then(() => {
+                    // console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: item._id,
+                        result: item,
+                        message: 'TileMap Community updated!',
                     })
-                    .catch(error => {
-                        // console.log("FAILURE: " + JSON.stringify(error));
-                        return res.status(404).json({
-                            error,
-                            message: 'TileMap Community not updated!',
-                        })
+                })
+                .catch(error => {
+                    // console.log("FAILURE: " + JSON.stringify(error));
+                    return res.status(404).json({
+                        error,
+                        message: 'TileMap Community not updated!',
+                    })
                 })
         }
         editCommunity(tileMap)
@@ -298,7 +299,7 @@ const updateTileSetinTileMap = async (req, res) => {
             access = item.access;
             if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
                 const tileset_list = item.tileset;
-                tileset_list.map(x => x.name = (tileset_id == x._id)?newName:x.name)
+                tileset_list.map(x => x.name = (tileset_id == x._id) ? newName : x.name)
                 item.tileset = tileset_list
                 item.lastEdited = Date.now();
                 item.save().then(() => {
@@ -346,7 +347,8 @@ const deleteTileSetfromTileMap = async (req, res) => {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                item.tileset = item.tileset.filter(x => x != delete_id);
+                const newTileset = item.tileset.filter(x => x._id != delete_id);
+                item.tileset = newTileset
                 item.lastEdited = Date.now();
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
@@ -376,7 +378,7 @@ const deleteTileSetfromTileMap = async (req, res) => {
         matchUser(tilemap);
     });
 }
-const deleteTest = async (req,res) =>{
+const deleteTest = async (req, res) => {
     const tilemap = await TileMap.deleteOne({ name: "test" }).then(() => {
         return res.status(200)
     })

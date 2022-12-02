@@ -6,8 +6,9 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-export const GlobalEditStoreContext = createContext({});
+import { createAccessList } from "./sharedFunctions"
 
+export const GlobalEditStoreContext = createContext({});
 
 export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
@@ -18,7 +19,9 @@ export const GlobalEditStoreActionType = {
     UPDATE_TILESETS: "UPDATE_TILESETS",
     UPDATE_NAME: "UPDATE_NAME",
     UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM",
-    CLEAR_ITEM: "CLEAR_ITEM"
+    CLEAR_ITEM: "CLEAR_ITEM",
+    MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
+    UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
 
 }
 const tps = new jsTPS();
@@ -39,8 +42,10 @@ const GlobalEditStoreContextProvider = (props) => {
         height: 10,
         access: null,
         accessList: [],
+        accessUsers: [],
         type: null,
         editing: true,
+        tilesetMarkedForDeletion: null,
         layers:
             [{
                 id: 0, name: 'Layer 1', hidden: false, locked: false, data: {},
@@ -83,13 +88,16 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
+                    accessList: payload.accessList,
+                    accessUsers: payload.accessUsers,
                     type: PROJECT_TYPE.TILEMAP,
                     width: payload.width,
                     height: payload.height,
                     layers: payload.layers,
                     tilesets: payload.tilesets,
                     name: payload.name,
-                    editing: true
+                    editing: true,
+                    tilesetMarkedForDeletion: null
                 })
             }
             case GlobalEditStoreActionType.GET_TILESET_BY_ID: {
@@ -151,6 +159,18 @@ const GlobalEditStoreContextProvider = (props) => {
                     editing: false
                 })
             }
+            case GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION: {
+                return setEditStore({
+                    ...editStore,
+                    tilesetMarkedForDeletion: payload.tilesetMarkedForDeletion
+                })
+            }
+            case GlobalEditStoreActionType.UNMARK_TILESET_FOR_DELETION: {
+                return setEditStore({
+                    ...editStore,
+                    tilesetMarkedForDeletion: null
+                })
+            }
         }
     }
 
@@ -164,7 +184,7 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log('This is fine')
         const response = await api.updateTileSetinTileMap(id, payload);
         console.log('This is not fine')
-        if(response.status == 200){
+        if (response.status == 200) {
             const result = response.data.result
             const newTilesets = result.tileset
             console.log(result)
@@ -178,7 +198,7 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.clearItem = () => {
-        storeReducer({type: GlobalEditStoreActionType.CLEAR_ITEM})
+        storeReducer({ type: GlobalEditStoreActionType.CLEAR_ITEM })
     }
 
     editStore.updateName = async (newName) => {
@@ -191,7 +211,7 @@ const GlobalEditStoreContextProvider = (props) => {
         }
         const response = await api.updateTileMap(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
             storeReducer({
@@ -208,7 +228,7 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log('saving')
         const id = editStore.currentId
         const user_id = auth.user._id
-        const {width, height, layers} = editStore
+        const { width, height, layers } = editStore
         const payload = {
             user_id: user_id,
             width: width,
@@ -217,11 +237,11 @@ const GlobalEditStoreContextProvider = (props) => {
         }
         const response = await api.updateTileMap(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
-            const imageResponse = await api.updateTileMapThumbnail(id, {data: image})
-            if(imageResponse == 200){
+            const imageResponse = await api.updateTileMapThumbnail(id, { data: image })
+            if (imageResponse == 200) {
                 console.log('Thumbnail update success')
             }
             storeReducer({
@@ -234,7 +254,7 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.addNewTileset = async function (payload, image) {
-        console.log('payload',payload)
+        console.log('payload', payload)
         const { name, pixel, height, width } = payload.tileset
         console.log(editStore.currentId)
         const response = await api.addTileSetToTileMap(editStore.currentId, payload);
@@ -260,13 +280,14 @@ const GlobalEditStoreContextProvider = (props) => {
         if (response.status === 200) {
             const result = response.data.result
             const users = response.data.users
+            console.log(response.data)
             result.community = null
-            console.log(result)
-            console.log(users)
+            const access = result.access
+            const accessList = createAccessList(access, users)
             let tilesets = result.tileset
-            if(tilesets.length > 0){
+            if (tilesets.length > 0) {
                 const response2 = await api.getTileMapAllImage(id)
-                if(response2.status == 200){
+                if (response2.status == 200) {
                     const images = response2.data.resources
                     tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
                     tilesets.map(x => x.imageURL = x.imageFull.url)
@@ -279,6 +300,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: result._id,
                     currentItem: result,
                     access: result.access,
+                    accessList: accessList,
+                    accessUsers: users,
                     width: result.width,
                     height: result.height,
                     layers: result.layers,
@@ -289,6 +312,20 @@ const GlobalEditStoreContextProvider = (props) => {
         } else {
             console.log(response.data.errorMessage)
         }
+    }
+
+    editStore.addAccess = async (email, new_role) => {
+        const userResponse = await api.searchUserByEmail({email: email})
+        if(!userResponse.data.found) {console.log('no user found'); return false}
+        const newUser = userResponse.data.user
+        const newUserList = [...editStore.accessUsers, newUser]
+        console.log(newUser)
+        const payload = {
+            user_id: auth.user._id,
+            new_user_id: newUser._id
+        }
+        //const response = await api.updateTileMapAccess(editStore.currentId, )
+        return true
     }
 
     editStore.getTileSetById = async function (id) {
@@ -319,35 +356,14 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.updateMapSize = async function (height, width) {
-        // let newOverlay = (false)
-        // if(editStore.height != height || editStore.width != width){
-        //     newOverlay = createOverlay(width, height, editStore.zoomValue)
-        // }
-        // createOverlay(payload.width, payload.height)
         storeReducer({
             type: GlobalEditStoreActionType.UPDATE_DISPLAY,
             payload: {
                 height: height,
                 width: width,
-                // MapTileOverlay: newOverlay
             }
         })
     }
-
-    // editStore.updateZoomValue = async function (zoom) {
-    //     let newOverlay = (false)
-    //     if(editStore.zoomValue != zoom){
-    //         newOverlay = createOverlay(editStore.width, editStore.height, zoom)
-    //     }
-    //     // createOverlay(payload.width, payload.height)
-    //     storeReducer({
-    //         type: GlobalEditStoreActionType.UPDATE_DISPLAY,
-    //         payload: {
-    //             zoomValue: zoom,
-    //             MapTileOverlay: newOverlay
-    //         }
-    //     })
-    // }
 
     editStore.addLayerStateTransaction = function (newState, redoCallback, undoCallback) {
         let undoFunc = (undoCallback) ? undoCallback : false
@@ -375,6 +391,33 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.clearTransactions = () => {
         tps.clearAllTransactions();
+    }
+
+    editStore.markTilesetForDeletion = async (_id) => {
+        const tileset = editStore.tilesets.find(x => x._id == _id)
+        storeReducer({
+            type: GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION,
+            payload: {
+                tilesetMarkedForDeletion: tileset
+            }
+        })
+    }
+    editStore.unmarkTilesetForDeletion = async () => {
+        storeReducer({
+            type: GlobalEditStoreActionType.UNMARK_TILESET_FOR_DELETION
+        })
+    }
+    editStore.deleteMarkedTileset = async (tid) => {
+        const payload = {
+            tileset_id: tid,
+            user_id: auth.user._id
+        }
+        console.log(editStore.currentId)
+        console.log(payload)
+        const response = await api.deleteTileSetfromTileMap(editStore.currentId, payload);
+        if (response.status === 200) {
+            await api.deleteTileMapImage(tid)
+        }
     }
 
     return (
