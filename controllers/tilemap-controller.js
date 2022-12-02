@@ -335,7 +335,6 @@ const deleteTileSetfromTileMap = async (req, res) => {
     // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     const delete_id = req.body.tileset_id;
-    console.log(req.params.id)
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
         // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
@@ -348,7 +347,8 @@ const deleteTileSetfromTileMap = async (req, res) => {
             // console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
-                item.tileset = item.tileset.filter(x => x != delete_id);
+                const newTileset = item.tileset.filter(x => x._id != delete_id);
+                item.tileset = newTileset
                 item.lastEdited = Date.now();
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
