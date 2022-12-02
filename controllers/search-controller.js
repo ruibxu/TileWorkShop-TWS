@@ -279,7 +279,7 @@ const searchUserByEmail = async(req, res) => {
     const user = found[0]
     if(!user){
         return res.status(201).json({found: false})}
-    const userInfo = {_id: user._id, name: user.name, email: user.email}
+    const userInfo = {_id: user._id, username: user.username, email: user.email}
     return res.status(200).json({
         found: true,
         user: userInfo
