@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../auth"
-import api from '../api'
+import api, { updateTileMapAccess } from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
@@ -20,6 +20,7 @@ export const GlobalEditStoreActionType = {
     UPDATE_NAME: "UPDATE_NAME",
     UPDATE_CURRENT_ITEM: "UPDATE_CURRENT_ITEM",
     CLEAR_ITEM: "CLEAR_ITEM",
+    UPDATE_ACCESS: "UPDATE_ACCESS",
     MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
     UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
 
@@ -150,6 +151,8 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: null,
                     currentItem: null,
                     access: null,
+                    accessList: [],
+                    accessUsers: [],
                     type: PROJECT_TYPE.TILEMAP,
                     width: -1,
                     height: -1,
@@ -157,6 +160,14 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: [],
                     name: 'item cleared',
                     editing: false
+                })
+            }
+            case GlobalEditStoreActionType.UPDATE_ACCESS: {
+                return setEditStore({
+                    ...editStore,
+                    access: payload.access,
+                    accessList: (payload.accessList)?payload.accessList:editStore.accessList,
+                    accessUsers: (payload.accessUsers)?payload.accessUsers:editStore.accessUsers
                 })
             }
             case GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION: {
@@ -316,16 +327,71 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.addAccess = async (email, new_role) => {
         const userResponse = await api.searchUserByEmail({email: email})
-        if(!userResponse.data.found) {console.log('no user found'); return false}
+        console.log(userResponse)
+        if(!userResponse.data.success) {console.log('no user found'); return false}
+        console.log('User Found')
         const newUser = userResponse.data.user
-        const newUserList = [...editStore.accessUsers, newUser]
+        const oldList = editStore.accessUsers
+        const newUserList = [...(oldList.filter(x => x._id != newUser._id)), newUser]
         console.log(newUser)
         const payload = {
             user_id: auth.user._id,
-            new_user_id: newUser._id
+            new_user_id: newUser._id,
+            new_role: new_role
         }
-        //const response = await api.updateTileMapAccess(editStore.currentId, )
-        return true
+        const response = await api.updateTileMapAccess(editStore.currentId, payload)
+        if(response.status == 200){
+            const { access } = response.data
+            const newAccessList = createAccessList(access, newUserList)
+            await storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access,
+                    accessList: newAccessList,
+                    accessUsers: newUserList
+                }
+            })
+        }
+        return false
+    }
+
+    editStore.updateAccess = async (new_user_id, old_role, new_role) => {
+        const user_id = auth.user._id
+        console.log('update Access running')
+        const payload = {
+            user_id: user_id,
+            new_user_id: new_user_id,
+            old_role: old_role,
+            new_role: new_role,
+        }
+        const response = await api.updateTileMapAccess(editStore.currentId, payload)
+        if(response.status == 200){
+            console.log('success')
+            const { access } = response.data
+            const newAccessList = createAccessList(access, editStore.accessUsers)
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access,
+                    accessList: newAccessList,
+                }
+            })
+        }
+    }
+
+    editStore.updatePublic = async () => {
+        console.log('updating public')
+        const payload = {user_id: auth.user._id, updatePublic: true}
+        const response = await api.updateTileMapAccess(editStore.currentId, payload)
+        if(response.status == 200){
+            const { access } = response.data
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_ACCESS,
+                payload: {
+                    access: access
+                }
+            })
+        }
     }
 
     editStore.getTileSetById = async function (id) {

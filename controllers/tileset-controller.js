@@ -162,7 +162,7 @@ const updateTileSetAccess = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(body.user_id)) {
+            if (access.owner_id == req.body.user_id) {
                 const body = req.body;
                 const access = item.access;
                 const newAccess = updateAccess(access, body);
@@ -174,7 +174,7 @@ const updateTileSetAccess = async (req, res) => {
                             success: true,
                             id: item._id,
                             tileset: item,
-                            access: item.access,
+                            access: newAccess,
                             message: 'TileSet Access updated!',
                         })
                     })

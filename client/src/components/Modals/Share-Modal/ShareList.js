@@ -13,14 +13,13 @@ const ShareList = (props) => {
         console.log(currentStore.accessList)
         console.log(displayList)
         setDisplayList(currentStore.accessList)
-
-    }, [currentStore.accessLists])
+    }, [currentStore.accessList])
 
     return (<Box height='300px'>
         <Text className='share-title'>People with Access:</Text>
         <Box className='share-list' overflowY={'scroll'}> 
             {displayList.map((account, index) => (
-                <ShareEntry info={account}/>
+                <ShareEntry info={account} currentStore={currentStore}/>
             ))}
         </Box>
     </Box>)
