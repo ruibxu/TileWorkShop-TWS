@@ -23,6 +23,7 @@ export const GlobalEditStoreActionType = {
     UPDATE_ACCESS: "UPDATE_ACCESS",
     MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
     UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
+    DELETE_TILESET: "DELETE_TILESET"
 
 }
 const tps = new jsTPS();
@@ -182,6 +183,14 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesetMarkedForDeletion: null
                 })
             }
+            case GlobalEditStoreActionType.DELETE_TILESET: {
+                return setEditStore({
+                    ...editStore,
+                    tilesetMarkedForDeletion: null,
+                    tilesets: payload.tilesets
+                })
+            }
+            
         }
     }
 
@@ -274,7 +283,7 @@ const GlobalEditStoreContextProvider = (props) => {
             const response2 = await api.updateTileMapImage(tileset_id, { map_id: editStore.currentId, data: image })
             if (response2.status === 200) {
                 const newTileset = {
-                    id: tileset_id, name: name, pixel: pixel, height: height, width: width,
+                    _id: tileset_id, name: name, pixel: pixel, height: height, width: width,
                     image: createImage(response2.data.resources.url)
                 }
                 storeReducer({
@@ -461,6 +470,7 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.markTilesetForDeletion = async (_id) => {
         const tileset = editStore.tilesets.find(x => x._id == _id)
+        console.log(tileset)
         storeReducer({
             type: GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION,
             payload: {
@@ -473,10 +483,8 @@ const GlobalEditStoreContextProvider = (props) => {
             type: GlobalEditStoreActionType.UNMARK_TILESET_FOR_DELETION
         })
     }
-    editStore.deleteMarkedTileset = async (tid) => {
-        console.log(tid)
-        console.log(editStore.tilesetMarkedForDeletion.id)
-        const cid = (tid)?tid:editStore.tilesetMarkedForDeletion.id
+    editStore.deleteMarkedTileset = async () => {
+        const cid = editStore.tilesetMarkedForDeletion._id
         console.log(editStore.tilesetMarkedForDeletion)
         const payload = {
             tileset_id: cid,
@@ -485,8 +493,16 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log(editStore.currentId)
         console.log(payload)
         const response = await api.deleteTileSetfromTileMap(editStore.currentId, payload);
+        console.log(response)
         if (response.status === 200) {
-            await api.deleteTileMapImage(cid)
+            const imgresponse = await api.deleteTileMapImage(cid)
+            const newTilesets = editStore.tilesets.filter(x => x._id != cid)
+            storeReducer({
+                type: GlobalEditStoreActionType.DELETE_TILESET,
+                payload: {
+                    tilesets: newTilesets
+                }
+            })
         }
     }
 

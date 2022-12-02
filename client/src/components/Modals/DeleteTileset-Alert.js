@@ -15,7 +15,8 @@ const DeleteTilesetAlert = (props) => {
   const { editStore } = useContext(GlobalEditStoreContext)
 
   const deleteTileset = () => {
-    editStore.deleteMarkedTileset(editStore.tilesetMarkedForDeletion.id)
+    console.log(editStore.tilesetMarkedForDeletion._id)
+    editStore.deleteMarkedTileset()
     props.onClose()
   }
 

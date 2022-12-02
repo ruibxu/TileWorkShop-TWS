@@ -20,7 +20,7 @@ const TilesetDrawerList = (props) => {
     console.log(editStore.tilesets)
 
     return <Box width={'100%'}>
-        {displaytilesets.map((info) => (<TilesetDrawerEntry
+        {editStore.tilesets.map((info) => (<TilesetDrawerEntry
             info={info} currentTileSetId={currentTileSetId}
             setCurrentTileSetId={props.setCurrentTileSetId}
             setSelection={props.setSelection}
