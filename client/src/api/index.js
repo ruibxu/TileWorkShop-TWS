@@ -50,9 +50,10 @@ export const deleteTileSet = (id, user_id) => api.delete(`api/tileset/${id}/${us
 export const updateTileSet = (id, payload) => api.put(`api/tileset/${id}`, payload)
 export const updateTileSetAccess = (id, payload) => api.put(`api/tileset/access/${id}`, payload)
 export const updateTileSetCommunity = (id, payload) => api.put(`api/tileset/community/${id}`, payload)
-export const getTileSetImage = (id) => api.get(`api/tileset/image/${id}`)
-export const updateTileSetImage = (id, payload) => api.put(`api/tileset/image/${id}`, payload)
-export const deleteTileSetImage = (id) => api.delete(`api/tileset/image/${id}`)
+
+export const getTileSetImage = (id) => api.get(`cloud/tileset/image/${id}`)
+export const updateTileSetImage = (id, payload) => api.put(`cloud/tileset/image/${id}`, payload)
+export const deleteTileSetImage = (id) => api.delete(`cloud/tileset/image/${id}`)
 
 export const getCommentById = (id) => api.get(`api/comment/${id}`)
 export const getCommentsByLink = (id) => api.get(`api/comments/${id}`)
