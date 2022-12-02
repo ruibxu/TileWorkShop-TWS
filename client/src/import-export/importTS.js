@@ -6,16 +6,18 @@ const importTS = (auth,store,editTilesetStore, file,name,height,width,pixel) => 
     reader.onload = function() {
         img=reader.result;
         //console.log(img);
-        store.createNewTileset({
+        store.createNewTileset(
+            {
             user_id: auth.user._id,
             data: {
                 name: name,
                 height: height,
                 width: width,
                 pixel: pixel,
-                img:img
-            }
-        })
+            },
+           
+        },
+        img)
     };
 }
 

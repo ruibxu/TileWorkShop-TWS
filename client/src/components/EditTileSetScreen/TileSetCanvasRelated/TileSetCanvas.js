@@ -102,6 +102,9 @@ const TilesetCanvas = (props) => {
         context.lineWidth = toolWidth;
     }, [toolWidth])
 
+    useEffect(()=>{
+    }, [editTilesetStore.img])
+
     // refresh when currentButton changed
     useEffect(()=>{
         const context = contextRef.current
