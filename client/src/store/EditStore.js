@@ -6,8 +6,9 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-export const GlobalEditStoreContext = createContext({});
+import { createAccessList } from "./sharedFunctions"
 
+export const GlobalEditStoreContext = createContext({});
 
 export const GlobalEditStoreActionType = {
     GET_TILEMAP_BY_ID: "GET_TILEMAP_BY_ID",
@@ -86,6 +87,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.currentItem.access,
+                    accessList: payload.accessList,
                     type: PROJECT_TYPE.TILEMAP,
                     width: payload.width,
                     height: payload.height,
@@ -276,9 +278,10 @@ const GlobalEditStoreContextProvider = (props) => {
         if (response.status === 200) {
             const result = response.data.result
             const users = response.data.users
+            console.log(response.data)
             result.community = null
-            console.log(result)
-            console.log(users)
+            const access = result.access
+            const accessList = createAccessList(access, users)
             let tilesets = result.tileset
             if (tilesets.length > 0) {
                 const response2 = await api.getTileMapAllImage(id)
@@ -295,6 +298,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     currentId: result._id,
                     currentItem: result,
                     access: result.access,
+                    accessList: accessList,
                     width: result.width,
                     height: result.height,
                     layers: result.layers,

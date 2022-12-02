@@ -273,6 +273,19 @@ const searchProjectByUsers = async(req, res) => {
         list: mapped
     })
 }
+const searchUserByEmail = async(req, res) => {
+    const target_email = req.body.email
+    const found = await User.find({email: target_email})
+    const user = found[0]
+    if(!user){
+        return res.status(201).json({found: false})}
+    const userInfo = {_id: user._id, name: user.name, email: user.email}
+    return res.status(200).json({
+        found: true,
+        user: userInfo
+    })
+}
+
 //Helper Functions---------------------------------------------------------------------
 const createAccessConditions = (searcher_id, access) => {
     if(!searcher_id){
@@ -301,9 +314,9 @@ const createSearchConditions = async (search_type, search_value, exact) => {
     if(!search_value){return []}//becomes getAllAccessables
     if(search_type == SEARCH_TYPE.NAME){return [{name:{ "$regex": search_value, "$options": "i" }}]}
     //search by creater
-    conditions = (exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
-    matching_users = await User.find({username:{ "$regex": search_value, "$options": "i" }})
-    id_list = matching_users.map(x => x._id)
+    const conditions = (exact)?{username: search_value}:{username:{ "$regex": search_value, "$options": "i" }}
+    const matching_users = await User.find({username:{ "$regex": search_value, "$options": "i" }})
+    const id_list = matching_users.map(x => x._id)
     return [{['access.owner_id']:{ $in: id_list}}]
 }
 
@@ -415,7 +428,8 @@ module.exports = {
     // searchUsers,
     // searchProjectByUsers,
     searchProjects2,
-    getWhatsNew
+    getWhatsNew,
+    searchUserByEmail
 }
 
 

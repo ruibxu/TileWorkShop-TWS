@@ -6,6 +6,8 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import Canvas_Transaction from "../transactions/Canvas_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
+import { createAccessList } from "./sharedFunctions"
+
 export const GlobalEditTilesetStoreContext = createContext({});
 
 
@@ -28,6 +30,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         pixel: 16,
         img: null,
         access: null,
+        accessList: [],
         editing: true,
         canvas: null,
         context: null
@@ -42,6 +45,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     currentId: payload.currentId,
                     currentItem: payload.currentItem,
                     access: payload.access,
+                    accessList: payload.accessList,
                     width: payload.width,
                     height: payload.height,
                     pixel: payload.pixel,
@@ -120,18 +124,22 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     editTilesetStore.getTileSetById = async function (id) {
         const response = await api.getTileSetById(id);
         const result = response.data.result
+        const users = response.data.users
         result.community = null
         if (response.status === 200) {
             const responseImage = await api.getTileSetImage(id)
             const tilesetImage = responseImage.data.resources[0]
             console.log(tilesetImage)
             const image = (tilesetImage)?tilesetImage.url:null
+            const access = result.access
+            const accessList = createAccessList(access, users)
             storeReducer({
                 type: GlobalEditStoreActionType.GET_TILESET_BY_ID,
                 payload: {
                     currentId: result._id,
                     currentItem: result,
                     access: result.access,
+                    accessList: accessList,
                     width: result.width,
                     height: result.height,
                     pixel: result.pixel,

@@ -15,7 +15,7 @@ const getTileSetById = async (req, res) => {
         // console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
     const tileset = found[0]
-    const users = getAccessUsers(tileset.access)
+    const users = await getAccessUsers(tileset.access)
 
     return res.status(200).json({ success: true, result: tileset, users: users}); //same here
 }
