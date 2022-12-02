@@ -287,9 +287,9 @@ const MapCanvas = (props) => {
                 let positionY = Number(positions[1])
                 let [tilesetX, tilesetY, tilesetId] = layer.data[key]
                 const source = editStore.tilesets.find(x => x._id == tilesetId)
-                let tilesetCrop = source.pixel
                 //let image = <Image src={source.image.src} ref={tempRef}/>
                 if (tilesetY == -1 || tilesetY == -1 || !source) { return }
+                let tilesetCrop = source.pixel
                 contextRef.current.drawImage(
                     source.image,
                     tilesetX * tilesetCrop, tilesetY * tilesetCrop, //top left corner of the grab
