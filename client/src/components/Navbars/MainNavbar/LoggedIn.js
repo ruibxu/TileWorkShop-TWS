@@ -26,25 +26,10 @@ import {
 ]
 const LoggedIn = (props) => {
     return(
-        <Flex gap={3} alignItems={'center'} width='240px' className='align-right'>
+        <Flex gap={3} alignItems={'center'} width='190px' className='align-right'>
             <IconButton icon={<MdFavoriteBorder className='md-icon'/>} onClick={()=>props.redirect('/listscreen', {default: ACCESS_TYPE.FAVORITE})} bg='transparent'/>
             <IconButton icon={<MdPersonOutline className='md-icon'/>} onClick={()=>props.redirect('/listscreen', {default: ACCESS_TYPE.OWNER})} bg='transparent'/>
             <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
-        <Menu>
-            <MenuButton
-            as={Button}
-            variant={'link'}
-            colorScheme={'black'}>
-            <IconButton icon={<MdNotificationsNone className='md-icon'/>} bg='transparent'/>
-            </MenuButton>
-
-            <MenuList overflowY={'scroll'} maxH={'300px'}>
-                {notifications.map((notification) => (
-                    <MenuItem><NewsEntry info={notification}/></MenuItem>
-                ))}
-            </MenuList>
-
-        </Menu>
         <Menu>
         <MenuButton
             as={Button}
