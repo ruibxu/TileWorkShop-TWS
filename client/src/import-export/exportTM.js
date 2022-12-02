@@ -107,16 +107,24 @@ const translateLayer = (layer,store,counting_array) => {
                 tileArray.push(0);
             }
             else{
-                let index=0;
-                for(let i = 0; i < counting_array.length; i++){
-                    let sum=0;
-                    sum=layer.data[key][0]+store.tilesets[i].width*layer.data[key][1]+1+sum;
-                    if(sum<counting_array[i]){
+                let index=-1;
+                let value=0;
+                for(let i=0;i<store.tilesets.length;i++){
+                    console.log(store.tilesets[i]._id)
+                    if(store.tilesets[i]._id==layer.data[key][2]){
                         index=i;
                         break;
                     }
                 }
-                tileArray.push(layer.data[key][0]+store.tilesets[index].width*layer.data[key][1]+1)
+                if(index=-1){ 
+                    tileArray.push(0);
+                }
+                else{
+                    if(index>0){
+                        value=counting_array[index-1]-index;
+                    }
+                    tileArray.push(layer.data[key][0]+store.tilesets[index].width*layer.data[key][1]+1+value)
+                }
             }
         }
     }
