@@ -408,15 +408,19 @@ const GlobalEditStoreContextProvider = (props) => {
         })
     }
     editStore.deleteMarkedTileset = async (tid) => {
+        console.log(tid)
+        console.log(editStore.tilesetMarkedForDeletion.id)
+        const cid = (tid)?tid:editStore.tilesetMarkedForDeletion.id
+        console.log(editStore.tilesetMarkedForDeletion)
         const payload = {
-            tileset_id: tid,
+            tileset_id: cid,
             user_id: auth.user._id
         }
         console.log(editStore.currentId)
         console.log(payload)
         const response = await api.deleteTileSetfromTileMap(editStore.currentId, payload);
         if (response.status === 200) {
-            await api.deleteTileMapImage(tid)
+            await api.deleteTileMapImage(cid)
         }
     }
 
