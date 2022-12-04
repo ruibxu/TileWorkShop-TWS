@@ -23,7 +23,7 @@ const MapWorkspace = (props) => {
 
     return (
         <Box width={'100%'} height={'100%'} >
-            <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'}  >
+            <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} ref={props.scrollRef}>
                 <MapCanvas width={'100%'} height={'100%'}
                 parts={props.parts} 
                 canvasRef={props.canvasRef} contextRef={props.contextRef}
@@ -32,6 +32,7 @@ const MapWorkspace = (props) => {
                 selection={props.selection} setSelection={props.setSelection}
                 currentTileSetId={props.currentTileSetId} zoomValue={props.zoomValue}
                 currentButton={props.currentButton} setCurrentButton={props.setCurrentButton}
+                scrollRef={props.scrollRef}
                 />
             </Box>
         </Box>

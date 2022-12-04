@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef,useState} from 'react'
 import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from '@chakra-ui/react';
-import { HiOutlinePencil } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlineHand } from "react-icons/hi";
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { CgColorPicker } from "react-icons/cg";
@@ -105,6 +105,11 @@ const TilesetTools = (props) => {
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.COLOR_PICKER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.COLOR_PICKER} icon={<CgColorPicker className='md-icon'/>}
                             onClick={() => handleOnClick(TOOLSFORTILESET.COLOR_PICKER)}
+                        />
+                    </Box>
+                    <Box className='toolsfortileset'>
+                        <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.MOVE) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.MOVE} icon={<HiOutlineHand className='md-icon'/>}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.MOVE)}
                         />
                     </Box>
 

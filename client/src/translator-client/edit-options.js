@@ -5,12 +5,14 @@ export const TOOLS = {
     ERASER: "Eraser",
     REACTANGULAR_SELECT: "Rectangular Select",
     SELECT_SAME_TILE: "Select Same Tile",
-    MAGIC_WAND: "Magic Wand"
+    MAGIC_WAND: "Magic Wand",
+    MOVE: "MOVE"
 }
 
 export const TOOLSFORTILESET = {
     DRAW: "Draw",
     ERASER: "Eraser",
     COLOR_PICKER: "Color Picker",
-    Bucket_FILL_TOOL: "Bucket Fill Tool"
+    Bucket_FILL_TOOL: "Bucket Fill Tool",
+    MOVE: "MOVE"
 }

@@ -27,7 +27,7 @@ const EditTileMapScreen = (props) => {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     const sourceRef = useRef(null);
-    const selectRef = useRef(null);
+    const scrollRef = useRef(null);
     const [currentLayer, setCurrentLayer] = useState(0)
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
@@ -131,7 +131,7 @@ const EditTileMapScreen = (props) => {
                                 selection={selection} setSelection={setSelection}
                                 currentTileSetId={currentTileSetId}
                                 currentButton={currentButton} setCurrentButton={setCurrentButton}
-                                zoomValue={zoomValue}
+                                zoomValue={zoomValue} scrollRef={scrollRef}
                             />
                         </Box>
                         <Box flex='1' height='100%'>

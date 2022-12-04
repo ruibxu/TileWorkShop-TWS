@@ -1,4 +1,4 @@
-import { useSafeLayoutEffect } from '@chakra-ui/react';
+import { Slider, useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
 import { MdLayers } from 'react-icons/md';
 import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
@@ -11,7 +11,7 @@ import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 import OverlayTile from '../MapCanvasOverlay/OverlayTiles';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue} = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue, scrollRef} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -164,9 +164,33 @@ const MapCanvas = (props) => {
         setMouseDown(false)
         draw()
     }
-    // const shapefill_move = (event) => {
-    //     if (mouseDown) {fillTile(event)}
-    // }
+    
+    //move function
+    let startX;
+    let startY;
+    let scrollX;
+    let scrollY;
+
+    const movehand_down = (event) => {
+        setMouseDown(true)
+        startX = event.clientX - scrollRef.current.offsetLeft
+        startY = event.clientY - scrollRef.current.offsetTop
+        scrollX = scrollRef.current.scrollLeft
+        scrollY = scrollRef.current.scrollTop
+    }
+
+    const movehand_up = () => {
+        setMouseDown(false)
+    }
+
+    const movehand_move = (event) =>{
+        if (!mouseDown) {return}
+        const x = event.clientX - scrollRef.current.offsetLeft;
+        const y = event.clientY - scrollRef.current.offsetTop;
+        const walkX = x - startX
+        const walkY = y - startY
+        scrollRef.current.scroll(scrollX-walkX, scrollY-walkY)
+    }
 
     //Main switch call functions end----------------------------------------------
 
@@ -318,6 +342,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_down(event)}
             case TOOLS.ERASER:{return eraser_down(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
+            case TOOLS.MOVE:{return movehand_down(event)}
         }
     }
 
@@ -328,6 +353,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
+            case TOOLS.MOVE:{return movehand_up(event)}
         }
         
     }
@@ -340,6 +366,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return}
             case TOOLS.ERASER:{return eraser_move(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return}
+            case TOOLS.MOVE:{return movehand_move(event)}
         }
     }
 
@@ -350,6 +377,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
+            case TOOLS.MOVE:{return movehand_up(event)}
         }
     }
     console.log('temp')

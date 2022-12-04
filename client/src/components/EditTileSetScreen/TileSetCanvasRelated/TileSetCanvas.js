@@ -8,13 +8,15 @@ import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
 
 const TilesetCanvas = (props) => {
-    const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton, toolWidth} = props
+    const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton, toolWidth, scrollRef} = props
     const {editTilesetStore} = useContext(GlobalEditTilesetStoreContext)
-    const [isDrawing, setIsDrawing] = useState(false)
+    // const [isDrawing, setIsDrawing] = useState(false)
     const [lastPosition, setPosition] = useState({x: 0, y: 0})
 
     const overlayInfo = useRef({height: -1, width: -1, overlayTiles:[]})
     const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
+    let isDrawing = false
+    const setIsDrawing = (v) => {isDrawing = v}
 
     let BeforeChange = useRef(null)
     const scale = 10;
@@ -140,6 +142,7 @@ const TilesetCanvas = (props) => {
     //Draw functions
     const Draw_MouseDown = (event) => {
         console.log('drawing started')
+        BeforeChange.current = getImageData()
         const {nativeEvent, clientX, clientY} = event
         const {offsetX, offsetY} = nativeEvent
         const {x, y} = canvasRef.current.getBoundingClientRect()
@@ -178,6 +181,7 @@ const TilesetCanvas = (props) => {
 
     const BucketFill_MouseDown = (event) => {
         console.log('drawing started')
+        BeforeChange.current = getImageData()
         const {nativeEvent, clientX, clientY} = event
         const {offsetX, offsetY} = nativeEvent
         let x=offsetX/zoomValue
@@ -200,9 +204,33 @@ const TilesetCanvas = (props) => {
         setIsDrawing(false)
     }
 
+    //move function
+    console.log('page refreshed')
+    let startX = 10;
+    let startY = 10;
+    let scrollX;
+    let scrollY;
 
+    const movehand_down = (event) => {
+        setIsDrawing(true)
+        startX = event.clientX - scrollRef.current.offsetLeft
+        startY = event.clientY - scrollRef.current.offsetTop
+        scrollX = scrollRef.current.scrollLeft
+        scrollY = scrollRef.current.scrollTop
+    }
 
+    const movehand_up = () => {
+        setIsDrawing(false)
+    }
 
+    const movehand_move = (event) =>{
+        if (!isDrawing) {return}
+        const x = event.clientX - scrollRef.current.offsetLeft;
+        const y = event.clientY - scrollRef.current.offsetTop;
+        const walkX = x - startX
+        const walkY = y - startY
+        scrollRef.current.scroll(scrollX-walkX, scrollY-walkY)
+    }
 
     // Color Picker functions
     const ColorPicker_MouseDown = (event) => {
@@ -230,12 +258,12 @@ const TilesetCanvas = (props) => {
     
     const onMouseDown = (event) => {
         event.preventDefault();
-        BeforeChange.current = getImageData()
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseDown(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseDown(event); break;}
             case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseDown(event); break;}
             case TOOLSFORTILESET.COLOR_PICKER:{ColorPicker_MouseDown(event); break;}
+            case TOOLSFORTILESET.MOVE:{movehand_down(event); break}
         }
     }
 
@@ -245,6 +273,7 @@ const TilesetCanvas = (props) => {
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseUp(event); break;}
+            case TOOLSFORTILESET.MOVE:{movehand_up(event); break}
         }
     }
 
@@ -254,6 +283,7 @@ const TilesetCanvas = (props) => {
         switch(currentButton){
             case TOOLSFORTILESET.DRAW:{Draw_MouseMove(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseMove(event); break;}
+            case TOOLSFORTILESET.MOVE:{movehand_move(event); break;}
         }
     }
 
@@ -263,6 +293,7 @@ const TilesetCanvas = (props) => {
             case TOOLSFORTILESET.DRAW:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.ERASER:{Draw_MouseUp(event); break;}
             case TOOLSFORTILESET.Bucket_FILL_TOOL:{BucketFill_MouseUp(event); break;}
+            case TOOLSFORTILESET.MOVE:{movehand_up(event); break;}
         }
     }
 
