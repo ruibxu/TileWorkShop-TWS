@@ -29,6 +29,8 @@ const TilesetCanvas = (props) => {
         const canvas = canvasRef.current;
         canvas.width = (widthP*scale)
         canvas.height = (heightP*scale)
+        canvas.style.width = `${widthP*zoomValue}px`
+        canvas.style.height = `${heightP*zoomValue}px`
 
         const context = canvas.getContext('2d')
         context.scale(scale,scale)
