@@ -6,9 +6,6 @@ const TilesetSelectorOverlay = (props) => {
     // const { editStore } = useContext(GlobalEditStoreContext)
     const {onMouseDown, width, height, elements} = props
 
-    //const elements = editStore.MapTileOverlay
-    console.log('force reload')
-
     return <SimpleGrid onClick={() => console.log('clicked')} className='cover-tileset-selector'
         columns={width} spacing={'0px'}
         onMouseDown={onMouseDown}

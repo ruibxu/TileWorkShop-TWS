@@ -23,20 +23,9 @@ const MapCanvas = (props) => {
     const setMakeNewTransaction = (x) => {makeNewTransaction = x}
     let selectedTiles = []
     const setSelectedTiles = (x) => {selectedTiles = x}
-    const clearSelectedTiles = () => {selectedTiles = []}
-    const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
-    //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
-    //let zoomValue = editStore.zoomValue
-    console.log(zoomValue)
 
     const overlayInfo = useRef({height: -1, width: -1, zoomValue: 8, overlayTiles:[]})
     const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
-
-    // useEffect(()=>{
-    //     console.log(overlayInfo)
-    //     updateOverlayInfo(editStore.width, editStore.height, zoomValue)
-    //     setOverlayTiles(overlayInfo.current.overlayTiles)
-    // }, [editStore.width, editStore.height, zoomValue])
 
     useEffect(() => {
         console.log('This use effect ran-----------------------------------')
@@ -45,12 +34,8 @@ const MapCanvas = (props) => {
         const canvas = canvasRef.current
         canvas.width = width * 2 
         canvas.height = height * 2
-        console.log(zoomValue)
-        console.log(selectedTiles)
         canvas.style.width = `${width*zoomValue}px`
         canvas.style.height = `${height*zoomValue}px`
-        console.log('set selected tiles')
-        console.log(canvasRef)
         updateOverlayInfo(editStore.width, editStore.height, zoomValue)
 
         const context = canvas.getContext('2d')
@@ -59,16 +44,17 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId])//DO NOT PUT editStore.layers in here
+    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId, canvasRef.current])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
         console.log('This use effect ran 2-----------------------------------')
         draw()
-    },[editStore.layers])
+    },[editStore.layers, currentLayer, currentTileSetId, contextRef.current])
+
+    console.log(canvasRef.current)
 
     const updateOverlayInfo = (newWidth, newHeight, newZoomValue) => {
-        console.log('Attempt to update Overlay')
         const { width, height, zoomValue } = overlayInfo.current
-        if(width == newWidth && height == newHeight && zoomValue == newZoomValue){console.log("attempt cancelled");return}
+        if(width == newWidth && height == newHeight && zoomValue == newZoomValue){return}
         let elements = []
         for(let x = 0; x < newWidth; x++){
             for(let y = 0; y < newHeight; y++){
@@ -77,7 +63,6 @@ const MapCanvas = (props) => {
         }
         overlayInfo.current = {width: newWidth, height: newHeight, zoomValue: newZoomValue, overlayTiles:elements}
         setOverlayTiles(overlayInfo.current.overlayTiles)
-        console.log('overlayInfo updated')
     }
     //Main switch call functions--------------------------------------------------
     // stampbrush functions
@@ -109,7 +94,6 @@ const MapCanvas = (props) => {
         }
         const fillArray = findFillAreaRecursive(coords, tileToMatch, []) 
         setSelectedTiles(fillArray)
-        console.log(fillArray)
         addArray(fillArray)
         //addTile(getCoords(event))
     }
@@ -155,7 +139,6 @@ const MapCanvas = (props) => {
             const endCoords = getCoords(event)
             const array = findRecArray(startCoords, endCoords)
             addArray(array)
-            console.log(array)
         }
         if (mouseDown && makeNewTransaction) {
             editStore.addLayerStateTransaction(layers)
@@ -213,7 +196,6 @@ const MapCanvas = (props) => {
                 list.push(`${x}-${y}`)
             }
         }
-        console.log([minX, maxX, minY, maxY])
         return list
         // for(let x = minX; x <= maxX)
     }
@@ -299,13 +281,16 @@ const MapCanvas = (props) => {
 
     const draw = () => {
         console.log('draw called')
+        console.log(layers)
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
         layers.slice().reverse().forEach(layer => {
             if(layer.hidden){return}
             console.log(layer)
             if(!layer.data){return}
+            console.log(layer.data)
             Object.keys(layer.data).forEach(key => {
+                console.log('run')
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])

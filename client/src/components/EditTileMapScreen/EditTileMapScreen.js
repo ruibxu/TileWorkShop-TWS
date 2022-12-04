@@ -30,8 +30,8 @@ const EditTileMapScreen = (props) => {
     const sourceRef = useRef(null);
     const scrollRef = useRef(null);
     const [currentLayer, setCurrentLayer] = useState(0)
-    const [selection, setSelection] = useState([1, 0, 'test'])
-    const [currentTileSetId, setCurrentTileSetId] = useState('test')
+    const [selection, setSelection] = useState([1, 0, 'None'])
+    const [currentTileSetId, setCurrentTileSetId] = useState('None')
     const [exporting, setExporting] = useState(false)
     const [currentButton, setCurrentButton] = useState("Drag");
     const [zoomValue, setZoomValue] = useState(1)
@@ -47,6 +47,8 @@ const EditTileMapScreen = (props) => {
     useEffect(() => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
         editStore.getTileMapById(id)
+        // setCurrentTileSetId(editStore.tilesets[0]?editStore.tilesets[0]._id:'None')
+        // setCurrentLayer(editStore.layers[0]?editStore.layers[0].id:0)
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editStore.currentId])
 
@@ -59,13 +61,11 @@ const EditTileMapScreen = (props) => {
     const [isPublic, setPublic] = useState((editStore.access) ? editStore.access.public : false)
     
     useEffect(()=>{
-        console.log(editStore.access)
         if(editStore.access){
             setPublic(editStore.access.public)
         }
     }, [editStore.access])
     let parts = []
-    console.log('reload EditTileMapScreen')
 
     //exporting
     useEffect(() => {
