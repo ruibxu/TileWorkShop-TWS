@@ -167,8 +167,8 @@ const GlobalEditStoreContextProvider = (props) => {
                 return setEditStore({
                     ...editStore,
                     access: payload.access,
-                    accessList: (payload.accessList)?payload.accessList:editStore.accessList,
-                    accessUsers: (payload.accessUsers)?payload.accessUsers:editStore.accessUsers
+                    accessList: (payload.accessList) ? payload.accessList : editStore.accessList,
+                    accessUsers: (payload.accessUsers) ? payload.accessUsers : editStore.accessUsers
                 })
             }
             case GlobalEditStoreActionType.MARK_TILESET_FOR_DELETION: {
@@ -190,7 +190,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: payload.tilesets
                 })
             }
-            
+
         }
     }
 
@@ -261,7 +261,8 @@ const GlobalEditStoreContextProvider = (props) => {
             const item = response.data.item
             item.community = null
             const imageResponse = await api.updateTileMapThumbnail(id, { data: image })
-            if (imageResponse == 200) {
+            if (imageResponse.status == 200) {
+                await api.updateTileMap(id, { user_id: user_id, url: imageResponse.data.resources.secure_url })
                 console.log('Thumbnail update success')
             }
             storeReducer({
@@ -335,9 +336,9 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.addAccess = async (email, new_role) => {
-        const userResponse = await api.searchUserByEmail({email: email})
+        const userResponse = await api.searchUserByEmail({ email: email })
         console.log(userResponse)
-        if(!userResponse.data.success) {console.log('no user found'); return false}
+        if (!userResponse.data.success) { console.log('no user found'); return false }
         console.log('User Found')
         const newUser = userResponse.data.user
         const oldList = editStore.accessUsers
@@ -349,7 +350,7 @@ const GlobalEditStoreContextProvider = (props) => {
             new_role: new_role
         }
         const response = await api.updateTileMapAccess(editStore.currentId, payload)
-        if(response.status == 200){
+        if (response.status == 200) {
             const { access } = response.data
             const newAccessList = createAccessList(access, newUserList)
             await storeReducer({
@@ -374,7 +375,7 @@ const GlobalEditStoreContextProvider = (props) => {
             new_role: new_role,
         }
         const response = await api.updateTileMapAccess(editStore.currentId, payload)
-        if(response.status == 200){
+        if (response.status == 200) {
             console.log('success')
             const { access } = response.data
             const newAccessList = createAccessList(access, editStore.accessUsers)
@@ -390,9 +391,9 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.updatePublic = async () => {
         console.log('updating public')
-        const payload = {user_id: auth.user._id, updatePublic: true}
+        const payload = { user_id: auth.user._id, updatePublic: true }
         const response = await api.updateTileMapAccess(editStore.currentId, payload)
-        if(response.status == 200){
+        if (response.status == 200) {
             const { access } = response.data
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_ACCESS,

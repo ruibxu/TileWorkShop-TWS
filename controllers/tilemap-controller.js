@@ -109,6 +109,7 @@ const updateTileMap = async (req, res) => {
                 if (req.body.height) { item.height = req.body.height; }
                 if (req.body.width) { item.width = req.body.width; }
                 if (req.body.layers) { item.layers = req.body.layers; }
+                if (req.body.url) {item.url = req.body.url; }
                 //add tileset image update later
                 item.save().then(() => {
                     // console.log("SUCCESS!!!");
