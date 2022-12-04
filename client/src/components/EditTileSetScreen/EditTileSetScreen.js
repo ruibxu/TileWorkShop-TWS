@@ -39,6 +39,13 @@ const EditTileSetScreen = (props) => {
     console.log('This is reloading too')
     const [tileset, setTileset] = useState(editTilesetStore.currentItem)
 
+    // setInterval
+    const INITIAL_TIMER = 3;
+    const TARGET_TIMER = 0;
+    const [timer, setTimer] = useState(INITIAL_TIMER);
+    const interval = useRef();
+    ////
+
     let { id } = useParams();
     useEffect(() => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
@@ -61,7 +68,33 @@ const EditTileSetScreen = (props) => {
         }
     }, [exporting])
 
-
+    // setInterval
+    // useEffect(() => {
+    //     var period = 3000
+    //     const interval = setInterval(() => {
+    //         console.log("setInterval initializes");
+    //         console.log('This will run every ' + period/1000 + ' seconds!');
+    //     }, period);
+    //     console.log("clear setInterval");
+    //     return () => clearInterval(interval);
+    //   }, []);
+    useEffect(() => {
+        function handleTimer() {
+            interval.current = setInterval(() => {
+            console.log('Counting down! This will run every second!');
+            setTimer((count) => count - 1);
+          }, 1000);
+        }
+    
+        if (timer <= TARGET_TIMER && interval.current) {
+            console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
+            // stop editing
+            clearInterval(interval.current);
+        }
+        if (timer === INITIAL_TIMER) {
+          handleTimer();
+        }
+      }, [timer]);
 
 //////////////////////////////////////////////////////////////////
 
