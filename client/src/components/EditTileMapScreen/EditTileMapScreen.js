@@ -46,19 +46,19 @@ const EditTileMapScreen = (props) => {
             interval.current = setInterval(() => {
             console.log('Counting down! This will run every second!');
             timer.current = (timer.current -1);
+            console.log(timer.current);
+            if (timer.current <= TARGET_TIMER) {
+                console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
+                // stop editing
+                clearInterval(interval.current);
+            }
           }, 1000);
-        }
-    
-        if (timer.current <= TARGET_TIMER && interval.current) {
-            console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
-            // stop editing
-            clearInterval(interval.current);
         }
         if (timer.current === INITIAL_TIMER) {
           handleTimer();
         }
         return () => {clearInterval(interval.current);}
-      }, [timer]);
+      }, [timer.current]);
     ////
 
     let history = useHistory();
