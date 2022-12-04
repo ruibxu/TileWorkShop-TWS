@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef} from 'react'
 import { useDisclosure } from '@chakra-ui/react';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams} from "react-router-dom";
 import EditNavbar from '../Navbars/EditNavbar';
 import { Container, Box, Flex } from '@chakra-ui/react';
 import { Tldraw } from '@tldraw/tldraw'
@@ -14,6 +14,7 @@ import { Grid, GridItem } from '@chakra-ui/react'
 import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import TilesetTools from './TileSetToolsRelated/TileSetTools';
 import TilesetColorPicker from './TileSetToolsRelated/TileSetColorPicker';
+import exportTS from '../../import-export/exportTS';
 
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
@@ -25,7 +26,6 @@ const EditTileSetScreen = (props) => {
     const { store } = useContext(GlobalStoreContext);
     
     const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
-    const [isPublic, setPublic] = useState(store.currentItem.access.public)
 
     const [color, setColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
     const [zoomValue, setZoomValue] = useState(1)
@@ -34,41 +34,45 @@ const EditTileSetScreen = (props) => {
 
     const [exporting, setExporting]= useState(false);
     const colorPickerRef = useRef(null)
+    const canvasRef = useRef(null);
+    const contextRef = useRef(null);
     console.log('This is reloading too')
+    const [tileset, setTileset] = useState(editTilesetStore.currentItem)
 
+    let { id } = useParams();
+    useEffect(() => {
+        //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
+        editTilesetStore.getTileSetById(id)
+        //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
+    }, [editTilesetStore.currentId])
+
+    
+    useEffect(() => {
+        setTileset(editTilesetStore.currentItem)
+    }, [editTilesetStore.currentItem])
+
+    const [isPublic, setPublic] = useState((tileset) ? tileset.access.public : false)
 
     //exporting
     useEffect(() => {
         if(exporting){
-            console.log('exporting tilemap')
-            const img=document.getElementById('tilesetCanvas')
-            var href = img.toDataURL();
-            const fileName='Hello'
-            //const fileName = editStore.name;
-            const link = document.createElement("a");
-            link.href = href;
-            link.download = fileName + ".png";
-            document.body.appendChild(link);
-            link.click();
-
-            // clean up "a" element & remove ObjectURL
-            document.body.removeChild(link);
-            URL.revokeObjectURL(href);
-            
+            exportTS(editTilesetStore,canvasRef)
             setExporting(false)
         }
     }, [exporting])
 
 
-    if(!auth.loggedIn){redirect('/homescreen')}
-    const canvasRef = useRef(null);
-    const contextRef = useRef(null);
+
+//////////////////////////////////////////////////////////////////
+
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
         editTilesetStore.clearTransactions();
+        editTilesetStore.clearItem();
         history.push(route, parameters);
     }
+    if(!auth.loggedIn){redirect('/homescreen')}
 
     const showShareModal = useDisclosure()
     let TempInfo = [
@@ -80,11 +84,18 @@ const EditTileSetScreen = (props) => {
         {username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color:'orange'}
     ]
 
+    const saveProject = () => {
+        const imageData = canvasRef.current.toDataURL()
+        editTilesetStore.save(imageData)
+    }
+
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
-                isPublic={isPublic} setPublic={setPublic} name={store.currentItem.name}
-                exporting={exporting} setExporting={setExporting}/>
+                isPublic={isPublic} setPublic={setPublic} projectName={(tileset) ? tileset.name : 'loading...'}
+                exporting={exporting} setExporting={setExporting}
+                currentStore={editTilesetStore} save={saveProject}
+                />
 
             <Grid
                 h='93.5%'
@@ -113,7 +124,7 @@ const EditTileSetScreen = (props) => {
                 <Tldraw />
             </div> */}
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic} currentStore={editTilesetStore}
             />
         </div>)
 

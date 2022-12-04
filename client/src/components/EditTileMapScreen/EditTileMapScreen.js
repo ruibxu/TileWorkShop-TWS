@@ -17,6 +17,8 @@ import Property from './PropertyRelated/Property';
 import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
 import ResizeMapModal from '../Modals/ResizeMap-Modal';
 
+import exportTM from '../../import-export/exportTM';
+
 
 const EditTileMapScreen = (props) => {
     const { auth } = useContext(AuthContext)
@@ -35,6 +37,7 @@ const EditTileMapScreen = (props) => {
     let history = useHistory();
     const redirect = async (route, parameters) => {
         editStore.clearTransactions()
+        editStore.clearItem()
         history.push(route, parameters);
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
@@ -52,35 +55,28 @@ const EditTileMapScreen = (props) => {
         setTilemap(editStore.currentItem)
     }, [editStore.currentItem])
 
-    const [isPublic, setPublic] = useState((tilemap) ? tilemap.access.public : false)
+    const [isPublic, setPublic] = useState((editStore.access) ? editStore.access.public : false)
+    
+    useEffect(()=>{
+        console.log(editStore.access)
+        if(editStore.access){
+            setPublic(editStore.access.public)
+        }
+    }, [editStore.access])
     let parts = []
     console.log('reload EditTileMapScreen')
 
     //exporting
     useEffect(() => {
         if(exporting){
-            console.log('exporting tilemap')
-            const fileName = editStore.name;
-            const json = JSON.stringify(editStore, null, 2);
-            const blob = new Blob([json], { type: "application/json" });
-            const href = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = href;
-            link.download = fileName + ".json";
-            document.body.appendChild(link);
-            link.click();
-
-            // clean up "a" element & remove ObjectURL
-            document.body.removeChild(link);
-            URL.revokeObjectURL(href);
-            
+            exportTM(editStore)
             setExporting(false)
         }
     }, [exporting])
 
-    const getDataUrl = () => {
-        console.log(canvasRef.current)
-        return canvasRef.current.toDataURL()
+    const saveProject = () => {
+        const imageData = canvasRef.current.toDataURL()
+        editStore.save(imageData)
     }
     
     //what ft
@@ -105,9 +101,9 @@ const EditTileMapScreen = (props) => {
             <Flex height='100%' width={'100%'} flexDirection= 'column'>
 
                 <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
-                            isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'empty'}
+                            isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
                             exporting={exporting} setExporting={setExporting}
-                            currentStore={editStore} getDataUrl={getDataUrl}
+                            currentStore={editStore} save={saveProject}
                 />
 
                 <Box  className='mapToolbar' height='6%' width='100%'> 
@@ -153,7 +149,7 @@ const EditTileMapScreen = (props) => {
 
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic}
+                list={TempInfo} isPublic={isPublic} setPublic={setPublic} currentStore={editStore}
             />
             <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
             />

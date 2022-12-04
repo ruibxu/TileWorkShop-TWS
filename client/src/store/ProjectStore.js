@@ -12,7 +12,7 @@ export const GlobalStoreActionType = {
     VIEW_EDITTILEMAP: "VIEW_EDITTILEMAP",
     VIEW_EDITTILESET: "VIEW_EDITTILESET",
     MARK_ITEM_FOR_DELETION: "MARK_ITEM_FOR_DELETION",
-    UNMARK_ITEM_FOR_DELETION: "UNMARK_ITEM_FOR_DELTEION",
+    UNMARK_ITEM_FOR_DELETION: "UNMARK_ITEM_FOR_DELETION",
     CREATE_NEW_TILESET: "CREATE_NEW_TILESET",
     CREATE_NEW_TILEMAP: "CREATE_NEW_TILEMAP",
     CLOSE_CURRENT_ITEM: "CLOSE_CURRENT_ITEM",
@@ -332,9 +332,14 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
-    store.createNewTileset = async function (tsd) {
+    store.createNewTileset = async function (tsd, img) {
         const response = await api.createTileSet(tsd);
         if (response.status === 200) {
+            if(img){
+                const id = response.data.tileSet._id
+                const imageResponse = await api.updateTileSetImage(id, {data: img})
+                if(imageResponse.status == 200){console.log('Image uploaded')}
+            }
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILESET,
                 payload: {

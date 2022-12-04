@@ -10,12 +10,14 @@ const getTileSetById = async (req, res) => {
     // console.log("Find tileSet with id: " + JSON.stringify(req.params.id));
     const _id = new ObjectId(req.params.id);
 
-    const tileset = await TileSet.find({ _id: _id }, (err, tileset) => {
+    const found = await TileSet.find({ _id: _id }, (err, tileset) => {
         if (err) { return res.status(400).json({ success: false, errorMessage: "Failed to get Tileset" }); }
         // console.log("Found tileset: " + JSON.stringify(tileset));
     }).catch(err => console.log(err));
+    const tileset = found[0]
+    const users = await getAccessUsers(tileset.access)
 
-    return res.status(200).json({ success: true, result: tileset[0] }); //same here
+    return res.status(200).json({ success: true, result: tileset, users: users}); //same here
 }
 
 const createTileSet = async (req, res) => {
@@ -118,6 +120,7 @@ const updateTileSet = async (req, res) => {
                         return res.status(200).json({
                             success: true,
                             id: item._id,
+                            item: item,
                             message: 'TileSet updated!',
                         })
                     })
@@ -159,7 +162,7 @@ const updateTileSetAccess = async (req, res) => {
         async function matchUser(item) {
             // console.log("req.body.userId: " + req.body.user_id);
             access = item.access;
-            if (access.owner_id.equals(body.user_id)) {
+            if (access.owner_id == req.body.user_id) {
                 const body = req.body;
                 const access = item.access;
                 const newAccess = updateAccess(access, body);
@@ -171,6 +174,7 @@ const updateTileSetAccess = async (req, res) => {
                             success: true,
                             id: item._id,
                             tileset: item,
+                            access: newAccess,
                             message: 'TileSet Access updated!',
                         })
                     })

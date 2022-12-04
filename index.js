@@ -53,7 +53,7 @@ app.use('/api', searchRouter)
 const emailRouter = require('./routes/email-router')
 app.use('/api', emailRouter)
 const cloudinaryRouter = require('./routes/cloudinary-router')
-app.use('/api', cloudinaryRouter)
+app.use('/cloud', cloudinaryRouter)
 const requestRouter = require('./routes/request-router')
 app.use('/api', requestRouter)
 

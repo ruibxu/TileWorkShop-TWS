@@ -16,12 +16,12 @@ import {
 import TilesetDrawerList from './TilesetDrawerList'
 import { AiOutlineFileAdd } from "react-icons/ai"
 import UploadTilesetModal from '../../Modals/UploadTilesetModal'
-
+import DeleteTilesetAlert from '../../Modals/DeleteTileset-Alert'
 
 const TilesetDrawer = (props) => {
   const { isOpen, onClose, btnRef, currentTileSetId } = props
   const showUploadTilesetModal = useDisclosure()
-
+  const showDeleteTilesetModal = useDisclosure()
   return <Drawer
     isOpen={isOpen}
     placement='right'
@@ -38,7 +38,7 @@ const TilesetDrawer = (props) => {
       <Divider width={'100%'} borderColor={'purple'} />
       <DrawerBody>
         <TilesetDrawerList currentTileSetId={currentTileSetId} setCurrentTileSetId={props.setCurrentTileSetId}
-          setSelection={props.setSelection}
+          setSelection={props.setSelection} openDeleteModal = {showDeleteTilesetModal}
         />
       </DrawerBody>
       <Divider width={'100%'} borderColor={'purple'} />
@@ -51,6 +51,7 @@ const TilesetDrawer = (props) => {
       </DrawerFooter>
     </DrawerContent>
     <UploadTilesetModal isOpen={showUploadTilesetModal.isOpen} onClose={showUploadTilesetModal.onClose}/>
+    <DeleteTilesetAlert isOpen={showDeleteTilesetModal.isOpen} onClose={showDeleteTilesetModal.onClose}/>
   </Drawer>
 }
 

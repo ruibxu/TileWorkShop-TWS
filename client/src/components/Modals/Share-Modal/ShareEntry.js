@@ -1,16 +1,17 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import { SHARE_ROLE } from '../../../translator-client/sort-options';
 import { GrFormDown} from 'react-icons/gr'
 
 import { Flex, Box, Spacer, Text, Select, Menu, MenuButton, MenuItem, MenuList, Button} from '@chakra-ui/react';
 
 const ShareEntry = (props) => {
-    const { username, email, access, color } = props.info
-    const [role, setRole] = useState(access)
-    const isOwner = (role == SHARE_ROLE.OWNER)
+    const {info, currentStore} = props
+    const { _id, username, email, access, color } = info
+    const isOwner = (access == SHARE_ROLE.OWNER)
 
     const handleChangeRole = (newRole) => {
-        setRole(newRole)
+        const oldRole = access
+        currentStore.updateAccess(_id, oldRole, newRole)
     }
 
     return (<Box height='55px' width={'100%'} className='share-entry'>
@@ -23,7 +24,7 @@ const ShareEntry = (props) => {
             <Menu>
                 <MenuButton as={Button} width={'100px'} border={'none'} className='share-select' bg='transparent'
                 rightIcon={(!isOwner)?<GrFormDown/>:<></>} isDisabled={isOwner}>
-                    {role}
+                    {access}
                 </MenuButton>
                 <MenuList>
                     <MenuItem onClick={() => handleChangeRole(SHARE_ROLE.EDITOR)}>{SHARE_ROLE.EDITOR}</MenuItem>

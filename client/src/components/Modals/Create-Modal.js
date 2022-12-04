@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import GlobalStoreContext from '../../store/ProjectStore'
+import GlobalEditStoreContext from '../../store/EditStore'
+import GlobalEditTilesetStoreContext from '../../store/EditTilesetStore'
 import AuthContext from '../../auth'
 import {
     Modal,
@@ -25,20 +27,30 @@ import {
     IconButton,
 } from '@chakra-ui/react'
 import { MdFolderOpen } from 'react-icons/md'
+import importTM from '../../import-export/importTM'
+import importTS from '../../import-export/importTS'
 
 const CreateModal = (props) => {
     const [createType, setCreateType] = useState('TileSet')
     const { store } = useContext(GlobalStoreContext)
     const { auth } = useContext(AuthContext)
+    const { editStore } = useContext(GlobalEditStoreContext);
+    const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext);
     const [name, setName] = useState('Untitled')
     const [height, setHeight] = useState(16)
     const [width, setWidth] = useState(16)
     const [pixel, setPixel] = useState(16)
-    const [upload, setUpload] = useState("")
+    const [file,setFile] = useState();
 
     const handleCreate = () => {
-        //-Insert Create Backend call here
-        if (createType == "TileMap") {
+        //import
+        if(file && createType == "TileMap"){
+            importTM(auth,store,editStore,file,name,height,width)
+        }
+        else if(file && createType == "TileSet"){
+            importTS(auth,store,editTilesetStore, file,name,height,width,pixel)
+        }//-Insert Create Backend call here
+        else if (createType == "TileMap") {
             store.createNewTilemap({
                 user_id: auth.user._id,
                 data: {
@@ -64,26 +76,26 @@ const CreateModal = (props) => {
         }
         //--------------------------------
         props.onClose()
+        setFile();
         setName('Untitled')
         setHeight(16)
         setWidth(16)
     }
 
-    const handleChange = () => {
-        const reader = new FileReader()
-        const file = document.querySelector('input[type=file]').files[0];
-        reader.addEventListener('load', () =>{
-            setUpload(reader.result)
-        },false)
-        reader.readAsDataURL(file)     
-    }
-    //console.log(height)
+
+	const handleChange = (event) => {
+		setFile(event.target.files[0]);
+		console.log(event.target.files[0])
+	};
+
+
+
 
     return (<Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent maxW='500px'>
             <ModalHeader>{`Create ${createType}:`}</ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton onClick={() =>setFile()}/>
             <Divider borderColor={'purple'} />
             <ModalBody>
                 <RadioGroup onChange={setCreateType} value={createType}>
@@ -92,14 +104,28 @@ const CreateModal = (props) => {
                         <Radio value='TileMap' size='lg'>TileMap</Radio>
                         <Box>
                         <IconButton bg='transparent' icon={<MdFolderOpen className='md-icon' />} onClick={() => document.querySelector('#input-edit').click()} />
+                        {(createType=='TileSet')?
+                        <Input
+
+                            type="file"
+                            onChange={handleChange}
+                            style = {{display:"none"}}
+                            accept="image/png"
+                            id='input-edit'
+                        />:
                         <Input
                             type="file"
                             onChange={handleChange}
                             style = {{display:"none"}}
-                            accept="image/*"
+                            accept=".json*"
                             id='input-edit'
-                        />
+                        />}
                         </Box>
+                        <Box>
+                            {(file)?
+                            file.name:""}
+                        </Box>
+                        
                     </Stack>
                 </RadioGroup>
                 <Stack spacing={2}>

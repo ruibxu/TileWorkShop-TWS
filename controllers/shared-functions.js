@@ -1,6 +1,7 @@
 const Community = require('../models/community-model');
 const ObjectId = require('mongoose').Types.ObjectId;
 const Comment = require('../models/comment-model');
+const User = require('../models/user-model');
 const { SHARE_ROLE } = require('../translator/sort-options')
 
 createCommunity = (type) => {
@@ -71,8 +72,8 @@ updateAccess = (access, body) => {
     if(old_role == SHARE_ROLE.EDITOR){access.editor_ids = access.editor_ids.filter(x => x != new_user_id)}
     if(old_role == SHARE_ROLE.VIEWER){access.viewer_ids = access.viewer_ids.filter(x => x != new_user_id)}
 
-    if(new_role == SHARE_ROLE.EDITOR){access.editor_ids.push(new_user_id)}
-    if(new_role == SHARE_ROLE.VIEWER){access.viewer_ids.push(new_user_id)}
+    if(new_role == SHARE_ROLE.EDITOR && !access.editor_ids.includes(new_user_id)){access.editor_ids.push(new_user_id)}
+    if(new_role == SHARE_ROLE.VIEWER && !access.viewer_ids.includes(new_user_id)){access.viewer_ids.push(new_user_id)}
 
     return access
 }
@@ -93,9 +94,22 @@ deleteCommentsByLink = async (id) => {
     await Comment.deleteMany({_id: {$in: all_ids}})
 }
 
+getAccessUsers = async (access) => {
+    const {owner_id, editor_ids, viewer_ids} = access
+    const all_ids = [owner_id, ...editor_ids, ...viewer_ids]
+    const users = await User.find({ _id: { $in: all_ids } })
+    const mappings = await users.map(x => ({
+        _id: x._id,
+        username: x.username,
+        email: x.email
+    }))
+    return mappings
+}
+
 module.exports = {
     createCommunity,
     updateCommunity,
     updateAccess,
-    deleteCommentsByLink
+    deleteCommentsByLink,
+    getAccessUsers
 }

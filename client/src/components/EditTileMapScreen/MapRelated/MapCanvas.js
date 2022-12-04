@@ -39,6 +39,7 @@ const MapCanvas = (props) => {
     // }, [editStore.width, editStore.height, zoomValue])
 
     useEffect(() => {
+        console.log('This use effect ran-----------------------------------')
         const width = tilemapCrop*editStore.width
         const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
@@ -58,8 +59,9 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay])//DO NOT PUT editStore.layers in here
+    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
+        console.log('This use effect ran 2-----------------------------------')
         draw()
     },[editStore.layers])
 
@@ -236,9 +238,12 @@ const MapCanvas = (props) => {
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
+        console.log('before block')
+        console.log(edit)
         if(!edit){return}
         if(!layer.data){layer.data = {}}
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
+        console.log('addtile end')
         if(drawLater){return}
         draw()
     }
@@ -257,12 +262,14 @@ const MapCanvas = (props) => {
     //These are the only 2 functions that directly changes what layers looks like
 
     const canEdit = (layer, key) => {
-        if(!layer){return false}
-        if(layer.locked || !editStore.editing){return false}
+        if(!layer){console.log('no layer selected');return false}
+        if(layer.locked){console.log('locked'); return false}
+        if(!editStore.editing){console.log('not edit mode', editStore.editing); return false}
         //more fields go here
 
         if(!selectedTiles.length){return true}
         if(selectedTiles.includes(key)){return true}
+        console.log('end')
         return false
     }
 
@@ -280,9 +287,9 @@ const MapCanvas = (props) => {
                 let positionY = Number(positions[1])
                 let [tilesetX, tilesetY, tilesetId] = layer.data[key]
                 const source = editStore.tilesets.find(x => x._id == tilesetId)
-                let tilesetCrop = source.pixel
                 //let image = <Image src={source.image.src} ref={tempRef}/>
                 if (tilesetY == -1 || tilesetY == -1 || !source) { return }
+                let tilesetCrop = source.pixel
                 contextRef.current.drawImage(
                     source.image,
                     tilesetX * tilesetCrop, tilesetY * tilesetCrop, //top left corner of the grab
