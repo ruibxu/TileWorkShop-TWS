@@ -7,6 +7,7 @@ import { SimpleGrid, Image} from '@chakra-ui/react'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import TilesetSelectorOverlay from './TilesetSelectorOverlay';
 import TilesetSelectorTile from './TilesetSelectorTile';
+import { TOOLS } from '../../../translator-client/edit-options';
 
 
 
@@ -23,10 +24,6 @@ const TilesetCanvas = (props) => {
     useEffect(()=>{
         updateOverlayTiles(`${selection[0]}-${selection[1]}`)
     },[currentTileSetId, selection])
-
-    useEffect(()=>{
-        const selectString = `${selection[0]}-${selection[1]}`
-    }, [selection])
 
     const updateOverlayTiles = (selectedString) => {
         console.log('attemp remake overlay')

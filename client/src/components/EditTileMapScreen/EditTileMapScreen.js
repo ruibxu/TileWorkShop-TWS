@@ -18,6 +18,7 @@ import TilesetDrawer from './TilesetDrawer/TilesetDrawer';
 import ResizeMapModal from '../Modals/ResizeMap-Modal';
 
 import exportTM from '../../import-export/exportTM';
+import { TOOLS } from '../../translator-client/edit-options';
 
 
 const EditTileMapScreen = (props) => {
@@ -32,7 +33,7 @@ const EditTileMapScreen = (props) => {
     const [selection, setSelection] = useState([1, 0, 'test'])
     const [currentTileSetId, setCurrentTileSetId] = useState('test')
     const [exporting, setExporting] = useState(false)
-    const [currentButton, setCurrentButton] = useState("Stamp Brush");
+    const [currentButton, setCurrentButton] = useState("Drag");
     const [zoomValue, setZoomValue] = useState(1)
     let history = useHistory();
     const redirect = async (route, parameters) => {
@@ -78,6 +79,12 @@ const EditTileMapScreen = (props) => {
         const imageData = canvasRef.current.toDataURL()
         editStore.save(imageData)
     }
+
+    const handleSetSelection = (value) => {
+        setSelection(value)
+        const nonDrawTools = [TOOLS.ERASER, TOOLS.MOVE]
+        if(nonDrawTools.includes(currentButton) && editStore.editing == true){setCurrentButton(TOOLS.STAMP_BRUSH)}
+    }
     
     //what ft
 
@@ -86,15 +93,6 @@ const EditTileMapScreen = (props) => {
     const showTilesetDrawer = useDisclosure()
     
     const tsRef = useRef()
-
-    let TempInfo = [
-        { username: 'Yibo', email: 'yibo.hu@stonybrook.edu', access: 'Owner', color: 'red' },
-        { username: 'NotYibo', email: 'Notyibo@stonybrook.edu', access: 'Editor', color: 'blue' },
-        { username: 'YiboLover', email: 'yiboLover@stonybrook.edu', access: 'Editor', color: 'yellow' },
-        { username: 'YiboHater', email: 'yiboHater.hu@stonybrook.edu', access: 'Viewer', color: 'green' },
-        { username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color: 'purple' },
-        { username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color: 'orange' }
-    ]
     
     return (
         <div  className='tilemap' height='100%' width={'100%'}>
@@ -118,7 +116,7 @@ const EditTileMapScreen = (props) => {
                     <Flex color='Black' height='100%' width='100%' overflow={'auto'}>
                         <Box bg='lightgrey' height='100%' width='20%' className='mapTileset'>
                             <MapTileset height={"100%"} redirect={redirect} parts={parts}
-                                setSelection={setSelection} sourceRef={sourceRef}
+                                setSelection={handleSetSelection} sourceRef={sourceRef}
                                 currentTileSetId={currentTileSetId} selection={selection}
                                 tsRef={tsRef} openDrawer={showTilesetDrawer.onOpen}
                             />
@@ -149,7 +147,7 @@ const EditTileMapScreen = (props) => {
 
 
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic} currentStore={editStore}
+                isPublic={isPublic} setPublic={setPublic} currentStore={editStore}
             />
             <ResizeMapModal isOpen={showResizeMapModal.isOpen} onClose={showResizeMapModal.onClose}
             />
