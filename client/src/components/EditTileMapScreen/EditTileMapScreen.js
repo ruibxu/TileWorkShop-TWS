@@ -37,10 +37,28 @@ const EditTileMapScreen = (props) => {
     const [zoomValue, setZoomValue] = useState(1)
 
     // setInterval
-    const INITIAL_TIMER = 3;
+    const INITIAL_TIMER = 300;
     const TARGET_TIMER = 0;
-    const [timer, setTimer] = useState(INITIAL_TIMER);
+    const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
+    useEffect(() => {
+        function handleTimer() {
+            interval.current = setInterval(() => {
+            console.log('Counting down! This will run every second!');
+            timer.current = (timer.current -1);
+          }, 1000);
+        }
+    
+        if (timer.current <= TARGET_TIMER && interval.current) {
+            console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
+            // stop editing
+            clearInterval(interval.current);
+        }
+        if (timer.current === INITIAL_TIMER) {
+          handleTimer();
+        }
+        return () => {clearInterval(interval.current);}
+      }, [timer]);
     ////
 
     let history = useHistory();
@@ -82,36 +100,6 @@ const EditTileMapScreen = (props) => {
             setExporting(false)
         }
     }, [exporting])
-
-    // setInterval
-    // useEffect(() => {
-    //     var period = 3000
-    //     const interval = setInterval(() => {
-    //         console.log("setInterval initializes");
-    //         console.log('This will run every ' + period/1000 + ' seconds!');
-    //     }, period);
-    //     console.log("clear setInterval");
-    //     return () => clearInterval(interval);
-    //   }, []);
-    useEffect(() => {
-        function handleTimer() {
-            interval.current = setInterval(() => {
-            console.log('Counting down! This will run every second!');
-            setTimer((count) => count - 1);
-          }, 1000);
-        }
-    
-        if (timer <= TARGET_TIMER && interval.current) {
-            console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
-            // stop editing
-            clearInterval(interval.current);
-        }
-        if (timer === INITIAL_TIMER) {
-          handleTimer();
-        }
-      }, [timer]);
-
-      ////////////////////////
 
     const saveProject = () => {
         const imageData = canvasRef.current.toDataURL()
