@@ -1,4 +1,4 @@
-import { useSafeLayoutEffect } from '@chakra-ui/react';
+import { Slider, useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
 import { MdLayers } from 'react-icons/md';
 import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
@@ -11,7 +11,7 @@ import MainOverlay from '../MapCanvasOverlay/MainOverlay';
 import OverlayTile from '../MapCanvasOverlay/OverlayTiles';
 
 const MapCanvas = (props) => {
-    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue} = props
+    let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue, scrollRef} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
     const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
@@ -23,20 +23,9 @@ const MapCanvas = (props) => {
     const setMakeNewTransaction = (x) => {makeNewTransaction = x}
     let selectedTiles = []
     const setSelectedTiles = (x) => {selectedTiles = x}
-    const clearSelectedTiles = () => {selectedTiles = []}
-    const addToSelectedTiles = (x) => {selectedTiles = [...selectedTiles, ...x]}
-    //console.log((selectedTiles.length)?'empty array is true':'empty array is false')
-    //let zoomValue = editStore.zoomValue
-    console.log(zoomValue)
 
     const overlayInfo = useRef({height: -1, width: -1, zoomValue: 8, overlayTiles:[]})
     const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
-
-    // useEffect(()=>{
-    //     console.log(overlayInfo)
-    //     updateOverlayInfo(editStore.width, editStore.height, zoomValue)
-    //     setOverlayTiles(overlayInfo.current.overlayTiles)
-    // }, [editStore.width, editStore.height, zoomValue])
 
     useEffect(() => {
         console.log('This use effect ran-----------------------------------')
@@ -45,12 +34,8 @@ const MapCanvas = (props) => {
         const canvas = canvasRef.current
         canvas.width = width * 2 
         canvas.height = height * 2
-        console.log(zoomValue)
-        console.log(selectedTiles)
         canvas.style.width = `${width*zoomValue}px`
         canvas.style.height = `${height*zoomValue}px`
-        console.log('set selected tiles')
-        console.log(canvasRef)
         updateOverlayInfo(editStore.width, editStore.height, zoomValue)
 
         const context = canvas.getContext('2d')
@@ -59,16 +44,17 @@ const MapCanvas = (props) => {
         context.lineWidth = 5
         contextRef.current = context
         draw()
-    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId])//DO NOT PUT editStore.layers in here
+    }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId, canvasRef.current])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
         console.log('This use effect ran 2-----------------------------------')
         draw()
-    },[editStore.layers])
+    },[editStore.layers, currentLayer, currentTileSetId, contextRef.current])
+
+    console.log(canvasRef.current)
 
     const updateOverlayInfo = (newWidth, newHeight, newZoomValue) => {
-        console.log('Attempt to update Overlay')
         const { width, height, zoomValue } = overlayInfo.current
-        if(width == newWidth && height == newHeight && zoomValue == newZoomValue){console.log("attempt cancelled");return}
+        if(width == newWidth && height == newHeight && zoomValue == newZoomValue){return}
         let elements = []
         for(let x = 0; x < newWidth; x++){
             for(let y = 0; y < newHeight; y++){
@@ -77,7 +63,6 @@ const MapCanvas = (props) => {
         }
         overlayInfo.current = {width: newWidth, height: newHeight, zoomValue: newZoomValue, overlayTiles:elements}
         setOverlayTiles(overlayInfo.current.overlayTiles)
-        console.log('overlayInfo updated')
     }
     //Main switch call functions--------------------------------------------------
     // stampbrush functions
@@ -109,7 +94,6 @@ const MapCanvas = (props) => {
         }
         const fillArray = findFillAreaRecursive(coords, tileToMatch, []) 
         setSelectedTiles(fillArray)
-        console.log(fillArray)
         addArray(fillArray)
         //addTile(getCoords(event))
     }
@@ -155,7 +139,6 @@ const MapCanvas = (props) => {
             const endCoords = getCoords(event)
             const array = findRecArray(startCoords, endCoords)
             addArray(array)
-            console.log(array)
         }
         if (mouseDown && makeNewTransaction) {
             editStore.addLayerStateTransaction(layers)
@@ -164,9 +147,33 @@ const MapCanvas = (props) => {
         setMouseDown(false)
         draw()
     }
-    // const shapefill_move = (event) => {
-    //     if (mouseDown) {fillTile(event)}
-    // }
+    
+    //move function
+    let startX;
+    let startY;
+    let scrollX;
+    let scrollY;
+
+    const movehand_down = (event) => {
+        setMouseDown(true)
+        startX = event.clientX - scrollRef.current.offsetLeft
+        startY = event.clientY - scrollRef.current.offsetTop
+        scrollX = scrollRef.current.scrollLeft
+        scrollY = scrollRef.current.scrollTop
+    }
+
+    const movehand_up = () => {
+        setMouseDown(false)
+    }
+
+    const movehand_move = (event) =>{
+        if (!mouseDown) {return}
+        const x = event.clientX - scrollRef.current.offsetLeft;
+        const y = event.clientY - scrollRef.current.offsetTop;
+        const walkX = x - startX
+        const walkY = y - startY
+        scrollRef.current.scroll(scrollX-walkX, scrollY-walkY)
+    }
 
     //Main switch call functions end----------------------------------------------
 
@@ -189,7 +196,6 @@ const MapCanvas = (props) => {
                 list.push(`${x}-${y}`)
             }
         }
-        console.log([minX, maxX, minY, maxY])
         return list
         // for(let x = minX; x <= maxX)
     }
@@ -275,13 +281,16 @@ const MapCanvas = (props) => {
 
     const draw = () => {
         console.log('draw called')
+        console.log(layers)
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
         layers.slice().reverse().forEach(layer => {
             if(layer.hidden){return}
             console.log(layer)
             if(!layer.data){return}
+            console.log(layer.data)
             Object.keys(layer.data).forEach(key => {
+                console.log('run')
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])
@@ -318,6 +327,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_down(event)}
             case TOOLS.ERASER:{return eraser_down(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_down(event)}
+            case TOOLS.MOVE:{return movehand_down(event)}
         }
     }
 
@@ -328,6 +338,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
+            case TOOLS.MOVE:{return movehand_up(event)}
         }
         
     }
@@ -340,6 +351,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return}
             case TOOLS.ERASER:{return eraser_move(event)}
             case TOOLS.SHAPE_FILL_TOOL:{return}
+            case TOOLS.MOVE:{return movehand_move(event)}
         }
     }
 
@@ -350,6 +362,7 @@ const MapCanvas = (props) => {
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_up()}
             case TOOLS.ERASER:{return eraser_up()}
             case TOOLS.SHAPE_FILL_TOOL:{return shapefill_up(event)}
+            case TOOLS.MOVE:{return movehand_up(event)}
         }
     }
     console.log('temp')

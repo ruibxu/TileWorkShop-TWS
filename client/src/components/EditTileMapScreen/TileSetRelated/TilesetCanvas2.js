@@ -7,6 +7,7 @@ import { SimpleGrid, Image} from '@chakra-ui/react'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import TilesetSelectorOverlay from './TilesetSelectorOverlay';
 import TilesetSelectorTile from './TilesetSelectorTile';
+import { TOOLS } from '../../../translator-client/edit-options';
 
 
 
@@ -24,12 +25,7 @@ const TilesetCanvas = (props) => {
         updateOverlayTiles(`${selection[0]}-${selection[1]}`)
     },[currentTileSetId, selection])
 
-    useEffect(()=>{
-        const selectString = `${selection[0]}-${selection[1]}`
-    }, [selection])
-
     const updateOverlayTiles = (selectedString) => {
-        console.log('attemp remake overlay')
         const {height, width, pixel} = (currentTS)?(currentTS):{height: 1, width: 1, pixel: 16}
         if(width == TilesetOverlayRef.current.width && height == TilesetOverlayRef.current.height && pixel == TilesetOverlayRef.current.pixel && selectedString == TilesetOverlayRef.current.selectedString){return;}
         let elements = []
@@ -61,8 +57,6 @@ const TilesetCanvas = (props) => {
         
         const mouseX = e.clientX - x;
         const mouseY = e.clientY - y;
-        console.log(`X: ${mouseX}`)
-        console.log(`Y: ${mouseY}`)
         return [Math.floor(mouseX*scaleX/tilesetCrop), Math.floor(mouseY*scaleY/tilesetCrop)]//use tilemap scale here
     }
 

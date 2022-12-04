@@ -15,6 +15,7 @@ import ShareModal from '../Modals/Share-Modal/Share-Modal';
 import TilesetTools from './TileSetToolsRelated/TileSetTools';
 import TilesetColorPicker from './TileSetToolsRelated/TileSetColorPicker';
 import exportTS from '../../import-export/exportTS';
+import { TOOLSFORTILESET } from '../../translator-client/edit-options';
 
 //import { GlobalStoreContext } from '../store'
 //import ListCard from './ListCard.js'
@@ -30,12 +31,13 @@ const EditTileSetScreen = (props) => {
     const [color, setColor] = useState({ r: 0, g: 0, b: 0, a: 1 });
     const [zoomValue, setZoomValue] = useState(1)
     const [toolWidth, setToolWidth] = useState(3)
-    const [currentButton, setCurrentButton] = useState("Draw");
+    const [currentButton, setCurrentButton] = useState("Drag");
 
     const [exporting, setExporting]= useState(false);
     const colorPickerRef = useRef(null)
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
+    const scrollRef = useRef(null)
     console.log('This is reloading too')
     const [tileset, setTileset] = useState(editTilesetStore.currentItem)
 
@@ -68,6 +70,14 @@ const EditTileSetScreen = (props) => {
         }
     }, [exporting])
 
+    const handleSetColor = (rgba) => {
+        setColor({...rgba})
+        const nonDrawTools = [TOOLSFORTILESET.MOVE, TOOLSFORTILESET.COLOR_PICKER, TOOLSFORTILESET.ERASER]
+        if(nonDrawTools.includes(currentButton)){
+            setCurrentButton(TOOLSFORTILESET.DRAW)
+        }
+    }
+
     // setInterval
     // useEffect(() => {
     //     var period = 3000
@@ -98,7 +108,6 @@ const EditTileSetScreen = (props) => {
 
 //////////////////////////////////////////////////////////////////
 
-
     let history = useHistory();
 	const redirect = async (route, parameters) => {
         editTilesetStore.clearTransactions();
@@ -108,14 +117,6 @@ const EditTileSetScreen = (props) => {
     if(!auth.loggedIn){redirect('/homescreen')}
 
     const showShareModal = useDisclosure()
-    let TempInfo = [
-        {username: 'Yibo', email: 'yibo.hu@stonybrook.edu', access: 'Owner', color:'red'},
-        {username: 'NotYibo', email: 'Notyibo@stonybrook.edu', access: 'Editor', color:'blue'},
-        {username: 'YiboLover', email: 'yiboLover@stonybrook.edu', access: 'Editor', color:'yellow'},
-        {username: 'YiboHater', email: 'yiboHater.hu@stonybrook.edu', access: 'Viewer', color:'green'},
-        {username: 'WhoseYibo', email: 'WhoseYibo.hu@stonybrook.edu', access: 'Viewer', color:'purple'},
-        {username: 'YiboClone', email: 'YiboClone.hu@stonybrook.edu', access: 'Viewer', color:'orange'}
-    ]
 
     const saveProject = () => {
         const imageData = canvasRef.current.toDataURL()
@@ -142,13 +143,14 @@ const EditTileSetScreen = (props) => {
                 </GridItem>
 
                 <GridItem colSpan={5} rowSpan={2} minWidth={'100%'} maxWidth={'100%'} height={'100%'} className='tilesetWorkspace'>
-                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} color={color} setColor={setColor} 
-                    zoomValue={zoomValue} currentButton={currentButton} setCurrentButton={setCurrentButton}
+                    <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} scrollRef={scrollRef}
+                    color={color} setColor={setColor} zoomValue={zoomValue}
+                    currentButton={currentButton} setCurrentButton={setCurrentButton}
                     toolWidth={toolWidth} setToolWidth={setToolWidth}/>
                 </GridItem>
 
                 <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
-                    <TilesetColorPicker color={color} setColor={setColor} colorPickerRef={colorPickerRef}/>
+                    <TilesetColorPicker color={color} setColor={handleSetColor} colorPickerRef={colorPickerRef}/>
                 </GridItem>
 
 
@@ -157,7 +159,7 @@ const EditTileSetScreen = (props) => {
                 <Tldraw />
             </div> */}
             <ShareModal isOpen={showShareModal.isOpen} onClose={showShareModal.onClose}
-                list={TempInfo} isPublic={isPublic} setPublic={setPublic} currentStore={editTilesetStore}
+                isPublic={isPublic} setPublic={setPublic} currentStore={editTilesetStore}
             />
         </div>)
 

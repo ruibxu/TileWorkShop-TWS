@@ -26,7 +26,7 @@ import GlobalEditStoreContext from '../../../store/EditStore';
 import { BiSelectMultiple } from "react-icons/bi"
 import { TOOLS } from '../../../translator-client/edit-options';
 import ResizeMapModal from '../../Modals/ResizeMap-Modal';
-
+import { HiOutlineHand } from 'react-icons/hi';
 
 const MapToolbar = (props) => {
   const { editStore } = useContext(GlobalEditStoreContext);
@@ -85,6 +85,7 @@ const MapToolbar = (props) => {
           <IconButton onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
           <IconButton onClick={() => handleOnClick(TOOLS.ERASER)} outlineColor={(currentButton == TOOLS.ERASER) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.ERASER} icon={<RiEraserLine className='md-icon' />} />
+          <IconButton onClick={() => handleOnClick(TOOLS.MOVE)} outlineColor={(currentButton == TOOLS.MOVE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MOVE} icon={<HiOutlineHand className='md-icon' />} />
           <IconButton bg='transparent' title="Undo" onClick={() => { editStore.undo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canUndo} icon={<ImUndo className='md-icon' />} />
           <IconButton bg='transparent' title="Redo" onClick={() => { editStore.redo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canRedo} icon={<ImRedo className='md-icon' />} />
           <IconButton bg='transparent' title="Zoom In" onClick={handleZoomIn} icon={<ImZoomIn className='md-icon' />} />
