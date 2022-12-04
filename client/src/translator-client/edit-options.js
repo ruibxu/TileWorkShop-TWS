@@ -6,7 +6,7 @@ export const TOOLS = {
     REACTANGULAR_SELECT: "Rectangular Select",
     SELECT_SAME_TILE: "Select Same Tile",
     MAGIC_WAND: "Magic Wand",
-    MOVE: "MOVE"
+    MOVE: "Drag"
 }
 
 export const TOOLSFORTILESET = {
@@ -14,5 +14,5 @@ export const TOOLSFORTILESET = {
     ERASER: "Eraser",
     COLOR_PICKER: "Color Picker",
     Bucket_FILL_TOOL: "Bucket Fill Tool",
-    MOVE: "MOVE"
+    MOVE: "Drag"
 }
