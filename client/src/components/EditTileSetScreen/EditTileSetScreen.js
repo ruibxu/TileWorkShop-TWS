@@ -69,6 +69,7 @@ const EditTileSetScreen = (props) => {
     let history = useHistory();
 	const redirect = async (route, parameters) => {
         editTilesetStore.clearTransactions();
+        editTilesetStore.clearItem();
         history.push(route, parameters);
     }
     if(!auth.loggedIn){redirect('/homescreen')}

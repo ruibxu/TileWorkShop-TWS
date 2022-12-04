@@ -6,7 +6,7 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-import { createAccessList } from "./sharedFunctions"
+import { createAccessList, getAccessLevel} from "./sharedFunctions"
 
 export const GlobalEditStoreContext = createContext({});
 
@@ -45,6 +45,7 @@ const GlobalEditStoreContextProvider = (props) => {
         access: null,
         accessList: [],
         accessUsers: [],
+        accessLevel: -1,
         type: null,
         editing: true,
         tilesetMarkedForDeletion: null,
@@ -92,6 +93,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     access: payload.currentItem.access,
                     accessList: payload.accessList,
                     accessUsers: payload.accessUsers,
+                    accessLevel: payload.accessLevel,
                     type: PROJECT_TYPE.TILEMAP,
                     width: payload.width,
                     height: payload.height,
@@ -99,6 +101,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: payload.tilesets,
                     name: payload.name,
                     editing: true,
+                    editId: '',
                     tilesetMarkedForDeletion: null
                 })
             }
@@ -160,7 +163,9 @@ const GlobalEditStoreContextProvider = (props) => {
                     layers: [],
                     tilesets: [],
                     name: 'item cleared',
-                    editing: false
+                    editing: false,
+                    editId: '',
+                    accessLevel: -1
                 })
             }
             case GlobalEditStoreActionType.UPDATE_ACCESS: {
@@ -305,6 +310,8 @@ const GlobalEditStoreContextProvider = (props) => {
             result.community = null
             const access = result.access
             const accessList = createAccessList(access, users)
+            const accessLevel = getAccessLevel(access, auth.user._id)
+            console.log(accessLevel)
             let tilesets = result.tileset
             if (tilesets.length > 0) {
                 const response2 = await api.getTileMapAllImage(id)
@@ -323,6 +330,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     access: result.access,
                     accessList: accessList,
                     accessUsers: users,
+                    accessLevel: accessLevel,
                     width: result.width,
                     height: result.height,
                     layers: result.layers,
