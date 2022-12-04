@@ -17,6 +17,7 @@ export const GlobalEditTilesetStoreActionType = {
     UPDATE_NAME: "UPDATE_NAME",
     SET_REFS: "SET_REFS",
     UPDATE_ACCESS: "UPDATE_ACCESS",
+    CLEAR_ITEM: "CLEAR_ITEM"
 }
 
 const tps = new jsTPS();
@@ -35,8 +36,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         accessUsers: [],
         accessLevel: -1,
         editing: true,
-        canvas: null,
-        context: null
+        editId: '',
     });
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
@@ -57,8 +57,25 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     name: payload.name,
                     type: PROJECT_TYPE.TILESET,
                     accessLevel: payload.accessLevel,
-                    canvas: null,
-                    context: null
+                })
+            }
+            case GlobalEditTilesetStoreActionType.CLEAR_ITEM: {
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    currentId: '',
+                    currentItem: null,
+                    access: null,
+                    accessList: [],
+                    accessUsers: -1,
+                    width: -1,
+                    height: -1,
+                    pixel: -1,
+                    img: '',
+                    name: '',
+                    type: '',
+                    accessLevel: -1,
+                    editing: false,
+                    editId: ''
                 })
             }
             case GlobalEditTilesetStoreActionType.UPDATE_NAME:{
@@ -168,6 +185,10 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         } else {
             console.log(response.data.errorMessage)
         }
+    }
+
+    editTilesetStore.clearItem = () => {
+        storeReducer({ type: GlobalEditTilesetStoreActionType.CLEAR_ITEM })
     }
 
     editTilesetStore.addAccess = async (email, new_role) => {

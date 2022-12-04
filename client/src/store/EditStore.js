@@ -101,6 +101,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: payload.tilesets,
                     name: payload.name,
                     editing: true,
+                    editId: '',
                     tilesetMarkedForDeletion: null
                 })
             }
@@ -163,6 +164,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: [],
                     name: 'item cleared',
                     editing: false,
+                    editId: '',
                     accessLevel: -1
                 })
             }
