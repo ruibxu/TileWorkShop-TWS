@@ -113,6 +113,7 @@ const updateTileSet = async (req, res) => {
             if (access.owner_id.equals(req.body.user_id) || access.editor_ids.includes(req.body.user_id)) {
                 item.lastEdited = Date.now();
                 if(req.body.name){item.name = req.body.name;}
+                if(req.body.url){item.url = req.body.url; }
                 //add image update
                 item.save()
                     .then(() => {

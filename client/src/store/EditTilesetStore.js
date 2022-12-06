@@ -139,7 +139,9 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const item = response.data.item
             item.community = null
             const imageResponse = await api.updateTileSetImage(id, {data: image})
-            if(imageResponse == 200){
+            console.log(imageResponse)
+            if(imageResponse.status == 200){
+                await api.updateTileSet(id, { user_id: user_id, url: imageResponse.data.resources.secure_url })
                 console.log('Thumbnail update success')
             }
             storeReducer({
