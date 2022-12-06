@@ -18,7 +18,7 @@ import {
     Switch,
 } from '@chakra-ui/react';
 import { BiSave } from "react-icons/bi";
-import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
+import { MdFolderOpen, MdOutlineFileDownload, MdListAlt} from 'react-icons/md'
 import AuthContext from '../../auth';
 import GlobalEditStoreContext from '../../store/EditStore';
 import { ACCESS_TYPE } from '../../translator-client/sort-options';
@@ -88,6 +88,7 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
+                    <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
                     <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect}/>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
