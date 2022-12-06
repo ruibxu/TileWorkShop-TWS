@@ -26,7 +26,7 @@ import { ACCESS_TYPE } from '../../translator-client/sort-options';
 
 
 const EditNavbar = (props) => {
-    const {projectName, projectAccess, currentStore} = props
+    const { projectName, projectAccess, currentStore } = props
     const { auth } = useContext(AuthContext);
     const { editStore } = useContext(GlobalEditStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
@@ -34,20 +34,20 @@ const EditNavbar = (props) => {
     const [isPublic, setPublic] = useState(props.isPublic)
 
     useEffect(() => {
-        if(name == projectName){return}
+        if (name == projectName) { return }
         setName(projectName)
     }, [projectName])
 
-    useEffect(()=>{
+    useEffect(() => {
         setPublic(props.isPublic)
     }, [props.isPublic])
 
     const handleToggleNameEdit = (value) => {
-        if(currentStore.accessLevel <= ACCESS_TYPE.VIEWABLE){return}
+        if (currentStore.accessLevel <= ACCESS_TYPE.VIEWABLE) { return }
         toggleNameEdit(value)
     }
 
-    const handleDownload =() => {
+    const handleDownload = () => {
         props.setExporting(true);
     }
 
@@ -87,7 +87,7 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
+                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} />
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>
                 <Flex>
@@ -105,7 +105,7 @@ const EditNavbar = (props) => {
                             isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER}>
                             {(isPublic) ? "Public" : "Private"}
                         </Button>
-                        <Button variant={'solid'} colorScheme={'blue'} onClick={handleEdit}>Edit</Button>
+                        <Button variant={'solid'} colorScheme={'blue'} onClick={handleEdit} isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER ? currentStore.accessLevel != ACCESS_TYPE.EDITABLE : currentStore.accessLevel != ACCESS_TYPE.OWNER}>Edit</Button>
                         <Button variant={'solid'} colorScheme={'blue'} onClick={handleShareModal} isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER}>Share</Button>
                     </Flex>
                     <Menu>
