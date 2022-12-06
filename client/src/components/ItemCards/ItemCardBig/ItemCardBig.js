@@ -99,13 +99,11 @@ function ItemCardBig(props) {
             store.updateTileSetCommunity(project_id, payload)
         }
     }
-    // const handleOnOpen = () => {
-    //     if (data.type == "tilemap") {
-    //         store.updateTileMapCommunity(project_id, { views: true })
-    //     } else {
-    //         store.updateTileSetCommunity(project_id, { views: true })
-    //     }
-    // }
+    
+    const handleAddToTilemap = () => {
+        shopStore.addTileset(data)
+    }
+
     const lastEdited = new Date(data.lastEdited)
     const year = lastEdited.getFullYear()
     const month = lastEdited.getMonth() + 1
@@ -175,8 +173,11 @@ function ItemCardBig(props) {
                             <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
                             </Button>
-                            <Button colorScheme='purple' mr={3} onClick={()=>console.log(data)} isDisabled={(!shopStore.exist)} 
-                                visibility={(auth.loggedIn && data.type == PROJECT_TYPE.TILESET)?'':'hidden'} title={(shopStore.exist)?`add to '${shopStore.name}'`:"No Tilemap Selected"}>
+                            <Button colorScheme='purple' mr={3} isDisabled={(!shopStore.exist)} 
+                                visibility={(auth.loggedIn && data.type == PROJECT_TYPE.TILESET)?'':'hidden'} 
+                                title={(shopStore.exist)?`add to '${shopStore.name}'`:"No Tilemap Selected"}
+                                onClick={handleAddToTilemap}
+                                >
                                 Add To Map
                             </Button>
                             <Spacer />
