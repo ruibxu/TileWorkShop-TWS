@@ -17,11 +17,13 @@ import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
 import { PROJECT_TYPE } from "../../../translator-client/sort-options";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
+import GlobalShopStoreContext from "../../../store/ShopStore";
 
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
+    const {shopStore} = useContext(GlobalShopStoreContext)
     const { data } = props
     const [newComment, setNewComment] = useState('')
     const showDeleteComment = useDisclosure()
@@ -173,8 +175,8 @@ function ItemCardBig(props) {
                             <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
                             </Button>
-                            <Button colorScheme='purple' mr={3} onClick={()=>console.log(data)} isDisabled={(!auth.loggedIn)} 
-                                visibility={(data.type == PROJECT_TYPE.TILESET)?'':'hidden'}>
+                            <Button colorScheme='purple' mr={3} onClick={()=>console.log(data)} isDisabled={(!shopStore.exist)} 
+                                visibility={(auth.loggedIn && data.type == PROJECT_TYPE.TILESET)?'':'hidden'} title={(shopStore.exist)?`add to '${shopStore.name}'`:"No Tilemap Selected"}>
                                 Add To Map
                             </Button>
                             <Spacer />
