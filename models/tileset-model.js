@@ -15,6 +15,7 @@ const TileSetSchema = new Schema(
         height: {type: Number, required: true},
         width: {type: Number, required: true},
         pixel: {type: Number, required: true},
+        url: {type: String},
         lastEdited: {type: Date}
     },
     { timestamps: true },
