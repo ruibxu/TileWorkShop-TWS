@@ -23,6 +23,7 @@ import GlobalStoreContext from '../../../store/ProjectStore';
 import { SORT_TYPE, SORT_ORDER, SEARCH_TYPE, ACCESS_TYPE, PROJECT_TYPE} from '../../../translator-client/sort-options';
 import { BiChevronDown } from 'react-icons/bi';
 import { MdShoppingCart } from 'react-icons/md';
+import ShoppingCart from '../ShoppingCart';
 
 
 
@@ -57,7 +58,8 @@ const MainNavbar = (props) => {
                 <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'70%'} bg='transparent'>
-                <IconButton icon={<MdShoppingCart className='md-icon'/>} mr={3} bg='transparent' title={'Test'} isDisabled={true}/>
+                <ShoppingCart mr={3}/>
+                {/* <IconButton icon={<MdShoppingCart className='md-icon'/>} mr={3} bg='transparent' title={'Test'} isDisabled={true}/> */}
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'} defaultValue={store.search_term}
                 onChange = {(e)=>handleChangeSortOptions('search_term', e.target.value)}/>
                 <Menu>

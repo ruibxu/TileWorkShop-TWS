@@ -22,7 +22,7 @@ import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
 import AuthContext from '../../auth';
 import GlobalEditStoreContext from '../../store/EditStore';
 import { ACCESS_TYPE } from '../../translator-client/sort-options';
-import { MdShoppingCart } from 'react-icons/md';
+import ShoppingCart from './ShoppingCart';
 
 
 
@@ -88,7 +88,8 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <IconButton icon={<MdShoppingCart className='md-icon'/>} bg='transparent' title={'Test'} isDisabled={true}/>
+                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name}/>
+                    {/* <IconButton icon={<MdShoppingCart className='md-icon'/>} bg='transparent' title={'Test'} isDisabled={true}/> */}
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>

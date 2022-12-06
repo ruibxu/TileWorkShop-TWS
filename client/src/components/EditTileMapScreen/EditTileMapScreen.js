@@ -37,7 +37,7 @@ const EditTileMapScreen = (props) => {
     const [zoomValue, setZoomValue] = useState(1)
 
     // setInterval
-    const INITIAL_TIMER = 300;
+    const INITIAL_TIMER = 3;
     const TARGET_TIMER = 0;
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
