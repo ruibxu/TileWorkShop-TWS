@@ -13,10 +13,11 @@ import GlobalCommentStoreContext from "../../../store/CommentStore";
 import GlobalStoreContext from "../../../store/ProjectStore";
 import AuthContext from "../../../auth";
 import DeleteModal from "../../Modals/Delete-Modal";
+import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
+import { PROJECT_TYPE } from "../../../translator-client/sort-options";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
-import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext)
@@ -171,6 +172,10 @@ function ItemCardBig(props) {
                         <Flex width={'100%'}>
                             <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
+                            </Button>
+                            <Button colorScheme='purple' mr={3} onClick={()=>console.log(data)} isDisabled={(!auth.loggedIn)} 
+                                visibility={(data.type == PROJECT_TYPE.TILESET)?'':'hidden'}>
+                                Add To Map
                             </Button>
                             <Spacer />
                             <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''}>
