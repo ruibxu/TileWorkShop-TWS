@@ -71,7 +71,7 @@ const MapCanvas = (props) => {
         addTile(getCoords(event))
     }
     const stampbrush_up = () => {
-        if (mouseDown) {
+        if (mouseDown && makeNewTransaction && currentLayer > 0) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
@@ -98,7 +98,7 @@ const MapCanvas = (props) => {
         //addTile(getCoords(event))
     }
     const bucketfill_up = () => {
-        if (mouseDown && makeNewTransaction) {
+        if (mouseDown && makeNewTransaction && currentLayer > 0) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
@@ -115,7 +115,7 @@ const MapCanvas = (props) => {
     }
 
     const eraser_up = () => {
-        if (mouseDown) {
+        if (mouseDown && makeNewTransaction && currentLayer > 0) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
@@ -140,7 +140,7 @@ const MapCanvas = (props) => {
             const array = findRecArray(startCoords, endCoords)
             addArray(array)
         }
-        if (mouseDown && makeNewTransaction) {
+        if (mouseDown && makeNewTransaction && currentLayer > 0) {
             editStore.addLayerStateTransaction(layers)
             editStore.changeLayer(layers)
         }
@@ -216,9 +216,12 @@ const MapCanvas = (props) => {
     }
 
     const addArray = (coorsArray) => {
+        let success = false
         coorsArray.forEach((key) => {
-            addTile(key.split('-'), true)
+            let newBol = addTile(key.split('-'), true)
+            if(!success){success = newBol || success}
         })
+        return success
     }
 
     const getTile = (coors) => {
@@ -241,29 +244,35 @@ const MapCanvas = (props) => {
     //These are the only 2 functions that directly changes what layers looks like
     const addTile = (coors, drawLater) => {
         console.log('from add tile')
+        setMakeNewTransaction(false)
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
         console.log('before block')
         console.log(edit)
-        if(!edit){return}
+        if(!edit){return false}
         if(!layer.data){layer.data = {}}
+        setMakeNewTransaction(makeNewTransaction || true)
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
         console.log('addtile end')
-        if(drawLater){return}
+        if(drawLater){return true}
         draw()
+        return true
     }
 
     const removeTile = (coors, drawLater) => {
         console.log('from remove tile')
+        setMakeNewTransaction(false)
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
-        if(!edit){return}
+        if(!edit){return false}
+        setMakeNewTransaction(makeNewTransaction || true)
         if(!layer.data){layer.data = {}}
         delete layer.data[key];
-        if(drawLater){return}
+        if(drawLater){return true}
         draw()
+        return true
     }
     //These are the only 2 functions that directly changes what layers looks like
 

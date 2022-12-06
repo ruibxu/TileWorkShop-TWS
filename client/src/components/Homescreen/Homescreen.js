@@ -57,6 +57,11 @@ const Homescreen = (props) => {
     const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword });
     //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
     //console.log(autoChangePassword)
+
+    window.onbeforeunload = () => {
+        showCreateModal.onOpen()
+        return 'what'
+    }
     
     const data = [
         { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
