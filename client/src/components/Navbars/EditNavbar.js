@@ -102,9 +102,9 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
-                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
-                    <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
+                    <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent' title="List View Screen"/>
+                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save"/>
+                    <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} title="Download" />
                     <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect}/>
                     {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET)?
                     <IconButton bg='transparent' icon={<MdAddShoppingCart className='md-icon' />} onClick={handleAddToMap} title={`Add to '${shopStore.name}'`}/>
