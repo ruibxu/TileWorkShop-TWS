@@ -101,7 +101,7 @@ function ItemCardBig(props) {
     }
     
     const handleAddToTilemap = () => {
-        shopStore.addTileset(data)
+        shopStore.addTileset(data, data.src)
     }
 
     const lastEdited = new Date(data.lastEdited)

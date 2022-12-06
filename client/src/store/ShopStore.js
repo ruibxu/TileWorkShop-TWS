@@ -74,10 +74,9 @@ const GlobalShopStoreContextProvider = (props) => {
         storeReducer({type: GlobalShopStoreActionType.CLEAR_SHOPPER})
     }
 
-    shopStore.addTileset = async (tileset) => {
+    shopStore.addTileset = async (tileset, url) => {
         const id = shopStore._id
         const user_id = (auth.loggedIn)?auth.user._id:null
-        const url = tileset.src
         console.log(tileset)
         if(!user_id){console.log('not logged in'); return;}
         if(!url){console.log('No Image');  return;}
