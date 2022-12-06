@@ -299,7 +299,6 @@ const MapCanvas = (props) => {
             if(!layer.data){return}
             console.log(layer.data)
             Object.keys(layer.data).forEach(key => {
-                console.log('run')
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
                 let positionY = Number(positions[1])

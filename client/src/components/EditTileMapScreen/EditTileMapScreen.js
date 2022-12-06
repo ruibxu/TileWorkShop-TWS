@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
-import { useHistory, useParams } from "react-router-dom";
+import { Prompt, useHistory, useParams } from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 
@@ -63,9 +63,11 @@ const EditTileMapScreen = (props) => {
 
     let history = useHistory();
     const redirect = async (route, parameters) => {
+        history.push(route, parameters);
         editStore.clearTransactions()
         editStore.clearItem()
-        history.push(route, parameters);
+        console.log('clear item ran')
+        
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
 
@@ -73,16 +75,10 @@ const EditTileMapScreen = (props) => {
     useEffect(() => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
         editStore.getTileMapById(id)
-        // setCurrentTileSetId(editStore.tilesets[0]?editStore.tilesets[0]._id:'None')
-        // setCurrentLayer(editStore.layers[0]?editStore.layers[0].id:0)
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editStore.currentId])
 
-    const [tilemap, setTilemap] = useState(editStore.currentItem)
-
-    useEffect(() => {
-        setTilemap(editStore.currentItem)
-    }, [editStore.currentItem])
+    let tilemap = editStore.currentItem
 
     const [isPublic, setPublic] = useState((editStore.access) ? editStore.access.public : false)
     

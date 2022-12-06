@@ -37,6 +37,7 @@ const createImage = (src) => {
 
 const GlobalEditStoreContextProvider = (props) => {
     const [editStore, setEditStore] = useState({
+        saved: false,
         name: '',
         currentId: null,
         currentItem: null,
