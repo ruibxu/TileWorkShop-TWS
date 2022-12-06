@@ -108,8 +108,12 @@ const EditTileSetScreen = (props) => {
 
     const showShareModal = useDisclosure()
 
+    const toDataURL = () => {
+        return canvasRef.current.toDataURL()
+    }
+
     const saveProject = () => {
-        const imageData = canvasRef.current.toDataURL()
+        const imageData = toDataURL()
         editTilesetStore.save(imageData)
     }
 
@@ -117,7 +121,7 @@ const EditTileSetScreen = (props) => {
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} projectName={(tileset) ? tileset.name : 'loading...'}
-                exporting={exporting} setExporting={setExporting}
+                exporting={exporting} setExporting={setExporting} toDataURL={toDataURL}
                 currentStore={editTilesetStore} save={saveProject}
                 />
 

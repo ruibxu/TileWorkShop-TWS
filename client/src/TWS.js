@@ -14,6 +14,7 @@ import EditTileMapScreen from './components/EditTileMapScreen/EditTileMapScreen.
 import ForgetPasswordLink from './components/Instant-Redirects/ForgetPasswordLink';
 import VerifyAccountLink from './components/Instant-Redirects/VerifyAccountLink';
 import { GlobalEditTilesetStoreContextProvider } from './store/EditTilesetStore';
+import { GlobalShopStoreContextProvider } from './store/ShopStore';
 
 
 const TWS = () => {
@@ -24,15 +25,17 @@ const TWS = () => {
                     <GlobalCommentStoreContextProvider>
                         <GlobalEditStoreContextProvider>
                             <GlobalEditTilesetStoreContextProvider>
-                            <Switch>
-                                <Route path="/" exact component={() => <Homescreen />} />
-                                <Route path="/homescreen" exact component={() => <Homescreen />} />
-                                <Route path="/listscreen" exact component={() => <Listscreen />} />
-                                <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
-                                <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
-                                <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
-                                <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
-                            </Switch>
+                                <GlobalShopStoreContextProvider>
+                                    <Switch>
+                                        <Route path="/" exact component={() => <Homescreen />} />
+                                        <Route path="/homescreen" exact component={() => <Homescreen />} />
+                                        <Route path="/listscreen" exact component={() => <Listscreen />} />
+                                        <Route path="/forgetPassword/:id" exact component={() => <ForgetPasswordLink />} />
+                                        <Route path="/verifyAccount/:id" exact component={() => <VerifyAccountLink />} />
+                                        <Route path="/tileset/:id" exact component={() => <EditTileSetScreen />} />
+                                        <Route path="/tilemap/:id" exact component={() => <EditTileMapScreen />} />
+                                    </Switch>
+                                </GlobalShopStoreContextProvider>
                             </GlobalEditTilesetStoreContextProvider>
                         </GlobalEditStoreContextProvider>
                     </GlobalCommentStoreContextProvider>

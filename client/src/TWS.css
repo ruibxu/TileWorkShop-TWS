@@ -353,6 +353,11 @@ body {
 .selected_tile{
     opacity: 50%;
 }
+
+.success-text{
+    color: green;
+    font-weight: 700;
+}
 /*
 
 .tileset_img{

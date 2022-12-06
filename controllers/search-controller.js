@@ -388,7 +388,10 @@ const searchProjects2 = async (req, res) => {
         community: x.community,
         lastEdited: x.lastEdited,
         type: req.params.type,
-        src: (x.url) ? x.url : ""
+        src: (x.url) ? x.url : "",
+        width: x.width,
+        height: x.height,
+        pixel: (x.pixel)?x.pixel: -1
     }))
 
     const usernames = matching_users.map(x => ({ _id: x._id, username: x.username }))

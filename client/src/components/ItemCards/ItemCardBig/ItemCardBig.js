@@ -13,14 +13,17 @@ import GlobalCommentStoreContext from "../../../store/CommentStore";
 import GlobalStoreContext from "../../../store/ProjectStore";
 import AuthContext from "../../../auth";
 import DeleteModal from "../../Modals/Delete-Modal";
+import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
+import { PROJECT_TYPE } from "../../../translator-client/sort-options";
 
 import image6 from '../../../04_Qiqi_02newyear_receive.png'
-import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import GlobalShopStoreContext from "../../../store/ShopStore";
+
 function ItemCardBig(props) {
     const { auth } = useContext(AuthContext)
     const { store } = useContext(GlobalStoreContext)
     const { commentStore } = useContext(GlobalCommentStoreContext)
+    const {shopStore} = useContext(GlobalShopStoreContext)
     const { data } = props
     const [newComment, setNewComment] = useState('')
     const showDeleteComment = useDisclosure()
@@ -96,13 +99,11 @@ function ItemCardBig(props) {
             store.updateTileSetCommunity(project_id, payload)
         }
     }
-    // const handleOnOpen = () => {
-    //     if (data.type == "tilemap") {
-    //         store.updateTileMapCommunity(project_id, { views: true })
-    //     } else {
-    //         store.updateTileSetCommunity(project_id, { views: true })
-    //     }
-    // }
+    
+    const handleAddToTilemap = () => {
+        shopStore.addTileset(data, data.src)
+    }
+
     const lastEdited = new Date(data.lastEdited)
     const year = lastEdited.getFullYear()
     const month = lastEdited.getMonth() + 1
@@ -168,10 +169,18 @@ function ItemCardBig(props) {
                         <CommentList comments={commentStore.currentCommentList} _id={project_id} data={data} handleDeleteComment={handleDeleteComment} project_id={project_id} />
                     </ModalBody>
                     <ModalFooter>
-                        <Flex width={'100%'}>
+                        <Flex width={'100%'} alignItems='center'>
                             <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
                             </Button>
+                            <Button colorScheme='purple' mr={3} isDisabled={(!shopStore.exist)} 
+                                visibility={(auth.loggedIn && data.type == PROJECT_TYPE.TILESET)?'':'hidden'} 
+                                title={(shopStore.exist)?`add to '${shopStore.name}'`:"No Tilemap Selected"}
+                                onClick={handleAddToTilemap}
+                                >
+                                Add To Map
+                            </Button>
+                            <Text className="success-text" visibility={(shopStore.recentlyAddedId.includes(data._id))?'':'hidden'}>Recently Added</Text>
                             <Spacer />
                             <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''}>
                                 Delete
