@@ -1,4 +1,6 @@
-
+import JSZip from "jszip";
+import JSZipUtils from "jszip-utils";
+import { saveAs } from "save-as";
 
 const exportTM = (store) => {
     console.log('exporting tilemap')
@@ -22,6 +24,7 @@ const exportTM = (store) => {
         exportingJson.tilewidth=store.tilesets[0].pixel;
         exportingJson.tileheight=store.tilesets[0].pixel;
     }
+
 
 
     //handle tileset
@@ -50,8 +53,7 @@ const exportTM = (store) => {
     exportingJson.layers=tmp_arr
 
 
-
-    
+    /*
     const json = JSON.stringify(exportingJson, null, 2);
     const blob = new Blob([json], { type: "application/json" });
     const href = URL.createObjectURL(blob);
@@ -64,9 +66,45 @@ const exportTM = (store) => {
     // clean up "a" element & remove ObjectURL
     document.body.removeChild(link);
     URL.revokeObjectURL(href);
+    */
+    
+    const json = JSON.stringify(exportingJson, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const jsonfile = new File([blob], fileName + ".json");
+    const jsonName=fileName + ".json";
+    
+    var zip = new JSZip();
+    var folder = zip.folder(fileName);
+    folder.file(jsonName, jsonfile, { binary: true });
+
+
+    store.tilesets.forEach((tileset) => {
+            console.log(tileset.image.src)
+            folder.file(tileset.name+".png",urlToPromise(tileset.image.src), { binary: true });
+    })
+
+
+    zip.generateAsync({type:"blob"}).then(function (blob) { 
+        saveAs(blob, fileName +".zip");                    
+    });
+
+
 }
 
 export default exportTM;
+
+
+const  urlToPromise=(url) => {
+    return new Promise(function(resolve, reject) {
+        JSZipUtils.getBinaryContent(url, function (err, data) {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
 
 // layers.forEach((x) => {
 //     const temp = translateLayer(x)
@@ -116,7 +154,7 @@ const translateLayer = (layer,store,counting_array) => {
                         break;
                     }
                 }
-                if(index=-1){ 
+                if(index==-1){ 
                     tileArray.push(0);
                 }
                 else{
@@ -129,7 +167,6 @@ const translateLayer = (layer,store,counting_array) => {
         }
     }
     current_layer.data=tileArray;
-
 
     return current_layer
 }
