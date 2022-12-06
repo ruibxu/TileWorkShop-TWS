@@ -18,17 +18,20 @@ import {
     Switch,
 } from '@chakra-ui/react';
 import { BiSave } from "react-icons/bi";
-import { MdFolderOpen, MdOutlineFileDownload } from 'react-icons/md'
+import { MdFolderOpen, MdOutlineFileDownload, MdListAlt, MdAddShoppingCart} from 'react-icons/md'
 import AuthContext from '../../auth';
 import GlobalEditStoreContext from '../../store/EditStore';
-import { ACCESS_TYPE } from '../../translator-client/sort-options';
+import { ACCESS_TYPE, PROJECT_TYPE } from '../../translator-client/sort-options';
+import ShoppingCart from './ShoppingCart';
+import GlobalShopStoreContext from '../../store/ShopStore';
+import { GlobalEditTilesetStoreActionType } from '../../store/EditTilesetStore';
 
 
 
 const EditNavbar = (props) => {
-    const {projectName, projectAccess, currentStore} = props
+    const {projectName, currentStore} = props
     const { auth } = useContext(AuthContext);
-    const { editStore } = useContext(GlobalEditStoreContext)
+    const {shopStore} = useContext(GlobalShopStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
     const [isPublic, setPublic] = useState(props.isPublic)
@@ -82,13 +85,30 @@ const EditNavbar = (props) => {
         console.log(currentStore)
     }
 
+    const handleAddToMap = () => {
+        const image = props.toDataURL()
+        const data = {
+            _id: currentStore.currentId, 
+            name: currentStore.name, 
+            height: currentStore.height, 
+            width:currentStore.width,
+            pixel: currentStore.pixel
+        }
+        shopStore.addTileset(data, image)
+    }
+
     return (
         <Box px={4} className="navbar" left={0} >
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
+                    <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent'/>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
+                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect}/>
+                    {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET)?
+                    <IconButton bg='transparent' icon={<MdAddShoppingCart className='md-icon' />} onClick={handleAddToMap} title={`Add to '${shopStore.name}'`}/>
+                    :<></>}
                 </Flex>
                 <Flex>
                     {(nameEdit) ?
