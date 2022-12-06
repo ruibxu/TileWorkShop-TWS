@@ -6,7 +6,8 @@ export const GlobalShopStoreContext = createContext({});
 
 export const GlobalShopStoreActionType = {
     ADD_SHOPPER: "ADD_SHOPPER",
-    CLEAR_SHOPPER: "CLEAR_SHOPPER"
+    CLEAR_SHOPPER: "CLEAR_SHOPPER",
+    ADD_TILESET: "ADD_TILESET"
 }
 
 const GlobalShopStoreContextProvider = (props) => {
@@ -14,7 +15,8 @@ const GlobalShopStoreContextProvider = (props) => {
         _id: '',
         name: 'No Tilemap Selected',
         exist: false,
-        recentlyAdded: []
+        recentlyAdded: [],
+        recentlyAddedId: []
     });
     const history = useHistory();
     const redirect = async (route, parameters) => {
@@ -30,7 +32,8 @@ const GlobalShopStoreContextProvider = (props) => {
                     _id: payload._id,
                     name: payload.name,
                     exist: true,
-                    recentlyAdded: []
+                    recentlyAdded: [],
+                    recentlyAddedId: []
                 })
             }
             case GlobalShopStoreActionType.CLEAR_SHOPPER:{
@@ -39,7 +42,15 @@ const GlobalShopStoreContextProvider = (props) => {
                     _id: '',
                     name: 'No Tilemap Selected',
                     exist: false,
-                    recentlyAdded: []
+                    recentlyAdded: [],
+                    recentlyAddedId: []
+                })
+            }
+            case GlobalShopStoreActionType.ADD_TILESET:{
+                return setShopStore({
+                    ...shopStore,
+                    recentlyAdded: payload.recentlyAdded,
+                    recentlyAddedId: payload.recentlyAddedId
                 })
             }
         }
@@ -82,7 +93,20 @@ const GlobalShopStoreContextProvider = (props) => {
             const tileset_id = response.data.tileset_id
             const response2 = await api.updateTileMapImage(tileset_id, { map_id: id, data: url })
             if (response2.status === 200) {
-                console.log(response)
+                const old_id = tileset._id
+                const newEntry = {
+                    ...newTileset,
+                    old_id:old_id,
+                    new_id:tileset_id,
+                    src: response2.data.resources.secure_url
+                }
+                storeReducer({
+                    type: GlobalShopStoreActionType.ADD_TILESET,
+                    payload: {
+                        recentlyAddedId: [...shopStore.recentlyAddedId, old_id],
+                        recentlyAdded: [...shopStore.recentlyAdded, newEntry]
+                    }
+                })
             }
         }
     }

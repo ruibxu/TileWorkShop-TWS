@@ -88,8 +88,7 @@ const EditNavbar = (props) => {
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name}/>
-                    {/* <IconButton icon={<MdShoppingCart className='md-icon'/>} bg='transparent' title={'Test'} isDisabled={true}/> */}
+                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect}/>
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave}/>
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} />
                 </Flex>

@@ -58,8 +58,7 @@ const MainNavbar = (props) => {
                 <div><Image src={logo} maxH='50px' objectFit='fill' onClick={()=>props.redirect('/homescreen')}/></div>
             </Flex>
             <Flex alignItems={'center'} width={'70%'} bg='transparent'>
-                <ShoppingCart mr={3}/>
-                {/* <IconButton icon={<MdShoppingCart className='md-icon'/>} mr={3} bg='transparent' title={'Test'} isDisabled={true}/> */}
+                <ShoppingCart mr={3} redirect={props.redirect}/>
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'} defaultValue={store.search_term}
                 onChange = {(e)=>handleChangeSortOptions('search_term', e.target.value)}/>
                 <Menu>
