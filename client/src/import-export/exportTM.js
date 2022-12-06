@@ -74,13 +74,12 @@ const exportTM = (store) => {
     const jsonName=fileName + ".json";
     
     var zip = new JSZip();
-    var folder = zip.folder(fileName);
-    folder.file(jsonName, jsonfile, { binary: true });
+    zip.file(jsonName, jsonfile, { binary: true });
 
 
     store.tilesets.forEach((tileset) => {
             console.log(tileset.image.src)
-            folder.file(tileset.name+".png",urlToPromise(tileset.image.src), { binary: true });
+            zip.file(tileset.name+".png",urlToPromise(tileset.image.src), { binary: true });
     })
 
 

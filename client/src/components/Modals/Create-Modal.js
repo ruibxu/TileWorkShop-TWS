@@ -117,7 +117,7 @@ const CreateModal = (props) => {
                             type="file"
                             onChange={handleChange}
                             style = {{display:"none"}}
-                            accept=".json*"
+                            accept="application/zip"
                             id='input-edit'
                         />}
                         </Box>
