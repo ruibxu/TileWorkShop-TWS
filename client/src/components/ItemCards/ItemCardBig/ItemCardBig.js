@@ -169,7 +169,7 @@ function ItemCardBig(props) {
                         <CommentList comments={commentStore.currentCommentList} _id={project_id} data={data} handleDeleteComment={handleDeleteComment} project_id={project_id} />
                     </ModalBody>
                     <ModalFooter>
-                        <Flex width={'100%'}>
+                        <Flex width={'100%'} alignItems='center'>
                             <Button colorScheme='yellow' mr={3} onClick={handleView} isDisabled={(!auth.loggedIn)}>
                                 View
                             </Button>
@@ -180,6 +180,7 @@ function ItemCardBig(props) {
                                 >
                                 Add To Map
                             </Button>
+                            <Text className="success-text" visibility={(shopStore.recentlyAddedId.includes(data._id))?'':'hidden'}>Recently Added</Text>
                             <Spacer />
                             <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''}>
                                 Delete
