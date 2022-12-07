@@ -3,7 +3,7 @@ import { Prompt, useHistory, useParams } from "react-router-dom";
 import { useDisclosure } from '@chakra-ui/react';
 import EditNavbar from '../Navbars/EditNavbar';
 
-import { Box, Flex, Grid, GridItem} from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem } from '@chakra-ui/react'
 import GlobalStoreContext from '../../store/ProjectStore';
 import GlobalEditStoreContext from '../../store/EditStore';
 import AuthContext from '../../auth';
@@ -35,7 +35,7 @@ const EditTileMapScreen = (props) => {
     const [exporting, setExporting] = useState(false)
     const [currentButton, setCurrentButton] = useState("Drag");
     const [zoomValue, setZoomValue] = useState(1)
-
+    const [isEditing, setIsEditing] = useState(false)
     // setInterval
     const INITIAL_TIMER = 3;
     const TARGET_TIMER = 0;
@@ -44,21 +44,21 @@ const EditTileMapScreen = (props) => {
     useEffect(() => {
         function handleTimer() {
             interval.current = setInterval(() => {
-            console.log('Counting down! This will run every second!');
-            timer.current = (timer.current -1);
-            console.log(timer.current);
-            if (timer.current <= TARGET_TIMER) {
-                console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
-                // stop editing
-                clearInterval(interval.current);
-            }
-          }, 1000);
+                console.log('Counting down! This will run every second!');
+                timer.current = (timer.current - 1);
+                console.log(timer.current);
+                if (timer.current <= TARGET_TIMER) {
+                    console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
+                    // stop editing
+                    clearInterval(interval.current);
+                }
+            }, 1000);
         }
         if (timer.current === INITIAL_TIMER) {
-          handleTimer();
+            handleTimer();
         }
-        return () => {clearInterval(interval.current);}
-      }, [timer.current]);
+        return () => { clearInterval(interval.current); }
+    }, [timer.current]);
     ////
 
     let history = useHistory();
@@ -67,7 +67,7 @@ const EditTileMapScreen = (props) => {
         editStore.clearTransactions()
         editStore.clearItem()
         console.log('clear item ran')
-        
+
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
 
@@ -81,9 +81,9 @@ const EditTileMapScreen = (props) => {
     let tilemap = editStore.currentItem
 
     const [isPublic, setPublic] = useState((editStore.access) ? editStore.access.public : false)
-    
-    useEffect(()=>{
-        if(editStore.access){
+
+    useEffect(() => {
+        if (editStore.access) {
             setPublic(editStore.access.public)
         }
     }, [editStore.access])
@@ -91,7 +91,7 @@ const EditTileMapScreen = (props) => {
 
     //exporting
     useEffect(() => {
-        if(exporting){
+        if (exporting) {
             exportTM(editStore)
             setExporting(false)
         }
@@ -105,33 +105,34 @@ const EditTileMapScreen = (props) => {
     const handleSetSelection = (value) => {
         setSelection(value)
         const nonDrawTools = [TOOLS.ERASER, TOOLS.MOVE]
-        if(nonDrawTools.includes(currentButton) && editStore.editing == true){setCurrentButton(TOOLS.STAMP_BRUSH)}
+        if (nonDrawTools.includes(currentButton) && editStore.editing == true) { setCurrentButton(TOOLS.STAMP_BRUSH) }
     }
-    
+
     //what ft
 
     const showShareModal = useDisclosure()
     const showResizeMapModal = useDisclosure()
     const showTilesetDrawer = useDisclosure()
-    
-    const tsRef = useRef()
-    
-    return (
-        <div  className='tilemap' height='100%' width={'100%'}>
-            <Flex height='100%' width={'100%'} flexDirection= 'column'>
 
-                <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen} 
-                            isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
-                            exporting={exporting} setExporting={setExporting}
-                            currentStore={editStore} save={saveProject}
+    const tsRef = useRef()
+
+    return (
+        <div className='tilemap' height='100%' width={'100%'}>
+            <Flex height='100%' width={'100%'} flexDirection='column'>
+
+                <EditNavbar height='6%' width='100%' redirect={redirect} openShareModal={showShareModal.onOpen}
+                    isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
+                    exporting={exporting} setExporting={setExporting}
+                    currentStore={editStore} save={saveProject}
+                    isEditing={isEditing} setIsEditing={setIsEditing}
                 />
 
-                <Box  className='mapToolbar' height='6%' width='100%'> 
-                    <MapToolbar redirect={redirect} 
-                        openResizeMapModal={showResizeMapModal.onOpen} 
+                <Box className='mapToolbar' height='6%' width='100%'>
+                    <MapToolbar redirect={redirect}
+                        openResizeMapModal={showResizeMapModal.onOpen}
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
-                        zoomValue={zoomValue}  setZoomValue={setZoomValue}
-                        />
+                        zoomValue={zoomValue} setZoomValue={setZoomValue} isEditing={isEditing}
+                    />
                 </Box>
 
                 <Box height='88%' width='100%'>
@@ -159,7 +160,7 @@ const EditTileMapScreen = (props) => {
                                 <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                             </Box>
                             <Box bg='lightgrey' height='70%' className='mapLayer'>
-                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}   />
+                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
                             </Box>
                         </Box>
                     </Flex>
@@ -178,7 +179,7 @@ const EditTileMapScreen = (props) => {
             />
 
         </div>
-        )
+    )
 }
 
 export default EditTileMapScreen;
