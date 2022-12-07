@@ -71,7 +71,12 @@ const MapToolbar = (props) => {
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   }, [editStore])
-
+  useEffect(() => {
+    handleOnClick(TOOLS.MOVE)
+    editStore.clearTransactions()
+    setCanUndo(editStore.canUndo())
+    setCanRedo(editStore.canRedo())
+  }, [props.isEditing])
   console.log(props.isEditing)
   //<IconButton onClick={() => handleOnClick(TOOLS.REACTANGULAR_SELECT)} outlineColor={(currentButton == TOOLS.REACTANGULAR_SELECT) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.REACTANGULAR_SELECT} icon={<GrSelect className='md-icon' />} />
   //<IconButton onClick={() => handleOnClick(TOOLS.SELECT_SAME_TILE)} outlineColor={(currentButton == TOOLS.SELECT_SAME_TILE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SELECT_SAME_TILE} icon={<BiSelectMultiple className='md-icon' />} />
