@@ -23,7 +23,7 @@ const TilesetToolbar = (props) => {
                   {currentTilesetName}
                   </Text>
                 <Spacer/>
-                <IconButton bg='transparent' title="Add New Tileset"icon={<AiOutlineMenu className='md-icon'/>} 
+                <IconButton bg='transparent' title="Tileset Sidebar"icon={<AiOutlineMenu className='md-icon'/>} 
                   ref={tsRef} onClick={props.openDrawer}
                 />
                 {/* <IconButton bg='transparent' title="Add New Tileset"icon={<AiOutlineFileAdd className='md-icon'/>} />

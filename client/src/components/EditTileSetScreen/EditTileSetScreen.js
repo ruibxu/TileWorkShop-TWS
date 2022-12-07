@@ -38,8 +38,6 @@ const EditTileSetScreen = (props) => {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     const scrollRef = useRef(null)
-    console.log('This is reloading too')
-    const [tileset, setTileset] = useState(editTilesetStore.currentItem)
 
     // setInterval
     const INITIAL_TIMER = 300;
@@ -75,9 +73,10 @@ const EditTileSetScreen = (props) => {
 
     
     useEffect(() => {
-        setTileset(editTilesetStore.currentItem)
+        tileset = editTilesetStore.currentItem
     }, [editTilesetStore.currentItem])
 
+    let tileset = editTilesetStore.currentItem
     const [isPublic, setPublic] = useState((tileset) ? tileset.access.public : false)
 
     //exporting
