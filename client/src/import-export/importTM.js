@@ -18,14 +18,18 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 let json= await file.async("text");
                 const tilemap= await makeTileMap(file,zip,json)
 
+                console.log(tilemap);
+
+
                 const temp={
                     user_id: auth.user._id,
                     data: tilemap
                 }
+                console.log(temp);
 
                 var res=await store.createNewTilemap(temp,true)
                 
-                console.log(res);
+                
                 console.log("what")
             }        
             /*else if(file.name.endsWith(".png")){
@@ -94,7 +98,7 @@ const makeTileMap =(file,zip,json) => {
     var objectId_array=[]
     let tmp_tileset_arr=[];
     json_obj.tilesets.forEach((tileset) => {
-        var objectId= new ObjectId();
+        var objectId= JSON.stringify(new ObjectId());
         console.log(objectId);
         objectId_array.push(objectId);
         const temp = translateTileset(tileset,json_obj,zip,objectId);
@@ -103,9 +107,12 @@ const makeTileMap =(file,zip,json) => {
         tmp_tileset_arr.push(temp);
     })
 
-    console.log(tmp_tileset_arr)
+    //console.log(tmp_tileset_arr)
+    console.log(objectId_array)
 
     let tmp_layer_arr=[];
+    
+    
     json_obj.layers.forEach((layer) => {
         const temp = translateLayer(layer,json_obj,objectId_array);
         tmp_layer_arr.push(temp);
@@ -115,6 +122,7 @@ const makeTileMap =(file,zip,json) => {
     tilemap.tileset=tmp_tileset_arr;
 
     console.log(tilemap);
+    return tilemap;
 
 }
 
@@ -144,7 +152,7 @@ const translateLayer = (layer,json,object_id_array) => {
     current_layer.properties=temp_prop
 
 
-    let temp_data=[];
+    let temp_data={};
     for(let i=0;i<layer.data.length;i++){
         if(layer.data[i]!=0){ 
             let count=0;
@@ -160,7 +168,7 @@ const translateLayer = (layer,json,object_id_array) => {
             let height=Math.floor((layer.data[i]-temp_firstgid)/layer.width)//second arg
             let width=(layer.data[i]-temp_firstgid)%layer.width //first arg
             let id=object_id_array[count];
-            temp_data.push({0:width,1:height,2:id});
+            temp_data[i]=({0:width,1:height,2:id});
             //tileset id
         }
     }
@@ -175,7 +183,7 @@ const translateLayer = (layer,json,object_id_array) => {
 const translateTileset = (tileset,json,zip,id) => {
     //tileset _id
     let current_tileset={
-        //_id:null,
+        _id: id,
         name: tileset.name,
         pixel:tileset.tilewidth,
         height:tileset.imageheight/tileset.tileheight,
@@ -184,7 +192,7 @@ const translateTileset = (tileset,json,zip,id) => {
     };
     let file=zip.files[`${tileset.name}.png`]
     getImage(file).then((image) =>current_tileset.image=(image))
-    console.log(current_tileset)
+    //console.log(current_tileset)
     //current_tileset.then((tileset) => {return tileset})
     return current_tileset;
 }

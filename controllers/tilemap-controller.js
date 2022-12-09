@@ -22,7 +22,7 @@ const getTileMapById = async (req, res) => {
 
 const createTileMap = async (req, res) => {
     if (!req.body) {
-        return res.status(400).json({
+        return res.status(201).json({
             errorMessage: 'Improperly formatted request',
         })
     }
@@ -51,7 +51,7 @@ const createTileMap = async (req, res) => {
         })
     }).catch(error => {
         // console.log(error)
-        return res.status(400).json({
+        return res.status(201).json({
             errorMessage: 'TileMap Not Created!'
         })
     });
