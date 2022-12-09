@@ -4,14 +4,14 @@ import { HStack, IconButton,Flex, Box, Center, Container, Text, SimpleGrid} from
 
 
 const TilesetColorPicker = (props) => {
-    const { color, setColor } = props
+    const { color, setColor, isEditing} = props
     const [formats, setFormats] = useState(["rgba"]);
     const [spectrum, setSpectrum] = useState("hsva");
 
     const handleChange = useCallback(({ colors }) => {
         setColor(colors.rgba);
         //console.log(props.color);
-    }, []);
+    }, [isEditing]);
 
 
 
