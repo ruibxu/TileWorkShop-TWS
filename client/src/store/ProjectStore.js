@@ -329,14 +329,15 @@ const GlobalStoreContextProvider = (props) => {
                 }
             })
             console.log(response.data)
-            if(noRedirect){return}
+            if(noRedirect){return response.data.tileMap}
             redirect(`/tilemap/${response.data.tileMap._id}`)
+            return response.data.tileMap
         } else {
             console.log(response.data.errorMessage)
         }
     }
 
-    store.uploadTileSetImages = async (tilesets) => {
+    store.uploadTileSetImages = async (tilesets, map_id) => {
         console.log(store.currentItem._id)
     }
 
