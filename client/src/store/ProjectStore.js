@@ -317,7 +317,7 @@ const GlobalStoreContextProvider = (props) => {
         })
     }
 
-    store.createNewTilemap = async function (tmd) {
+    store.createNewTilemap = async function (tmd, noRedirect) {
         const response = await api.createTileMap(tmd);
         if (response.status === 200) {
             storeReducer({
@@ -326,13 +326,14 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: response.data.tileMap
                 }
             })
+            if(noRedirect){return}
             redirect(`/tilemap/${response.data.tileMap._id}`)
         } else {
             console.log(response.data.errorMessage)
         }
     }
 
-    store.createNewTileset = async function (tsd, img) {
+    store.createNewTileset = async function (tsd, img, noRedirect) {
         const response = await api.createTileSet(tsd);
         if (response.status === 200) {
             if(img){
@@ -346,6 +347,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: response.data.tileSet
                 }
             })
+            if(noRedirect){return}
             redirect(`/tileset/${response.data.tileSet._id}`)
         } else {
             console.log(response.data.errorMessage)
