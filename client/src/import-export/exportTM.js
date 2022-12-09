@@ -114,10 +114,13 @@ const translateLayer = (layer,store,counting_array) => {
 
     console.log(layer.data)
     //
+
+    //layer id problem
     let current_layer={
         data:null,
         height:store.height,
         id:layer.id,
+        locked: layer.locked,
         name:layer.name,
         opacity:1,
         properties:null,
