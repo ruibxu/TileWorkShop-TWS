@@ -121,7 +121,7 @@ const EditTileSetScreen = (props) => {
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} projectName={(tileset) ? tileset.name : 'loading...'}
                 exporting={exporting} setExporting={setExporting} toDataURL={toDataURL}
-                currentStore={editTilesetStore} save={saveProject}
+                currentStore={editTilesetStore} save={saveProject} isEditing={editTilesetStore.editing}
                 />
 
             <Grid

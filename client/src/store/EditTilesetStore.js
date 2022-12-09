@@ -17,7 +17,8 @@ export const GlobalEditTilesetStoreActionType = {
     UPDATE_NAME: "UPDATE_NAME",
     SET_REFS: "SET_REFS",
     UPDATE_ACCESS: "UPDATE_ACCESS",
-    CLEAR_ITEM: "CLEAR_ITEM"
+    CLEAR_ITEM: "CLEAR_ITEM",
+    UPDATE_EDIT_REQUEST: "UPDATE_EDIT_REQUEST"
 }
 
 const tps = new jsTPS();
@@ -98,6 +99,13 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     access: payload.access,
                     accessList: (payload.accessList)?payload.accessList:editTilesetStore.accessList,
                     accessUsers: (payload.accessUsers)?payload.accessUsers:editTilesetStore.accessUsers
+                })
+            }
+            case GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST:{
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    editingRequest: payload.editingRequest,
+                    editing: payload.editing
                 })
             }
         }
@@ -300,6 +308,47 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
 
     editTilesetStore.clearTransactions = () => {
         tps.clearAllTransactions();
+    }
+
+    editTilesetStore.sendRequest = async (payload) => {
+        const response = await api.createRequest(payload)
+        console.log(response)
+        if(response.status === 200){
+            await storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: response.data.request,
+                    editing: true
+                }
+            })
+        }
+    }
+
+    editTilesetStore.deleteRequest = async (payload) => {
+        const response = await api.deleteRequest(payload)
+        if(response.status === 200){
+            console.log(response.data.request)
+            storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: null,
+                    editing: false
+                }
+            })
+        }
+    }
+
+    editTilesetStore.getRequest = async (payload) => {
+        const response = await api.getRequest(payload)
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: response.data.request,
+                    editing: editTilesetStore.editing
+                }
+            })
+        }
     }
 
     return (
