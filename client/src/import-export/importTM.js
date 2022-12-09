@@ -27,7 +27,7 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 }
                 console.log(temp);
 
-                var res=await store.createNewTilemap(temp,true)
+                var res=store.createNewTilemap(temp,true)
                 
                 
                 console.log("what")
