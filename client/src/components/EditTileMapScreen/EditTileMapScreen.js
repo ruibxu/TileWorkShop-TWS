@@ -102,6 +102,10 @@ const EditTileMapScreen = (props) => {
         editStore.save(imageData)
     }
 
+    const handleSetCurrentButton = (newButton) => {
+        setCurrentButton((editStore.editing)?newButton:TOOLS.MOVE)
+    }
+
     const handleSetSelection = (value) => {
         setSelection(value)
         const nonDrawTools = [TOOLS.ERASER, TOOLS.MOVE]
@@ -125,12 +129,13 @@ const EditTileMapScreen = (props) => {
                     exporting={exporting} setExporting={setExporting}
                     currentStore={editStore} save={saveProject}
                     isEditing={editStore.editing} setIsEditing={editStore.toggleEditMode}
+                    setCurrentButton={handleSetCurrentButton}
                 />
 
                 <Box className='mapToolbar' height='6%' width='100%'>
                     <MapToolbar redirect={redirect}
                         openResizeMapModal={showResizeMapModal.onOpen}
-                        currentButton={currentButton} setCurrentButton={setCurrentButton}
+                        currentButton={currentButton} setCurrentButton={handleSetCurrentButton}
                         zoomValue={zoomValue} setZoomValue={setZoomValue} isEditing={editStore.editing}
                     />
                 </Box>
@@ -151,7 +156,7 @@ const EditTileMapScreen = (props) => {
                                 currentLayer={currentLayer} setCurrentLayer={setCurrentLayer}
                                 selection={selection} setSelection={setSelection}
                                 currentTileSetId={currentTileSetId}
-                                currentButton={currentButton} setCurrentButton={setCurrentButton}
+                                currentButton={currentButton} setCurrentButton={handleSetCurrentButton}
                                 zoomValue={zoomValue} scrollRef={scrollRef}
                             />
                         </Box>
