@@ -46,6 +46,7 @@ const createTileMap = async (req, res) => {
         return res.status(200).json({
             success: true,
             tileMap: tilemap,
+            tilesets: data.tileset,
             message: "TileMap Created"
         })
     }).catch(error => {
