@@ -39,7 +39,7 @@ const createTileMap = async (req, res) => {
     data.community = community;
     data.access = access;
     data.lastEdited = Date.now();
-    //data.tileset.forEach(x => x._id = new ObjectId())
+    data.tileset.forEach(x => x._id = new ObjectId(x._id))
     const tilemap = new TileMap(data);
     console.log(tilemap)
     tilemap.save().then(() => {
