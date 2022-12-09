@@ -124,14 +124,14 @@ const EditTileMapScreen = (props) => {
                     isPublic={isPublic} setPublic={setPublic} projectName={(tilemap) ? tilemap.name : 'loading...'}
                     exporting={exporting} setExporting={setExporting}
                     currentStore={editStore} save={saveProject}
-                    isEditing={isEditing} setIsEditing={setIsEditing}
+                    isEditing={editStore.editing} setIsEditing={editStore.toggleEditMode}
                 />
 
                 <Box className='mapToolbar' height='6%' width='100%'>
                     <MapToolbar redirect={redirect}
                         openResizeMapModal={showResizeMapModal.onOpen}
                         currentButton={currentButton} setCurrentButton={setCurrentButton}
-                        zoomValue={zoomValue} setZoomValue={setZoomValue} isEditing={isEditing}
+                        zoomValue={zoomValue} setZoomValue={setZoomValue} isEditing={editStore.editing}
                     />
                 </Box>
 

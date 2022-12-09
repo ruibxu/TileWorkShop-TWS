@@ -23,7 +23,8 @@ export const GlobalEditStoreActionType = {
     UPDATE_ACCESS: "UPDATE_ACCESS",
     MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
     UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
-    DELETE_TILESET: "DELETE_TILESET"
+    DELETE_TILESET: "DELETE_TILESET",
+    TOGGLE_EDIT: "TOGGLE_EDIT"
 
 }
 const tps = new jsTPS();
@@ -101,7 +102,7 @@ const GlobalEditStoreContextProvider = (props) => {
                     layers: payload.layers,
                     tilesets: payload.tilesets,
                     name: payload.name,
-                    editing: true,
+                    editing: false,
                     editId: '',
                     tilesetMarkedForDeletion: null
                 })
@@ -196,8 +197,20 @@ const GlobalEditStoreContextProvider = (props) => {
                     tilesets: payload.tilesets
                 })
             }
-
+            case GlobalEditStoreActionType.TOGGLE_EDIT: {
+                return setEditStore({
+                    ...editStore,
+                    editing: payload.editing,
+                })
+            }
         }
+    }
+
+    editStore.toggleEditMode = (bol) => {
+        storeReducer({
+            type: GlobalEditStoreActionType.TOGGLE_EDIT,
+            payload: {editing: bol}
+        })
     }
 
     editStore.updateTilesetName = async (setid, newName) => {
