@@ -31,6 +31,21 @@ const getRelatedTileSets = async (req, res) => {
     })
 }
 
+const deleteRelatedTileSets = async (req, res) => {
+    const tilemap_id = req.params.id;
+    const search = `folder:TileMap_Uses AND tags=${tilemap_id}`
+    const { resources }= await cloudinary.search.expression(search).execute();
+    if(!resources){
+        return res.status(201).json({
+            errorMessage: 'images not found!',
+        });
+    }
+    return res.status(200).json({
+        _id: tilemap_id,
+        resources: resources
+    })
+}
+
 const updateTileMapImage = async (req, res) => {
     try {
         const fileStr = req.body.data;
