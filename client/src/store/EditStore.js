@@ -341,7 +341,7 @@ const GlobalEditStoreContextProvider = (props) => {
                 if (response2.status == 200) {
                     const images = response2.data.resources
                     tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
-                    tilesets.map(x => x.imageURL = x.imageFull.url)
+                    tilesets.map(x => x.imageURL = (x.imageFull)?x.imageFull.url:null)
                     tilesets.map(x => x.image = createImage(x.imageURL))
                 }
             }
