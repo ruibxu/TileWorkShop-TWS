@@ -40,7 +40,7 @@ const createTileMap = async (req, res) => {
     data.access = access;
     data.lastEdited = Date.now();
     data.tileset.forEach(x => {
-        let objectId = x._id;
+        let objectId = x.id;
         x._id = new ObjectId(objectId)
     })
     const tilemap = new TileMap(data);
