@@ -336,6 +336,10 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
+    store.uploadTileSetImages = async (tilesets) => {
+        console.log(store.currentItem._id)
+    }
+
     store.createNewTileset = async function (tsd, img, noRedirect) {
         const response = await api.createTileSet(tsd);
         if (response.status === 200) {
