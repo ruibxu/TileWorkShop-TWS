@@ -140,6 +140,7 @@ const translateLayer = (layer,store,counting_array) => {
 
     //data
     let tileArray=[];
+    console.log(layer.data)
     for(let y = 0; y < store.height; y++){
         for(let x = 0; x < store.width; x++){
             let key = `${x}-${y}`;

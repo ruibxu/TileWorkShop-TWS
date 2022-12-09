@@ -21,30 +21,19 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 console.log(tilemap);
 
 
+                
                 const temp={
                     user_id: auth.user._id,
                     data: tilemap
                 }
                 console.log(temp);
 
-                await store.createNewTilemap(temp,true)
+                await store.createNewTilemap(temp,false)
                 
                 
                 console.log("what")
             }        
-            /*else if(file.name.endsWith(".png")){
-                console.log("png");
-                const img=await file.async("base64")
-                console.log(img);
-            }*/ 
-            //else{
-                //return;
-            //}
         })
-        //console.log(zip.files[Object.keys(zip.files)[1]].name.endsWith(".json"))
-        //console.log(zip.files[Object.keys(zip.files)[0]].dir)
-        //zip.files[Object.keys(zip.files)[1]]
-        //zip.file("hello.txt").async("string"); // a promise of "Hello World\n"
     });
     
 
@@ -155,23 +144,27 @@ const translateLayer = (layer,json,object_id_array) => {
     let temp_data={};
     for(let i=0;i<layer.data.length;i++){
         if(layer.data[i]!=0){ 
-            let count=0;
+            let count=-1;
             let temp_firstgid=0;
             json.tilesets.forEach((tileset) => {
                 if(layer.data[i]>=tileset.firstgid){
                     count++;
-                }else{
-                    temp_firstgid=tileset.firstgid
+                    temp_firstgid=tileset.firstgid;
                 }
             })
-
+            let y=Math.floor(i/json.width)
+            let x=i%json.width
             let height=Math.floor((layer.data[i]-temp_firstgid)/layer.width)//second arg
             let width=(layer.data[i]-temp_firstgid)%layer.width //first arg
             let id=object_id_array[count];
-            temp_data[i]=({0:width,1:height,2:id});
+            let key=`${x}-${y}`;
+            temp_data[key]=[width,height,id];
+            //console.log(key);
+            //console.log(temp_data[key])
             //tileset id
         }
     }
+    //console.log(temp_data);
     current_layer.data=temp_data;
 
     return current_layer;
