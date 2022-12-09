@@ -337,8 +337,15 @@ const GlobalStoreContextProvider = (props) => {
         }
     }
 
-    store.uploadTileSetImages = async (tilesets, map_id) => {
-        console.log(store.currentItem._id)
+    store.uploadTileSetImages = async (tilesets, map_id, redirect) => {
+        if(!map_id){console.log('Error'); return}
+        tilesets.forEach(async (x) => {
+            const {_id, image} = x
+            const response = await api.updateTileMapImage(_id, { map_id: map_id, data: image })
+            console.log(response)
+        })
+        if(redirect){redirect(`/tilemap/${map_id}`)}
+        //
     }
 
     store.createNewTileset = async function (tsd, img, noRedirect) {

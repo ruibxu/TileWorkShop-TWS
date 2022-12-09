@@ -31,8 +31,7 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
 
                 const newMap = await store.createNewTilemap(temp,false)
                 const newMapId = (newMap)?newMap._id:''
-                console.log(newMapId)
-                await store.uploadTileSetImages(tilesets, newMap._id)
+                await store.uploadTileSetImages(tilesets, newMapId, true)
                 
                 console.log("what")
             }        
