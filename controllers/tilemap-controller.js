@@ -39,6 +39,7 @@ const createTileMap = async (req, res) => {
     data.community = community;
     data.access = access;
     data.lastEdited = Date.now();
+    data.tileset.forEach(x => x._id = new ObjectId())
     const tilemap = new TileMap(data);
     console.log(tilemap)
     tilemap.save().then(() => {
@@ -90,10 +91,8 @@ const deleteTileMap = async (req, res) => {
 }
 
 const updateTileMap = async (req, res) => {
-    // console.log("updating Tilemap: " + req.params.id);
     const objectId = req.params.id;
     TileMap.findById({ _id: objectId }, (err, tilemap) => {
-        // console.log("tilemap found: " + JSON.stringify(tilemap));
         if (err) {
             return res.status(404).json({
                 errorMessage: 'Tilemap not found!',
@@ -101,7 +100,6 @@ const updateTileMap = async (req, res) => {
         }
         //can this user update
         async function matchUser(item) {
-            // console.log("req.userId: " + req.body.user_id);
             access = item.access;
             if (access.owner_id == req.body.user_id || access.editor_ids.includes(req.body.user_id)) {
                 item.lastEdited = Date.now();
