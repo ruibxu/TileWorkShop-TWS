@@ -22,7 +22,7 @@ const getTileMapById = async (req, res) => {
 
 const createTileMap = async (req, res) => {
     if (!req.body) {
-        return res.status(400).json({
+        return res.status(201).json({
             errorMessage: 'Improperly formatted request',
         })
     }
@@ -39,19 +39,21 @@ const createTileMap = async (req, res) => {
     data.community = community;
     data.access = access;
     data.lastEdited = Date.now();
-    data.tileset.forEach(x => x._id = new ObjectId())
+    //data.tileset.forEach(x => x._id = new ObjectId(x._id))
     const tilemap = new TileMap(data);
     console.log(tilemap)
     tilemap.save().then(() => {
         return res.status(200).json({
             success: true,
             tileMap: tilemap,
+            tilesets: data.tileset,
             message: "TileMap Created"
         })
     }).catch(error => {
         // console.log(error)
-        return res.status(400).json({
-            errorMessage: 'TileMap Not Created!'
+        return res.status(201).json({
+            errorMessage: 'TileMap Not Created!',
+            tileMap: tilemap
         })
     });
 }

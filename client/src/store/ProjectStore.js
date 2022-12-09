@@ -318,7 +318,9 @@ const GlobalStoreContextProvider = (props) => {
     }
 
     store.createNewTilemap = async function (tmd, noRedirect) {
+        console.log("before store response")
         const response = await api.createTileMap(tmd);
+        console.log(response.data)
         if (response.status === 200) {
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILEMAP,
@@ -326,7 +328,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: response.data.tileMap
                 }
             })
-            console.log(response.data.tileMap)
+            console.log(response.data)
             if(noRedirect){return}
             redirect(`/tilemap/${response.data.tileMap._id}`)
         } else {
