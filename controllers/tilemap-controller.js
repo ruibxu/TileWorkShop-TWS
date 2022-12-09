@@ -55,7 +55,8 @@ const createTileMap = async (req, res) => {
     }).catch(error => {
         // console.log(error)
         return res.status(201).json({
-            errorMessage: 'TileMap Not Created!'
+            errorMessage: 'TileMap Not Created!',
+            tileMap: tilemap
         })
     });
 }
