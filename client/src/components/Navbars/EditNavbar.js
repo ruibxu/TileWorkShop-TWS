@@ -23,17 +23,17 @@ import AuthContext from '../../auth';
 import { ACCESS_TYPE, PROJECT_TYPE } from '../../translator-client/sort-options';
 import ShoppingCart from './ShoppingCart';
 import GlobalShopStoreContext from '../../store/ShopStore';
-
+import GlobalEditStoreContext from '../../store/EditStore';
 
 
 const EditNavbar = (props) => {
-    const { projectName, currentStore, isEditing, setIsEditing} = props
+    const { projectName, currentStore, isEditing, setIsEditing } = props
     const { auth } = useContext(AuthContext);
     const { shopStore } = useContext(GlobalShopStoreContext)
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
     const [isPublic, setPublic] = useState(props.isPublic)
-
+    const { editStore } = useContext(GlobalEditStoreContext)
     useEffect(() => {
         if (name == projectName) { return }
         setName(projectName)
@@ -81,6 +81,14 @@ const EditNavbar = (props) => {
 
     const handleEdit = () => {
         setIsEditing(true)
+        editStore.sendRequest({
+            expire: 20,
+            data: {
+                request_type: "EDIT_PROJECT",
+                user_id: auth.user._id,
+                related_id: editStore.currentId
+            }
+        })
     }
 
     const handleAddToMap = () => {
@@ -95,18 +103,29 @@ const EditNavbar = (props) => {
         shopStore.addTileset(data, image)
     }
 
+    const handleView = () => {
+        setIsEditing(false)
+        editStore.deleteRequest({
+            expire: 20,
+            data: {
+                request_type: "EDIT_PROJECT",
+                user_id: auth.user._id,
+                related_id: editStore.currentId
+            }
+        })
+    }
     return (
         <Box px={4} className="navbar" left={0} >
             <HStack h={16} justifyContent={'space-between'}>
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
-                    <IconButton icon={<MdListAlt className='md-icon'/>} onClick={()=>props.redirect('/listscreen')} bg='transparent' title="List View Screen"/>
-                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save" disabled={!isEditing}/>
+                    <IconButton icon={<MdListAlt className='md-icon' />} onClick={() => props.redirect('/listscreen')} bg='transparent' title="List View Screen" />
+                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save" disabled={!isEditing} />
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} title="Download" />
-                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect} disabled={currentStore.accessLevel >= ACCESS_TYPE.EDITABLE}/>
-                    {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET)?
-                    <IconButton bg='transparent' icon={<MdAddShoppingCart className='md-icon' />} onClick={handleAddToMap} title={`Add to '${shopStore.name}'`}/>
-                    :<></>}
+                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect} disabled={currentStore.accessLevel >= ACCESS_TYPE.EDITABLE} />
+                    {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET) ?
+                        <IconButton bg='transparent' icon={<MdAddShoppingCart className='md-icon' />} onClick={handleAddToMap} title={`Add to '${shopStore.name}'`} />
+                        : <></>}
                 </Flex>
                 <Flex>
                     {(nameEdit) ?
@@ -123,7 +142,7 @@ const EditNavbar = (props) => {
                             isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER}>
                             {(isPublic) ? "Public" : "Private"}
                         </Button>
-                        {isEditing ? <Button width='65px' colorScheme='yellow' onClick={() => setIsEditing(false)} isDisabled={(!auth.loggedIn)}>
+                        {isEditing ? <Button width='65px' colorScheme='yellow' onClick={handleView} isDisabled={(!auth.loggedIn)}>
                             View
                         </Button> : <Button width='65px' variant={'solid'} colorScheme={'blue'} onClick={handleEdit} isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER ? currentStore.accessLevel != ACCESS_TYPE.EDITABLE : currentStore.accessLevel != ACCESS_TYPE.OWNER}>Edit</Button>}
                         <Button variant={'solid'} colorScheme={'blue'} onClick={handleShareModal} isDisabled={currentStore.accessLevel != ACCESS_TYPE.OWNER}>Share</Button>

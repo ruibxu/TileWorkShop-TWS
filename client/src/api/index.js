@@ -65,6 +65,11 @@ export const updateCommentCommunity = (id, payload) => api.put(`api/comment/comm
 
 export const sendConfirmEmail = (id, payload) => api.post(`api/confirmEmail/${id}`, payload)
 export const sendPasswordResetEmail = (id, payload) => api.post(`api/passwordReset/${id}`, payload)
+
+export const createRequest = (payload) => api.post(`api/sendRequest`,payload)
+export const deleteRequest = (payload) => api.put(`api/deleteRequest`,payload)
+export const getRequest = (payload) => api.put(`api/getRequest`,payload)
+export const getRequestById = (id,payload) => api.put(`api/getRequest/${id}`,payload)
 const apis = {
     getLoggedIn,
     registerUser,
@@ -130,6 +135,11 @@ const apis = {
     updateTileSetCommunity,
 
     sendConfirmEmail,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+
+    createRequest,
+    deleteRequest,
+    getRequest,
+    getRequestById
 }
 export default apis

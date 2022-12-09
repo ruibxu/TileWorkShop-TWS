@@ -33,7 +33,8 @@ const createRequest = async (req, res) => {
 
 const deleteRequest = async (req, res) => {
     const data = req.body.data
-    const delrq = await Request.findOneAndDelete({ user_id: data.user_id, related_id: data.related_id }).catch(err => console.log(err));
+    const delrq = await Request.findOneAndDelete({ request_type: data.request_type, user_id: data.user_id, related_id: data.related_id })
+    .catch(err => console.log(err));
     return res.status(200).json({
         success: true,
         request: delrq,
@@ -43,7 +44,7 @@ const deleteRequest = async (req, res) => {
 
 const getRequest = async (req, res) => {
     const data = req.body.data
-    const findrq = await Request.findOne({ user_id: data.user_id, related_id: data.related_id }, (err, rq) => {
+    const findrq = await Request.findOne({ request_type: data.request_type, user_id: data.user_id, related_id: data.related_id }, (err, rq) => {
         if (err) {
             return res.status(400).json({ success: false, errorMessage: "Failed to get request" })
         }
