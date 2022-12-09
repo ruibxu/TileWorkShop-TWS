@@ -5,7 +5,7 @@ const importTS = (auth,store,editTilesetStore, file,name,height,width,pixel) => 
     var img;
     reader.onload = function() {
         img=reader.result;
-        //console.log(img);
+        console.log(img);
         store.createNewTileset(
             {
             user_id: auth.user._id,

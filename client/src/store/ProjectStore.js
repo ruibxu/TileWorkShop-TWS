@@ -338,8 +338,11 @@ const GlobalStoreContextProvider = (props) => {
     }
 
     store.uploadTileSetImages = async (tilesets, map_id, redirectAfterComplete) => {
+        console.log("before upload tileset")
+        console.log(tilesets)
         if(!map_id){console.log('Error'); return}
-        tilesets.forEach(async (x) => {
+        await tilesets.forEach(async (x) => {
+            console.log("in for each loop")
             const {_id, image} = x
             const response = await api.updateTileMapImage(_id, { map_id: map_id, data: image })
             console.log(response)

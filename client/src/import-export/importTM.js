@@ -29,9 +29,9 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 }
                 console.log(temp);
 
-                const newMap = await store.createNewTilemap(temp,false)
+                const newMap = await store.createNewTilemap(temp,true)
                 const newMapId = (newMap)?newMap._id:''
-                await store.uploadTileSetImages(tilesets, newMapId, true)
+                await store.uploadTileSetImages(tilesets, newMapId,false)
                 
                 console.log("what")
             }        
@@ -202,7 +202,7 @@ const translateTileset = (tileset,json,zip,id) => {
 
 const getImage= (file)=>{
     let img;
-    const temp= file.async("base64").then((data)=>img=data);
+    const temp= file.async("base64").then((data)=>img="data:image/png;base64,"+data);
     //Promise.resolve(temp)
     //console.log(img)
     //console.log(temp)
