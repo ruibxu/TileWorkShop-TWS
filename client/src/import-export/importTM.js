@@ -27,7 +27,7 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 }
                 console.log(temp);
 
-                var res=store.createNewTilemap(temp,true)
+                await store.createNewTilemap(temp,true)
                 
                 
                 console.log("what")
@@ -98,7 +98,7 @@ const makeTileMap =(file,zip,json) => {
     var objectId_array=[]
     let tmp_tileset_arr=[];
     json_obj.tilesets.forEach((tileset) => {
-        var objectId= JSON.stringify(new ObjectId());
+        var objectId=new ObjectId().toString();
         console.log(objectId);
         objectId_array.push(objectId);
         const temp = translateTileset(tileset,json_obj,zip,objectId);
