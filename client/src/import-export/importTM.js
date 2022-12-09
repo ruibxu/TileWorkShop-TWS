@@ -16,7 +16,7 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
             if(file.name.endsWith(".json") && jsonflag==0){
                 jsonflag=1;
                 let json= await file.async("text");
-                const tilemap= await makeTileMap(file,zip,json)
+                const {tilemap, tilesets} = await makeTileMap(file,zip,json)
 
                 console.log(tilemap);
 
@@ -108,10 +108,11 @@ const makeTileMap =(file,zip,json) => {
     })
 
     tilemap.layers=tmp_layer_arr;
-    tilemap.tileset=tmp_tileset_arr;
+    tilemap.tileset=tmp_tileset_arr.map(x => x.current_tileset);
+    const tilesets = tmp_tileset_arr.map(x => x.current_tileset_with_image);
 
     console.log(tilemap);
-    return tilemap;
+    return {tilemap, tilesets};
 
 }
 
@@ -181,13 +182,20 @@ const translateTileset = (tileset,json,zip,id) => {
         pixel:tileset.tilewidth,
         height:tileset.imageheight/tileset.tileheight,
         width:tileset.imagewidth/tileset.tilewidth,
-        image:null
     };
+    let current_tileset_with_image = {
+        _id: id,
+        name: tileset.name,
+        pixel:tileset.tilewidth,
+        height:tileset.imageheight/tileset.tileheight,
+        width:tileset.imagewidth/tileset.tilewidth,
+        image: null
+    }
     let file=zip.files[`${tileset.name}.png`]
-    getImage(file).then((image) =>current_tileset.image=(image))
+    getImage(file).then((image) =>current_tileset_with_image.image=(image))
     //console.log(current_tileset)
     //current_tileset.then((tileset) => {return tileset})
-    return current_tileset;
+    return {current_tileset, current_tileset_with_image};
 }
 
 const getImage= (file)=>{
