@@ -87,11 +87,15 @@ const EditTileSetScreen = (props) => {
         }
     }, [exporting])
 
+    const handleSetCurrentButton = (newButton) => {
+        setCurrentButton((editTilesetStore.editing)?newButton:TOOLSFORTILESET.MOVE)
+    }
+
     const handleSetColor = (rgba) => {
         setColor({...rgba})
         const nonDrawTools = [TOOLSFORTILESET.MOVE, TOOLSFORTILESET.COLOR_PICKER, TOOLSFORTILESET.ERASER]
-        if(nonDrawTools.includes(currentButton)){
-            setCurrentButton(TOOLSFORTILESET.DRAW)
+        if(nonDrawTools.includes(currentButton) && editTilesetStore.editing){
+            handleSetCurrentButton(TOOLSFORTILESET.DRAW)
         }
     }
 
@@ -121,7 +125,7 @@ const EditTileSetScreen = (props) => {
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
                 isPublic={isPublic} setPublic={setPublic} projectName={(tileset) ? tileset.name : 'loading...'}
                 exporting={exporting} setExporting={setExporting} toDataURL={toDataURL}
-                currentStore={editTilesetStore} save={saveProject}
+                currentStore={editTilesetStore} save={saveProject} isEditing={editTilesetStore.editing}
                 />
 
             <Grid
@@ -131,19 +135,22 @@ const EditTileSetScreen = (props) => {
             >   
                 <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
                     <TilesetTools zoomValue= {zoomValue} setZoomValue={setZoomValue} currentButton={currentButton} 
-                    setCurrentButton={setCurrentButton}  toolWidth={toolWidth} setToolWidth={setToolWidth}
+                    setCurrentButton={handleSetCurrentButton}  toolWidth={toolWidth} setToolWidth={setToolWidth}
+                    isEditing={editTilesetStore.editing}
                     />
                 </GridItem>
 
                 <GridItem colSpan={5} rowSpan={2} minWidth={'100%'} maxWidth={'100%'} height={'100%'} className='tilesetWorkspace'>
                     <TilesetWorkspace canvasRef={canvasRef} contextRef={contextRef} scrollRef={scrollRef}
                     color={color} setColor={setColor} zoomValue={zoomValue}
-                    currentButton={currentButton} setCurrentButton={setCurrentButton}
+                    currentButton={currentButton} setCurrentButton={handleSetCurrentButton}
                     toolWidth={toolWidth} setToolWidth={setToolWidth}/>
                 </GridItem>
 
                 <GridItem  rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
-                    <TilesetColorPicker color={color} setColor={handleSetColor} colorPickerRef={colorPickerRef}/>
+                    <TilesetColorPicker color={color} setColor={handleSetColor} colorPickerRef={colorPickerRef}
+                    isEditing={editTilesetStore.editing}
+                    />
                 </GridItem>
 
 

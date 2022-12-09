@@ -24,7 +24,8 @@ export const GlobalEditStoreActionType = {
     MARK_TILESET_FOR_DELETION: "MARK_TILESET_FOR_DELETION",
     UNMARK_TILESET_FOR_DELETION: "UNMARK_TILESET_FOR_DELETION",
     DELETE_TILESET: "DELETE_TILESET",
-    TOGGLE_EDIT: "TOGGLE_EDIT"
+    TOGGLE_EDIT: "TOGGLE_EDIT",
+    UPDATE_EDIT_REQUEST: "UPDATE_EDIT_REQUEST"
 
 }
 const tps = new jsTPS();
@@ -50,6 +51,7 @@ const GlobalEditStoreContextProvider = (props) => {
         accessLevel: -1,
         type: null,
         editing: true,
+        editingRequest: null,
         tilesetMarkedForDeletion: null,
         layers:
             [{
@@ -203,13 +205,20 @@ const GlobalEditStoreContextProvider = (props) => {
                     editing: payload.editing,
                 })
             }
+            case GlobalEditStoreActionType.UPDATE_EDIT_REQUEST:{
+                return setEditStore({
+                    ...editStore,
+                    editingRequest: payload.editingRequest,
+                    editing: payload.editing
+                })
+            }
         }
     }
 
-    editStore.toggleEditMode = (bol) => {
+    editStore.toggleEditMode = (mode) => {
         storeReducer({
             type: GlobalEditStoreActionType.TOGGLE_EDIT,
-            payload: {editing: bol}
+            payload: {editing: mode}
         })
     }
 
@@ -527,8 +536,48 @@ const GlobalEditStoreContextProvider = (props) => {
                 }
             })
         }
+    }   
+
+    editStore.sendRequest = async (payload) => {
+        const response = await api.createRequest(payload)
+        console.log(response)
+        if(response.status === 200){
+            await storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: response.data.request,
+                    editing: true
+                }
+            })
+        }
     }
 
+    editStore.deleteRequest = async (payload) => {
+        const response = await api.deleteRequest(payload)
+        if(response.status === 200){
+            console.log(response.data.request)
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: null,
+                    editing: false
+                }
+            })
+        }
+    }
+
+    editStore.getRequest = async (payload) => {
+        const response = await api.getRequest(payload)
+        if(response.status === 200){
+            storeReducer({
+                type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
+                payload:{
+                    editingRequest: response.data.request,
+                    editing: editStore.editing
+                }
+            })
+        }
+    }
     return (
         <GlobalEditStoreContext.Provider value={{
             editStore

@@ -64,12 +64,12 @@ const TilesetTools = (props) => {
             <SimpleGrid columns={4} spacing={1}>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Undo"icon={<ImUndo className='md-icon'/>}
-                            onClick={handleUndo}
+                            onClick={handleUndo} disabled={!props.isEditing}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' title="Redo"icon={<ImRedo className='md-icon'/>}
-                            onClick={handleRedo}
+                            onClick={handleRedo} disabled={!props.isEditing}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
@@ -85,26 +85,26 @@ const TilesetTools = (props) => {
 
                     <Box className='toolsfortileset' >
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.DRAW) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.DRAW} icon={<HiOutlinePencil className='md-icon'/>}
-                            onClick={() => handleOnClick(TOOLSFORTILESET.DRAW)}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.DRAW)} disabled={!props.isEditing}
                         />
                     </Box>
 
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.ERASER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.ERASER} icon={<RiEraserLine className='md-icon'/>}
-                            onClick={() => handleOnClick(TOOLSFORTILESET.ERASER)}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.ERASER)} disabled={!props.isEditing}
                         />
                     </Box>
 
 
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.Bucket_FILL_TOOL) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.Bucket_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon'/>}
-                            onClick={() => handleOnClick(TOOLSFORTILESET.Bucket_FILL_TOOL)}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.Bucket_FILL_TOOL)} disabled={!props.isEditing}
                         />
                     </Box>
 
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent' outlineColor={(currentButton == TOOLSFORTILESET.COLOR_PICKER) ? 'purple' : 'transparent'} title={TOOLSFORTILESET.COLOR_PICKER} icon={<CgColorPicker className='md-icon'/>}
-                            onClick={() => handleOnClick(TOOLSFORTILESET.COLOR_PICKER)}
+                            onClick={() => handleOnClick(TOOLSFORTILESET.COLOR_PICKER)} disabled={!props.isEditing}
                         />
                     </Box>
                     <Box className='toolsfortileset'>
@@ -117,13 +117,13 @@ const TilesetTools = (props) => {
 
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent'  title="larger tool width" icon={<AiOutlineArrowUp className='md-icon'/>}
-                            onClick={handleLargerWidth}
+                            onClick={handleLargerWidth} disabled={!props.isEditing}
                         />
                     </Box>
 
                     <Box className='toolsfortileset'>
                         <IconButton bg='transparent'  title="smaller tool width" icon={<AiOutlineArrowDown className='md-icon'/>}
-                            onClick={handleSmallerWidth}
+                            onClick={handleSmallerWidth} disabled={!props.isEditing}
                         />
                     </Box>
 

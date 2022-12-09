@@ -4,7 +4,7 @@ const auth = require('../auth/authManager')
 const RequestController = require('../controllers/request-controller')
 
 router.post('/sendRequest', RequestController.createRequest)
-router.delete('/deleteRequest', RequestController.deleteRequest)
+router.put('/deleteRequest', RequestController.deleteRequest)
 router.put('/getRequest', RequestController.getRequest)
-router.put('/getRequest/:id', RequestController.getRequest)
+router.put('/getRequest/:id', RequestController.getRequestById)
 module.exports = router
