@@ -36,7 +36,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         accessUsers: [],
         accessLevel: -1,
         editing: true,
-        editId: '',
+        editingRequest: null,
     });
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {

@@ -33,7 +33,7 @@ const EditNavbar = (props) => {
     const [nameEdit, toggleNameEdit] = useState(false)
     const [name, setName] = useState(projectName)
     const [isPublic, setPublic] = useState(props.isPublic)
-    const { editStore } = useContext(GlobalEditStoreContext)
+
     useEffect(() => {
         if (name == projectName) { return }
         setName(projectName)
@@ -80,13 +80,14 @@ const EditNavbar = (props) => {
     }
 
     const handleEdit = () => {
-        setIsEditing(true)
-        editStore.sendRequest({
+        //setIsEditing(true)
+        console.log('clicked')
+        currentStore.sendRequest({
             expire: 20,
             data: {
                 request_type: "EDIT_PROJECT",
                 user_id: auth.user._id,
-                related_id: editStore.currentId
+                related_id: currentStore.currentId
             }
         })
     }
@@ -104,13 +105,13 @@ const EditNavbar = (props) => {
     }
 
     const handleView = () => {
-        setIsEditing(false)
-        editStore.deleteRequest({
+        //setIsEditing(false)
+        currentStore.deleteRequest({
             expire: 20,
             data: {
                 request_type: "EDIT_PROJECT",
                 user_id: auth.user._id,
-                related_id: editStore.currentId
+                related_id: currentStore.currentId
             }
         })
     }

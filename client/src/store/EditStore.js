@@ -215,10 +215,10 @@ const GlobalEditStoreContextProvider = (props) => {
         }
     }
 
-    editStore.toggleEditMode = (bol) => {
+    editStore.toggleEditMode = (mode) => {
         storeReducer({
             type: GlobalEditStoreActionType.TOGGLE_EDIT,
-            payload: {editing: bol}
+            payload: {editing: mode}
         })
     }
 
@@ -540,8 +540,9 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.sendRequest = async (payload) => {
         const response = await api.createRequest(payload)
+        console.log(response)
         if(response.status === 200){
-            storeReducer({
+            await storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
                 payload:{
                     editingRequest: response.data.request,
@@ -554,6 +555,7 @@ const GlobalEditStoreContextProvider = (props) => {
     editStore.deleteRequest = async (payload) => {
         const response = await api.deleteRequest(payload)
         if(response.status === 200){
+            console.log(response.data.request)
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
                 payload:{
