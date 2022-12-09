@@ -326,6 +326,7 @@ const GlobalStoreContextProvider = (props) => {
                     currentItem: response.data.tileMap
                 }
             })
+            console.log(response)
             if(noRedirect){return}
             redirect(`/tilemap/${response.data.tileMap._id}`)
         } else {
