@@ -80,8 +80,6 @@ const EditNavbar = (props) => {
     }
 
     const handleEdit = () => {
-        //setIsEditing(true)
-        // console.log(isEditing)
         currentStore.sendRequest({
             expire: 600,
             data: {
@@ -105,8 +103,6 @@ const EditNavbar = (props) => {
     }
 
     const handleView = () => {
-        //setIsEditing(false)
-        // console.log(123)
         currentStore.deleteRequest({
             expire: 600,
             data: {
@@ -124,7 +120,7 @@ const EditNavbar = (props) => {
                     <IconButton icon={<MdListAlt className='md-icon' />} onClick={() => props.redirect('/listscreen')} bg='transparent' title="List View Screen" />
                     <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save" disabled={!isEditing} />
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} title="Download" />
-                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect} disabled={(currentStore.type == PROJECT_TYPE.TILEMAP)?currentStore.accessLevel < ACCESS_TYPE.EDITABLE:false} />
+                    <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect} disabled={(currentStore.type == PROJECT_TYPE.TILEMAP) ? currentStore.accessLevel < ACCESS_TYPE.EDITABLE : false} />
                     {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET) ?
                         <IconButton bg='transparent' icon={<MdAddShoppingCart className='md-icon' />} onClick={handleAddToMap} title={`Add to '${shopStore.name}'`} />
                         : <></>}
