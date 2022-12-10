@@ -45,7 +45,7 @@ const CreatePropertyModal = (props) => {
             const layer = layersClone.find(x => x.id == props.currentLayer)
 
             if(type=='boolean'){
-                layer.properties.push({name: name, type:'boolean', value:'true'})
+                layer.properties.push({name: name, type:'bool', value:'true'})
             }
             else if(type=='int'){
                 layer.properties.push({name: name, type:'int', value:'0'})

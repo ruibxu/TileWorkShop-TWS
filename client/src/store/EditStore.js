@@ -6,7 +6,7 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-import { createAccessList, getAccessLevel} from "./sharedFunctions"
+import { createAccessList, getAccessLevel } from "./sharedFunctions"
 
 export const GlobalEditStoreContext = createContext({});
 
@@ -205,20 +205,22 @@ const GlobalEditStoreContextProvider = (props) => {
                     editing: payload.editing,
                 })
             }
-            case GlobalEditStoreActionType.UPDATE_EDIT_REQUEST:{
+            case GlobalEditStoreActionType.UPDATE_EDIT_REQUEST: {
                 return setEditStore({
                     ...editStore,
                     editingRequest: payload.editingRequest,
                     editing: payload.editing
+
                 })
             }
         }
     }
 
     editStore.toggleEditMode = (mode) => {
+        console.log("called")
         storeReducer({
             type: GlobalEditStoreActionType.TOGGLE_EDIT,
-            payload: {editing: mode}
+            payload: { editing: mode }
         })
     }
 
@@ -341,7 +343,7 @@ const GlobalEditStoreContextProvider = (props) => {
                 if (response2.status == 200) {
                     const images = response2.data.resources
                     tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
-                    tilesets.map(x => x.imageURL = (x.imageFull)?x.imageFull.url:null)
+                    tilesets.map(x => x.imageURL = (x.imageFull) ? x.imageFull.url : null)
                     tilesets.map(x => x.image = createImage(x.imageURL))
                 }
             }
@@ -536,15 +538,15 @@ const GlobalEditStoreContextProvider = (props) => {
                 }
             })
         }
-    }   
+    }
 
     editStore.sendRequest = async (payload) => {
         const response = await api.createRequest(payload)
         console.log(response)
-        if(response.status === 200){
-            await storeReducer({
+        if (response.status === 200) {
+            storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: response.data.request,
                     editing: true
                 }
@@ -554,11 +556,11 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.deleteRequest = async (payload) => {
         const response = await api.deleteRequest(payload)
-        if(response.status === 200){
+        if (response.status === 200) {
             console.log(response.data.request)
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: null,
                     editing: false
                 }
@@ -568,10 +570,10 @@ const GlobalEditStoreContextProvider = (props) => {
 
     editStore.getRequest = async (payload) => {
         const response = await api.getRequest(payload)
-        if(response.status === 200){
+        if (response.status === 200) {
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: response.data.request,
                     editing: editStore.editing
                 }

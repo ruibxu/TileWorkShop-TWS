@@ -80,10 +80,10 @@ const EditNavbar = (props) => {
     }
 
     const handleEdit = () => {
-        //setIsEditing(true)
-        console.log('clicked')
+        setIsEditing(true)
+        // console.log(isEditing)
         currentStore.sendRequest({
-            expire: 20,
+            expire: 600,
             data: {
                 request_type: "EDIT_PROJECT",
                 user_id: auth.user._id,
@@ -105,9 +105,10 @@ const EditNavbar = (props) => {
     }
 
     const handleView = () => {
-        //setIsEditing(false)
+        setIsEditing(false)
+        // console.log(123)
         currentStore.deleteRequest({
-            expire: 20,
+            expire: 600,
             data: {
                 request_type: "EDIT_PROJECT",
                 user_id: auth.user._id,

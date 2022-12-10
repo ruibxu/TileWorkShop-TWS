@@ -31,6 +31,7 @@ const exportTM = (store) => {
     let tmp_arr2=[];
     let index=1;
     let counting_array=[]
+    
     store.tilesets.forEach((tileset) => {
         const temp = translateTileset(tileset,store,index)
         tmp_arr2.push(temp)
@@ -44,8 +45,9 @@ const exportTM = (store) => {
 
     //handle layer
     let tmp_arr=[];
-    store.layers.forEach((layer) => {
-        
+    let layers=JSON.parse(JSON.stringify(store.layers))
+    layers=layers.reverse();
+    layers.forEach((layer) => {
         const temp = translateLayer(layer,store,counting_array)
         tmp_arr.push(temp)
         //translatedlayerarray.push(temp)
