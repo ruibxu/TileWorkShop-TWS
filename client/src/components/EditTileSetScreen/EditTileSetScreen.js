@@ -119,7 +119,9 @@ const EditTileSetScreen = (props) => {
         console.log('before unload')
         deleteRequest()
     }
-    window.onbeforeunload = onbeforeunload
+    window.onbeforeunload = () => {
+        onbeforeunload()
+    }
 
     let history = useHistory();
 	const redirect = async (route, parameters) => {
@@ -129,22 +131,6 @@ const EditTileSetScreen = (props) => {
         history.push(route, parameters);
     }
     if(!auth.loggedIn){redirect('/homescreen')}
-
-    
-
-    window.onbeforeunload = () => {
-        //if(editTilesetStore.editing){
-            editTilesetStore.deleteRequest({
-                expire: 600,
-                data: {
-                    request_type: "EDIT_PROJECT",
-                    user_id: auth.user._id,
-                    related_id: editTilesetStore.currentId
-                }
-            })
-            clearInterval(interval.current);
-        //}
-    }
 
     const showShareModal = useDisclosure()
 

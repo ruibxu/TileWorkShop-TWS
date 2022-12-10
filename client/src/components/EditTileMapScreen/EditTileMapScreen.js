@@ -84,8 +84,10 @@ const EditTileMapScreen = (props) => {
         console.log('before unload')
         deleteRequest()
     }
-    window.onbeforeunload = onbeforeunload
-    
+    window.onbeforeunload = () => {
+        onbeforeunload()
+    }
+
     let history = useHistory();
     const redirect = async (route, parameters) => {
         onbeforeunload()
