@@ -75,6 +75,30 @@ const MapToolbar = (props) => {
       handleResizeModal()
     }
 
+    if (event.key === 'b') {
+      handleOnClick(TOOLS.STAMP_BRUSH)
+    }
+
+    if (event.key === 'f') {
+      handleOnClick(TOOLS.BUCKET_FILL_TOOL)
+    }
+
+    if (event.key === 'p') {
+      handleOnClick(TOOLS.SHAPE_FILL_TOOL)
+    }
+
+    if (event.key === 'e') {
+      handleOnClick(TOOLS.ERASER)
+    }
+
+    // if (event.key === '+') {
+    //   handleZoomIn()
+    // }
+
+    // if (event.key === '-') {
+    //   hhandleZoomIn()
+    // }
+
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   }
@@ -102,8 +126,8 @@ const MapToolbar = (props) => {
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
-          <IconButton disabled={!props.isEditing} onClick={handleResizeModal} bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
-          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH} icon={<TfiBrushAlt className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={handleResizeModal} bg='transparent' title="Resize Map [R]" icon={<GiResize className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH + "[B]"} icon={<TfiBrushAlt className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.ERASER)} outlineColor={(currentButton == TOOLS.ERASER) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.ERASER} icon={<RiEraserLine className='md-icon' />} />
