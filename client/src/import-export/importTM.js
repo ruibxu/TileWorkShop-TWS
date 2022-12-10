@@ -26,10 +26,11 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                     data: tilemap
                 }
 
-                const newMap = await store.createNewTilemap(temp,false)//false= can't redirect
+                const newMap = await store.createNewTilemap(temp,true)//false= WILL redirect
             
                 const newMapId = (newMap)?newMap._id:''
-                await store.uploadTileSetImages(tilesets, newMapId,false)//false= can redirect
+                const redirect = await store.uploadTileSetImages(tilesets, newMapId,false)//false= won't redirect
+                //redirect()
                 
             }        
         })

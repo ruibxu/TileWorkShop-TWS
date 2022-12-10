@@ -90,6 +90,7 @@ const EditTileMapScreen = (props) => {
     let { id } = useParams();
     useEffect(() => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
+        console.log('getting map')
         editStore.getTileMapById(id)
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editStore.currentId])

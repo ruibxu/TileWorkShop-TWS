@@ -115,9 +115,7 @@ const GlobalStoreContextProvider = (props) => {
             case GlobalStoreActionType.CREATE_NEW_TILESET: {
                 return setStore({
                     ...store,
-                    tileSetList: [],
-                    tileMapList: [],
-                    yourList: [],
+                    yourList: payload.yourList,
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -126,9 +124,7 @@ const GlobalStoreContextProvider = (props) => {
             case GlobalStoreActionType.CREATE_NEW_TILEMAP: {
                 return setStore({
                     ...store,
-                    tileSetList: [],
-                    tileMapList: [],
-                    yourList: [],
+                    yourList: payload.yourList,
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
@@ -335,14 +331,19 @@ const GlobalStoreContextProvider = (props) => {
         const response = await api.createTileMap(tmd);
         console.log(response.data)
         if (response.status === 200) {
+            const newMap = response.data.tileMap
+            newMap.type = PROJECT_TYPE.TILEMAP
             storeReducer({
                 type: GlobalStoreActionType.CREATE_NEW_TILEMAP,
                 payload: {
+                    yourList: [newMap, ...store.yourList],
                     currentItem: response.data.tileMap
                 }
             })
             console.log(response.data)
-            if(noRedirect){return response.data.tileMap}
+            if(noRedirect){
+                return response.data.tileMap
+            }
             redirect(`/tilemap/${response.data.tileMap._id}`)
             console.log("after tilemap redirect");
             return response.data.tileMap
@@ -355,10 +356,11 @@ const GlobalStoreContextProvider = (props) => {
         console.log("before upload tileset")
         console.log(tilesets)
         if(!map_id){console.log('Error'); return}
+        let response
         await tilesets.forEach(async (x) => {
             console.log("in for each loop")
             const {_id, image} = x
-            const response = await api.updateTileMapImage(_id, { map_id: map_id, data: image })
+            response = await api.updateTileMapImage(_id, { map_id: map_id, data: image })
             console.log(response)
         })
         if(redirectAfterComplete){redirect(`/tilemap/${map_id}`)}
