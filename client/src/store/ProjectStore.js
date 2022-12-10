@@ -241,9 +241,22 @@ const GlobalStoreContextProvider = (props) => {
         const id = store.markedItemforDeletion._id
         const type = store.markedItemforDeletion.type
         let response = null
-        if(type == PROJECT_TYPE.TILEMAP){response = await api.deleteTileMap(id, user_id)}
-        else {response = await api.deleteTileSet(id, user_id)}
+        if(type == PROJECT_TYPE.TILEMAP){
+            response = await api.deleteTileMap(id, user_id)
+        }
+        else {
+            response = await api.deleteTileSet(id, user_id)
+        }
         if (response.status == 200){
+            console.log('inside')
+            let response2;
+            if(type == PROJECT_TYPE.TILEMAP){
+                response2 = await api.deleteTileMapAllImage(id)
+                console.log(response2)
+            }
+            else {
+                response2 = await api.deleteTileSetImage(id)
+            }
             console.log(response.data.result)
             storeReducer({
                 type: GlobalStoreActionType.DELETE_ITEM,

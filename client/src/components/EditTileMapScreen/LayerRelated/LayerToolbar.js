@@ -85,13 +85,13 @@ const LayerToolbar = (props) => {
           <Flex alignItems={'center'} gap={5} fontSize = '22px'>
               Layer
               <IconButton bg='transparent' title="Add New Layer "icon={<AiOutlineFileAdd className='md-icon'/>}
-                onClick={handleCreateNewLayer}
+                onClick={handleCreateNewLayer} isDisabled={!props.isEditing}
               />
               <IconButton bg='transparent' title="Delete Layer" icon={<RiDeleteBinLine className='md-icon'/>}
-                onClick={handleDeleteLayer}
+                onClick={handleDeleteLayer} isDisabled={!props.isEditing}
               />
               <IconButton bg='transparent' title="Duplicate Layer" icon={<HiOutlineDocumentDuplicate className='md-icon'/>}
-                onClick={handleDuplicateLayer}
+                onClick={handleDuplicateLayer} isDisabled={!props.isEditing}
               />
           </Flex>
       </HStack>

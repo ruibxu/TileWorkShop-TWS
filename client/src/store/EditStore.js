@@ -529,7 +529,7 @@ const GlobalEditStoreContextProvider = (props) => {
         const response = await api.deleteTileSetfromTileMap(editStore.currentId, payload);
         console.log(response)
         if (response.status === 200) {
-            const imgresponse = await api.deleteTileMapImage(cid)
+            const imgresponse = await api.deleteTileMapImage(cid, editStore.currentId)
             const newTilesets = editStore.tilesets.filter(x => x._id != cid)
             storeReducer({
                 type: GlobalEditStoreActionType.DELETE_TILESET,

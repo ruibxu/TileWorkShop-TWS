@@ -21,19 +21,15 @@ const importTM = (auth,store,editStore,file,name,height,width) => {
                 console.log(tilemap);
                 console.log(tilesets);
 
-
-                
                 const temp={
                     user_id: auth.user._id,
                     data: tilemap
                 }
-                console.log(temp);
 
-                const newMap = await store.createNewTilemap(temp,true)
+                const newMap = await store.createNewTilemap(temp,false)
                 const newMapId = (newMap)?newMap._id:''
                 await store.uploadTileSetImages(tilesets, newMapId,false)
                 
-                console.log("what")
             }        
         })
     });
@@ -98,8 +94,6 @@ const makeTileMap =(file,zip,json) => {
         tmp_tileset_arr.push(temp);
     })
 
-    //console.log(tmp_tileset_arr)
-    console.log(objectId_array)
 
     let tmp_layer_arr=[];
     
@@ -148,17 +142,19 @@ const translateLayer = (layer,json,object_id_array) => {
     for(let i=0;i<layer.data.length;i++){
         if(layer.data[i]!=0){ 
             let count=-1;
-            let temp_firstgid=0;
+            let current_tileset=null;
             json.tilesets.forEach((tileset) => {
                 if(layer.data[i]>=tileset.firstgid){
                     count++;
-                    temp_firstgid=tileset.firstgid;
+                    current_tileset=tileset;
                 }
             })
+            let current_tileset_firstgid=current_tileset.firstgid
+            let current_tileset_width=current_tileset.columns;
             let y=Math.floor(i/json.width)
             let x=i%json.width
-            let height=Math.floor((layer.data[i]-temp_firstgid)/layer.width)//second arg
-            let width=(layer.data[i]-temp_firstgid)%layer.width //first arg
+            let height=Math.floor((layer.data[i]-current_tileset_firstgid)/current_tileset_width)//second arg
+            let width=(layer.data[i]-current_tileset_firstgid)%current_tileset_width //first arg
             let id=object_id_array[count];
             let key=`${x}-${y}`;
             temp_data[key]=[width,height,id];

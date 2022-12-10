@@ -48,6 +48,7 @@ const PropertyEntry = (props) => {
     }
 
     const handleToggleChangeVal = () => {
+        if(!props.isEditing){return}
         toggleEdit(true)
     }
 
@@ -99,7 +100,7 @@ const PropertyEntry = (props) => {
                         <Box paddingLeft={3} width={'100%'} onClick={handleToggleChangeVal}>{`${val}`}</Box>
                     :
                 <Box paddingLeft={3} width={'100%'} alignItems='center' onClick={()=>{console.log(val)}}>
-                    <Switch onChange={()=>handleChangeBoolean(!val)} isChecked={val}></Switch>
+                    <Switch onChange={()=>handleChangeBoolean(!val)} isChecked={val} isDisabled={!props.isEditing}></Switch>
                 </Box>
             }
 

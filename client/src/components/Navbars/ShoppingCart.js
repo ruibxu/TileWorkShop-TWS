@@ -15,7 +15,7 @@ const ACTION_TYPE = {
 const ShoppingCart = (props) => {
     const {auth} = useContext(AuthContext)
     const {shopStore} = useContext(GlobalShopStoreContext)
-    const {mr, type, _id, name, screen} = props
+    const {mr, type, _id, name, screen, disabled} = props
 
     const buttonType = (type == PROJECT_TYPE.TILEMAP)?(_id == shopStore._id)?ACTION_TYPE.REMOVE:ACTION_TYPE.ADD:ACTION_TYPE.NONE
     const title = (buttonType == ACTION_TYPE.NONE)?shopStore.name:(buttonType == ACTION_TYPE.REMOVE)?'Clear Shopping Cart':'Create Shopping Cart'
@@ -43,7 +43,7 @@ const ShoppingCart = (props) => {
         (buttonType == ACTION_TYPE.REMOVE)?<MdRemoveShoppingCart className='md-icon'/>:
         <MdShoppingCart className='md-icon'/>
     } 
-    mr={(mr)?mr:0} bg='transparent' title={title} isDisabled={(buttonType == ACTION_TYPE.NONE)?!shopStore.exist:false}
+    mr={(mr)?mr:0} bg='transparent' title={title} isDisabled={disabled || ((buttonType == ACTION_TYPE.NONE)?!shopStore.exist:false)}
         onClick={handleOnClick}
     />
 }

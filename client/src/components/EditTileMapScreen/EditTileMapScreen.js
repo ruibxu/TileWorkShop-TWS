@@ -170,10 +170,10 @@ const EditTileMapScreen = (props) => {
                         </Box>
                         <Box flex='1' height='100%'>
                             <Box bg='lightgrey' height='30%' className='mapLayer' >
-                                <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                                <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing}/>
                             </Box>
                             <Box bg='lightgrey' height='70%' className='mapLayer'>
-                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} />
+                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing}/>
                             </Box>
                         </Box>
                     </Flex>
@@ -189,6 +189,7 @@ const EditTileMapScreen = (props) => {
             />
             <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
                 currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
+                isEditing={editStore.editing}
             />
 
         </div>

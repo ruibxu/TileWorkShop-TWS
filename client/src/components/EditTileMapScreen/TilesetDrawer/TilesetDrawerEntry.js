@@ -45,7 +45,7 @@ const TilesetDrawerEntry = (props) => {
                 <Box ml={3} onDoubleClick={() => setEdit(true)}>{_name}</Box>
         }
         <Spacer />
-        <IconButton icon={<RiDeleteBinLine />} bg='transparent' onClick={handleDelete} />
+        <IconButton icon={<RiDeleteBinLine />} bg='transparent' onClick={handleDelete} isDisabled={!props.isEditing}/>
     </Flex>
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect} from 'react'
 import {
   Box,
   Flex,
@@ -38,16 +38,7 @@ const MapToolbar = (props) => {
     props.setCurrentButton(value)
     //console.log(currentButton)
   }
-  const handleKeyPress = (event) => {
-    if (event.ctrlKey && event.key === 'z') {
-      editStore.undo()
-    }
-    if (event.ctrlKey && event.key === 'y') {
-      editStore.redo()
-    }
-    setCanUndo(editStore.canUndo())
-    setCanRedo(editStore.canRedo())
-  }
+
   const handleZoomIn = () => {
     if (zoomValue < 4) {
       setZoomValue(zoomValue * 2)
@@ -59,24 +50,81 @@ const MapToolbar = (props) => {
       setZoomValue(zoomValue / 2)
       //editStore.updateZoomValue(editStore.zoomValue/2)
     }
+  }
 
+  const handleResizeModal = () => {
+    if(!props.isEditing){return}
+    props.openResizeMapModal()
+  }
+
+  const handleKeyPress = (event) => {
+    //event.preventDefault();
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'z') {
+      event.preventDefault();
+      editStore.undo()
+      setCanUndo(editStore.canUndo())
+      setCanRedo(editStore.canRedo())
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'y') {
+      event.preventDefault();
+      editStore.redo()
+      setCanUndo(editStore.canUndo())
+      setCanRedo(editStore.canRedo())
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'r') {
+      event.preventDefault();
+      handleResizeModal()
+    }
+
+    if (event.key === 'b') {
+      handleOnClick(TOOLS.STAMP_BRUSH)
+    }
+
+    if (event.key === 'f') {
+      handleOnClick(TOOLS.BUCKET_FILL_TOOL)
+    }
+
+    if (event.key === 'p') {
+      handleOnClick(TOOLS.SHAPE_FILL_TOOL)
+    }
+
+    if (event.key === 'e') {
+      handleOnClick(TOOLS.ERASER)
+    }
+
+    if (event.key === 'm') {
+      handleOnClick(TOOLS.MOVE)
+    }
+
+    if (event.key === '=') {
+      handleZoomIn()
+    }
+
+    if (event.key === '-') {
+      handleZoomOut()
+    }
   }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [])
+  }, [props.isEditing, zoomValue])
+
   useEffect(() => {
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   }, [editStore])
+
   useEffect(() => {
     handleOnClick(TOOLS.MOVE)
     editStore.clearTransactions()
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   }, [props.isEditing])
+
   console.log(props.isEditing)
   //<IconButton onClick={() => handleOnClick(TOOLS.REACTANGULAR_SELECT)} outlineColor={(currentButton == TOOLS.REACTANGULAR_SELECT) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.REACTANGULAR_SELECT} icon={<GrSelect className='md-icon' />} />
   //<IconButton onClick={() => handleOnClick(TOOLS.SELECT_SAME_TILE)} outlineColor={(currentButton == TOOLS.SELECT_SAME_TILE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SELECT_SAME_TILE} icon={<BiSelectMultiple className='md-icon' />} />
@@ -85,16 +133,16 @@ const MapToolbar = (props) => {
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
-          <IconButton disabled={!props.isEditing} onClick={props.openResizeMapModal} bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
-          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH} icon={<TfiBrushAlt className='md-icon' />} />
-          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
-          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
-          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.ERASER)} outlineColor={(currentButton == TOOLS.ERASER) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.ERASER} icon={<RiEraserLine className='md-icon' />} />
-          <IconButton onClick={() => handleOnClick(TOOLS.MOVE)} outlineColor={(currentButton == TOOLS.MOVE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MOVE} icon={<HiOutlineHand className='md-icon' />} />
-          <IconButton bg='transparent' title="Undo" onClick={() => { editStore.undo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canUndo} icon={<ImUndo className='md-icon' />} />
-          <IconButton bg='transparent' title="Redo" onClick={() => { editStore.redo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canRedo} icon={<ImRedo className='md-icon' />} />
-          <IconButton bg='transparent' title="Zoom In" onClick={handleZoomIn} icon={<ImZoomIn className='md-icon' />} />
-          <IconButton bg='transparent' title="Zoom Out" onClick={handleZoomOut} icon={<ImZoomOut className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={handleResizeModal} bg='transparent' title="Resize Map [CTRL] + [R]" icon={<GiResize className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH + ' [B]'} icon={<TfiBrushAlt className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL + ' [F]'} icon={<MdOutlineFormatColorFill className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL + ' [P]'} icon={<RiShape2Fill className='md-icon' />} />
+          <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.ERASER)} outlineColor={(currentButton == TOOLS.ERASER) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.ERASER + ' [E]'} icon={<RiEraserLine className='md-icon' />} />
+          <IconButton onClick={() => handleOnClick(TOOLS.MOVE)} outlineColor={(currentButton == TOOLS.MOVE) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.MOVE + ' [M]'} icon={<HiOutlineHand className='md-icon' />} />
+          <IconButton bg='transparent' title="Undo [CTRL] + [Z]" onClick={() => { editStore.undo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canUndo} icon={<ImUndo className='md-icon' />} />
+          <IconButton bg='transparent' title="Redo [CTRL] + [Y]" onClick={() => { editStore.redo(); setCanUndo(editStore.canUndo()); setCanRedo(editStore.canRedo()) }} disabled={!canRedo} icon={<ImRedo className='md-icon' />} />
+          <IconButton bg='transparent' title="Zoom In [+]" onClick={handleZoomIn} icon={<ImZoomIn className='md-icon' />} />
+          <IconButton bg='transparent' title="Zoom Out [-]" onClick={handleZoomOut} icon={<ImZoomOut className='md-icon' />} />
         </Flex>
       </HStack>
     </Box>)

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary');
 //const { raw } = require('body-parser');
 //const { CloudinaryStorage } = require('multer-storage-cloudinary');
 

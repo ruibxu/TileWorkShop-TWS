@@ -38,7 +38,8 @@ export const deleteTileSetfromTileMap = (id, payload) => api.put(`api/tilemap/de
 export const getTileMapImage = (id) => api.get(`cloud/tilemap/image/${id}`)
 export const getTileMapAllImage = (id) => api.get(`cloud/tilemap/allimage/${id}`)
 export const updateTileMapImage = (id, payload) => api.put(`cloud/tilemap/image/${id}`, payload)
-export const deleteTileMapImage = (id) => api.delete(`cloud/tilemap/image/${id}`)
+export const deleteTileMapImage = (id, map_id) => api.delete(`cloud/tilemap/image/${id}/${map_id}`)
+export const deleteTileMapAllImage = (id) => api.delete(`cloud/tilemap/allImage/${id}`)
 export const getTileMapThumbnail = (id) => api.get(`cloud/tilemap/thumbnail/${id}`)
 export const updateTileMapThumbnail = (id, payload) => api.put(`cloud/tilemap/thumbnail/${id}`, payload)
 export const deleteTileMapThumbnail = (id) => api.delete(`cloud/tilemap/thumbnail/${id}`)
@@ -104,6 +105,7 @@ const apis = {
     getTileMapAllImage,
     updateTileMapImage,
     deleteTileMapImage,
+    deleteTileMapAllImage,
     getTileMapThumbnail,
     updateTileMapThumbnail,
     deleteTileMapThumbnail,
