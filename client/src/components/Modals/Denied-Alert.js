@@ -5,7 +5,8 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
-    Button
+    Button,
+    Text
   } from '@chakra-ui/react'
 
 const DeniedAlert = (props) => {
@@ -23,7 +24,7 @@ const DeniedAlert = (props) => {
                             {header}
                         </AlertDialogHeader>
                         <AlertDialogBody>
-                            {message}
+                            {message.map(x => <Text>{x}</Text>)}
                         </AlertDialogBody>
                         <AlertDialogFooter>
                             <Button  colorScheme='purple' onClick={onClose}>
