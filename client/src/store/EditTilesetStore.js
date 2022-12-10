@@ -364,7 +364,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             {props.children}
             <DeniedAlert isOpen={open} onClose={()=>setOpen(false)}
                 header={'Edit Request Denied'}
-                message={'Someone is currently editing this Tileset Please try again later'}
+                message={'Someone is currently editing this Tileset\nPlease try again later'}
             />
         </GlobalEditTilesetStoreContext.Provider>
     )

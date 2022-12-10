@@ -602,7 +602,7 @@ const GlobalEditStoreContextProvider = (props) => {
             {props.children}
             <DeniedAlert isOpen={open} onClose={()=>setOpen(false)}
                 header={'Edit Request Denied'}
-                message={'Someone is currently editing this Tilemap Please try again later'}
+                message={'Someone is currently editing this Tilemap\nPlease try again later'}
             />
         </GlobalEditStoreContext.Provider>
     )
