@@ -34,19 +34,20 @@ const MapLayer = (props) => {
     }
 
     const handleDragEnd = () => {
+        if(!props.isEditing){return}
         handleSort()
     }
 
 
     return (
         <div>
-            <LayerToolbar currentLayer={props.currentLayer}
+            <LayerToolbar currentLayer={props.currentLayer} isEditing={props.isEditing}
                 setCurrentLayer={props.setCurrentLayer} layers={layers}/>  
             <Box overflowY = "auto">
                 {layers.map((layer, index) => (<LayerEntry info={layer} index={index} 
                 currentLayer={props.currentLayer} setCurrentLayer={props.setCurrentLayer}
                 handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} handleDragEnter={handleDragEnter}
-                draggedOverIndex={dragOverItem.current}
+                draggedOverIndex={dragOverItem.current} isEditing={props.isEditing}
                 />))
                 }
             </Box>       
