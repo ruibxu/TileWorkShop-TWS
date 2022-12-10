@@ -37,7 +37,7 @@ const EditTileMapScreen = (props) => {
     const [zoomValue, setZoomValue] = useState(1)
     const [isEditing, setIsEditing] = useState(false)
     // setInterval
-    const INITIAL_TIMER = 3;
+    const INITIAL_TIMER = 600;
     const TARGET_TIMER = 0;
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
@@ -50,6 +50,14 @@ const EditTileMapScreen = (props) => {
                 if (timer.current <= TARGET_TIMER) {
                     console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
                     // stop editing
+                    editStore.deleteRequest({
+                        expire: 600,
+                        data: {
+                            request_type: "EDIT_PROJECT",
+                            user_id: auth.user._id,
+                            related_id: editStore.currentId
+                        }
+                    })
                     clearInterval(interval.current);
                 }
             }, 1000);
@@ -103,7 +111,7 @@ const EditTileMapScreen = (props) => {
     }
 
     const handleSetCurrentButton = (newButton) => {
-        setCurrentButton((editStore.editing)?newButton:TOOLS.MOVE)
+        setCurrentButton((editStore.editing) ? newButton : TOOLS.MOVE)
     }
 
     const handleSetSelection = (value) => {
