@@ -6,15 +6,23 @@ const createRequest = async (req, res) => {
     const rqid = new ObjectId();
     const { expire } = req.body
     const data = req.body.data
-    const existrq = await Request.findOne({ user_id: data.user_id, related_id: data.related_id }, (err, rq) => {
+    const existrq = await Request.findOne({ related_id: data.related_id }, (err, rq) => {
         if (err) {
             return res.status(400).json({ success: false, errorMessage: "Failed to get request" })
         }
     }).catch(err => console.log(err));
     if (existrq) {
+        if(existrq.user_id != data.user_id){
+            return res.status(200).json({
+                requestGranted: false,
+                message: "Failed",
+                request: null
+            })
+        }
         existrq.createdAt = Date.now()
         existrq.save()
         return res.status(200).json({
+            requestGranted: true,
             message: "Success (Existing Request)",
             request: existrq
         })
@@ -25,6 +33,7 @@ const createRequest = async (req, res) => {
         const rq = new Request(data)
         rq.save()
         return res.status(200).json({
+            requestGranted: true,
             message: "Success (New Request)",
             request: rq
         })
