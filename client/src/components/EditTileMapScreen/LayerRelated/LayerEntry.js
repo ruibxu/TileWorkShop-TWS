@@ -29,6 +29,7 @@ const LayerEntry = (props) => {
     }
 
     const handleToggleRename = () => {
+        if(!props.isEditing){return}
         toggleEdit(true)
     }
 
@@ -73,9 +74,9 @@ const LayerEntry = (props) => {
             </Box>}
             <Spacer/>
             <IconButton bg='transparent' title="Hide" icon={(hide)?<HiEyeOff/>:<HiEye />} maxH='30px'
-                onClick={handleToggleHide}/>
+                onClick={handleToggleHide} isDisabled={!props.isEditing}/>
             <IconButton bg='transparent' title="Lock" icon={(lock)?<AiFillLock/>:<AiFillUnlock/>} maxH='30px'
-                onClick={handleToggleLock}/>
+                onClick={handleToggleLock} isDisabled={!props.isEditing}/>
         </Flex>
     </Box>)
 }
