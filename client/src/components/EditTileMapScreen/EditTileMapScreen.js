@@ -42,6 +42,18 @@ const EditTileMapScreen = (props) => {
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
 
+    const deleteRequest = () => {
+        editStore.deleteRequest({
+            expire: 600,
+            data: {
+                request_type: "EDIT_PROJECT",
+                user_id: auth.user._id,
+                related_id: editStore.currentId
+            }
+        })
+        clearInterval(interval.current);
+    }
+
     function handleTimer() {
         interval.current = setInterval(() => {
             console.log('Counting down! This will run every minute!');
@@ -50,15 +62,7 @@ const EditTileMapScreen = (props) => {
             if (timer.current <= TARGET_TIMER) {
                 console.log("clear setInterval in " + INITIAL_TIMER + " minutes");
                 // stop editing
-                editStore.deleteRequest({
-                    expire: 600,
-                    data: {
-                        request_type: "EDIT_PROJECT",
-                        user_id: auth.user._id,
-                        related_id: editStore.currentId
-                    }
-                })
-                clearInterval(interval.current);
+                deleteRequest()
             }
         }, 60000);
     }
@@ -76,9 +80,15 @@ const EditTileMapScreen = (props) => {
         return () => { clearInterval(interval.current); }
     }, [timer.current, editStore.editing]);
     ////
-
+    const onbeforeunload = () => {
+        console.log('before unload')
+        deleteRequest()
+    }
+    window.onbeforeunload = onbeforeunload
+    
     let history = useHistory();
     const redirect = async (route, parameters) => {
+        onbeforeunload()
         history.push(route, parameters);
         editStore.clearTransactions()
         editStore.clearItem()
@@ -86,12 +96,15 @@ const EditTileMapScreen = (props) => {
 
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
+    
 
     let { id } = useParams();
     useEffect(() => {
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
         console.log('getting map')
         editStore.getTileMapById(id)
+        //window.addEventListener("beforeunload", () => onbeforeunload())
+        //return () => window.removeEventListener("beforeunload", () => onbeforeunload())
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editStore.currentId])
 

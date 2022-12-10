@@ -44,6 +44,19 @@ const EditTileSetScreen = (props) => {
     const TARGET_TIMER = 0;
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
+
+    const deleteRequest = () => {
+        editTilesetStore.deleteRequest({
+            expire: 600,
+            data: {
+                request_type: "EDIT_PROJECT",
+                user_id: auth.user._id,
+                related_id: editTilesetStore.currentId
+            }
+        })
+        clearInterval(interval.current);
+    }
+
     useEffect(() => {
         function handleTimer() {
             interval.current = setInterval(() => {
@@ -53,7 +66,7 @@ const EditTileSetScreen = (props) => {
             if (timer.current <= TARGET_TIMER) {
                 console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
                 // stop editing
-                clearInterval(interval.current);
+                deleteRequest()
             }
           }, 1000);
         }
@@ -70,6 +83,7 @@ const EditTileSetScreen = (props) => {
         editTilesetStore.getTileSetById(id)
         //------------------------------------REMEMBER TO UNCOMMENT WHEN TESTING IS DONE
     }, [editTilesetStore.currentId])
+
 
     
     useEffect(() => {
@@ -101,13 +115,36 @@ const EditTileSetScreen = (props) => {
 
 //////////////////////////////////////////////////////////////////
 
+    const onbeforeunload = () => {
+        console.log('before unload')
+        deleteRequest()
+    }
+    window.onbeforeunload = onbeforeunload
+
     let history = useHistory();
 	const redirect = async (route, parameters) => {
+        onbeforeunload()
         editTilesetStore.clearTransactions();
         editTilesetStore.clearItem();
         history.push(route, parameters);
     }
     if(!auth.loggedIn){redirect('/homescreen')}
+
+    
+
+    window.onbeforeunload = () => {
+        //if(editTilesetStore.editing){
+            editTilesetStore.deleteRequest({
+                expire: 600,
+                data: {
+                    request_type: "EDIT_PROJECT",
+                    user_id: auth.user._id,
+                    related_id: editTilesetStore.currentId
+                }
+            })
+            clearInterval(interval.current);
+        //}
+    }
 
     const showShareModal = useDisclosure()
 
