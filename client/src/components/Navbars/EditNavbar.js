@@ -80,7 +80,7 @@ const EditNavbar = (props) => {
     }
 
     const handleEdit = () => {
-        setIsEditing(true)
+        //setIsEditing(true)
         // console.log(isEditing)
         currentStore.sendRequest({
             expire: 600,
@@ -105,7 +105,7 @@ const EditNavbar = (props) => {
     }
 
     const handleView = () => {
-        setIsEditing(false)
+        //setIsEditing(false)
         // console.log(123)
         currentStore.deleteRequest({
             expire: 600,

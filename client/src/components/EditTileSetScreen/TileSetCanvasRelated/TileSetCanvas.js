@@ -5,7 +5,6 @@ import TilesetOverlay from '../TileSetOverlay/TileSetOverley';
 import TileSetOverlayTile from '../TileSetOverlay/TileSetOverleyTile';
 import { MdEventAvailable } from 'react-icons/md';
 import { TOOLSFORTILESET } from '../../../translator-client/edit-options';
-import image6 from '../../../04_Qiqi_02newyear_receive.png'
 
 const TilesetCanvas = (props) => {
     const {canvasRef, contextRef, zoomValue, color, currentButton, setCurrentButton, toolWidth, scrollRef} = props
