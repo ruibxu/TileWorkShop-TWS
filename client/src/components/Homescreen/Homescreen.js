@@ -53,11 +53,6 @@ const Homescreen = (props) => {
     //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
     //console.log(autoChangePassword)
 
-    window.onbeforeunload = () => {
-        showCreateModal.onOpen()
-        return 'what'
-    }
-
     const handleOpenBigItemCard = (newData) => {
         setBigCardData(newData)
         showItemCard.onOpen()
