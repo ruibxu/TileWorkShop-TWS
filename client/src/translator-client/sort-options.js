@@ -7,8 +7,8 @@ export const SORT_TYPE = {//DON'T CHANGE THESE
 }
 
 export const SORT_ORDER = {
-    ASCENDING: -1,
-    DESCENDING: 1
+    ASCENDING: 1,
+    DESCENDING: -1
 }
 
 export const PROJECT_TYPE = {
