@@ -53,9 +53,8 @@ const MapToolbar = (props) => {
   }
 
   const handleResizeModal = () => {
-    if(props.isEditing){
-      props.openResizeMapModal()
-    }
+    if(!editStore.editing){return}
+    props.openResizeMapModal()
   }
   const handleKeyPress = (event) => {
     event.preventDefault();
@@ -102,7 +101,7 @@ const MapToolbar = (props) => {
     <Box px={4} left={0}>
       <HStack h={12} justifyContent={'space-between'} >
         <Flex alignItems={'center'} gap={5} >
-          <IconButton disabled={!props.isEditing} onClick={handleResizeModal} bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
+          <IconButton disabled={props.isEditing} onClick={handleResizeModal} bg='transparent' title="Resize Map" icon={<GiResize className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.STAMP_BRUSH)} outlineColor={(currentButton == TOOLS.STAMP_BRUSH) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.STAMP_BRUSH} icon={<TfiBrushAlt className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.BUCKET_FILL_TOOL)} outlineColor={(currentButton == TOOLS.BUCKET_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.BUCKET_FILL_TOOL} icon={<MdOutlineFormatColorFill className='md-icon' />} />
           <IconButton disabled={!props.isEditing} onClick={() => handleOnClick(TOOLS.SHAPE_FILL_TOOL)} outlineColor={(currentButton == TOOLS.SHAPE_FILL_TOOL) ? 'purple' : 'transparent'} bg='transparent' title={TOOLS.SHAPE_FILL_TOOL} icon={<RiShape2Fill className='md-icon' />} />
