@@ -39,12 +39,18 @@ const MapToolbar = (props) => {
     //console.log(currentButton)
   }
   const handleKeyPress = (event) => {
-    if (event.ctrlKey && event.key === 'z') {
+    event.preventDefault();
+    if (event.metaKey){
+      console.log("Command key!")
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'z') {
       editStore.undo()
     }
-    if (event.ctrlKey && event.key === 'y') {
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'y') {
       editStore.redo()
     }
+    
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
   }
