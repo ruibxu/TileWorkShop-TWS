@@ -17,9 +17,12 @@ import TilesetDrawerList from './TilesetDrawerList'
 import { AiOutlineFileAdd } from "react-icons/ai"
 import UploadTilesetModal from '../../Modals/UploadTilesetModal'
 import DeleteTilesetAlert from '../../Modals/DeleteTileset-Alert'
+import { ACCESS_TYPE } from '../../../translator-client/sort-options'
+import GlobalEditStoreContext from '../../../store/EditStore'
 
 const TilesetDrawer = (props) => {
   const { isOpen, onClose, btnRef, currentTileSetId } = props
+  const {editStore} = useContext(GlobalEditStoreContext)
   const showUploadTilesetModal = useDisclosure()
   const showDeleteTilesetModal = useDisclosure()
   return <Drawer
@@ -44,7 +47,8 @@ const TilesetDrawer = (props) => {
       <Divider width={'100%'} borderColor={'purple'} />
       <DrawerFooter>
         <Flex width={'100%'}>
-            <IconButton bg='transparent' title="Add New Tileset" icon={<AiOutlineFileAdd className='md-icon' variant={'outline'} colorScheme='purple' onClick={showUploadTilesetModal.onOpen} />} />
+            <IconButton bg='transparent' title="Add New Tileset" icon={<AiOutlineFileAdd className='md-icon'
+            />}  variant={'outline'} colorScheme='purple' onClick={showUploadTilesetModal.onOpen} isDisabled={editStore.accessLevel < ACCESS_TYPE.EDITABLE}/>
           <Spacer />
           <Button colorScheme='purple' variant={'outline'} onClick = {props.onClose}>Done</Button>
         </Flex>
