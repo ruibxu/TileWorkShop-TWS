@@ -13,7 +13,6 @@ import { MdOutlineFormatColorFill } from "react-icons/md"
 import { RiShape2Fill, RiEraserLine } from "react-icons/ri"
 import { GrSelect } from "react-icons/gr"
 import { ImMagicWand, ImUndo, ImRedo, ImZoomIn, ImZoomOut } from "react-icons/im"
-import image from '../../../img/map1.png';
 import MapCanvas from './MapCanvas.js';
 import GlobalEditStoreContext from '../../../store/EditStore';
 import AuthContext from '../../../auth';
@@ -25,6 +24,7 @@ const MapWorkspace = (props) => {
     const { auth } = useContext(AuthContext)
     const handleExtendTimer = () => {
         if (editStore.editing) {
+            props.resetTimer()
             editStore.sendRequest({
                 expire: 600,
                 data: {

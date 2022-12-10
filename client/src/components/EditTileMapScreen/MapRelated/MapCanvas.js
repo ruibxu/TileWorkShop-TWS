@@ -2,9 +2,6 @@ import { Slider, useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
 import { MdLayers } from 'react-icons/md';
 import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
-import image3 from '../../../ryan-polito-viridian-forest-1.jpg'
-import TilesetToolbar from '../TileSetRelated/TilesetToolbar';
-import tileset1 from '../../../img/tileset1.png'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
 import MainOverlay from '../MapCanvasOverlay/MainOverlay';

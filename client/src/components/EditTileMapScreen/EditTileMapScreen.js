@@ -36,37 +36,45 @@ const EditTileMapScreen = (props) => {
     const [currentButton, setCurrentButton] = useState("Drag");
     const [zoomValue, setZoomValue] = useState(1)
     const [isEditing, setIsEditing] = useState(false)
-    // setInterval
+
     const INITIAL_TIMER = 10;
     const TARGET_TIMER = 0;
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
+
+    function handleTimer() {
+        interval.current = setInterval(() => {
+            console.log('Counting down! This will run every minute!');
+            timer.current = (timer.current - 1);
+            console.log(timer.current);
+            if (timer.current <= TARGET_TIMER) {
+                console.log("clear setInterval in " + INITIAL_TIMER + " minutes");
+                // stop editing
+                editStore.deleteRequest({
+                    expire: 600,
+                    data: {
+                        request_type: "EDIT_PROJECT",
+                        user_id: auth.user._id,
+                        related_id: editStore.currentId
+                    }
+                })
+                clearInterval(interval.current);
+            }
+        }, 60000);
+    }
+    const resetTimer = () => {
+        timer.current = INITIAL_TIMER
+    }
     useEffect(() => {
-        function handleTimer() {
-            interval.current = setInterval(() => {
-                console.log('Counting down! This will run every minute!');
-                timer.current = (timer.current - 1);
-                console.log(timer.current);
-                if (timer.current <= TARGET_TIMER) {
-                    console.log("clear setInterval in " + INITIAL_TIMER + " minutes");
-                    // stop editing
-                    editStore.deleteRequest({
-                        expire: 600,
-                        data: {
-                            request_type: "EDIT_PROJECT",
-                            user_id: auth.user._id,
-                            related_id: editStore.currentId
-                        }
-                    })
-                    clearInterval(interval.current);
-                }
-            }, 60000);
-        }
-        if (timer.current === INITIAL_TIMER) {
-            handleTimer();
+        console.log(editStore.editing)
+        if (editStore.editing) {
+            resetTimer()
+            if (timer.current === INITIAL_TIMER) {
+                handleTimer();
+            }
         }
         return () => { clearInterval(interval.current); }
-    }, [timer.current]);
+    }, [timer.current, editStore.editing]);
     ////
 
     let history = useHistory();
@@ -165,15 +173,16 @@ const EditTileMapScreen = (props) => {
                                 selection={selection} setSelection={setSelection}
                                 currentTileSetId={currentTileSetId}
                                 currentButton={currentButton} setCurrentButton={handleSetCurrentButton}
-                                zoomValue={zoomValue} scrollRef={scrollRef}
+                                zoomValue={zoomValue} scrollRef={scrollRef} handleTimer={handleTimer}
+                                resetTimer={resetTimer}
                             />
                         </Box>
                         <Box flex='1' height='100%'>
                             <Box bg='lightgrey' height='30%' className='mapLayer' >
-                                <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing}/>
+                                <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing} />
                             </Box>
                             <Box bg='lightgrey' height='70%' className='mapLayer'>
-                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing}/>
+                                <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing} />
                             </Box>
                         </Box>
                     </Flex>

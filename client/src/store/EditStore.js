@@ -548,7 +548,7 @@ const GlobalEditStoreContextProvider = (props) => {
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
                 payload: {
                     editingRequest: response.data.request,
-                    editing: true
+                    editing: response.data.requestGranted
                 }
             })
         }

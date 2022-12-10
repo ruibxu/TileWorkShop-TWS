@@ -16,7 +16,7 @@ import DeleteModal from "../../Modals/Delete-Modal";
 import DeleteCommentAlert from "../../Modals/DeleteComment-Alert";
 import { PROJECT_TYPE } from "../../../translator-client/sort-options";
 
-import image6 from '../../../04_Qiqi_02newyear_receive.png'
+import image6 from '../../../No-image-found.jpg'
 import GlobalShopStoreContext from "../../../store/ShopStore";
 
 function ItemCardBig(props) {

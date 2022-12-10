@@ -17,11 +17,6 @@ import DeleteModal from '../Modals/Delete-Modal';
 import CreateModal from '../Modals/Create-Modal';
 import ChangePasswordModal from '../Modals/Change-Password-Model';
 
-import image from '../../2kfVc.png';
-import image2 from '../../NES - Super Mario Bros - World 1-2.png'
-import image3 from '../../ryan-polito-viridian-forest-1.jpg'
-import image4 from '../../tileset2.png'
-import image5 from '../../tile_atlas.png'
 import AuthContext from '../../auth';
 import GlobalStoreContext from '../../store/ProjectStore';
 const Homescreen = (props) => {
@@ -57,18 +52,6 @@ const Homescreen = (props) => {
     const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword });
     //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
     //console.log(autoChangePassword)
-
-    window.onbeforeunload = () => {
-        showCreateModal.onOpen()
-        return 'what'
-    }
-    
-    const data = [
-        { _id: "1", owner: "Yibo", name: "Super Mario Bros 1-1", src: image, type: 1 },
-        { _id: "2", owner: "Yibo", name: "Super Mario Bros 1-2", src: image2, type: 1 },
-        { _id: "3", owner: "Ruibo", name: "Forest", src: image3, type: 1 },
-        { _id: "4", owner: "Ruibo", name: "Farm", src: image4, type: 0 },
-        { _id: "5", owner: "Ruibo", name: "Garden", src: image5, type: 0 }]
 
     const handleOpenBigItemCard = (newData) => {
         setBigCardData(newData)
