@@ -60,7 +60,7 @@ const EditTileMapScreen = (props) => {
                 })
                 clearInterval(interval.current);
             }
-        }, 1000);
+        }, 60000);
     }
     const resetTimer = () => {
         timer.current = INITIAL_TIMER
