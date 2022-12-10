@@ -181,6 +181,7 @@ const EditTileMapScreen = (props) => {
             />
             <TilesetDrawer isOpen={showTilesetDrawer.isOpen} tsRef={tsRef} onClose={showTilesetDrawer.onClose}
                 currentTileSetId={currentTileSetId} setCurrentTileSetId={setCurrentTileSetId} setSelection={setSelection}
+                isEditing={editStore.editing}
             />
 
         </div>

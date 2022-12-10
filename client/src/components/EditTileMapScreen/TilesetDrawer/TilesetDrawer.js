@@ -36,12 +36,12 @@ const TilesetDrawer = (props) => {
       <DrawerCloseButton />
       <DrawerHeader>
         Tilesets:
-        <Input placeholder='Search...' mb={2} mt={2} />
+        {/* <Input placeholder='Search...' mb={2} mt={2} /> */}
       </DrawerHeader>
       <Divider width={'100%'} borderColor={'purple'} />
       <DrawerBody>
         <TilesetDrawerList currentTileSetId={currentTileSetId} setCurrentTileSetId={props.setCurrentTileSetId}
-          setSelection={props.setSelection} openDeleteModal = {showDeleteTilesetModal}
+          setSelection={props.setSelection} openDeleteModal = {showDeleteTilesetModal} isEditing={props.isEditing}
         />
       </DrawerBody>
       <Divider width={'100%'} borderColor={'purple'} />
