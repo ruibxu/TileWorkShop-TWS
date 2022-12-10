@@ -65,8 +65,8 @@ const getRequest = async (req, res) => {
 }
 
 const getRequestById = async (req, res) => {
-    const data = req.body.data
-    const findrq = await Request.findOne({ _id: data._id }, (err, rq) => {
+    const id = req.params.id
+    const findrq = await Request.findOne({ _id: id }, (err, rq) => {
         if (err) {
             return res.status(400).json({ success: false, errorMessage: "Failed to get request" })
         }

@@ -218,9 +218,10 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.changePassword = async function (userData) {
+    auth.changePassword = async function (userData, request) {
         const response = await api.changePassword(userData);
         if (response.status === 200) {
+            const response2 = await api.deleteRequest(request)
             authReducer({
                 type: AuthActionType.CHANGE_PASSWORD,
                 payload: {
@@ -238,20 +239,45 @@ function AuthContextProvider(props) {
 
     auth.forgetPassword = async function (userData) {
         const response = await api.forgetPassword(userData);
+        console.log('Before success')
         if (response.status === 200) {
+            console.log('After Success')
+            const user = response.data.user
             authReducer({
                 type: AuthActionType.FORGET_PASSWORD,
                 payload: {
-                    user: response.data.user
+                    user: user
                 }
             });
-            //add send email
-            await api.sendPasswordResetEmail(response.data.user._id, {email: response.data.user.email})
+            const response2 = await api.createRequest({
+                expire: 7200,
+                data: {
+                    request_type: "FORGOT_PASSWORD",
+                    user_id: user._id,
+                    related_id: user._id
+                }
+            })
+            if(response2.status == 200){
+                //add send email
+                console.log('After Request Success')
+                console.log(response2.data)
+                await api.sendPasswordResetEmail(response2.data.request._id, {email: response.data.user.email})
+                console.log('After Email sent')
+            }
         }
         else {
             setMessage(response.data.errorMessage);
             handleOpen();
         }
+    }
+
+    auth.getForgetPasswordRequest = async (request_id) => {
+        const response = await api.getRequestById(request_id, {}).then(x => console.log(x))
+        if(response.status == 200){
+            console.log(response)
+            return response
+        }
+        return {success: false}
     }
 
 

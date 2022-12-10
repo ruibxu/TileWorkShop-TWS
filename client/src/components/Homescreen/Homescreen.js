@@ -41,7 +41,8 @@ const Homescreen = (props) => {
     //console.log(window.location.href.includes('localhost'))
     const autoLoggin = history.location.state ? history.location.state.AccountVerified : false;
     const autoChangePassword = history.location.state ? history.location.state.changePassword : false
-    const state_id = history.location.state?history.location.state._id:''
+    const user_id = history.location.state?history.location.state.user_id:''
+    const request = history.location.state?history.location.state.request:null
 
     const showSignUpModal = useDisclosure()
     const showLoginModal = useDisclosure({ defaultIsOpen: autoLoggin })
@@ -81,7 +82,7 @@ const Homescreen = (props) => {
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} redirect={redirect}/>
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect}/>
-            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} user_id={user_id} request={request}/>
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
