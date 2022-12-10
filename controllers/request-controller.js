@@ -29,7 +29,6 @@ const createRequest = async (req, res) => {
     } else {
         data._id = rqid
         data.createdAt = Date.now()
-        data.createdAt.expireAfterSeconds = expire
         const rq = new Request(data)
         rq.save()
         return res.status(200).json({

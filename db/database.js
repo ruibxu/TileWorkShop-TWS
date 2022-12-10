@@ -5,7 +5,7 @@ dotenv.config();
 
 const uri = "mongodb+srv://tileworkshop:twscse416@cluster0.nqqoxyo.mongodb.net/?retryWrites=true&w=majority";
 mongoose
-    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .catch(e => {
         console.error('Connection error', e.message)
     })

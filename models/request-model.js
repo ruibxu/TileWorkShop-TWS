@@ -8,9 +8,11 @@ const RequestSchema = new Schema(
         request_type: { type: String, required: true },
         user_id: { type: ObjectId },
         related_id: { type: ObjectId },
-        createdAt: { type: Date, expireAfterSeconds: 3600, default: Date.now }
-    }
+        createdAt: { type: Date, expireAfterSeconds: 600, default: Date.now }
+    },{expireAfterSeconds: 600}
 )
+RequestSchema.index({ "createdAt": 1 }, { expireAfterSeconds: 600 })
+
 
 module.exports = mongoose.model('Request', RequestSchema)
 
