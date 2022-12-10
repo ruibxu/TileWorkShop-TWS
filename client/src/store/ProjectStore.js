@@ -405,6 +405,7 @@ const GlobalStoreContextProvider = (props) => {
                 const response3 = await api.searchProjects2(PROJECT_TYPE.TILEMAP, {
                     searcher_id: (auth.loggedIn) ? auth.user._id : '',
                     access: ACCESS_TYPE.OWNER,
+                    sort_order: -1,
                     limit: 2
                 })
                 if (response3.status !== 200) {
