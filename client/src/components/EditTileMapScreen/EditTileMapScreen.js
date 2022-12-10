@@ -37,18 +37,18 @@ const EditTileMapScreen = (props) => {
     const [zoomValue, setZoomValue] = useState(1)
     const [isEditing, setIsEditing] = useState(false)
     // setInterval
-    const INITIAL_TIMER = 600;
+    const INITIAL_TIMER = 10;
     const TARGET_TIMER = 0;
     const timer = useRef(INITIAL_TIMER);
     const interval = useRef();
     useEffect(() => {
         function handleTimer() {
             interval.current = setInterval(() => {
-                console.log('Counting down! This will run every second!');
+                console.log('Counting down! This will run every minute!');
                 timer.current = (timer.current - 1);
                 console.log(timer.current);
                 if (timer.current <= TARGET_TIMER) {
-                    console.log("clear setInterval in " + INITIAL_TIMER + " seconds");
+                    console.log("clear setInterval in " + INITIAL_TIMER + " minutes");
                     // stop editing
                     editStore.deleteRequest({
                         expire: 600,
@@ -60,7 +60,7 @@ const EditTileMapScreen = (props) => {
                     })
                     clearInterval(interval.current);
                 }
-            }, 1000);
+            }, 60000);
         }
         if (timer.current === INITIAL_TIMER) {
             handleTimer();
