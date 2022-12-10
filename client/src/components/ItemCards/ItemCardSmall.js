@@ -6,7 +6,7 @@ import { AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import GlobalCommentStoreContext from '../../store/CommentStore';
 import GlobalStoreContext from '../../store/ProjectStore';
 import AuthContext from '../../auth';
-import image6 from '../../04_Qiqi_02newyear_receive.png'
+import image6 from '../../ImageNotFound.png'
 function ItemCardSmall(props) {
     const {store} = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
