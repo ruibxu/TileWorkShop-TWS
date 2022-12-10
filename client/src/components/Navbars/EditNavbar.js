@@ -116,6 +116,21 @@ const EditNavbar = (props) => {
             }
         })
     }
+    const handleKeyPress = (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+            event.preventDefault();
+            console.log("trigger save shortcut")
+            handleSave()
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [currentStore.layers, currentStore.width, currentStore.height])
+
     return (
         <Box px={4} className="navbar" left={0} >
             <HStack h={16} justifyContent={'space-between'}>
