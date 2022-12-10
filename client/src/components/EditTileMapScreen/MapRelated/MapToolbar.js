@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect} from 'react'
 import {
   Box,
   Flex,
@@ -58,20 +58,23 @@ const MapToolbar = (props) => {
   }
 
   const handleKeyPress = (event) => {
-    event.preventDefault();
-    if (event.metaKey){
-      console.log("Command key!")
-    }
-
+    //event.preventDefault();
     if ((event.ctrlKey ||event.metaKey) && event.key === 'z') {
+      event.preventDefault();
       editStore.undo()
+      setCanUndo(editStore.canUndo())
+      setCanRedo(editStore.canRedo())
     }
 
     if ((event.ctrlKey ||event.metaKey) && event.key === 'y') {
+      event.preventDefault();
       editStore.redo()
+      setCanUndo(editStore.canUndo())
+      setCanRedo(editStore.canRedo())
     }
 
     if ((event.ctrlKey ||event.metaKey) && event.key === 'r') {
+      event.preventDefault();
       handleResizeModal()
     }
 
@@ -91,23 +94,22 @@ const MapToolbar = (props) => {
       handleOnClick(TOOLS.ERASER)
     }
 
-    // if (event.key === '+') {
-    //   handleZoomIn()
-    // }
+    if (event.key === '=') {
+      console.log('triggered =')
+      handleZoomIn()
+    }
 
-    // if (event.key === '-') {
-    //   hhandleZoomIn()
-    // }
-
-    setCanUndo(editStore.canUndo())
-    setCanRedo(editStore.canRedo())
+    if (event.key === '-') {
+      console.log('triggered -')
+      handleZoomOut()
+    }
   }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [props.isEditing])
+  }, [props.isEditing, zoomValue])
   useEffect(() => {
     setCanUndo(editStore.canUndo())
     setCanRedo(editStore.canRedo())
