@@ -38,22 +38,7 @@ const MapToolbar = (props) => {
     props.setCurrentButton(value)
     //console.log(currentButton)
   }
-  const handleKeyPress = (event) => {
-    event.preventDefault();
-    if (event.metaKey){
-      console.log("Command key!")
-    }
 
-    if ((event.ctrlKey ||event.metaKey) && event.key === 'z') {
-      editStore.undo()
-    }
-    if ((event.ctrlKey ||event.metaKey) && event.key === 'y') {
-      editStore.redo()
-    }
-    
-    setCanUndo(editStore.canUndo())
-    setCanRedo(editStore.canRedo())
-  }
   const handleZoomIn = () => {
     if (zoomValue < 4) {
       setZoomValue(zoomValue * 2)
@@ -71,6 +56,27 @@ const MapToolbar = (props) => {
     if(props.isEditing){
       props.openResizeMapModal()
     }
+  }
+  const handleKeyPress = (event) => {
+    event.preventDefault();
+    if (event.metaKey){
+      console.log("Command key!")
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'z') {
+      editStore.undo()
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'y') {
+      editStore.redo()
+    }
+
+    if ((event.ctrlKey ||event.metaKey) && event.key === 'r') {
+      handleResizeModal()
+    }
+
+    setCanUndo(editStore.canUndo())
+    setCanRedo(editStore.canRedo())
   }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
