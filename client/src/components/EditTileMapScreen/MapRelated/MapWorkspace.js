@@ -24,6 +24,7 @@ const MapWorkspace = (props) => {
     const { auth } = useContext(AuthContext)
     const handleExtendTimer = () => {
         if (editStore.editing) {
+            props.resetTimer()
             editStore.sendRequest({
                 expire: 600,
                 data: {
