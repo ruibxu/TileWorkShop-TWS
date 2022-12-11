@@ -36,6 +36,7 @@ const ChangePasswordModal = (props) => {
 
     const handleUpdate = (event) => {
         event.preventDefault();
+        console.log(props.user_id)
         auth.changePassword({
             id: props.user_id,
             password: password,

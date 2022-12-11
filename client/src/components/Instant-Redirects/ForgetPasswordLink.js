@@ -11,20 +11,22 @@ const ForgetPasswordLink = () => {
         history.push(route, parameters);
     }
 
+    
+
     const response = auth.getForgetPasswordRequest(id)
-    const {request} = response
-    console.log(response)
-    console.log(request)
-    if(!request){
-        redirect('/homescreen')
-    }
+    // let temp;
+    // const request = response.then((x) => {temp = x})
+    
+    // if(!request){
+    //     redirect('/homescreen')
+    // }
 
 
-    redirect('/homescreen', {
-        changePassword: true,
-        request: request,
-        user_id: request.related_id
-    })
+    // redirect('/homescreen', {
+    //     changePassword: true,
+    //     request: request,
+    //     user_id: request.related_id
+    // })
 }
 
 export default ForgetPasswordLink

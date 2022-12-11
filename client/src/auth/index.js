@@ -35,6 +35,9 @@ function AuthContextProvider(props) {
         loggedIn: false
     });
     const history = useHistory();
+    const redirect = async (route, parameters) => {
+        history.push(route, parameters);
+    }
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -220,8 +223,10 @@ function AuthContextProvider(props) {
 
     auth.changePassword = async function (userData, request) {
         const response = await api.changePassword(userData);
+        console.log(response)
         if (response.status === 200) {
-            const response2 = await api.deleteRequest(request)
+            console.log(request)
+            const response2 = await api.deleteRequest({data: {...request}})
             authReducer({
                 type: AuthActionType.CHANGE_PASSWORD,
                 payload: {
@@ -271,19 +276,23 @@ function AuthContextProvider(props) {
         }
     }
 
-    auth.getForgetPasswordRequest = async (request_id) => {
-        const response = await api.getRequestById(request_id, {}).then(x => console.log(x))
+    auth.getForgetPasswordRequest = async (request_id, successCallback, failCallback) => {
+        const response = await api.getRequestById(request_id, {})
         if(response.status == 200){
             console.log(response)
-            return response
+            const request = response.data.request
+            if(!request){
+                redirect('/homescreen')
+            }
+            redirect('/homescreen', {
+                changePassword: true,
+                request: request,
+                user_id: request.related_id
+            })
         }
-        return {success: false}
+        console.log('not success')
+        redirect('/homescreen')
     }
-
-
-
-
-    
 
     return (
         <AuthContext.Provider value={{
