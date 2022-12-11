@@ -36,7 +36,7 @@ const Property = (props) => {
             <PropertyToolbar openCreatePropertyModal={showCreatePropertyModal.onOpen} currentLayer={props.currentLayer}
                 currentProperty={currentProperty} setCurrentProperty={setCurrentProperty} isEditing={props.isEditing}
             />
-            <Box overflowY={'auto'} >
+            <Box overflowY={'auto'} className={'list scroll-bar'}>
                     {displayState.map((property, index) => (<PropertyEntry info={property} index={index} 
                     currentProperty={currentProperty} currentLayer={props.currentLayer}
                     setCurrentProperty={setCurrentProperty} isEditing={props.isEditing}

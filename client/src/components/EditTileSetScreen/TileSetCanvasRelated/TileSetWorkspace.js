@@ -24,7 +24,7 @@ const TilesetWorkspace = (props) => {
 
     return (
         <Box width={'100%'} height={'100%'} >
-            <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} ref={props.scrollRef}>
+            <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} ref={props.scrollRef} className='scroll-bar'>
                 <TilesetCanvas width={'100%'} height={'100%'} 
                 canvasRef={props.canvasRef} contextRef={props.contextRef}
                 color={props.color} setColor={props.setColor}zoomValue={props.zoomValue} 

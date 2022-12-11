@@ -239,8 +239,29 @@ body {
 
 .mapLayer {
     position: relative;
+    height: 90%;
     background-color: var(--navbar-background);
     border: 1px solid var(--navbar-border);
+}
+
+.list {
+    max-height: calc(100% - 48px);
+    position: relative;
+}
+
+.scroll-bar::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.scroll-bar::-webkit-scrollbar-track{
+    background-color: var(--navbar-background);
+    border-radius: 15px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb{
+    background-color: #6A2C70;
+    border-radius: 15px;
 }
 
 .mapTileset {

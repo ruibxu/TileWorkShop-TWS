@@ -36,7 +36,7 @@ const MapWorkspace = (props) => {
     }
     return (
         <Box width={'100%'} height={'100%'} >
-            <Box minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} ref={props.scrollRef} onClick={handleExtendTimer}>
+            <Box className={'scroll-bar'} minW={'100%'} maxW={'100%'} minH={'100%'} maxH={'100%'} overflow={'auto'} ref={props.scrollRef} onClick={handleExtendTimer}>
                 <MapCanvas width={'100%'} height={'100%'}
                     parts={props.parts}
                     canvasRef={props.canvasRef} contextRef={props.contextRef}
