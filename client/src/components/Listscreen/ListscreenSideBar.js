@@ -95,7 +95,7 @@ const ListscreenSideBar = (props) => {
                     </>):<></>}
                     <Divider borderColor='gray' />
                     <Button maxW='100%' w='100%' colorScheme='purple' rounded='none'
-                    onClick={()=>{store.search()}}>
+                    onClick={()=>{store.search();props.setPage(1)}}>
                         Update Filter</Button>
                 </Box>
             </Box>

@@ -55,7 +55,7 @@ const Listscreen = (props) => {
             />
             <Box height={'100%'} width={'100%'}>
                 <Flex height={'100%'}>
-                    <ListscreenSideBar default={access_default} />
+                    <ListscreenSideBar default={access_default} setPage = {setPage}/>
                     <ListscreenMain openItemCard={handleOpenBigItemCard} data={store.yourList} page={page} setPage={setPage}
                         redirect={redirect}
                     />
