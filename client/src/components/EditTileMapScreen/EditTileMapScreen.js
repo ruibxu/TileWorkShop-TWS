@@ -195,10 +195,10 @@ const EditTileMapScreen = (props) => {
                             />
                         </Box>
                         <Box flex='1' height='100%'>
-                            <Box bg='lightgrey' height='30%' className='mapLayer' >
+                            <Box bg='lightgrey' minHeight='30%' maxHeight='30%' height='30%' className='mapLayer' >
                                 <MapLayer redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing} />
                             </Box>
-                            <Box bg='lightgrey' height='70%' className='mapLayer'>
+                            <Box bg='lightgrey' minHeight='70%' height='70%' className='mapLayer'>
                                 <Property height='100%' redirect={redirect} currentLayer={currentLayer} setCurrentLayer={setCurrentLayer} isEditing={editStore.editing} />
                             </Box>
                         </Box>

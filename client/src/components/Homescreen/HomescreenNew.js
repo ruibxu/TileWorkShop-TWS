@@ -30,7 +30,7 @@ const HomescreenNew = (props) => {
                     What's New:
                 </Box>
                 <Divider />
-                <Box overflowY={'scroll'} maxH={'1100px'} height={'95%'}> 
+                <Box overflowY={'scroll'} maxH={'1100px'} height={'95%'}  className='scroll-bar'> 
                     {store.whatsList.map((x) => (
                         <NewsEntry info={x}/>
                     ))}
