@@ -249,12 +249,13 @@ const GlobalEditStoreContextProvider = (props) => {
         console.log('This is not fine')
         if (response.status == 200) {
             const result = response.data.result
-            const newTilesets = result.tileset
-            console.log(result)
+            const updated = editStore.tilesets
+            updated.map(x => x.name=(x._id == setid)?newName:x.name)
+            console.log(updated)
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_TILESETS,
                 payload: {
-                    tilesets: newTilesets
+                    tilesets: updated
                 }
             })
         }
