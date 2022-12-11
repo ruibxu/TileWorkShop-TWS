@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { useHistory } from "react-router-dom";
 import MainNavbar from '../Navbars/MainNavbar/MainNavbar';
 import { Flex, Container, Box, IconButton, useDisclosure } from '@chakra-ui/react';
@@ -39,17 +39,21 @@ const Homescreen = (props) => {
     // console.log(store.yourList)
     
     //console.log(window.location.href.includes('localhost'))
-    const autoLoggin = history.location.state ? history.location.state.AccountVerified : false;
-    const autoChangePassword = history.location.state ? history.location.state.changePassword : false
-    const state_id = history.location.state?history.location.state._id:''
+    const autoLoggin = useRef(history.location.state ? history.location.state.AccountVerified : false);
+    const autoChangePassword = useRef(history.location.state ? history.location.state.changePassword : false)
+    const user_id = useRef(history.location.state?history.location.state.user_id:'Dont Exist')
+    const request = useRef(history.location.state?history.location.state.request:null)
+
+    console.log(history.location.state)
+    console.log(user_id)
 
     const showSignUpModal = useDisclosure()
-    const showLoginModal = useDisclosure({ defaultIsOpen: autoLoggin })
+    const showLoginModal = useDisclosure({ defaultIsOpen: autoLoggin.current })
     const showForgetPasswordModal = useDisclosure()
     const showUpdateAccountModal = useDisclosure()
     const showItemCard = useDisclosure();
     const showCreateModal = useDisclosure();
-    const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword });
+    const showChangePassword = useDisclosure({ defaultIsOpen: autoChangePassword.current });
     //if (autoLoggin || autoChangePassword){history.replace(history.location.pathname, {AccountVerified: false, changePassword: false, _id: ''})}
     //console.log(autoChangePassword)
 
@@ -81,7 +85,7 @@ const Homescreen = (props) => {
             <UpdateAccountModal isOpen={showUpdateAccountModal.isOpen} onClose={showUpdateAccountModal.onClose} />
             <ItemCardBig isOpen={showItemCard.isOpen} onClose={showItemCard.onClose} data={bigCardData} redirect={redirect}/>
             <CreateModal isOpen={showCreateModal.isOpen} onClose={showCreateModal.onClose} redirect={redirect}/>
-            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} _id={state_id}/>
+            <ChangePasswordModal isOpen={showChangePassword.isOpen} onClose={showChangePassword.onClose} user_id={user_id.current} request={request.current}/>
         </div>)
 }
 //<IconButton size='lg' bg='transparent' icon={<MdCreate className='md-icon'/>} className='create-new-button' borderRadius={30} borderColor={'black'} variant='outline'/>
