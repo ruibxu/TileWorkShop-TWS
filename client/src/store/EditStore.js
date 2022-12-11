@@ -329,7 +329,7 @@ const GlobalEditStoreContextProvider = (props) => {
             if (response2.status === 200) {
                 const newTileset = {
                     _id: tileset_id, name: name, pixel: pixel, height: height, width: width,
-                    image: createImage(response2.data.resources.url)
+                    image: createImage(response2.data.resources.secure_url)
                 }
                 storeReducer({
                     type: GlobalEditStoreActionType.UPDATE_TILESETS,
@@ -357,7 +357,7 @@ const GlobalEditStoreContextProvider = (props) => {
                 if (response2.status == 200) {
                     const images = response2.data.resources
                     tilesets.map(x => x.imageFull = images.find(y => y.filename == x._id))
-                    tilesets.map(x => x.imageURL = (x.imageFull) ? x.imageFull.url : null)
+                    tilesets.map(x => x.imageURL = (x.imageFull) ? x.imageFull.secure_url : null)
                     tilesets.map(x => x.image = createImage(x.imageURL))
                 }
             }
