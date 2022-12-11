@@ -44,7 +44,7 @@ const TilesetTools = (props) => {
     }
 
     const handleLargerWidth = () => {
-        if (toolWidth < 20) {
+        if (toolWidth < 40) {
             setToolWidth(toolWidth + 1)
             //editStore.updateZoomValue(editStore.zoomValue*2)
         }
@@ -179,6 +179,10 @@ const TilesetTools = (props) => {
                     <IconButton bg='transparent' title="Decrease tool width [S]" icon={<AiOutlineArrowDown className='md-icon' />}
                         onClick={handleSmallerWidth} disabled={!props.isEditing}
                     />
+                </Box>
+
+                <Box className='toolsfortileset' paddingLeft={"20%"} paddinTopLeft={"20%"} fontSize='25px' title="tool width value">
+                    {toolWidth}
                 </Box>
 
 
