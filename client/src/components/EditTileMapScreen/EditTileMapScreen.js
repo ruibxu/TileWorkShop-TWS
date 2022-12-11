@@ -90,15 +90,16 @@ const EditTileMapScreen = (props) => {
 
     let history = useHistory();
     const redirect = async (route, parameters) => {
-        onbeforeunload()
-        history.push(route, parameters);
         editStore.clearTransactions()
         editStore.clearItem()
+        if (auth.loggedIn) {
+            onbeforeunload()
+        }
+        history.push(route, parameters);
         console.log('clear item ran')
-
     }
     if (!auth.loggedIn) { redirect('/homescreen') }
-    
+
 
     let { id } = useParams();
     useEffect(() => {
