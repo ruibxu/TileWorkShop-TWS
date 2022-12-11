@@ -1,6 +1,4 @@
-import { Slider, useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
-import { MdLayers } from 'react-icons/md';
 import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
@@ -11,7 +9,6 @@ const MapCanvas = (props) => {
     let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue, scrollRef} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
-    const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
 
     let tilemapCrop= 64;
     let mouseDown = false
