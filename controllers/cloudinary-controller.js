@@ -36,10 +36,10 @@ const deleteTileMap = async (req, res) => {
     const search = `folder:TileMap_Uses AND tags=${tilemap_id} OR folder:TileMap_Uses/${tilemap_id}`
     const searchFolder = `TileMap_Uses/${tilemap_id}`
     const deleteTileMap = `TileMap_Thumbnail/${tilemap_id}`
-    const response2 = await cloudinary.v2.uploader.destroy(deleteTileMap)
-    const response3 = await cloudinary.v2.api.delete_resources_by_tag(tilemap_id);
+    const response2 = await cloudinary.v2.uploader.destroy(deleteTileMap).catch(error => {console.log(error)})
+    const response3 = await cloudinary.v2.api.delete_resources_by_tag(tilemap_id).catch(error => {console.log(error)});
     // return res.status(200).json({message: "worked", id: tilemap_id})
-    const response = await cloudinary.v2.api.delete_folder(searchFolder)
+    const response = await cloudinary.v2.api.delete_folder(searchFolder).catch(error => {console.log(error)})
     .catch(error => 
         {return res.status(200).json({
             message:"No folder to delete",
