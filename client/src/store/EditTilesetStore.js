@@ -7,7 +7,7 @@ import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_RO
 import Canvas_Transaction from "../transactions/Canvas_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
-import { createAccessList, getAccessLevel} from "./sharedFunctions"
+import { createAccessList, getAccessLevel } from "./sharedFunctions"
 import DeniedAlert from "../components/Modals/Denied-Alert"
 
 export const GlobalEditTilesetStoreContext = createContext({});
@@ -20,7 +20,9 @@ export const GlobalEditTilesetStoreActionType = {
     SET_REFS: "SET_REFS",
     UPDATE_ACCESS: "UPDATE_ACCESS",
     CLEAR_ITEM: "CLEAR_ITEM",
-    UPDATE_EDIT_REQUEST: "UPDATE_EDIT_REQUEST"
+    UPDATE_EDIT_REQUEST: "UPDATE_EDIT_REQUEST",
+    UPDATE_TPS: "UPDATE_TPS"
+
 }
 
 const tps = new jsTPS();
@@ -40,8 +42,10 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         accessList: [],
         accessUsers: [],
         accessLevel: -1,
-        editing: true,
+        editing: false,
         editingRequest: null,
+        canUndo: false,
+        canRedo: false
     });
     const { auth } = useContext(AuthContext);
     const storeReducer = (action) => {
@@ -62,6 +66,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     name: payload.name,
                     type: PROJECT_TYPE.TILESET,
                     accessLevel: payload.accessLevel,
+                    editing: false
                 })
             }
             case GlobalEditTilesetStoreActionType.CLEAR_ITEM: {
@@ -83,7 +88,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                     editId: ''
                 })
             }
-            case GlobalEditTilesetStoreActionType.UPDATE_NAME:{
+            case GlobalEditTilesetStoreActionType.UPDATE_NAME: {
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     name: payload.name,
@@ -101,15 +106,22 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     access: payload.access,
-                    accessList: (payload.accessList)?payload.accessList:editTilesetStore.accessList,
-                    accessUsers: (payload.accessUsers)?payload.accessUsers:editTilesetStore.accessUsers
+                    accessList: (payload.accessList) ? payload.accessList : editTilesetStore.accessList,
+                    accessUsers: (payload.accessUsers) ? payload.accessUsers : editTilesetStore.accessUsers
                 })
             }
-            case GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST:{
+            case GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST: {
                 return setEditTilesetStore({
                     ...editTilesetStore,
                     editingRequest: payload.editingRequest,
                     editing: payload.editing
+                })
+            }
+            case GlobalEditTilesetStoreActionType.UPDATE_TPS: {
+                return setEditTilesetStore({
+                    ...editTilesetStore,
+                    canUndo: tps.hasTransactionToUndo(),
+                    canRedo: tps.hasTransactionToRedo()
                 })
             }
         }
@@ -125,7 +137,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         }
         const response = await api.updateTileSet(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
             storeReducer({
@@ -147,12 +159,12 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         }
         const response = await api.updateTileSet(id, payload)
         console.log(response.data)
-        if (response.status == 200){
+        if (response.status == 200) {
             const item = response.data.item
             item.community = null
-            const imageResponse = await api.updateTileSetImage(id, {data: image})
+            const imageResponse = await api.updateTileSetImage(id, { data: image })
             console.log(imageResponse)
-            if(imageResponse.status == 200){
+            if (imageResponse.status == 200) {
                 await api.updateTileSet(id, { user_id: user_id, url: imageResponse.data.resources.secure_url })
                 console.log('Thumbnail update success')
             }
@@ -174,7 +186,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             const responseImage = await api.getTileSetImage(id)
             const tilesetImage = responseImage.data.resources[0]
             console.log(tilesetImage)
-            const image = (tilesetImage)?tilesetImage.url:null
+            const image = (tilesetImage) ? tilesetImage.url : null
             const access = result.access
             const accessList = createAccessList(access, users)
             const accessLevel = getAccessLevel(access, auth.user._id)
@@ -206,9 +218,9 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     }
 
     editTilesetStore.addAccess = async (email, new_role) => {
-        const userResponse = await api.searchUserByEmail({email: email})
+        const userResponse = await api.searchUserByEmail({ email: email })
         console.log(userResponse)
-        if(!userResponse.data.success) {console.log('no user found'); return false}
+        if (!userResponse.data.success) { console.log('no user found'); return false }
         console.log('User Found')
         const newUser = userResponse.data.user
         const oldList = editTilesetStore.accessUsers
@@ -222,7 +234,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         console.log('reached?')
         const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
         console.log(response)
-        if(response.status == 200){
+        if (response.status == 200) {
             const { access } = response.data
             const newAccessList = createAccessList(access, newUserList)
             console.log(access)
@@ -248,7 +260,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             new_role: new_role,
         }
         const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
-        if(response.status == 200){
+        if (response.status == 200) {
             console.log('success')
             const { access } = response.data
             const newAccessList = createAccessList(access, editTilesetStore.accessUsers)
@@ -264,9 +276,9 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
 
     editTilesetStore.updatePublic = async () => {
         console.log('updating public')
-        const payload = {user_id: auth.user._id, updatePublic: true}
+        const payload = { user_id: auth.user._id, updatePublic: true }
         const response = await api.updateTileSetAccess(editTilesetStore.currentId, payload)
-        if(response.status == 200){
+        if (response.status == 200) {
             const { access } = response.data
             storeReducer({
                 type: GlobalEditTilesetStoreActionType.UPDATE_ACCESS,
@@ -290,16 +302,23 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     editTilesetStore.addCanvasTransaction = function (redoCallback, undoCallback) {
         let transaction = new Canvas_Transaction(redoCallback, undoCallback);
         tps.addTransaction(transaction);
-        console.log(transaction)
+        storeReducer({
+            type: GlobalEditTilesetStoreActionType.UPDATE_TPS
+        })
     }
 
     editTilesetStore.undo = function () {
-        console.log(editTilesetStore.canUndo())
         tps.undoTransaction();
+        storeReducer({
+            type: GlobalEditTilesetStoreActionType.UPDATE_TPS
+        })
     }
 
     editTilesetStore.redo = function () {
         tps.doTransaction();
+        storeReducer({
+            type: GlobalEditTilesetStoreActionType.UPDATE_TPS
+        })
     }
 
     editTilesetStore.canUndo = function () {
@@ -317,11 +336,11 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     editTilesetStore.sendRequest = async (payload) => {
         const response = await api.createRequest(payload)
         console.log(response)
-        if(response.status === 200){
+        if (response.status === 200) {
             setOpen(!response.data.requestGranted)
             storeReducer({
                 type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: response.data.request,
                     editing: response.data.requestGranted
                 }
@@ -332,11 +351,11 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
     editTilesetStore.deleteRequest = async (payload) => {
         const response = await api.deleteRequest(payload)
         console.log('Delete Called')
-        if(response.status === 200){
+        if (response.status === 200) {
             console.log(response.data.request)
             storeReducer({
                 type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: null,
                     editing: false
                 }
@@ -346,10 +365,10 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
 
     editTilesetStore.getRequest = async (payload) => {
         const response = await api.getRequest(payload)
-        if(response.status === 200){
+        if (response.status === 200) {
             storeReducer({
                 type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
-                payload:{
+                payload: {
                     editingRequest: response.data.request,
                     editing: editTilesetStore.editing
                 }
@@ -362,7 +381,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             editTilesetStore
         }}>
             {props.children}
-            <DeniedAlert isOpen={open} onClose={()=>setOpen(false)}
+            <DeniedAlert isOpen={open} onClose={() => setOpen(false)}
                 header={'Edit Request Denied'}
                 message={[`Someone is currently editing ${editTilesetStore.name}`, 'Please try again later']}
             />

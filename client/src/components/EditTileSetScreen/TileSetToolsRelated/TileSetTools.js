@@ -14,15 +14,23 @@ import GlobalEditTilesetStoreContext from '../../../store/EditTilesetStore';
 const TilesetTools = (props) => {
     const { zoomValue, setZoomValue, currentButton, setCurrentButton, toolWidth, setToolWidth } = props
     const { editTilesetStore } = useContext(GlobalEditTilesetStoreContext)
-
+    const [canUndo, setCanUndo] = useState(false)
+    const [canRedo, setCanRedo] = useState(false)
     const handleUndo = () => {
-        console.log('handle undo')
         editTilesetStore.undo()
+        setCanUndo(editTilesetStore.canUndo())
+        setCanRedo(editTilesetStore.canRedo())
     }
 
     const handleRedo = () => {
         editTilesetStore.redo()
+        setCanUndo(editTilesetStore.canUndo());
+        setCanRedo(editTilesetStore.canRedo())
     }
+    useEffect(() => {
+        setCanUndo(editTilesetStore.canUndo())
+        setCanRedo(editTilesetStore.canRedo())
+      }, [editTilesetStore])
 
     const handleOnClick = (value) => {
         setCurrentButton(value)
@@ -112,18 +120,24 @@ const TilesetTools = (props) => {
         };
     }, [props.isEditing, zoomValue, toolWidth])
 
+    useEffect(() => {
+        handleOnClick(TOOLSFORTILESET.MOVE)
+        editTilesetStore.clearTransactions()
+        setCanUndo(editTilesetStore.canUndo())
+        setCanRedo(editTilesetStore.canRedo())
+      }, [props.isEditing])
 
     return (
         <Box px={4} >
             <SimpleGrid columns={4} spacing={1}>
                 <Box className='toolsfortileset'>
                     <IconButton bg='transparent' title="Undo [CTRL] + [Z]" icon={<ImUndo className='md-icon' />}
-                        onClick={handleUndo} disabled={!props.isEditing}
+                        onClick={handleUndo} disabled={!canUndo}
                     />
                 </Box>
                 <Box className='toolsfortileset'>
                     <IconButton bg='transparent' title="Redo [CTRL] + [Y]" icon={<ImRedo className='md-icon' />}
-                        onClick={handleRedo} disabled={!props.isEditing}
+                        onClick={handleRedo} disabled={!canRedo}
                     />
                 </Box>
                 <Box className='toolsfortileset'>

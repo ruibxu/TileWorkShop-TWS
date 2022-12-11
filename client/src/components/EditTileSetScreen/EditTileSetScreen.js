@@ -145,6 +145,7 @@ const EditTileSetScreen = (props) => {
         editTilesetStore.save(imageData)
     }
 
+    
     return (
         <div className='tilemap'>
             <EditNavbar redirect={redirect} openShareModal={showShareModal.onOpen}
@@ -161,7 +162,7 @@ const EditTileSetScreen = (props) => {
                 <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
                     <TilesetTools zoomValue={zoomValue} setZoomValue={setZoomValue} currentButton={currentButton}
                         setCurrentButton={handleSetCurrentButton} toolWidth={toolWidth} setToolWidth={setToolWidth}
-                        isEditing={editTilesetStore.editing}
+                        isEditing={editTilesetStore.editing} context={contextRef.current}
                     />
                 </GridItem>
 
