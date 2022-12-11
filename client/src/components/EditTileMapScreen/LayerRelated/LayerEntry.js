@@ -61,8 +61,8 @@ const LayerEntry = (props) => {
     },[editStore.layers])
 
     return (<Box height='35px' width={'100%'} className={(currentLayer == id)?'layer-entry-selected draggable':'layer-entry draggable'} id={id} 
-            draggable onDragStart={()=>handleDragStart(index)} onDragEnter={()=>handleDragEnter(index)} 
-            onDragEnd={()=>handleDragEnd(index)} onDragOver={(e)=>e.preventDefault()}
+            draggable={`${!edit}`} onDragStart={()=>{if(!edit){handleDragStart(index)}}} onDragEnter={()=>{if(!edit){handleDragEnter(index)}}} 
+            onDragEnd={()=>{if(!edit){handleDragEnd(index)}}} onDragOver={(e)=>{if(!edit){e.preventDefault()}}}
             >
         <Flex height='100%' width={'100%'} alignItems='center' onClick={handleSelect}>
             {(edit)?
