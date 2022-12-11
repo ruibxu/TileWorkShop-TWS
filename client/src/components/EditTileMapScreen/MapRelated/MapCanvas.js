@@ -1,6 +1,4 @@
-import { Slider, useSafeLayoutEffect } from '@chakra-ui/react';
 import React, { useRef, useEffect, useState, useContext } from 'react'
-import { MdLayers } from 'react-icons/md';
 import { Flex, Box,Spacer, Square } from '@chakra-ui/react'
 import GlobalEditStoreContext from '../../../store/EditStore';
 import { TOOLS } from '../../../translator-client/edit-options';
@@ -11,7 +9,6 @@ const MapCanvas = (props) => {
     let { canvasRef, contextRef, currentLayer, selection, setSelection, currentTileSetId, currentButton, zoomValue, scrollRef} = props
     const { editStore } = useContext(GlobalEditStoreContext)
     const layers = JSON.parse(JSON.stringify(editStore.layers))
-    const tempRef = useRef(<img src='https://res.cloudinary.com/dktmkohjw/image/upload/v1668375792/TileSet_Editor/gameart2d-desert_n9lmkl.png'/>)
 
     let tilemapCrop= 64;
     let mouseDown = false
@@ -25,7 +22,6 @@ const MapCanvas = (props) => {
     const [overlayTiles, setOverlayTiles] = useState(overlayInfo.current.overlayTiles)
 
     useEffect(() => {
-        console.log('This use effect ran-----------------------------------')
         const width = tilemapCrop*editStore.width
         const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
@@ -43,11 +39,8 @@ const MapCanvas = (props) => {
         draw()
     }, [editStore.width, editStore.height, zoomValue, editStore.MapTileOverlay, editStore.currentId, canvasRef.current])//DO NOT PUT editStore.layers in here
     useEffect(() =>{
-        console.log('This use effect ran 2-----------------------------------')
         draw()
     },[editStore.layers, currentLayer, currentTileSetId, contextRef.current])
-
-    console.log(canvasRef.current)
 
     const updateOverlayInfo = (newWidth, newHeight, newZoomValue) => {
         const { width, height, zoomValue } = overlayInfo.current
@@ -240,25 +233,20 @@ const MapCanvas = (props) => {
 
     //These are the only 2 functions that directly changes what layers looks like
     const addTile = (coors, drawLater) => {
-        console.log('from add tile')
         setMakeNewTransaction(false)
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
         let edit = canEdit(layer, key)
-        console.log('before block')
-        console.log(edit)
         if(!edit){return false}
         if(!layer.data){layer.data = {}}
         setMakeNewTransaction(makeNewTransaction || true)
         layer.data[key] = [selection[0], selection[1], currentTileSetId]
-        console.log('addtile end')
         if(drawLater){return true}
         draw()
         return true
     }
 
     const removeTile = (coors, drawLater) => {
-        console.log('from remove tile')
         setMakeNewTransaction(false)
         let key = `${coors[0]}-${coors[1]}`
         let layer = layers.find(x => x.id == currentLayer)
@@ -281,20 +269,15 @@ const MapCanvas = (props) => {
 
         if(!selectedTiles.length){return true}
         if(selectedTiles.includes(key)){return true}
-        console.log('end')
         return false
     }
 
     const draw = () => {
-        console.log('draw called')
-        console.log(layers)
         contextRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
         layers.slice().reverse().forEach(layer => {
             if(layer.hidden){return}
-            console.log(layer)
             if(!layer.data){return}
-            //console.log(layer.data)
             Object.keys(layer.data).forEach(key => {
                 let positions = key.split('-')
                 let positionX = Number(positions[0])
@@ -326,7 +309,6 @@ const MapCanvas = (props) => {
 
     const onMouseDown = (event) => {
         event.preventDefault();
-        console.log('mouseDown')
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_down(event)}
             case TOOLS.BUCKET_FILL_TOOL:{return bucketfill_down(event)}
@@ -350,7 +332,6 @@ const MapCanvas = (props) => {
 
     const onMouseMove = (event) => {
         event.preventDefault();
-        //console.log(currentButton)
         switch(currentButton){
             case TOOLS.STAMP_BRUSH:{return stampbrush_move(event)}
             case TOOLS.BUCKET_FILL_TOOL:{return}
@@ -370,8 +351,6 @@ const MapCanvas = (props) => {
             case TOOLS.MOVE:{return movehand_up(event)}
         }
     }
-    console.log('temp')
-
     return (<Flex height={'100%'} width={'100%'} alignItems={'center'} padding={'20%'} >
         <Spacer/>
         <Box className='mapWorkspace'>

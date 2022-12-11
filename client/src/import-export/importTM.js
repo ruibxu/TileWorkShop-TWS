@@ -99,8 +99,9 @@ const makeTileMap =(file,zip,json) => {
 
     let tmp_layer_arr=[];
     
-    
-    json_obj.layers.forEach((layer) => {
+    let layers=JSON.parse(JSON.stringify(json_obj.layers))
+    layers=layers.reverse();
+    layers.forEach((layer) => {
         const temp = translateLayer(layer,json_obj,objectId_array);
         tmp_layer_arr.push(temp);
     })

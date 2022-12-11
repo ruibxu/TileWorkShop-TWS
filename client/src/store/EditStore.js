@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { useDisclosure } from "@chakra-ui/react"
 import AuthContext from "../auth"
 import api, { updateTileMapAccess } from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
@@ -7,6 +8,16 @@ import LayerState_Transaction from "../transactions/LayerState_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
 import { createAccessList, getAccessLevel } from "./sharedFunctions"
+import DeniedAlert from "../components/Modals/Denied-Alert"
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    Button
+  } from '@chakra-ui/react'
 
 export const GlobalEditStoreContext = createContext({});
 
@@ -38,6 +49,8 @@ const createImage = (src) => {
 }
 
 const GlobalEditStoreContextProvider = (props) => {
+    const [open, setOpen] = useState(false)
+
     const [editStore, setEditStore] = useState({
         saved: false,
         name: '',
@@ -544,6 +557,7 @@ const GlobalEditStoreContextProvider = (props) => {
         const response = await api.createRequest(payload)
         console.log(response)
         if (response.status === 200) {
+            setOpen(!response.data.requestGranted)
             storeReducer({
                 type: GlobalEditStoreActionType.UPDATE_EDIT_REQUEST,
                 payload: {
@@ -555,6 +569,7 @@ const GlobalEditStoreContextProvider = (props) => {
     }
 
     editStore.deleteRequest = async (payload) => {
+        console.log('Delete Called')
         const response = await api.deleteRequest(payload)
         if (response.status === 200) {
             console.log(response.data.request)
@@ -585,6 +600,10 @@ const GlobalEditStoreContextProvider = (props) => {
             editStore
         }}>
             {props.children}
+            <DeniedAlert isOpen={open} onClose={()=>setOpen(false)}
+                header={'Edit Request Denied'}
+                message={[`Someone is currently editing ${editStore.name}`, 'Please try again later']}
+            />
         </GlobalEditStoreContext.Provider>
     )
 }

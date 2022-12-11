@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { useDisclosure } from "@chakra-ui/react"
 import AuthContext from "../auth"
 import api from '../api'
 import { ACCESS_TYPE, SORT_TYPE, SORT_ORDER, PROJECT_TYPE, SEARCH_TYPE, SHARE_ROLE } from "../translator-client/sort-options"
@@ -7,6 +8,7 @@ import Canvas_Transaction from "../transactions/Canvas_Transaction"
 import jsTPS from "../common/jsTPS"
 import { ImCrop } from "react-icons/im"
 import { createAccessList, getAccessLevel} from "./sharedFunctions"
+import DeniedAlert from "../components/Modals/Denied-Alert"
 
 export const GlobalEditTilesetStoreContext = createContext({});
 
@@ -24,6 +26,8 @@ export const GlobalEditTilesetStoreActionType = {
 const tps = new jsTPS();
 
 const GlobalEditTilesetStoreContextProvider = (props) => {
+    const [open, setOpen] = useState(false)
+
     const [editTilesetStore, setEditTilesetStore] = useState({
         currentId: null,
         currentItem: null,
@@ -314,6 +318,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
         const response = await api.createRequest(payload)
         console.log(response)
         if(response.status === 200){
+            setOpen(!response.data.requestGranted)
             storeReducer({
                 type: GlobalEditTilesetStoreActionType.UPDATE_EDIT_REQUEST,
                 payload:{
@@ -326,6 +331,7 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
 
     editTilesetStore.deleteRequest = async (payload) => {
         const response = await api.deleteRequest(payload)
+        console.log('Delete Called')
         if(response.status === 200){
             console.log(response.data.request)
             storeReducer({
@@ -356,6 +362,10 @@ const GlobalEditTilesetStoreContextProvider = (props) => {
             editTilesetStore
         }}>
             {props.children}
+            <DeniedAlert isOpen={open} onClose={()=>setOpen(false)}
+                header={'Edit Request Denied'}
+                message={[`Someone is currently editing ${editTilesetStore.name}`, 'Please try again later']}
+            />
         </GlobalEditTilesetStoreContext.Provider>
     )
 }

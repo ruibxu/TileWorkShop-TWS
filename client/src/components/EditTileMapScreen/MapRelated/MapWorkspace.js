@@ -19,7 +19,6 @@ import AuthContext from '../../../auth';
 
 const MapWorkspace = (props) => {
     //layer format '{tilemap location x}-{tilemap location y}: [tileset location x, tilesset location y]'
-    console.log('reload mapWorkSpace')
     const { editStore } = useContext(GlobalEditStoreContext)
     const { auth } = useContext(AuthContext)
     const handleExtendTimer = () => {

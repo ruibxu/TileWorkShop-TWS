@@ -115,7 +115,6 @@ const GlobalStoreContextProvider = (props) => {
             case GlobalStoreActionType.CREATE_NEW_TILESET: {
                 return setStore({
                     ...store,
-                    yourList: payload.yourList,
                     currentItem: payload.currentItem,
                     tilesetEditActive: false,
                     tileMapEditActive: false,
