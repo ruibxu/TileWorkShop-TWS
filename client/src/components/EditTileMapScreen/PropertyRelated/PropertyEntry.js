@@ -30,7 +30,7 @@ const PropertyEntry = (props) => {
     const convertValue = (property) => {
         switch(property.type){
             case 'string':{return property.value}
-            case 'boolean':{return (property.value == 'true')}
+            case 'bool':{return (property.value == 'true')}
             case 'int':{return new Number(property.value)}
             case 'float':{return new Number(property.value)}
         }

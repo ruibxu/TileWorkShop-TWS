@@ -182,7 +182,7 @@ function ItemCardBig(props) {
                             </Button>
                             <Text className="success-text" visibility={(shopStore.recentlyAddedId.includes(data._id))?'':'hidden'}>Recently Added</Text>
                             <Spacer />
-                            <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''}>
+                            <Button colorScheme='red' mr={3} onClick={handleDeleteProject} visibility={(!isOwner) ? 'hidden' : ''} isDisabled={project_id == shopStore._id}>
                                 Delete
                             </Button>
                             <Button colorScheme='blue' onClick={() => props.onClose()}>
