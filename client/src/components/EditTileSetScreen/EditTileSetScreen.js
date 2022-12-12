@@ -175,7 +175,7 @@ const EditTileSetScreen = (props) => {
 
                 <GridItem rowSpan={1} colSpan={1} width={'100%'} height='100%' className='tilesetTools'>
                     <TilesetColorPicker color={color} setColor={handleSetColor} colorPickerRef={colorPickerRef}
-                        isEditing={editTilesetStore.editing}
+                        isEditing={editTilesetStore.editing} currentButton={currentButton}
                     />
                 </GridItem>
 
