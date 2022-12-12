@@ -60,7 +60,7 @@ const MainNavbar = (props) => {
             <Flex alignItems={'center'} width={'70%'} bg='transparent'>
                 <ShoppingCart mr={3} redirect={props.redirect}/>
                 <Input placeholder='Search...' className='search-bar' borderColor={'purple'} defaultValue={store.search_term}
-                onChange = {(e)=>handleChangeSortOptions('search_term', e.target.value)}/>
+                onChange = {(e)=>handleChangeSortOptions('search_term', e.target.value.trim())}/>
                 <Menu>
                     <MenuButton as={Button} rightIcon={<BiChevronDown />} width="15%" borderColor={'purple'} variant='outline'>
                         {project_type}
