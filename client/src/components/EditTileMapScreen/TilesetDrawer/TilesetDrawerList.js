@@ -19,7 +19,7 @@ const TilesetDrawerList = (props) => {
 
     console.log(editStore.tilesets)
 
-    return <Box width={'100%'} height={'100%'} overflowY={'auto'}>
+    return <Box width={'100%'} height={'100%'} overflowY={'auto'} className={'scroll-bar'}>
         {editStore.tilesets.map((info) => (<TilesetDrawerEntry
             info={info} currentTileSetId={currentTileSetId}
             setCurrentTileSetId={props.setCurrentTileSetId}

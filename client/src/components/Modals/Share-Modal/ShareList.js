@@ -17,7 +17,7 @@ const ShareList = (props) => {
 
     return (<Box height='300px'>
         <Text className='share-title'>People with Access:</Text>
-        <Box className='share-list' overflowY={'scroll'}> 
+        <Box className='share-list scroll-bar' overflowY={'scroll'}> 
             {displayList.map((account, index) => (
                 <ShareEntry info={account} currentStore={currentStore}/>
             ))}
