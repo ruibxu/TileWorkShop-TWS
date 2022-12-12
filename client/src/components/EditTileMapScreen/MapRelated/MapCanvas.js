@@ -25,7 +25,7 @@ const MapCanvas = (props) => {
         const width = tilemapCrop*editStore.width
         const height = tilemapCrop*editStore.height 
         const canvas = canvasRef.current
-        canvas.width = width * 2 
+        canvas.width = width * 2
         canvas.height = height * 2
         canvas.style.width = `${width*zoomValue}px`
         canvas.style.height = `${height*zoomValue}px`

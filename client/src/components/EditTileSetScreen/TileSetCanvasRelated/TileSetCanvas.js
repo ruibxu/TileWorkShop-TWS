@@ -18,7 +18,7 @@ const TilesetCanvas = (props) => {
     const setIsDrawing = (v) => {isDrawing = v}
 
     let BeforeChange = useRef(null)
-    const scale = 10;
+    const scale = 1;
 
     useEffect(() => {
         const pixel = editTilesetStore.pixel
