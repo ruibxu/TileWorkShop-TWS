@@ -163,10 +163,12 @@ const translateLayer = (layer,store,counting_array) => {
                     tileArray.push(0);
                 }
                 else{
+                    let value=1;
                     if(index>0){
-                        value=counting_array[index-1]-index;
+                        value=counting_array[index-1];
+                        //console.log(value);
                     }
-                    tileArray.push(layer.data[key][0]+store.tilesets[index].width*layer.data[key][1]+1+value)
+                    tileArray.push(layer.data[key][0]+store.tilesets[index].width*layer.data[key][1]+value)
                 }
             }
         }
