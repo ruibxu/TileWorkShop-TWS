@@ -133,7 +133,7 @@ const EditNavbar = (props) => {
                 <Flex alignItems={'center'} gap={5}>
                     <Box as="button"><Image src={logo} maxH='50px' objectFit='fill' onClick={() => props.redirect('/homescreen')} /></Box>
                     <IconButton icon={<MdListAlt className='md-icon' />} onClick={() => props.redirect('/listscreen')} bg='transparent' title="List View Screen" />
-                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save" disabled={!isEditing} />
+                    <IconButton bg='transparent' icon={<BiSave className='md-icon' />} onClick={handleSave} title="Save [CTRL] + [S]" disabled={!isEditing} />
                     <IconButton bg='transparent' icon={<MdOutlineFileDownload className='md-icon' />} onClick={handleDownload} title="Download" />
                     <ShoppingCart type={currentStore.type} _id={currentStore.currentId} name={currentStore.name} redirect={props.redirect} disabled={(currentStore.type == PROJECT_TYPE.TILEMAP) ? currentStore.accessLevel < ACCESS_TYPE.EDITABLE : false} />
                     {(shopStore.exist && currentStore.type == PROJECT_TYPE.TILESET) ?
