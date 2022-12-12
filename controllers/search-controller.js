@@ -407,7 +407,7 @@ const getWhatsNew = async (req, res) => {
     const searcher_id = req.params.id
     const find_conditions_alert = (searcher_id == 'guest') ? {} : { alert_user_id: searcher_id }
     //const find_conditions = (searcher_id == guest)?{}:{['access.owner_id']: searcher_id}
-    const comments_list = await Comment.find(find_conditions_alert).sort([['dateCreated', SORT_ORDER.ASCENDING], ["_id", -1]]).limit(10)//returning
+    const comments_list = await Comment.find(find_conditions_alert).sort([['dateCreated', SORT_ORDER.DESCENDING], ["_id", -1]]).limit(10)//returning
     const project_ids = comments_list.map(x => x.project_id)
 
     const tilemaps = await TileMap.find({ _id: { $in: project_ids } })
