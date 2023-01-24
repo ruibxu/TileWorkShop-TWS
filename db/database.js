@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config();
 
-const uri = "mongodb+srv://tileworkshop:twscse416@cluster0.nqqoxyo.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.DB_CONNECT;
 mongoose
     .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .catch(e => {
